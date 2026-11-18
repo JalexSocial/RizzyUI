@@ -51,7 +51,9 @@ app reference it.
    dotnet new install RizzyUI.Templates::X.Y.Z && dotnet new rizzyui -o TemplateCheck && cd TemplateCheck && dotnet run
    ```
 8. **Bump** `<Version>` to the next development version (for example `X.Y.(Z+1)-dev`) so CI builds
-   never carry a published version number.
+   never carry a published version number, and set `PackageValidationBaselineVersion` in
+   `src/RizzyUI/RizzyUI.csproj` to the version just released (see
+   [api-compatibility.md](api-compatibility.md)).
 
 ## Recovering a partial release
 

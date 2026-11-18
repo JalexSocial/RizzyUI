@@ -1,0 +1,3152 @@
+# Components: [Parameter] and [CascadingParameter] properties
+RizzyUI.AccordionItem
+  AccordionContent: Microsoft.AspNetCore.Components.RenderFragment
+  AccordionTrigger: Microsoft.AspNetCore.Components.RenderFragment
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.AccordionItem.Slots
+  Collapsed: System.Boolean
+  ConfigureClasses: System.Action<RizzyUI.AccordionItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Title: System.String
+RizzyUI.AlertDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AlertDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogAction
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.AlertDialogAction.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogAction.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogCancel
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.AlertDialogCancel.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogCancel.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.AlertDialogContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Size: RizzyUI.ModalSize
+RizzyUI.AlertDialogDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AlertDialogDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AlertDialogFooter.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogFooter.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AlertDialogHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AlertDialogTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertDialogTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.AlertDialogTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertDialogTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AlertTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  [Cascading] AlertParent: RizzyUI.RzAlert
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AlertTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.AlertTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Variant: RizzyUI.ThemeVariant?
+RizzyUI.AvatarBadge
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  BadgeSize: RizzyUI.Size?
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AvatarBadge.Slots
+  ConfigureClasses: System.Action<RizzyUI.AvatarBadge.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  [Cascading] ParentAvatar: RizzyUI.RzAvatar
+RizzyUI.AvatarFallback
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  [Cascading] ParentAvatar: RizzyUI.RzAvatar
+RizzyUI.AvatarGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AvatarGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.AvatarGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AvatarGroupCount
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.AvatarGroupCount.Slots
+  ConfigureClasses: System.Action<RizzyUI.AvatarGroupCount.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.AvatarImage
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AlternateText: System.String
+  Element: System.String
+  Id: System.String
+  ImageSource: System.String
+  LoadStrategy: System.String
+  [Cascading] ParentAvatar: RizzyUI.RzAvatar
+RizzyUI.BreadcrumbEllipsis
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.BreadcrumbEllipsis.Slots
+  ConfigureClasses: System.Action<RizzyUI.BreadcrumbEllipsis.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.BreadcrumbItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.BreadcrumbItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.BreadcrumbItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.BreadcrumbLink
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.BreadcrumbLink.Slots
+  ConfigureClasses: System.Action<RizzyUI.BreadcrumbLink.Slots>
+  Element: System.String
+  Href: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.BreadcrumbList
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.BreadcrumbList.Slots
+  ConfigureClasses: System.Action<RizzyUI.BreadcrumbList.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.BreadcrumbPage
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.BreadcrumbPage.Slots
+  ConfigureClasses: System.Action<RizzyUI.BreadcrumbPage.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.BreadcrumbSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.BreadcrumbSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.BreadcrumbSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ButtonGroupSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.ButtonGroupSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.ButtonGroupSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+RizzyUI.ButtonGroupText
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ButtonGroupText.Slots
+  ConfigureClasses: System.Action<RizzyUI.ButtonGroupText.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CardAction
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CardAction.Slots
+  ConfigureClasses: System.Action<RizzyUI.CardAction.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CardContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CardContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.CardContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CardDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CardDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.CardDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CardFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CardFooter.Slots
+  ConfigureClasses: System.Action<RizzyUI.CardFooter.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CardHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CardHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.CardHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CardTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CardTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.CardTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CarouselContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.CarouselContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.CarouselContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CarouselItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.CarouselItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.CarouselItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CarouselNext
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CarouselNext.Slots
+  ConfigureClasses: System.Action<RizzyUI.CarouselNext.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CarouselPrevious
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CarouselPrevious.Slots
+  ConfigureClasses: System.Action<RizzyUI.CarouselPrevious.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CheckboxGroupItemIndicator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  CheckedIcon: Blazicons.SvgIcon
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CheckboxGroupItemIndicator.Slots
+  ConfigureClasses: System.Action<RizzyUI.CheckboxGroupItemIndicator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ClipboardFeedback
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.ClipboardFeedback.Slots
+  ConfigureClasses: System.Action<RizzyUI.ClipboardFeedback.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ClipboardTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.ClipboardTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.ClipboardTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CollapsibleContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CollapsibleContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.CollapsibleContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CollapsibleTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.CollapsibleTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.CollapsibleTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandEmpty
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CommandEmpty.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandEmpty.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CommandGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandGroup.Slots>
+  Element: System.String
+  Heading: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandInput
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.CommandInput.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandInput.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CommandItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandItem.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  ForceMount: System.Boolean
+  Id: System.String
+  Keywords: System.Collections.Generic.IEnumerable<System.String>
+  LoadStrategy: System.String
+  Name: System.String
+  Value: System.String
+RizzyUI.CommandItemTemplate
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.CommandItemTemplate.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandItemTemplate.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandList
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CommandList.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandList.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.CommandSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.CommandShortcut
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.CommandShortcut.Slots
+  ConfigureClasses: System.Action<RizzyUI.CommandShortcut.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DataTableRowSelectCheckbox
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.DataTableRowSelectCheckbox.Slots
+  ConfigureClasses: System.Action<RizzyUI.DataTableRowSelectCheckbox.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  RowExpr: System.String [EditorRequired]
+RizzyUI.DataTableSelectAllCheckbox
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.DataTableSelectAllCheckbox.Slots
+  ConfigureClasses: System.Action<RizzyUI.DataTableSelectAllCheckbox.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Scope: RizzyUI.DataTableSelectionScope
+RizzyUI.DataTableSelectionCell
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.DataTableSelectionCell.Slots
+  ConfigureClasses: System.Action<RizzyUI.DataTableSelectionCell.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  RowExpr: System.String [EditorRequired]
+RizzyUI.DataTableSelectionHeaderCell
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.DataTableSelectionHeaderCell.Slots
+  ConfigureClasses: System.Action<RizzyUI.DataTableSelectionHeaderCell.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Scope: RizzyUI.DataTableSelectionScope
+RizzyUI.DataTableSortIcon
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AscendingIcon: Blazicons.SvgIcon
+  Classes: RizzyUI.DataTableSortIcon.Slots
+  ConfigureClasses: System.Action<RizzyUI.DataTableSortIcon.Slots>
+  DescendingIcon: Blazicons.SvgIcon
+  Element: System.String
+  HeaderExpr: System.String [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  UnsortedIcon: Blazicons.SvgIcon
+RizzyUI.DataTableSortToggle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.DataTableSortToggle.Slots
+  ConfigureClasses: System.Action<RizzyUI.DataTableSortToggle.Slots>
+  Element: System.String
+  HeaderExpr: System.String [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  RenderIcon: System.Boolean
+  RenderLabel: System.Boolean
+RizzyUI.DialogClose
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DialogClose.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogClose.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DialogContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DialogContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  ShowCloseButton: System.Boolean
+  Size: RizzyUI.ModalSize
+RizzyUI.DialogDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.DialogDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DialogFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.DialogFooter.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogFooter.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DialogHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.DialogHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DialogTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.DialogTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DialogTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DialogTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.DialogTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuItem.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  Icon: Blazicons.SvgIcon
+  Id: System.String
+  LoadStrategy: System.String
+  ShortcutContent: Microsoft.AspNetCore.Components.RenderFragment
+RizzyUI.DropdownMenuLabel
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuLabel.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuLabel.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.DropdownMenuSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuShortcut
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuShortcut.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuShortcut.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuSub
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Anchor: RizzyUI.AnchorPoint
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuSub.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuSub.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Offset: System.Int32
+RizzyUI.DropdownMenuSubContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuSubContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuSubContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuSubTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuSubTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuSubTrigger.Slots>
+  Element: System.String
+  Icon: Blazicons.SvgIcon
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.DropdownMenuTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.DropdownMenuTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.DropdownMenuTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.EmptyContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.EmptyContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.EmptyContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.EmptyDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.EmptyDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.EmptyDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.EmptyHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.EmptyHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.EmptyHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.EmptyMedia
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.EmptyMedia.Slots
+  ConfigureClasses: System.Action<RizzyUI.EmptyMedia.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Variant: RizzyUI.EmptyMediaVariant
+RizzyUI.EmptyTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.EmptyTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.EmptyTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.Field
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldSlots
+  ConfigureClasses: System.Action<RizzyUI.FieldSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.FieldOrientation
+RizzyUI.FieldContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.FieldContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.FieldDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.FieldDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.FieldError
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldError.Slots
+  ConfigureClasses: System.Action<RizzyUI.FieldError.Slots>
+  Element: System.String
+  Errors: System.Collections.Generic.IEnumerable<System.String>
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.FieldLabel<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldLabelSlots
+  ConfigureClasses: System.Action<RizzyUI.FieldLabelSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>>
+  ForId: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.FieldLegend
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldLegend.Slots
+  ConfigureClasses: System.Action<RizzyUI.FieldLegend.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Variant: RizzyUI.FieldLegendVariant
+RizzyUI.FieldSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.FieldSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.FieldTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.FieldTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.FieldTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.FragmentComponent
+  Fragment: Microsoft.AspNetCore.Components.RenderFragment
+RizzyUI.HtmlElement
+  AdditionalAttributes: System.Collections.Generic.IDictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Element: System.String
+RizzyUI.InputBase<TValue, TSlots> (abstract)
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: TSlots
+  ConfigureClasses: System.Action<TSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Value: TValue
+RizzyUI.InputGroupAddon
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Align: RizzyUI.InputGroupAddonAlign
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.InputGroupAddonSlots
+  ConfigureClasses: System.Action<RizzyUI.InputGroupAddonSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.InputGroupButton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.InputGroupButtonSlots
+  ConfigureClasses: System.Action<RizzyUI.InputGroupButtonSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Outline: System.Boolean
+  Size: RizzyUI.InputGroupButtonSize
+  Variant: RizzyUI.ThemeVariant
+RizzyUI.InputGroupInput
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.InputGroupInput.Slots
+  ConfigureClasses: System.Action<RizzyUI.InputGroupInput.Slots>
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.InputGroupText
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.InputGroupText.Slots
+  ConfigureClasses: System.Action<RizzyUI.InputGroupText.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.InputGroupTextarea
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.InputGroupTextarea.Slots
+  ConfigureClasses: System.Action<RizzyUI.InputGroupTextarea.Slots>
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.InputOTPGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.InputOTPGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.InputOTPGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.InputOTPSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.InputOTPSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.InputOTPSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.InputOTPSlot
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.InputOTPSlot.Slots
+  ConfigureClasses: System.Action<RizzyUI.InputOTPSlot.Slots>
+  Element: System.String
+  Id: System.String
+  Index: System.Int32 [EditorRequired]
+  LoadStrategy: System.String
+RizzyUI.ItemActions
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemActions.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemActions.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ItemContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ItemDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ItemFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemFooter.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemFooter.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ItemHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.ItemMedia
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemMedia.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemMedia.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Variant: RizzyUI.ItemMediaVariant
+RizzyUI.ItemTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ItemTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.ItemTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.Label
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.Label.Slots
+  ConfigureClasses: System.Action<RizzyUI.Label.Slots>
+  Element: System.String
+  For: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarCheckboxItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Checked: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarCheckboxItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarCheckboxItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  ShortcutContent: Microsoft.AspNetCore.Components.RenderFragment
+RizzyUI.MenubarContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarItem.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  Icon: Blazicons.SvgIcon
+  Id: System.String
+  LoadStrategy: System.String
+  ShortcutContent: Microsoft.AspNetCore.Components.RenderFragment
+  Variant: RizzyUI.MenubarItemVariant
+RizzyUI.MenubarLabel
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarLabel.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarLabel.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarMenu
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarMenu.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarMenu.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.String
+RizzyUI.MenubarRadioGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarRadioGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarRadioGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Name: System.String
+RizzyUI.MenubarRadioItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Checked: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarRadioItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarRadioItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.String [EditorRequired]
+RizzyUI.MenubarSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.MenubarSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarShortcut
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarShortcut.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarShortcut.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarSub
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarSub.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarSub.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarSubContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarSubContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarSubContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarSubTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarSubTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarSubTrigger.Slots>
+  Element: System.String
+  Icon: Blazicons.SvgIcon
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.MenubarTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.MenubarTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.MenubarTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.NavigationMenuContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.NavigationMenuContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.NavigationMenuContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.NavigationMenuItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.NavigationMenuItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.NavigationMenuItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.NavigationMenuLink
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.NavigationMenuLink.Slots
+  ConfigureClasses: System.Action<RizzyUI.NavigationMenuLink.Slots>
+  Element: System.String
+  Href: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.NavigationMenuList
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.NavigationMenuList.Slots
+  ConfigureClasses: System.Action<RizzyUI.NavigationMenuList.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.NavigationMenuTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.NavigationMenuTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.NavigationMenuTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.PaginationEllipsis
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.PaginationEllipsis.Slots
+  ConfigureClasses: System.Action<RizzyUI.PaginationEllipsis.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  ScreenReaderText: System.String
+RizzyUI.PaginationItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.PaginationItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.PaginationItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.PaginationLink
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.PaginationLink.Slots
+  ConfigureClasses: System.Action<RizzyUI.PaginationLink.Slots>
+  Element: System.String
+  Href: System.String
+  Id: System.String
+  IsActive: System.Boolean
+  LoadStrategy: System.String
+RizzyUI.PaginationList
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.PaginationList.Slots
+  ConfigureClasses: System.Action<RizzyUI.PaginationList.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.PaginationNext
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.PaginationNext.Slots
+  ConfigureClasses: System.Action<RizzyUI.PaginationNext.Slots>
+  Element: System.String
+  Href: System.String
+  Id: System.String
+  Label: System.String
+  LoadStrategy: System.String
+RizzyUI.PaginationPrevious
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.PaginationPrevious.Slots
+  ConfigureClasses: System.Action<RizzyUI.PaginationPrevious.Slots>
+  Element: System.String
+  Href: System.String
+  Id: System.String
+  Label: System.String
+  LoadStrategy: System.String
+RizzyUI.PopoverContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  AriaLabelledBy: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.PopoverContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.PopoverContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Role: System.String
+RizzyUI.PopoverTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.PopoverTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.PopoverTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RadioGroupItemIndicator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RadioGroupItemIndicator.Slots
+  ConfigureClasses: System.Action<RizzyUI.RadioGroupItemIndicator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RadioGroupItem<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RadioGroupItemSlots
+  ConfigureClasses: System.Action<RizzyUI.RadioGroupItemSlots>
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: TValue
+RizzyUI.RzAccordion
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzAccordion.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzAccordion.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Type: RizzyUI.AccordionType
+RizzyUI.RzAlert
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzAlert.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzAlert.Slots>
+  Dismissable: System.Boolean
+  Element: System.String
+  Icon: Blazicons.SvgIcon
+  Id: System.String
+  LiveRegionMode: RizzyUI.RzAlertLiveRegionMode
+  LoadStrategy: System.String
+  Pulse: System.Boolean
+  Variant: RizzyUI.ThemeVariant
+RizzyUI.RzAlertDialog
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzAlertDialog.Slots
+  CloseEventName: System.String
+  CloseOnClickOutside: System.Boolean
+  CloseOnEscape: System.Boolean
+  ConfigureClasses: System.Action<RizzyUI.RzAlertDialog.Slots>
+  Element: System.String
+  EventTriggerName: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzAlpineComponent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Element: System.String
+  For: System.Object [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Name: System.String [EditorRequired]
+  Props: System.Object
+RizzyUI.RzAnimatedGradientText
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Animate: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzAnimatedGradientText.Slots
+  ColorFrom: System.String
+  ColorTo: System.String
+  ConfigureClasses: System.Action<RizzyUI.RzAnimatedGradientText.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Speed: System.Decimal
+RizzyUI.RzArticle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsideAriaLabel: System.String
+  Classes: RizzyUI.RzArticle.Slots
+  ColumnWidth: RizzyUI.Size
+  ConfigureClasses: System.Action<RizzyUI.RzArticle.Slots>
+  Element: System.String
+  Id: System.String
+  IsSideSticky: System.Boolean
+  LoadStrategy: System.String
+  MainContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  ProseWidth: RizzyUI.ProseWidth
+  SideContent: Microsoft.AspNetCore.Components.RenderFragment
+RizzyUI.RzAsChildComponent (abstract)
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzAsChildComponent<TSlots> (abstract)
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  Classes: TSlots
+  ConfigureClasses: System.Action<TSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzAspectRatio
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzAspectRatio.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzAspectRatio.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Ratio: System.Double
+RizzyUI.RzAuroraText
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzAuroraText.Slots
+  Colors: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzAuroraText.Slots>
+  Decorative: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Speed: System.Double
+RizzyUI.RzAvatar
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Border: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzAvatar.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzAvatar.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Shape: RizzyUI.AvatarShape
+  Size: RizzyUI.Size
+RizzyUI.RzBackToTop
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzBackToTop.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzBackToTop.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Outline: System.Boolean
+  Size: RizzyUI.Size
+  Threshold: System.Int32
+  Variant: RizzyUI.ThemeVariant
+RizzyUI.RzBadge
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzBadge.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzBadge.Slots>
+  Element: System.String
+  Icon: Blazicons.SvgIcon
+  Id: System.String
+  Label: System.String
+  LoadStrategy: System.String
+  Soft: System.Boolean
+  Variant: RizzyUI.ThemeVariant
+RizzyUI.RzBreadcrumb
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzBreadcrumb.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzBreadcrumb.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzBrowser
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzBrowser.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzBrowser.Slots>
+  Element: System.String
+  Id: System.String
+  Layout: System.Type
+  LoadStrategy: System.String
+  PreviewIFrameTitle: System.String
+RizzyUI.RzButton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Animate: System.Boolean
+  AssistiveLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzButton.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzButton.Slots>
+  Element: System.String
+  Id: System.String
+  Label: System.String
+  LoadStrategy: System.String
+  Outline: System.Boolean
+  Size: RizzyUI.Size
+  Variant: RizzyUI.ThemeVariant?
+RizzyUI.RzButtonGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzButtonGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzButtonGroup.Slots>
+  Element: System.String
+  GroupVariant: RizzyUI.ThemeVariant?
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+RizzyUI.RzCalendar
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzCalendar.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzCalendar.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  MaxDate: System.DateOnly?
+  MinDate: System.DateOnly?
+  Mode: RizzyUI.SelectionDatesMode
+  Options: RizzyUI.VanillaCalendarOptions
+  Range: RizzyUI.CalendarDateRange
+  ShowOutsideDays: System.Boolean?
+  Type: RizzyUI.CalendarType
+  Value: System.DateOnly?
+  Values: System.Collections.Generic.List<System.DateOnly>
+RizzyUI.RzCalendarProvider
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCalendarProvider.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzCalendarProvider.Slots>
+  Element: System.String
+  FormatOptions: RizzyUI.IntlDateTimeFormatOptions
+  Id: System.String
+  LoadStrategy: System.String
+  Locale: System.String
+  Mode: RizzyUI.SelectionDatesMode
+  Range: RizzyUI.CalendarDateRange
+  Value: System.DateOnly?
+  Values: System.Collections.Generic.List<System.DateOnly>
+RizzyUI.RzCard
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCard.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzCard.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzCarousel
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzCarousel.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzCarousel.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Options: RizzyUI.CarouselOptions
+  Plugins: System.Collections.Generic.IEnumerable<RizzyUI.EmblaPlugin>
+RizzyUI.RzChart
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzChart.Slots
+  ComponentAssetKeys: System.String[]
+  Configure: System.Action<RizzyUI.Charts.ChartBuilder> [EditorRequired]
+  ConfigureClasses: System.Action<RizzyUI.RzChart.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzCheckboxGroupItem<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  CheckedIcon: Blazicons.SvgIcon
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCheckboxGroupItemSlots
+  ConfigureClasses: System.Action<RizzyUI.RzCheckboxGroupItemSlots>
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: TValue
+RizzyUI.RzCheckboxGroup<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  CheckedIcon: Blazicons.SvgIcon
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCheckboxGroupSlots
+  ConfigureClasses: System.Action<RizzyUI.RzCheckboxGroupSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.Collections.Generic.IList<TValue>>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Name: System.String
+  Orientation: RizzyUI.Orientation
+  ShowIndicators: System.Boolean
+RizzyUI.RzClipboard
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzClipboard.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzClipboard.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  FeedbackDuration: System.Int32
+  Id: System.String
+  LoadStrategy: System.String
+  PreferValue: System.Boolean
+  TargetSelector: System.String
+  UseFallback: System.Boolean
+  Value: System.String
+RizzyUI.RzCodeViewer
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCodeViewer.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzCodeViewer.Slots>
+  Element: System.String
+  Id: System.String
+  Language: System.String
+  LoadStrategy: System.String
+  Source: System.String
+  ViewerTitle: System.String
+RizzyUI.RzCollapsible
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzCollapsible.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzCollapsible.Slots>
+  DefaultOpen: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzColorPickerProvider
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Alpha: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzColorPickerProvider.Slots
+  ClearButton: System.Boolean
+  CloseButton: System.Boolean
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzColorPickerProvider.Slots>
+  Element: System.String
+  Format: RizzyUI.ColorFormat
+  Id: System.String
+  LoadStrategy: System.String
+  Swatches: System.Collections.Generic.IEnumerable<System.String>
+  SwatchesOnly: System.Boolean
+  Value: System.String
+RizzyUI.RzColorPickerTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzColorPickerTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzColorPickerTrigger.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzColorSwatch
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzColorSwatch.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzColorSwatch.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Size: RizzyUI.ColorSwatchSize
+  Value: System.String
+  WithoutTransparency: System.Boolean
+RizzyUI.RzCombobox<TItem, TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzComboboxSlots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzComboboxSlots>
+  Disabled: System.Boolean
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  ItemTemplate: Microsoft.AspNetCore.Components.RenderFragment
+  Items: System.Collections.Generic.IEnumerable<TItem>
+  LoadStrategy: System.String
+  Multiple: System.Boolean
+  Name: System.String
+  OptionTemplate: Microsoft.AspNetCore.Components.RenderFragment
+  Options: RizzyUI.ComboboxOptions
+  Placeholder: System.String
+  TextSelector: System.Func<TItem, System.String>
+  Value: TValue
+  ValueSelector: System.Func<TItem, System.String>
+RizzyUI.RzCommand
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCommand.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzCommand.Slots>
+  Element: System.String
+  FetchTrigger: RizzyUI.FetchTrigger
+  Id: System.String
+  Items: System.Collections.Generic.IEnumerable<RizzyUI.ICommandItemData>
+  ItemsUrl: System.String
+  LoadStrategy: System.String
+  Loop: System.Boolean
+  MaxRender: System.Int32
+  SelectedValue: System.String
+  ServerFiltering: System.Boolean
+  ShouldFilter: System.Boolean
+RizzyUI.RzCommandDialog
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzCommandDialog.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzCommandDialog.Slots>
+  Description: System.String
+  Element: System.String
+  EventTriggerName: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Loop: System.Boolean
+  Open: System.Boolean
+  SelectedValue: System.String
+  ShouldFilter: System.Boolean
+  ShowCloseButton: System.Boolean
+  Title: System.String
+RizzyUI.RzComponent (abstract)
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzComponent<TSlots> (abstract)
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: TSlots
+  ConfigureClasses: System.Action<TSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzConfetti
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Angle: System.Double?
+  BurstCount: System.Int32
+  BurstIntervalMs: System.Int32
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzConfetti.Slots
+  Colors: System.String[]
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzConfetti.Slots>
+  CooldownMs: System.Int32
+  Decay: System.Double?
+  DisableForReducedMotion: System.Boolean
+  Disabled: System.Boolean
+  Drift: System.Double?
+  Element: System.String
+  EventName: System.String
+  Flat: System.Boolean?
+  Gravity: System.Double?
+  Id: System.String
+  LaunchFromElementCenter: System.Boolean
+  LaunchFromPointer: System.Boolean
+  LoadStrategy: System.String
+  Mode: RizzyUI.ConfettiMode
+  Once: System.Boolean
+  OriginX: System.Double?
+  OriginY: System.Double?
+  ParticleCount: System.Int32?
+  Preset: RizzyUI.ConfettiPreset
+  ResizeCanvas: System.Boolean
+  Scalar: System.Double?
+  Shapes: System.String[]
+  Spread: System.Double?
+  StartVelocity: System.Double?
+  Ticks: System.Int32?
+  Trigger: RizzyUI.ConfettiTrigger
+  UseWorker: System.Boolean
+  ZIndex: System.Int32
+RizzyUI.RzDarkModeToggle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzDarkModeToggle.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzDarkModeToggle.Slots>
+  DarkIcon: Blazicons.SvgIcon
+  Element: System.String
+  Id: System.String
+  LightIcon: Blazicons.SvgIcon
+  LoadStrategy: System.String
+RizzyUI.RzDataTable<TItem>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzDataTableSlots
+  Config: RizzyUI.RzDataTableConfig<TItem> [EditorRequired]
+  ConfigureClasses: System.Action<RizzyUI.RzDataTableSlots>
+  Element: System.String
+  Id: System.String
+  Items: System.Collections.Generic.IReadOnlyList<TItem> [EditorRequired]
+  LoadStrategy: System.String
+  RowIdSelector: System.Linq.Expressions.Expression<System.Func<TItem, System.Object>> [EditorRequired]
+RizzyUI.RzDateEdit
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzDateEdit.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzDateEdit.Slots>
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.DateTime?>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Options: RizzyUI.FlatpickrOptions
+  Placeholder: System.String
+  PrependIcon: Blazicons.SvgIcon
+  PrependText: System.String
+RizzyUI.RzDialog
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzDialog.Slots
+  CloseEventName: System.String
+  CloseOnClickOutside: System.Boolean
+  CloseOnEscape: System.Boolean
+  ConfigureClasses: System.Action<RizzyUI.RzDialog.Slots>
+  Element: System.String
+  EventTriggerName: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzDropdownMenu
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Anchor: RizzyUI.AnchorPoint
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzDropdownMenu.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzDropdownMenu.Slots>
+  Element: System.String
+  Id: System.String
+  IsModal: System.Boolean
+  LoadStrategy: System.String
+  Offset: System.Int32
+RizzyUI.RzEmbeddedPreview
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzEmbeddedPreview.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzEmbeddedPreview.Slots>
+  Element: System.String
+  IFrameTitle: System.String
+  Id: System.String
+  Layout: System.Type
+  LoadStrategy: System.String
+RizzyUI.RzEmpty
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzEmpty.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzEmpty.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzEventViewer
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AutoScroll: System.Boolean
+  Classes: RizzyUI.RzEventViewer.Slots
+  ClearButtonText: System.String
+  CollapseEntryDetailsText: System.String
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzEventViewer.Slots>
+  CopyButtonText: System.String
+  Element: System.String
+  EventName: System.String
+  EventNames: System.String
+  ExpandEntryDetailsText: System.String
+  Filter: System.String
+  Id: System.String
+  Level: System.String
+  ListeningStatusText: System.String
+  LoadStrategy: System.String
+  MaxEntries: System.Int32
+  PauseButtonText: System.String
+  PausedStatusText: System.String
+  Pretty: System.Boolean
+  ResumeButtonText: System.String
+  ShowEventMeta: System.Boolean
+  ShowTimestamp: System.Boolean
+  Target: System.String
+  ViewerTitle: System.String
+RizzyUI.RzFieldGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzFieldGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzFieldGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzFieldSet
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzFieldSet.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzFieldSet.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzFileInput
+  Accept: System.String
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzFileInput.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzFileInput.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.Object>>
+  Id: System.String
+  LoadStrategy: System.String
+  Multiple: System.Boolean
+  Name: System.String
+  Variant: RizzyUI.FileInputVariant
+RizzyUI.RzFormSection
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzFormSection.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzFormSection.Slots>
+  Content: Microsoft.AspNetCore.Components.RenderFragment
+  Description: Microsoft.AspNetCore.Components.RenderFragment
+  Element: System.String
+  Id: System.String
+  Layout: RizzyUI.SectionLayout
+  LoadStrategy: System.String
+  Title: System.String [EditorRequired]
+RizzyUI.RzHeading
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzHeading.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzHeading.Slots>
+  Decoration: RizzyUI.TextDecoration?
+  Element: System.String
+  Id: System.String
+  Level: RizzyUI.HeadingLevel [EditorRequired]
+  LineHeight: RizzyUI.Leading?
+  LoadStrategy: System.String
+  QuickReferenceTitle: System.String
+  Size: RizzyUI.TextSize?
+  TextColor: RizzyUI.SemanticColor?
+  Transform: RizzyUI.TextTransform?
+  Weight: RizzyUI.TextWeight?
+RizzyUI.RzHighlighter
+  Action: RizzyUI.HighlighterAction
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AnimationDuration: System.Int32
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzHighlighter.Slots
+  Color: System.String
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzHighlighter.Slots>
+  Element: System.String
+  Id: System.String
+  Iterations: System.Int32
+  LoadStrategy: System.String
+  Multiline: System.Boolean
+  Padding: System.Int32
+  StartOnView: System.Boolean
+  StrokeWidth: System.Double
+  ViewMargin: System.String
+RizzyUI.RzIndicator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzIndicator.Slots
+  Color: RizzyUI.Color
+  ConfigureClasses: System.Action<RizzyUI.RzIndicator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Position: RizzyUI.IndicatorPosition
+  Size: RizzyUI.Size
+  Visible: System.Boolean
+RizzyUI.RzInputCheckbox
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzInputCheckbox.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzInputCheckbox.Slots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.Boolean>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.Boolean
+RizzyUI.RzInputCheckboxGroupBase<TValue>
+  AdditionalAttributes: System.Collections.Generic.IReadOnlyDictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  DisplayName: System.String
+  Name: System.String
+  Value: System.Collections.Generic.IList<TValue>
+  ValueChanged: Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IList<TValue>>
+  ValueExpression: System.Linq.Expressions.Expression<System.Func<System.Collections.Generic.IList<TValue>>>
+RizzyUI.RzInputColor
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Alpha: System.Boolean
+  Classes: RizzyUI.RzInputColor.Slots
+  ClearButton: System.Boolean
+  CloseButton: System.Boolean
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzInputColor.Slots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>> [EditorRequired]
+  Format: RizzyUI.ColorFormat
+  Id: System.String
+  LoadStrategy: System.String
+  Placeholder: System.String
+  Swatches: System.Collections.Generic.IEnumerable<System.String>
+  SwatchesOnly: System.Boolean
+  ThumbnailPosition: RizzyUI.ColorThumbnailPosition
+  Value: System.String
+RizzyUI.RzInputGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzInputGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzInputGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzInputNumber<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzInputNumberSlots
+  ConfigureClasses: System.Action<RizzyUI.RzInputNumberSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Placeholder: System.String
+  Value: TValue
+RizzyUI.RzInputOTP
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  AriaLabel: System.String
+  Autocomplete: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzInputOTP.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzInputOTP.Slots>
+  ContainerClass: System.String
+  Disabled: System.Boolean
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>>
+  Id: System.String
+  InputMode: System.String
+  Invalid: System.Boolean?
+  Length: System.Int32 [EditorRequired]
+  LoadStrategy: System.String
+  Name: System.String
+  OtpType: RizzyUI.InputOtpType
+  Required: System.Boolean
+  TextTransform: RizzyUI.InputOtpTextTransform
+  Value: System.String
+RizzyUI.RzInputText
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzInputText.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzInputText.Slots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Placeholder: System.String
+  Role: RizzyUI.TextRole
+  Value: System.String
+RizzyUI.RzInputTextArea
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzInputTextArea.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzInputTextArea.Slots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Placeholder: System.String
+  Value: System.String
+RizzyUI.RzItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Size: RizzyUI.Size
+  Variant: RizzyUI.ItemVariant
+RizzyUI.RzItemGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzItemGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzItemGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzItemSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzItemSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzItemSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzKbd
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzKbd.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzKbd.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzKbdGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzKbdGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzKbdGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzLink
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzLink.Slots
+  Color: RizzyUI.SemanticColor
+  ConfigureClasses: System.Action<RizzyUI.RzLink.Slots>
+  Element: System.String
+  Href: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Underline: System.Boolean
+RizzyUI.RzMarkdown
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AllowUnsafeHtml: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzMarkdown.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzMarkdown.Slots>
+  Content: System.String
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Pipeline: Markdig.MarkdownPipeline
+  ProseWidth: RizzyUI.ProseWidth
+RizzyUI.RzMarquee
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzMarquee.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzMarquee.Slots>
+  Duration: System.String
+  Element: System.String
+  Gap: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.MarqueeOrientation
+  PauseOnHover: System.Boolean
+  Repeat: System.Int32
+  Reverse: System.Boolean
+RizzyUI.RzMenubar
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzMenubar.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzMenubar.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzModalPrimitive
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  AriaLabel: System.String
+  AriaLabelledBy: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  ContentClass: System.String
+  ContentDataSlot: System.String
+  Element: System.String
+  Id: System.String
+  IsModal: System.Boolean
+  LoadStrategy: System.String
+  OverlayClass: System.String
+  OverlayDataSlot: System.String
+  Role: System.String
+RizzyUI.RzNativeSelectOptGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Element: System.String
+  Id: System.String
+  Label: System.String
+  LoadStrategy: System.String
+RizzyUI.RzNativeSelectOption
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.Object
+RizzyUI.RzNativeSelect<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzNativeSelectSlots
+  ConfigureClasses: System.Action<RizzyUI.RzNativeSelectSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Value: TValue
+  ValueChanged: Microsoft.AspNetCore.Components.EventCallback<TValue>
+RizzyUI.RzNavigationMenu
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzNavigationMenu.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzNavigationMenu.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+RizzyUI.RzNumberTicker
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AnimateOnce: System.Boolean
+  AriaLabel: System.String
+  Classes: RizzyUI.RzNumberTicker.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzNumberTicker.Slots>
+  Culture: System.String
+  DecimalPlaces: System.Int32
+  Delay: System.Double
+  Direction: RizzyUI.NumberTickerDirection
+  DisableAnimation: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  StartValue: System.Decimal
+  TriggerOnView: System.Boolean
+  UseGrouping: System.Boolean
+  Value: System.Decimal
+RizzyUI.RzPagination
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzPagination.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzPagination.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzParagraph
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzParagraph.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzParagraph.Slots>
+  Decoration: RizzyUI.TextDecoration?
+  Element: System.String
+  Id: System.String
+  LineHeight: RizzyUI.Leading?
+  LoadStrategy: System.String
+  ProseWidth: RizzyUI.ProseWidth
+  Size: RizzyUI.TextSize?
+  TextColor: RizzyUI.SemanticColor?
+  Transform: RizzyUI.TextTransform?
+  Weight: RizzyUI.TextWeight?
+RizzyUI.RzPopover
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AlignmentAxisOffset: System.Int32
+  Anchor: RizzyUI.AnchorPoint
+  AriaHasPopup: System.String
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzPopover.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzPopover.Slots>
+  CrossAxisOffset: System.Int32
+  Element: System.String
+  EnableFlip: System.Boolean
+  EnableShift: System.Boolean
+  FocusFirstElementOnOpen: System.Boolean
+  Id: System.String
+  LoadStrategy: System.String
+  Offset: System.Int32
+  ShiftPadding: System.Int32
+  Strategy: RizzyUI.AnchorStrategy
+RizzyUI.RzProgress
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzProgress.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzProgress.Slots>
+  CurrentValue: System.Int32
+  Element: System.String
+  Id: System.String
+  Label: System.String
+  LabelPosition: RizzyUI.ProgressLabelPosition
+  LoadStrategy: System.String
+  MaxValue: System.Int32
+  MinValue: System.Int32
+  Variant: RizzyUI.StatusColor
+RizzyUI.RzQuickReference
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzQuickReference.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzQuickReference.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Title: System.String
+RizzyUI.RzQuickReferenceContainer
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzQuickReferenceContainer.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzQuickReferenceContainer.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  MaximumHeadingLevel: RizzyUI.HeadingLevel
+  MinimumHeadingLevel: RizzyUI.HeadingLevel
+RizzyUI.RzRadioGroup<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzRadioGroupSlots
+  ConfigureClasses: System.Action<RizzyUI.RzRadioGroupSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Name: System.String
+  Orientation: RizzyUI.Orientation
+  ShowIndicators: System.Boolean
+  Value: TValue
+RizzyUI.RzScrollArea
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzScrollArea.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzScrollArea.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+  ScrollHideDelay: System.Int32
+  ShowBothScrollbars: System.Boolean
+  ShowDefaultScrollBar: System.Boolean
+  Type: RizzyUI.ScrollAreaType
+RizzyUI.RzSearchButton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzSearchButton.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzSearchButton.Slots>
+  Element: System.String
+  Id: System.String
+  Label: System.String
+  LoadStrategy: System.String
+RizzyUI.RzSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LabelAlignment: RizzyUI.Align
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+  Style: RizzyUI.SeparatorStyle
+RizzyUI.RzSheet
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzSheet.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzSheet.Slots>
+  DefaultOpen: System.Boolean
+  DismissOnOutsideClick: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Modal: System.Boolean
+RizzyUI.RzShineBorder
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  BorderWidth: System.Double
+  Classes: RizzyUI.RzShineBorder.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzShineBorder.Slots>
+  Duration: System.Double
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  RespectReducedMotion: System.Boolean
+  ShineColor: System.String
+  ShineColors: System.Collections.Generic.IEnumerable<System.String>
+RizzyUI.RzSidebarProvider
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzSidebarProvider.Slots
+  Collapsible: RizzyUI.SidebarCollapsible
+  ConfigureClasses: System.Action<RizzyUI.RzSidebarProvider.Slots>
+  DefaultOpen: System.Boolean
+  Element: System.String
+  IconWidth: System.String
+  Id: System.String
+  KeyboardShortcut: System.String
+  LoadStrategy: System.String
+  MobileWidth: System.String
+  PersistenceCookieName: System.String
+  Width: System.String
+RizzyUI.RzSkeleton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzSkeleton.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzSkeleton.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzSlider
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  AriaLabel: System.String
+  AriaLabelledBy: System.String
+  AriaLabels: System.String[]
+  Classes: RizzyUI.RzSlider.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzSlider.Slots>
+  DefaultValue: System.Double[]
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  Inverted: System.Boolean
+  LoadStrategy: System.String
+  Max: System.Double
+  Min: System.Double
+  MinStepsBetweenThumbs: System.Double
+  Name: System.String
+  Orientation: RizzyUI.SliderOrientation
+  Step: System.Double
+  TabIndex: System.Int32?
+  UseIndexedNames: System.Boolean
+  Value: System.Double[]
+  ValueFormat: System.String
+RizzyUI.RzSpinner
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzSpinner.Slots
+  Color: RizzyUI.SemanticColor
+  ConfigureClasses: System.Action<RizzyUI.RzSpinner.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Size: RizzyUI.Size
+RizzyUI.RzStep
+  AriaLabel: System.String
+  Caption: System.String
+  Icon: Blazicons.SvgIcon
+  Label: System.String [EditorRequired]
+  Status: RizzyUI.StepStatus [EditorRequired]
+RizzyUI.RzSteps
+  ActiveColor: RizzyUI.StatusColor
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzSteps.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzSteps.Slots>
+  Element: System.String
+  Id: System.String
+  Items: System.Collections.Generic.List<RizzyUI.StepData>
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+  ShowLabels: System.Boolean
+RizzyUI.RzSwitch
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.RzSwitchSlots
+  ConfigureClasses: System.Action<RizzyUI.RzSwitchSlots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.Boolean>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.Boolean
+RizzyUI.RzTable
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Border: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzTableSlots
+  ConfigureClasses: System.Action<RizzyUI.RzTableSlots>
+  Element: System.String
+  FixedHeader: System.Boolean
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzTabs
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzTabs.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzTabs.Slots>
+  DefaultValue: System.String
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.RzThemeProvider
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Theme: RizzyUI.RzTheme
+RizzyUI.RzToastProvider
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Animation: RizzyUI.ToastAnimation
+  Classes: RizzyUI.RzToastProviderSlots
+  CloseButtonAriaLabel: System.String
+  CloseOnEscape: System.Boolean
+  ConfigureClasses: System.Action<RizzyUI.RzToastProviderSlots>
+  DefaultStatus: RizzyUI.ToastStatus
+  Dismissible: System.Boolean
+  Duration: System.Int32
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  MaxVisible: System.Int32
+  NewestOnTop: System.Boolean
+  OverflowStrategy: RizzyUI.ToastOverflowStrategy
+  PauseOnFocus: System.Boolean
+  PauseOnHover: System.Boolean
+  PauseOnWindowBlur: System.Boolean
+  Position: RizzyUI.ToastPosition
+  PreventDuplicates: System.Boolean
+  RegionAriaLabel: System.String
+  ShowIcon: System.Boolean
+  ShowProgress: System.Boolean
+  Speed: System.Int32
+  Tone: RizzyUI.ToastTone
+RizzyUI.RzToggle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzToggle.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzToggle.Slots>
+  DefaultPressed: System.Boolean
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Pressed: System.Boolean?
+  Size: RizzyUI.ToggleSize
+  Variant: RizzyUI.ToggleVariant
+RizzyUI.RzTooltip
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AlignmentAxisOffset: System.Int32
+  Anchor: RizzyUI.AnchorPoint
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.RzTooltip.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzTooltip.Slots>
+  CrossAxisOffset: System.Int32
+  DefaultOpen: System.Boolean
+  DelayDuration: System.Int32
+  DisableHoverableContent: System.Boolean
+  Element: System.String
+  EnableFlip: System.Boolean
+  EnableShift: System.Boolean
+  Id: System.String
+  LoadStrategy: System.String
+  Offset: System.Int32
+  Open: System.Boolean?
+  OpenChanged: Microsoft.AspNetCore.Components.EventCallback<System.Boolean>
+  ShiftPadding: System.Int32
+  SkipDelayDuration: System.Int32
+  Strategy: RizzyUI.AnchorStrategy
+RizzyUI.RzTypingAnimation
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  BlinkCursor: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzTypingAnimation.Slots
+  ComponentAssetKeys: System.String[]
+  ConfigureClasses: System.Action<RizzyUI.RzTypingAnimation.Slots>
+  CursorStyle: RizzyUI.TypingAnimationCursorStyle
+  Delay: System.Int32
+  DeleteSpeed: System.Int32?
+  Duration: System.Int32
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Loop: System.Boolean
+  PauseDelay: System.Int32
+  ShowCursor: System.Boolean
+  StartOnView: System.Boolean
+  TypeSpeed: System.Int32?
+  Words: System.Collections.Generic.IReadOnlyList<System.String>
+RizzyUI.RzTypographyBase<TSlots> (abstract)
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: TSlots
+  ConfigureClasses: System.Action<TSlots>
+  Decoration: RizzyUI.TextDecoration?
+  Element: System.String
+  Id: System.String
+  LineHeight: RizzyUI.Leading?
+  LoadStrategy: System.String
+  Size: RizzyUI.TextSize?
+  TextColor: RizzyUI.SemanticColor?
+  Transform: RizzyUI.TextTransform?
+  Weight: RizzyUI.TextWeight?
+RizzyUI.ScrollBar
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.ScrollBar.Slots
+  ConfigureClasses: System.Action<RizzyUI.ScrollBar.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+RizzyUI.SheetClose
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SheetClose.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetClose.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SheetContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  AriaLabel: System.String
+  AriaLabelledBy: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SheetContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Side: RizzyUI.SheetSide
+RizzyUI.SheetDescription
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SheetDescription.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetDescription.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SheetFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SheetFooter.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetFooter.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SheetHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SheetHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SheetTitle
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SheetTitle.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetTitle.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SheetTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SheetTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.SheetTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.Sidebar
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.Sidebar.Slots
+  ConfigureClasses: System.Action<RizzyUI.Sidebar.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Side: RizzyUI.SidebarSide
+  Variant: RizzyUI.SidebarVariant
+RizzyUI.SidebarContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarFooter.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarFooter.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarGroup
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarGroup.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarGroup.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarGroupAction
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SidebarGroupAction.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarGroupAction.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarGroupContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarGroupContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarGroupContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarGroupLabel
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SidebarGroupLabel.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarGroupLabel.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarHeader.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarHeader.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarInput
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.SidebarInput.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarInput.Slots>
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<System.String>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.String
+RizzyUI.SidebarInset
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarInset.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarInset.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarMenu
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarMenu.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenu.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarMenuAction
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SidebarMenuAction.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuAction.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  ShowOnHover: System.Boolean
+RizzyUI.SidebarMenuBadge
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarMenuBadge.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuBadge.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarMenuButton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SidebarMenuButton.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuButton.Slots>
+  Element: System.String
+  Id: System.String
+  IsActive: System.Boolean
+  LoadStrategy: System.String
+  Size: RizzyUI.Size
+  Tooltip: System.String
+  Variant: RizzyUI.SidebarMenuButtonVariant
+RizzyUI.SidebarMenuItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarMenuItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarMenuSkeleton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.SidebarMenuSkeleton.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuSkeleton.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  ShowIcon: System.Boolean
+RizzyUI.SidebarMenuSub
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarMenuSub.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuSub.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarMenuSubButton
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.SidebarMenuSubButton.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuSubButton.Slots>
+  Element: System.String
+  Id: System.String
+  IsActive: System.Boolean
+  LoadStrategy: System.String
+  Size: RizzyUI.Size
+RizzyUI.SidebarMenuSubItem
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarMenuSubItem.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarMenuSubItem.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarRail
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  Classes: RizzyUI.SidebarRail.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarRail.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarSeparator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.SidebarSeparator.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarSeparator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.SidebarTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.SidebarTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.SidebarTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableBody
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TableBodySlots
+  ConfigureClasses: System.Action<RizzyUI.TableBodySlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableCaption
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TableCaptionSlots
+  ConfigureClasses: System.Action<RizzyUI.TableCaptionSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableCell
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.TableCellSlots
+  Colspan: System.Int32?
+  ConfigureClasses: System.Action<RizzyUI.TableCellSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableFooter
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TableFooterSlots
+  ConfigureClasses: System.Action<RizzyUI.TableFooterSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableHeader
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TableHeaderSlots
+  ConfigureClasses: System.Action<RizzyUI.TableHeaderSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableHeaderCell
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TableHeaderCellSlots
+  ConfigureClasses: System.Action<RizzyUI.TableHeaderCellSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TablePagination
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TablePaginationSlots
+  ConfigureClasses: System.Action<RizzyUI.TablePaginationSlots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+RizzyUI.TableRow
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.TableRowSlots
+  ConfigureClasses: System.Action<RizzyUI.TableRowSlots>
+  Element: System.String
+  HoverableOverride: System.Boolean?
+  Id: System.String
+  LoadStrategy: System.String
+  Selected: System.Boolean
+RizzyUI.TabsContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.TabsContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.TabsContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.String [EditorRequired]
+RizzyUI.TabsList
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TabsList.Slots
+  ConfigureClasses: System.Action<RizzyUI.TabsList.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Orientation: RizzyUI.Orientation
+RizzyUI.TabsTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.TabsTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.TabsTrigger.Slots>
+  Disabled: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Value: System.String [EditorRequired]
+RizzyUI.TooltipContent
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TooltipContent.Slots
+  ConfigureClasses: System.Action<RizzyUI.TooltipContent.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Side: RizzyUI.AnchorPoint
+RizzyUI.TooltipProvider
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TooltipProvider.Slots
+  ConfigureClasses: System.Action<RizzyUI.TooltipProvider.Slots>
+  DelayDuration: System.Int32
+  DisableHoverableContent: System.Boolean
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  SkipDelayDuration: System.Int32
+RizzyUI.TooltipTrigger
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
+  Classes: RizzyUI.TooltipTrigger.Slots
+  ConfigureClasses: System.Action<RizzyUI.TooltipTrigger.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+
+# Enums
+RizzyUI.AccentColor: Inherit=0, Gray=1, Emerald=2, Teal=3, Blue=4, Indigo=5, Purple=6, Pink=7, Red=8, Orange=9, Yellow=10
+RizzyUI.AccordionItem.SlotTypes: Base=0, Button=1, ChevronIcon=2, ChevronIconExpanded=3, ContentContainer=4, ContentContainerWrapper=5, Header=6
+RizzyUI.AccordionType: Single=0, Multiple=1
+RizzyUI.AlertDescription.SlotTypes: Base=0
+RizzyUI.AlertDialogAction.SlotTypes: Base=0
+RizzyUI.AlertDialogCancel.SlotTypes: Base=0
+RizzyUI.AlertDialogContent.SlotTypes: Backdrop=0, Base=1
+RizzyUI.AlertDialogDescription.SlotTypes: Base=0
+RizzyUI.AlertDialogFooter.SlotTypes: Base=0
+RizzyUI.AlertDialogHeader.SlotTypes: Base=0
+RizzyUI.AlertDialogTitle.SlotTypes: Base=0
+RizzyUI.AlertDialogTrigger.SlotTypes: Base=0
+RizzyUI.AlertTitle.SlotTypes: Base=0
+RizzyUI.Align: Start=0, Center=1, End=2
+RizzyUI.AnchorPoint: TopStart=0, Top=1, TopEnd=2, LeftStart=3, Left=4, LeftEnd=5, RightStart=6, Right=7, RightEnd=8, BottomStart=9, Bottom=10, BottomEnd=11
+RizzyUI.AnchorStrategy: Absolute=0, Fixed=1
+RizzyUI.AvatarBadge.SlotTypes: Base=0
+RizzyUI.AvatarGroup.SlotTypes: Base=0
+RizzyUI.AvatarGroupCount.SlotTypes: Base=0
+RizzyUI.AvatarShape: Circle=0, Square=1
+RizzyUI.BreadcrumbEllipsis.SlotTypes: Base=0, Icon=1
+RizzyUI.BreadcrumbItem.SlotTypes: Base=0
+RizzyUI.BreadcrumbLink.SlotTypes: Base=0
+RizzyUI.BreadcrumbList.SlotTypes: Base=0
+RizzyUI.BreadcrumbPage.SlotTypes: Base=0
+RizzyUI.BreadcrumbSeparator.SlotTypes: Base=0, Icon=1
+RizzyUI.ButtonGroupSeparator.SlotTypes: Base=0
+RizzyUI.ButtonGroupText.SlotTypes: Base=0
+RizzyUI.CalendarPosition: Auto=0, Above=1, Below=2, AutoLeft=3, AutoCenter=4, AutoRight=5, AboveLeft=6, AboveCenter=7, AboveRight=8, BelowLeft=9, BelowCenter=10, BelowRight=11
+RizzyUI.CalendarType: Default=0, Multiple=1, Month=2, Year=3
+RizzyUI.CardAction.SlotTypes: Base=0
+RizzyUI.CardContent.SlotTypes: Base=0
+RizzyUI.CardDescription.SlotTypes: Base=0
+RizzyUI.CardFooter.SlotTypes: Base=0
+RizzyUI.CardHeader.SlotTypes: Base=0
+RizzyUI.CardTitle.SlotTypes: Base=0
+RizzyUI.CarouselContent.SlotTypes: Base=0, Viewport=1
+RizzyUI.CarouselItem.SlotTypes: Base=0
+RizzyUI.CarouselNext.SlotTypes: Base=0, ButtonIcon=1
+RizzyUI.CarouselPrevious.SlotTypes: Base=0, ButtonIcon=1
+RizzyUI.Charts.Algorithm: Lttb=0, MinMax=1
+RizzyUI.Charts.AnimationEasing: Linear=0, EaseInQuad=1, EaseOutQuad=2, EaseInOutQuad=3, EaseInCubic=4, EaseOutCubic=5, EaseInOutCubic=6, EaseInQuart=7, EaseOutQuart=8, EaseInOutQuart=9, EaseInQuint=10, EaseOutQuint=11, EaseInOutQuint=12, EaseInSine=13, EaseOutSine=14, EaseInOutSine=15, EaseInExpo=16, EaseOutExpo=17, EaseInOutExpo=18, EaseInCirc=19, EaseOutCirc=20, EaseInOutCirc=21, EaseInElastic=22, EaseOutElastic=23, EaseInOutElastic=24, EaseInBack=25, EaseOutBack=26, EaseInOutBack=27, EaseInBounce=28, EaseOutBounce=29, EaseInOutBounce=30
+RizzyUI.Charts.Axis: X=0, Y=1, XY=2, R=3
+RizzyUI.Charts.AxisPosition: Top=0, Left=1, Bottom=2, Right=3, Center=4
+RizzyUI.Charts.BorderAlign: Center=0, Inner=1
+RizzyUI.Charts.Bounds: Ticks=0, Data=1
+RizzyUI.Charts.CapStyle: Butt=0, Round=1, Square=2
+RizzyUI.Charts.ChartEvent: Mousemove=0, Mouseout=1, Click=2, Touchstart=3
+RizzyUI.Charts.DrawTime: BeforeDraw=0, BeforeDatasetDraw=1, BeforeDatasetsDraw=2
+RizzyUI.Charts.FontWeight: Normal=0, Bold=1, Lighter=2, Bolder=3
+RizzyUI.Charts.IndexAxis: X=0, Y=1
+RizzyUI.Charts.InteractionMode: Point=0, Nearest=1, Index=2, Dataset=3, X=4, Y=5
+RizzyUI.Charts.InterpolationMode: Default=0, Monotone=1
+RizzyUI.Charts.JoinStyle: Miter=0, Round=1, Bevel=2
+RizzyUI.Charts.LegendAlign: Center=0, Start=1, End=2
+RizzyUI.Charts.LegendPosition: Top=0, Left=1, Bottom=2, Right=3, ChartArea=4
+RizzyUI.Charts.PointStyle: Circle=0, Cross=1, CrossRot=2, Dash=3, Line=4, Rect=5, RectRounded=6, RectRot=7, Star=8, Triangle=9
+RizzyUI.Charts.Skipped: Start=0, End=1, Middle=2, Bottom=3, Left=4, Top=5, Right=6
+RizzyUI.Charts.TextAlign: Center=0, Left=1, Right=2
+RizzyUI.Charts.TicksAlign: Start=0, Center=1, End=2, Inner=3
+RizzyUI.Charts.TicksCrossAlign: Near=0, Center=1, Far=2
+RizzyUI.Charts.TitleAlign: Center=0, Start=1, End=2
+RizzyUI.Charts.TitlePosition: Top=0, Left=1, Bottom=2
+RizzyUI.Charts.TooltipPosition: Average=0, Nearest=1
+RizzyUI.CheckboxGroupItemIndicator.SlotTypes: Base=0, CustomContentWrapper=1, Icon=2
+RizzyUI.ClipboardFeedback.SlotTypes: Base=0
+RizzyUI.ClipboardTrigger.SlotTypes: Base=0
+RizzyUI.CollapsibleContent.SlotTypes: Base=0
+RizzyUI.CollapsibleTrigger.SlotTypes: Base=0
+RizzyUI.ColorFormat: Hex=0, Rgb=1, Hsl=2, Auto=3, Mixed=4
+RizzyUI.ColorSwatchSize: Default=0, Small=1, Large=2
+RizzyUI.ColorThumbnailPosition: Start=0, End=1
+RizzyUI.CommandEmpty.SlotTypes: Base=0
+RizzyUI.CommandGroup.SlotTypes: Base=0, Heading=1
+RizzyUI.CommandInput.SlotTypes: Base=0, Icon=1, Input=2
+RizzyUI.CommandItem.SlotTypes: Base=0
+RizzyUI.CommandItemTemplate.SlotTypes: Base=0
+RizzyUI.CommandList.SlotTypes: Base=0
+RizzyUI.CommandSeparator.SlotTypes: Base=0
+RizzyUI.CommandShortcut.SlotTypes: Base=0
+RizzyUI.ConfettiMode: Overlay=0, Scoped=1, ElementOrigin=2
+RizzyUI.ConfettiPreset: DefaultBurst=0, CannonLeft=1, CannonRight=2, DualCannons=3, Victory=4, Subtle=5, Stars=6
+RizzyUI.ConfettiTrigger: Click=0, Hover=1, Load=2, Visible=3, CustomEvent=4, Manual=5
+RizzyUI.DataTableRowSelectCheckbox.SlotTypes: Base=0
+RizzyUI.DataTableSelectAllCheckbox.SlotTypes: Base=0
+RizzyUI.DataTableSelectionCell.SlotTypes: Base=0, Content=1
+RizzyUI.DataTableSelectionHeaderCell.SlotTypes: Base=0, Content=1
+RizzyUI.DataTableSelectionScope: Page=0, All=1
+RizzyUI.DataTableSortIcon.SlotTypes: Ascending=0, Base=1, Descending=2, Unsorted=3
+RizzyUI.DataTableSortToggle.SlotTypes: Base=0, Label=1
+RizzyUI.DialogClose.SlotTypes: Base=0
+RizzyUI.DialogContent.SlotTypes: Backdrop=0, Base=1, CloseButton=2, CloseButtonIcon=3
+RizzyUI.DialogDescription.SlotTypes: Base=0
+RizzyUI.DialogFooter.SlotTypes: Base=0
+RizzyUI.DialogHeader.SlotTypes: Base=0
+RizzyUI.DialogTitle.SlotTypes: Base=0
+RizzyUI.DialogTrigger.SlotTypes: Base=0
+RizzyUI.DropdownMenuContent.SlotTypes: Base=0, InnerContainer=1
+RizzyUI.DropdownMenuGroup.SlotTypes: Base=0
+RizzyUI.DropdownMenuItem.SlotTypes: Base=0, Icon=1
+RizzyUI.DropdownMenuLabel.SlotTypes: Base=0
+RizzyUI.DropdownMenuSeparator.SlotTypes: Base=0
+RizzyUI.DropdownMenuShortcut.SlotTypes: Base=0
+RizzyUI.DropdownMenuSub.SlotTypes: Base=0
+RizzyUI.DropdownMenuSubContent.SlotTypes: Base=0, InnerContainer=1
+RizzyUI.DropdownMenuSubTrigger.SlotTypes: Base=0, Chevron=1, Icon=2
+RizzyUI.DropdownMenuTrigger.SlotTypes: Base=0
+RizzyUI.EmptyContent.SlotTypes: Base=0
+RizzyUI.EmptyDescription.SlotTypes: Base=0
+RizzyUI.EmptyHeader.SlotTypes: Base=0
+RizzyUI.EmptyMedia.SlotTypes: Base=0
+RizzyUI.EmptyMediaVariant: Default=0, Icon=1
+RizzyUI.EmptyTitle.SlotTypes: Base=0
+RizzyUI.FetchTrigger: Immediate=0, OnOpen=1
+RizzyUI.FieldContent.SlotTypes: Base=0
+RizzyUI.FieldDescription.SlotTypes: Base=0
+RizzyUI.FieldError.SlotTypes: Base=0
+RizzyUI.FieldLabelSlotTypes: Base=0
+RizzyUI.FieldLegend.SlotTypes: Base=0
+RizzyUI.FieldLegendVariant: Legend=0, Label=1
+RizzyUI.FieldOrientation: Vertical=0, Horizontal=1, Responsive=2
+RizzyUI.FieldSeparator.SlotTypes: Base=0, Content=1, Separator=2
+RizzyUI.FieldSlotTypes: Base=0
+RizzyUI.FieldTitle.SlotTypes: Base=0
+RizzyUI.FileInputVariant: Default=0, Button=1, Dropzone=2
+RizzyUI.FormInputSlotTypes: Base=0
+RizzyUI.HeadingLevel: H1=0, H2=1, H3=2, H4=3
+RizzyUI.HighlighterAction: Highlight=0, Underline=1
+RizzyUI.HourCycle: H11=0, H12=1, H23=2, H24=3
+RizzyUI.IndicatorPosition: TopStart=0, Top=1, TopEnd=2, LeftStart=3, Left=4, LeftEnd=5, RightStart=6, Right=7, RightEnd=8, BottomStart=9, Bottom=10, BottomEnd=11, Center=12
+RizzyUI.InputGroupAddonAlign: InlineStart=0, InlineEnd=1, BlockStart=2, BlockEnd=3
+RizzyUI.InputGroupAddonSlotTypes: Base=0
+RizzyUI.InputGroupButtonSize: ExtraSmall=0, Small=1, IconExtraSmall=2, IconSmall=3
+RizzyUI.InputGroupButtonSlotTypes: Base=0
+RizzyUI.InputGroupInput.SlotTypes: Base=0
+RizzyUI.InputGroupText.SlotTypes: Base=0
+RizzyUI.InputGroupTextarea.SlotTypes: Base=0
+RizzyUI.InputOTPGroup.SlotTypes: Base=0
+RizzyUI.InputOTPSeparator.SlotTypes: Base=0, Icon=1
+RizzyUI.InputOTPSlot.SlotTypes: Base=0, Caret=1, CaretWrapper=2, Character=3
+RizzyUI.InputOtpTextTransform: None=0, ToLower=1, ToUpper=2
+RizzyUI.InputOtpType: Numeric=0, Alphanumeric=1
+RizzyUI.ItemActions.SlotTypes: Base=0
+RizzyUI.ItemContent.SlotTypes: Base=0
+RizzyUI.ItemDescription.SlotTypes: Base=0
+RizzyUI.ItemFooter.SlotTypes: Base=0
+RizzyUI.ItemHeader.SlotTypes: Base=0
+RizzyUI.ItemMedia.SlotTypes: Base=0
+RizzyUI.ItemMediaVariant: Default=0, Icon=1, Image=2
+RizzyUI.ItemTitle.SlotTypes: Base=0
+RizzyUI.ItemVariant: Default=0, Outline=1, Muted=2
+RizzyUI.Justify: Start=0, Center=1, End=2
+RizzyUI.Label.SlotTypes: Base=0
+RizzyUI.Leading: None=0, Tight=1, Snug=2, Normal=3, Relaxed=4, Loose=5
+RizzyUI.MarqueeOrientation: Horizontal=0, Vertical=1
+RizzyUI.MenubarCheckboxItem.SlotTypes: Base=0, Indicator=1
+RizzyUI.MenubarContent.SlotTypes: Base=0, InnerContainer=1
+RizzyUI.MenubarGroup.SlotTypes: Base=0
+RizzyUI.MenubarItem.SlotTypes: Base=0, Icon=1
+RizzyUI.MenubarItemVariant: Default=0, Destructive=1
+RizzyUI.MenubarLabel.SlotTypes: Base=0
+RizzyUI.MenubarMenu.SlotTypes: Base=0
+RizzyUI.MenubarRadioGroup.SlotTypes: Base=0
+RizzyUI.MenubarRadioItem.SlotTypes: Base=0, Indicator=1
+RizzyUI.MenubarSeparator.SlotTypes: Base=0
+RizzyUI.MenubarShortcut.SlotTypes: Base=0
+RizzyUI.MenubarSub.SlotTypes: Base=0
+RizzyUI.MenubarSubContent.SlotTypes: Base=0
+RizzyUI.MenubarSubTrigger.SlotTypes: Base=0, Chevron=1, Icon=2
+RizzyUI.MenubarTrigger.SlotTypes: Base=0
+RizzyUI.ModalSize: ExtraSmall=0, Small=1, Medium=2, Large=3, ExtraLarge=4, TwoXL=5, ThreeXL=6, FourXL=7, FiveXL=8, SixXL=9, SevenXL=10
+RizzyUI.Mode: Single=0, Multiple=1, Range=2, Time=3
+RizzyUI.MonthSelectorType: Dropdown=0, Static=1
+RizzyUI.NavigationMenuContent.SlotTypes: Base=0
+RizzyUI.NavigationMenuItem.SlotTypes: Base=0
+RizzyUI.NavigationMenuLink.SlotTypes: Base=0
+RizzyUI.NavigationMenuList.SlotTypes: Base=0
+RizzyUI.NavigationMenuTrigger.SlotTypes: Base=0
+RizzyUI.NumberTickerDirection: Up=0, Down=1
+RizzyUI.Orientation: Horizontal=0, Vertical=1
+RizzyUI.OriginPoint: OriginCenter=0, OriginTop=1, OriginTopRight=2, OriginRight=3, OriginBottomRight=4, OriginBottom=5, OriginBottomLeft=6, OriginLeft=7, OriginTopLeft=8
+RizzyUI.PaginationEllipsis.SlotTypes: Base=0, Icon=1, SrOnly=2
+RizzyUI.PaginationItem.SlotTypes: Base=0
+RizzyUI.PaginationLink.SlotTypes: Base=0
+RizzyUI.PaginationList.SlotTypes: Base=0
+RizzyUI.PaginationNext.SlotTypes: Base=0, Icon=1, Label=2
+RizzyUI.PaginationPrevious.SlotTypes: Base=0, Icon=1, Label=2
+RizzyUI.PopoverContent.SlotTypes: Base=0
+RizzyUI.PopoverTrigger.SlotTypes: Base=0
+RizzyUI.Position: Auto=0, Left=1, Center=2, Right=3, TopLeft=4, TopCenter=5, TopRight=6, BottomLeft=7, BottomCenter=8, BottomRight=9
+RizzyUI.ProgressLabelPosition: Inside=0, Outside=1
+RizzyUI.ProseWidth: Compact=0, Comfortable=1, Relaxed=2, Wide=3, UltraWide=4, Full=5
+RizzyUI.RadioGroupItemIndicator.SlotTypes: Base=0, CustomContentWrapper=1, Dot=2
+RizzyUI.RadioGroupItemSlotTypes: Base=0, Input=1
+RizzyUI.RzAccordion.SlotTypes: Base=0
+RizzyUI.RzAlert.SlotTypes: Base=0, CloseButton=1, CloseButtonIcon=2, ContentContainer=3, IconContainer=4, IconPulse=5, InnerContainer=6
+RizzyUI.RzAlertDialog.SlotTypes: Base=0
+RizzyUI.RzAlertLiveRegionMode: Alert=0, Status=1
+RizzyUI.RzAnimatedGradientText.SlotTypes: Base=0
+RizzyUI.RzArticle.SlotTypes: Article=0, Aside=1, Base=2, InnerContainer=3
+RizzyUI.RzAspectRatio.SlotTypes: Base=0, Inner=1
+RizzyUI.RzAuroraText.SlotTypes: Base=0, SrText=1, Text=2
+RizzyUI.RzAvatar.SlotTypes: Base=0, Image=1, InitialsContainer=2, PlaceholderContainer=3, PlaceholderIcon=4
+RizzyUI.RzBackToTop.SlotTypes: Base=0, Icon=1
+RizzyUI.RzBadge.SlotTypes: Base=0, InnerSpan=1
+RizzyUI.RzBreadcrumb.SlotTypes: Base=0
+RizzyUI.RzBrowser.SlotTypes: Base=0, ContentArea=1, PreviewContainer=2, ScreenSizeButton=3, ScreenSizeButtonGroup=4, ScreenSizeControlsContainer=5, TopBar=6, TrafficLightGreen=7, TrafficLightRed=8, TrafficLightYellow=9, TrafficLightsContainer=10
+RizzyUI.RzButton.SlotTypes: Base=0
+RizzyUI.RzButtonGroup.SlotTypes: Base=0
+RizzyUI.RzCalendar.SlotTypes: ArrowNext=0, ArrowPrev=1, Base=2, CalendarContainer=3, Dates=4, DayButton=5, DayCell=6, Grid=7, Header=8, HeaderContent=9, Month=10, Months=11, MonthsMonth=12, Root=13, Time=14, TimeContent=15, TimeHour=16, TimeKeeping=17, TimeMinute=18, TimeRange=19, TimeRanges=20, Weekday=21, Weekdays=22, Year=23, Years=24, YearsYear=25
+RizzyUI.RzCalendarProvider.SlotTypes: Base=0
+RizzyUI.RzCard.SlotTypes: Base=0
+RizzyUI.RzCarousel.SlotTypes: Base=0, Wrapper=1
+RizzyUI.RzChart.SlotTypes: Base=0, Canvas=1, Container=2
+RizzyUI.RzCheckboxGroupFieldSlotTypes: Base=0
+RizzyUI.RzCheckboxGroupItemSlotTypes: Base=0, Input=1
+RizzyUI.RzCheckboxGroupSlotTypes: Base=0
+RizzyUI.RzClipboard.SlotTypes: Base=0
+RizzyUI.RzCodeViewer.SlotTypes: Base=0, CodeContainer=1, CopyButton=2, CopyButtonContainer=3, CopyIconCopied=4, CopyIconDefault=5, ExpandButton=6, ExpandIcon=7, Header=8, HeaderTitle=9, PreElement=10, PreWrapper=11
+RizzyUI.RzCollapsible.SlotTypes: Base=0
+RizzyUI.RzColorPickerProvider.SlotTypes: Base=0
+RizzyUI.RzColorPickerTrigger.SlotTypes: Base=0
+RizzyUI.RzColorSwatch.SlotTypes: Base=0, Swatch=1
+RizzyUI.RzComboboxSlotTypes: Base=0, Select=1
+RizzyUI.RzCommand.SlotTypes: Base=0
+RizzyUI.RzCommandDialog.SlotTypes: Base=0, Command=1
+RizzyUI.RzConfetti.SlotTypes: AlpineRoot=0, Base=1, Canvas=2, Content=3
+RizzyUI.RzDarkModeToggle.SlotTypes: Base=0, Icon=1
+RizzyUI.RzDataTableSlotTypes: Announcement=0, Base=1
+RizzyUI.RzDateEdit.SlotTypes: Base=0, Input=1, InputWrapper=2, PrependElement=3, PrependIconContainer=4
+RizzyUI.RzDialog.SlotTypes: Base=0
+RizzyUI.RzDropdownMenu.SlotTypes: Base=0
+RizzyUI.RzEmbeddedPreview.SlotTypes: Base=0, IFrame=1
+RizzyUI.RzEmpty.SlotTypes: Base=0
+RizzyUI.RzEventViewer.SlotTypes: ActionIcon=0, Base=1, Console=2, Container=3, Controls=4, Entry=5, EntryBody=6, EntryCount=7, Error=8, EventName=9, Header=10, IconButton=11, PayloadPre=12, RowExpanded=13, RowHeader=14, RowMeta=15, RowPreview=16, RowToggle=17, StatusBadge=18, Timestamp=19, Title=20
+RizzyUI.RzFieldGroup.SlotTypes: Base=0
+RizzyUI.RzFieldSet.SlotTypes: Base=0
+RizzyUI.RzFileInput.SlotTypes: Base=0, Container=1, Description=2, FileName=3, FileSize=4, Info=5, Item=6, List=7, NativeInput=8, PreviewImage=9, RemoveButton=10, Status=11, Trigger=12, TriggerContent=13
+RizzyUI.RzFormSection.SlotTypes: Base=0, ContentContainer=1, Description=2, DescriptionContainer=3, Title=4
+RizzyUI.RzHeading.SlotTypes: Base=0
+RizzyUI.RzHighlighter.SlotTypes: Base=0, Content=1
+RizzyUI.RzIndicator.SlotTypes: Base=0
+RizzyUI.RzInputCheckbox.SlotTypes: Base=0
+RizzyUI.RzInputColor.SlotTypes: Base=0, Input=1, InputGroup=2, Thumbnail=3, ThumbnailContainer=4
+RizzyUI.RzInputGroup.SlotTypes: Base=0
+RizzyUI.RzInputNumberSlotTypes: Base=0
+RizzyUI.RzInputOTP.SlotTypes: Base=0, Input=1
+RizzyUI.RzInputText.SlotTypes: Base=0
+RizzyUI.RzInputTextArea.SlotTypes: Base=0
+RizzyUI.RzItem.SlotTypes: Base=0
+RizzyUI.RzItemGroup.SlotTypes: Base=0
+RizzyUI.RzItemSeparator.SlotTypes: Base=0
+RizzyUI.RzKbd.SlotTypes: Base=0
+RizzyUI.RzKbdGroup.SlotTypes: Base=0
+RizzyUI.RzLink.SlotTypes: Base=0
+RizzyUI.RzMarkdown.SlotTypes: Base=0
+RizzyUI.RzMarquee.SlotTypes: Base=0, Segment=1
+RizzyUI.RzMenubar.SlotTypes: Base=0
+RizzyUI.RzNativeSelectSlotTypes: Base=0, Icon=1, Select=2
+RizzyUI.RzNavigationMenu.SlotTypes: Base=0
+RizzyUI.RzNumberTicker.SlotTypes: Base=0, Body=1, Value=2
+RizzyUI.RzPagination.SlotTypes: Base=0
+RizzyUI.RzParagraph.SlotTypes: Base=0
+RizzyUI.RzPopover.SlotTypes: Base=0
+RizzyUI.RzProgress.SlotTypes: Base=0, InnerBar=1, InsideLabelContainer=2, InsideLabelText=3, OuterBar=4, OutsideLabelContainer=5, OutsideLabelText=6
+RizzyUI.RzQuickReference.SlotTypes: Base=0, Link=1, List=2, ListItem=3, Title=4
+RizzyUI.RzQuickReferenceContainer.SlotTypes: Base=0
+RizzyUI.RzRadioGroupSlotTypes: Base=0
+RizzyUI.RzScrollArea.SlotTypes: Base=0, Corner=1, Scrollbar=2, ScrollbarHorizontal=3, ScrollbarVertical=4, Thumb=5, Viewport=6, ViewportContent=7
+RizzyUI.RzSearchButton.SlotTypes: Base=0, IconSpan=1, InnerContainer=2
+RizzyUI.RzSeparator.SlotTypes: Base=0
+RizzyUI.RzSheet.SlotTypes: Base=0
+RizzyUI.RzShineBorder.SlotTypes: Base=0, Overlay=1
+RizzyUI.RzSidebarProvider.SlotTypes: Base=0
+RizzyUI.RzSkeleton.SlotTypes: Base=0
+RizzyUI.RzSlider.SlotTypes: Base=0, Input=1, Range=2, Thumb=3, Track=4
+RizzyUI.RzSpinner.SlotTypes: Base=0
+RizzyUI.RzSteps.SlotTypes: Base=0, Caption=1, CircleCompleted=2, CircleCompletedIcon=3, CircleCompletedSrText=4, CircleDefault=5, CircleDefaultIcon=6, Label=7, StepContentContainer=8, StepItem=9
+RizzyUI.RzSwitchSlotTypes: Base=0, Input=1, Thumb=2, Track=3
+RizzyUI.RzTableSlotTypes: Base=0, Table=1
+RizzyUI.RzTabs.SlotTypes: Base=0
+RizzyUI.RzToastProviderSlotTypes: ActionButton=0, ActionContainer=1, Base=2, CloseButton=3, CloseButtonIcon=4, ContentContainer=5, Description=6, IconContainer=7, IconPulse=8, InnerContainer=9, LoadingIndicator=10, ProgressIndicator=11, ProgressTrack=12, SrOnly=13, Stack=14, Title=15, Toast=16, Viewport=17
+RizzyUI.RzToggle.SlotTypes: Base=0
+RizzyUI.RzTooltip.SlotTypes: Base=0
+RizzyUI.RzTypingAnimation.SlotTypes: AlpineRoot=0, Base=1, Cursor=2, NoScript=3, Source=4, Text=5
+RizzyUI.ScrollAreaType: Hover=0, Always=1, Scroll=2, Auto=3
+RizzyUI.ScrollBar.SlotTypes: Base=0, Thumb=1
+RizzyUI.SectionLayout: Stacked=0, TwoColumn=1
+RizzyUI.SelectionDatesMode: Disabled=0, Single=1, Multiple=2, MultipleRanged=3
+RizzyUI.SelectionMode: Enabled=0, Disabled=1, OnlyArrows=2
+RizzyUI.SemanticColor: None=0, Background=1, Foreground=2, Card=3, CardForeground=4, Popover=5, PopoverForeground=6, Primary=7, PrimaryForeground=8, Secondary=9, SecondaryForeground=10, Muted=11, MutedForeground=12, Accent=13, AccentForeground=14, Destructive=15, DestructiveForeground=16, Border=17, Input=18, Ring=19, Info=20, InfoForeground=21, Warning=22, WarningForeground=23, Success=24, SuccessForeground=25
+RizzyUI.SeparatorStyle: Solid=0, Dashed=1, Dotted=2
+RizzyUI.SheetClose.SlotTypes: Base=0
+RizzyUI.SheetContent.SlotTypes: Base=0, CloseButton=1, CloseButtonIcon=2, Overlay=3
+RizzyUI.SheetDescription.SlotTypes: Base=0
+RizzyUI.SheetFooter.SlotTypes: Base=0
+RizzyUI.SheetHeader.SlotTypes: Base=0
+RizzyUI.SheetSide: Top=0, Right=1, Bottom=2, Left=3
+RizzyUI.SheetTitle.SlotTypes: Base=0
+RizzyUI.SheetTrigger.SlotTypes: Base=0
+RizzyUI.Sidebar.SlotTypes: Base=0, DesktopContainer=1, DesktopInner=2, Gap=3
+RizzyUI.SidebarCollapsible: OffCanvas=0, Icon=1, None=2
+RizzyUI.SidebarContent.SlotTypes: Base=0
+RizzyUI.SidebarFooter.SlotTypes: Base=0
+RizzyUI.SidebarGroup.SlotTypes: Base=0
+RizzyUI.SidebarGroupAction.SlotTypes: Base=0
+RizzyUI.SidebarGroupContent.SlotTypes: Base=0
+RizzyUI.SidebarGroupLabel.SlotTypes: Base=0
+RizzyUI.SidebarHeader.SlotTypes: Base=0
+RizzyUI.SidebarInput.SlotTypes: Base=0
+RizzyUI.SidebarInset.SlotTypes: Base=0
+RizzyUI.SidebarMenu.SlotTypes: Base=0
+RizzyUI.SidebarMenuAction.SlotTypes: Base=0
+RizzyUI.SidebarMenuBadge.SlotTypes: Base=0
+RizzyUI.SidebarMenuButton.SlotTypes: Base=0
+RizzyUI.SidebarMenuButtonVariant: Default=0, Outline=1
+RizzyUI.SidebarMenuItem.SlotTypes: Base=0
+RizzyUI.SidebarMenuSkeleton.SlotTypes: Base=0, Icon=1, Text=2
+RizzyUI.SidebarMenuSub.SlotTypes: Base=0
+RizzyUI.SidebarMenuSubButton.SlotTypes: Base=0
+RizzyUI.SidebarMenuSubItem.SlotTypes: Base=0
+RizzyUI.SidebarRail.SlotTypes: Base=0
+RizzyUI.SidebarSeparator.SlotTypes: Base=0
+RizzyUI.SidebarSide: Left=0, Right=1
+RizzyUI.SidebarTrigger.SlotTypes: Base=0
+RizzyUI.SidebarVariant: Sidebar=0, Floating=1, Inset=2
+RizzyUI.Size: ExtraSmall=0, Small=1, Medium=2, Large=3, ExtraLarge=4
+RizzyUI.SliderOrientation: Horizontal=0, Vertical=1
+RizzyUI.SortDirection: Unset=0, Ascending=1, Descending=2
+RizzyUI.StatusColor: Primary=0, Secondary=1, Success=2, Info=3, Warning=4, Destructive=5
+RizzyUI.StepStatus: Completed=0, Current=1, Upcoming=2
+RizzyUI.StyleLength: Full=0, Long=1, Medium=2, Short=3
+RizzyUI.TableBodySlotTypes: Base=0
+RizzyUI.TableCaptionSlotTypes: Base=0
+RizzyUI.TableCellSlotTypes: Base=0
+RizzyUI.TableFooterSlotTypes: Base=0
+RizzyUI.TableHeaderCellSlotTypes: Base=0, TitleSpan=1
+RizzyUI.TableHeaderSlotTypes: Base=0
+RizzyUI.TablePaginationSlotTypes: Base=0
+RizzyUI.TableRowSlotTypes: Base=0
+RizzyUI.TableSelectionMode: None=0, Single=1, Multiple=2
+RizzyUI.TabsContent.SlotTypes: Base=0
+RizzyUI.TabsList.SlotTypes: Base=0
+RizzyUI.TabsTrigger.SlotTypes: Base=0
+RizzyUI.TextDecoration: None=0, Underline=1, Overline=2, LineThrough=3
+RizzyUI.TextRole: Text=0, Password=1, Email=2, Url=3, Search=4, Tel=5
+RizzyUI.TextSize: Small=0, Medium=1, Large=2, ExtraLarge=3, TwoXL=4, ThreeXL=5, FourXL=6, FiveXL=7
+RizzyUI.TextTransform: None=0, Uppercase=1, Lowercase=2, Capitalize=3
+RizzyUI.TextWeight: Thin=0, Normal=1, Bold=2, ExtraBold=3
+RizzyUI.TextWidth: Long=0, Short=1, Narrow=2
+RizzyUI.ThemeVariant: Default=0, Primary=1, Secondary=2, Accent=3, Inverse=4, Information=5, Destructive=6, Warning=7, Success=8, Ghost=9
+RizzyUI.TimeControl: All=0, Range=1
+RizzyUI.TimeMode: Disabled=0, TwelveHour=1, TwentyFourHour=2
+RizzyUI.TimeZoneNameStyle: Short=0, Long=1, ShortOffset=2, LongOffset=3, ShortGeneric=4, LongGeneric=5
+RizzyUI.ToastAnimation: Fade=0, Slide=1, None=2
+RizzyUI.ToastOverflowStrategy: DismissOldest=0, IgnoreNewest=1
+RizzyUI.ToastPosition: TopLeft=0, TopCenter=1, TopRight=2, BottomLeft=3, BottomCenter=4, BottomRight=5, Center=6, LeftCenter=7, RightCenter=8
+RizzyUI.ToastState: Entering=0, Visible=1, Leaving=2
+RizzyUI.ToastStatus: Default=0, Info=1, Success=2, Warning=3, Error=4, Loading=5
+RizzyUI.ToastTone: Subtle=0, Solid=1, Outline=2, Ghost=3
+RizzyUI.ToggleSize: Default=0, Small=1, Large=2
+RizzyUI.ToggleVariant: Default=0, Outline=1
+RizzyUI.TooltipContent.SlotTypes: Arrow=0, Base=1
+RizzyUI.TooltipProvider.SlotTypes: Base=0
+RizzyUI.TooltipTrigger.SlotTypes: Base=0
+RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
+
+# Configuration: RizzyUIConfig
+  AssetIntegrity: System.Collections.Generic.Dictionary<System.String, System.String>
+  AssetUrls: System.Collections.Generic.Dictionary<System.String, System.String>
+  AvailableThemes: System.Collections.Generic.List<RizzyUI.RzTheme>
+  DefaultTheme: RizzyUI.RzTheme
+  LocalizationResourceLocation: System.String
+  LocalizationResourceType: System.Type
+
+# Services registered by AddRizzyUI()
+  Microsoft.AspNetCore.Http.IHttpContextAccessor (Singleton) -> Microsoft.AspNetCore.Http.HttpContextAccessor
+  Microsoft.Extensions.Localization.IStringLocalizer<RizzyUI.RizzyLocalization> (Singleton) -> RizzyUI.Localization.DummyRizzyStringLocalizer
+  Microsoft.Extensions.Options.IConfigureOptions<RizzyUI.RizzyUIConfig> (Singleton) -> instance
+  Microsoft.Extensions.Options.IPostConfigureOptions<RizzyUI.RizzyUIConfig> (Singleton) -> instance
+  Rizzy.Htmx.IRizzyNonceProvider (Scoped) -> Rizzy.RizzyNonceProvider
+  RizzyUI.Services.RzToast.IRzToastService (Scoped) -> RizzyUI.Services.RzToast.RzToastService
+  RizzyUI.Services.RzToast.Internal.RzToastCommandQueue (Scoped) -> RizzyUI.Services.RzToast.Internal.RzToastCommandQueue
+  TailwindMerge.TwMerge (Singleton) -> TailwindMerge.TwMerge
+  TailwindVariants.NET.TwVariants (Singleton) -> TailwindVariants.NET.TwVariants
