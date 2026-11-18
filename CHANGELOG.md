@@ -54,6 +54,10 @@ Finding IDs (RZUI-0xx) refer to the
 - The `RzSpinner` status is announced: `role="status"` and its label are on the wrapper instead of
   an `aria-hidden` SVG. (RZUI-047)
 - `RzToggle` renders its initial `aria-pressed` state on the server.
+- `AsChild` with an element child no longer throws when the component passes `Id` or `Href`, and
+  merges classes with TwMerge like the markup path. On both paths the child's own classes now win
+  Tailwind conflicts (for example `<button class="px-6">` keeps `px-6` over a component's `px-2`);
+  the markup path used to let the component's classes win. (RZUI-039)
 
 ### Removed
 

@@ -197,11 +197,12 @@ internal static class HtmlUtils
                     continue;
                 }
 
-                // Special case: class => TwMerge.Merge(existing, new)
+                // Special case: class => TwMerge, where the element's own classes win conflicts with
+                // the merged-in classes (the same precedence as the element path of asChild).
                 if (IsClassAttr(attrName, options.Comparer))
                 {
                     var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
-                    string merged = merge.Merge([existing, newValue]) ?? string.Empty;
+                    string merged = merge.Merge([newValue, existing]) ?? string.Empty;
                     EmitAttr(sb, "class", merged, quoteKind, options.PreserveUnquotedOnReplace);
                 }
                 else
