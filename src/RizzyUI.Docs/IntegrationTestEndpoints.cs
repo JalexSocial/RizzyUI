@@ -39,6 +39,12 @@ public static class IntegrationTestEndpoints
 
         group.MapGet("/oob", (IRizzyService rizzy) => rizzy.PartialView<OobFragment>());
 
+        // DataTable harness (/_tests/datatable): insert or replace the people table, or remove it.
+        group.MapGet("/datatable/people", (IRizzyService rizzy) =>
+            rizzy.PartialView<PeopleTable>(new { Round = Interlocked.Increment(ref _round) }));
+
+        group.MapGet("/datatable/empty", () => Results.Content(string.Empty, "text/html"));
+
         group.MapPost("/form", async (HttpContext context, IRizzyService rizzy, IAntiforgery antiforgery) =>
         {
             // The form posts Model.Name / Model.Email (EditForm field names). Read them directly and
