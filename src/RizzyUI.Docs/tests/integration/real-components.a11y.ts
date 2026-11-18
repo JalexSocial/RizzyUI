@@ -46,6 +46,13 @@ async function expectNoDanglingAriaReferences(page: Page) {
 }
 
 async function expectFocusStaysInside(page: Page, containerSelector: string, presses = 6) {
+  // Opening moves focus into the container (the focus trap activates on the next tick); wait for
+  // that before tabbing, or a slow runner tabs from the trigger behind the overlay.
+  await expect.poll(() => page.evaluate(selector => {
+    const container = document.querySelector(selector);
+    return Boolean(container && container.contains(document.activeElement));
+  }, containerSelector), { message: `focus moves into ${containerSelector} when it opens` }).toBe(true);
+
   for (let i = 0; i < presses; i++) {
     await page.keyboard.press('Tab');
     const inside = await page.evaluate(selector => {
