@@ -32,7 +32,8 @@ public class RzInputColorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("setValueFromInput", input.GetAttribute("x-on:input"));
         Assert.Equal("Pick a color", input.GetAttribute("placeholder"));
 
-        var swatchHost = cut.Find("[data-slot='color-swatch'] [x-data='rzColorSwatch']");
+        // The input passes its thumbnail slot name to the swatch it renders (data-slot is caller-overridable).
+        var swatchHost = cut.Find("[data-slot='thumbnail'] [x-data='rzColorSwatch']");
         Assert.Equal("setValue(colorPicker.value)", swatchHost.GetAttribute("x-effect"));
         Assert.Empty(cut.FindAll("[x-model]"));
     }

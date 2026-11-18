@@ -1,14 +1,11 @@
 @namespace RizzyUI
 @inherits RzComponent<RzToastProviderSlots>
 
-<HtmlElement Element="@EffectiveElement"
+<HtmlElement Element="@EffectiveElement" role="region" data-slot="@RzToastProviderSlotNames.NameOf(RzToastProviderSlotTypes.Base)" @attributes="@AdditionalAttributes"
              id="@Id"
-             role="region"
              aria-label="@ResolvedRegionAriaLabel"
-             @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-rz-toast-provider
-             data-slot="@RzToastProviderSlotNames.NameOf(RzToastProviderSlotTypes.Base)">
+             data-rz-toast-provider>
     @foreach (var position in SupportedPositions)
     {
         <div data-rz-toast-viewport

@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@RootAttributes"
+             data-slot="marquee" @attributes="@RootAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="marquee"
              data-orientation="@OrientationData"
              data-reverse="@Reverse.ToString().ToLowerInvariant()"
              data-pauses-on-hover="@PauseOnHover.ToString().ToLowerInvariant()"

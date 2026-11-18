@@ -2,11 +2,9 @@
 @namespace RizzyUI
 @inherits RzComponent<BreadcrumbLink.Slots>
 
-<HtmlElement Element="@EffectiveElement"
+<HtmlElement Element="@EffectiveElement" data-slot="breadcrumb-link" @attributes="@AdditionalAttributes"
              href="@Href"
-             @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@SlotClasses.GetBase()"
-             data-slot="breadcrumb-link">
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

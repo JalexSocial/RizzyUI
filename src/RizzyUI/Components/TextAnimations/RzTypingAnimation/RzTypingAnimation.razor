@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="typing-animation">
+             data-slot="typing-animation" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     <div class="@SlotClasses.GetAlpineRoot()"
          data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.AlpineRoot)"
          data-alpine-root="@Id"

@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="data-table-row-select-checkbox" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="data-table-row-select-checkbox"
              aria-label="@EffectiveAriaLabel"
              x-bind:checked="@CheckedExpr"
              x-bind:disabled="@DisabledExpr"

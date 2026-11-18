@@ -8,12 +8,10 @@
 }
 else
 {
-	<HtmlElement Element="@EffectiveElement"
+	<HtmlElement Element="@EffectiveElement" data-slot="navigation-menu-link" @attributes="@AdditionalAttributes"
 	             id="@Id"
 	             class="@SlotClasses.GetBase()"
-	             href="@Href"
-	             data-slot="navigation-menu-link"
-	             @attributes="@AdditionalAttributes">
+	             href="@Href">
 		@ChildContent
 	</HtmlElement>	
 }

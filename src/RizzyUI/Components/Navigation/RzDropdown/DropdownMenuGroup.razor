@@ -3,10 +3,8 @@
 @inherits RzComponent<DropdownMenuGroup.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             role="group" data-slot="dropdown-menu-group" @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@SlotClasses.GetBase()"
-             role="group"
-             data-slot="dropdown-menu-group">
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

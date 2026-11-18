@@ -3,11 +3,10 @@
 @inherits RzComponent<RzButton.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="AdditionalAttributes"
+             data-slot="button" @attributes="AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             aria-label="@EffectiveAssistiveLabel"
-             data-slot="button">
+             aria-label="@EffectiveAssistiveLabel">
     @if (ChildContent != null)
     {
         @ChildContent

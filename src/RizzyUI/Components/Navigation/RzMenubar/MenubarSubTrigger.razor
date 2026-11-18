@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             role="menuitem" data-slot="menubar-sub-trigger" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             role="menuitem"
              tabindex="-1"
              aria-haspopup="menu"
              aria-expanded="false"
@@ -14,8 +13,7 @@
              x-on:mouseenter="handleItemMouseEnter"
              x-on:mouseleave="handleItemMouseLeave"
              x-on:click="handleSubTriggerClick"
-             x-on:keydown.right.prevent="handleSubTriggerKeyRight"
-             data-slot="menubar-sub-trigger">
+             x-on:keydown.right.prevent="handleSubTriggerKeyRight">
     @if (Icon is not null)
     {
         <Blazicon Svg="@Icon" class="@SlotClasses.GetIcon()" data-slot="icon" aria-hidden="true" />

@@ -4,15 +4,14 @@
 @inherits RzComponent<NavigationMenuTrigger.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="navigation-menu-trigger" @attributes="@AdditionalAttributes"
              id="@TriggerId"
              class="@SlotClasses.GetBase()"
              x-ref="@TriggerXRef"
              aria-expanded="false"
              aria-controls="@ContentId"
              data-state="closed"
-             x-on:click.prevent="toggleActive"
-             data-slot="navigation-menu-trigger">
+             x-on:click.prevent="toggleActive">
 	@ChildContent
 	<span class="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180">
 		<Blazicon Svg="MdiIcon.ChevronDown" aria-hidden="true"/>

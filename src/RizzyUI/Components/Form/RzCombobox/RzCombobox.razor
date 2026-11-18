@@ -7,11 +7,9 @@
 @using RizzyUI.Extensions
 @inherits InputBase<TValue, RzComboboxSlots>
 
-<HtmlElement Element="@EffectiveElement" 
+<HtmlElement Element="@EffectiveElement" data-slot="@RzComboboxSlotNames.NameOf(RzComboboxSlotTypes.Base)" @attributes="@AdditionalAttributes"
              id="@($"{Id}-wrapper")" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="@RzComboboxSlotNames.NameOf(RzComboboxSlotTypes.Base)"
-             @attributes="@AdditionalAttributes">
+             class="@SlotClasses.GetBase()">
     
     <div x-data="rzCombobox" x-load="@LoadStrategyOrNull"
          id="@Id"
@@ -39,14 +37,13 @@
             </template>
         }
 
-        <select x-ref="selectInput"
+        <select @attributes="InnerInputAttributes" x-ref="selectInput"
                 id="@SelectId"
                 name="@NameAttributeValue"
                 class="@SlotClasses.GetSelect()"
                 data-slot="@RzComboboxSlotNames.NameOf(RzComboboxSlotTypes.Select)"
                 multiple="@(Multiple ? "multiple" : null)"
-                disabled="@Disabled"
-                @attributes="InnerInputAttributes">
+                disabled="@Disabled">
              
              @if (!Multiple && !string.IsNullOrEmpty(EffectivePlaceholder))
              {

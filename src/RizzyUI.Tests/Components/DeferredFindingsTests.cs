@@ -89,6 +89,34 @@ public class DeferredFindingsTests : BunitAlbaContext, IClassFixture<WebAppFixtu
     }
 
     [Fact]
+    public void CallerClass_IsMergedWithTheBaseClasses_NotSubstituted()
+    {
+        // RZUI-053: Label, RzAspectRatio, RzCombobox and RzCalendarProvider rendered class before the
+        // @attributes splat, so a caller's class replaced the merged class (base classes lost).
+        var label = Render<Label>(p => p.AddUnmatched("class", "my-label").AddChildContent("Name"));
+        var classes = label.Find("[data-slot='label']").ClassList;
+        Assert.Contains("my-label", classes);
+        Assert.True(classes.Length > 1, "base classes are kept");
+    }
+
+    [Fact]
+    public void ComponentWiring_WinsOverCallerAttributes_RoleAndDataSlotDoNot()
+    {
+        // RZUI-053 precedence rule: role, data-slot and type (buttons) are caller-overridable; the
+        // attributes the component computes (class, id, x-*, aria state, data-* configuration) win.
+        var spinner = Render<RzSpinner>(p => p
+            .AddUnmatched("role", "img")
+            .AddUnmatched("data-slot", "my-spinner")
+            .Add(x => x.AriaLabel, "Saving"));
+        var root = spinner.Find("[data-slot='my-spinner']");
+        Assert.Equal("img", root.GetAttribute("role"));
+        Assert.Equal("Saving", root.GetAttribute("aria-label"));
+
+        var dropdown = Render<RzDropdownMenu>(p => p.AddUnmatched("x-data", "somethingElse"));
+        Assert.Equal("rzDropdownMenu", dropdown.Find("[x-data]").GetAttribute("x-data"));
+    }
+
+    [Fact]
     public void RenderedComponents_UseTheConfiguredThemeInstance()
     {
         var configured = Services.GetRequiredService<IOptions<RizzyUIConfig>>().Value.DefaultTheme;

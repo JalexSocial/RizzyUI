@@ -3,17 +3,15 @@
 
 <template x-teleport="body">
     <div id="@Id"
-         @attributes="@AdditionalAttributes"
+         role="menu" data-slot="menubar-content" @attributes="@AdditionalAttributes"
          class="@SlotClasses.GetBase()"
          data-menu-content="@ParentMenu?.Value"
-         role="menu"
          tabindex="-1"
          x-show="isMenuOpen"
          x-cloak
          x-on:keydown="handleContentKeydown"
          x-on:pointerenter="cancelCloseAll"
-         x-on:pointerleave="scheduleCloseAll"
-         data-slot="menubar-content">
+         x-on:pointerleave="scheduleCloseAll">
         @ChildContent
     </div>
 </template>

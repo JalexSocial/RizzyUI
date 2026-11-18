@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="file-input">
+             data-slot="file-input" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     <div data-alpine-root="@Id"
          x-data="rzFileInput" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"

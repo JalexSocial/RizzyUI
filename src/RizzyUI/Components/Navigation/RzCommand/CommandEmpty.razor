@@ -3,10 +3,9 @@
 @using Blazicons
 @inherits RzComponent<CommandEmpty.Slots>
 
-<div @attributes="AdditionalAttributes"
+<div data-slot="command-empty" @attributes="AdditionalAttributes"
      id="@Id"
      class="@SlotClasses.GetBase()"
-     data-slot="command-empty"
      x-show="shouldShowEmptyOrError"
      x-cloak>
     <template x-if="hasError">

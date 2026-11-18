@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="input-color">
+             data-slot="input-color" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     <RzColorPickerProvider Value="@Value"
                            Format="@Format"
                            Alpha="@Alpha"

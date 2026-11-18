@@ -156,6 +156,19 @@ Finding IDs (RZUI-0xx) refer to the
 - A dictionary passed directly as `AdditionalAttributes` with keys that differ only by case no
   longer throws ("An item with the same key has already been added") in 29 components; the last
   key wins, as it does for markup attributes. (RZUI-053)
+- **Attribute precedence is the same on every component**: `role`, `data-slot` and `type` (buttons)
+  can be overridden with attributes; everything else a component computes (`class`, `id`, `x-*`,
+  ARIA state, `aria-label`, configuration `data-*`, `href`) wins over attributes, so change those
+  through the component's parameters. This fixes `Label`, `RzAspectRatio`, `RzCombobox` and
+  `RzCalendarProvider`, where a `class` attribute replaced the component's classes instead of being
+  merged, and `RzDropdownMenu` and `RzCalendarProvider`, where attributes could replace `x-data`.
+  `RzAvatar`, `RzAlert` and `RzToastProvider` no longer take `aria-label`/`aria-live` from attributes
+  (use `AriaLabel`, `RzAlert.LiveRegionMode` and `RegionAriaLabel`). `RzSidebar` renders caller attributes when it is
+  collapsible (they were dropped). Wrapping components now set the `data-slot` they declare on the
+  component they render (for example the `RzInputColor` swatch is `thumbnail`). (RZUI-053)
+- Every component's root has a `data-slot`; 16 did not (`RzSwitch`, `RzLink`, `RzCarousel` and its
+  parts, `RzDateEdit`, `RzSteps`, `RzSearchButton`, `RzDarkModeToggle`, `RzFormSection` and others).
+  (RZUI-053)
 - The README, Getting Started, the theme guide, the migration guide and the `dotnet new rizzyui`
   template load the minified runtime (`rizzyui.min.js`, `rizzyui-csp.min.js`), about half the bytes
   of `rizzyui.js`. The unminified files remain for debugging. (RZUI-056)

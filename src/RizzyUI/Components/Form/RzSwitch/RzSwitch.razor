@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits InputBase<bool, RzSwitchSlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@($"{Id}-wrapper")" class="@SlotClasses.GetBase()">
+<HtmlElement Element="@EffectiveElement" data-slot="switch" @attributes="AdditionalAttributes" id="@($"{Id}-wrapper")" class="@SlotClasses.GetBase()">
     <InputCheckbox
         ValueExpression="@For"
         Value="@Value"

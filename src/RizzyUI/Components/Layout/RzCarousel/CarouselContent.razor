@@ -3,7 +3,7 @@
 @inherits RzComponent<CarouselContent.Slots>
 
 <div class="@SlotClasses.GetViewport()" x-ref="viewport">
-    <HtmlElement Element="@EffectiveElement"
+    <HtmlElement Element="@EffectiveElement" data-slot="carousel-content"
                  @attributes="AdditionalAttributes"
                  id="@Id"
                  class="@SlotClasses.GetBase()"

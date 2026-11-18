@@ -4,13 +4,13 @@
 
 @if (ParentProvider?.Collapsible == SidebarCollapsible.None)
 {
-	<div data-slot="sidebar" class="@SlotClasses.GetBase()" @attributes="AdditionalAttributes">
+	<div data-slot="sidebar" @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()">
 		@ChildContent
 	</div>
 }
 else
 {
-	<div class="@SlotClasses.GetBase()"
+	<div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()"
 	     x-bind:data-state="state"
 	     x-bind:data-collapsible="getCollapsibleAttribute"
 	     data-variant="@Variant.ToString().ToLowerInvariant()"

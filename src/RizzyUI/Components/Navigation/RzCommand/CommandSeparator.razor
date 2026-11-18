@@ -2,9 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<CommandSeparator.Slots>
 
-<div @attributes="AdditionalAttributes"
+<div data-slot="command-separator" role="separator" @attributes="AdditionalAttributes"
      id="@Id"
-     class="@SlotClasses.GetBase()"
-     data-slot="command-separator"
-     role="separator">
+     class="@SlotClasses.GetBase()">
 </div>

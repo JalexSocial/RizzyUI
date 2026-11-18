@@ -6,11 +6,9 @@
 @inherits RzComponent<RzRadioGroupSlots>
 
 <HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
+             data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" role="radiogroup" @attributes="AdditionalAttributes" 
              id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" 
-             role="radiogroup"
+             class="@SlotClasses.GetBase()"
              aria-labelledby="@_legendId">
     <legend id="@_legendId" class="sr-only">@DisplayName</legend>
     <CascadingValue Value="ShowIndicators" Name="ShowIndicators">

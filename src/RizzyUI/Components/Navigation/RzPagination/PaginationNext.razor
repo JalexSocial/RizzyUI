@@ -2,13 +2,11 @@
 @using Blazicons
 @inherits RzComponent<PaginationNext.Slots>
 
-<HtmlElement Element="@EffectiveElement"
+<HtmlElement Element="@EffectiveElement" data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Base)" @attributes="@AdditionalAttributes"
              id="@Id"
              href="@Href"
-             @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             aria-label="@EffectiveAriaLabel"
-             data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Base)">
+             aria-label="@EffectiveAriaLabel">
     <span class="@SlotClasses.GetLabel()" data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Label)">@EffectiveLabel</span>
     <Blazicon Svg="MdiIcon.ChevronRight" class="@SlotClasses.GetIcon()" data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Icon)" aria-hidden="true" />
 </HtmlElement>

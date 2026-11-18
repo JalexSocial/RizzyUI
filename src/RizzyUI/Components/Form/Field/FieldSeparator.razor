@@ -3,10 +3,9 @@
 @inherits RzComponent<FieldSeparator.Slots>
 
 <HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
+             data-slot="field-separator" @attributes="AdditionalAttributes" 
              id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="field-separator"
+             class="@SlotClasses.GetBase()"
              data-content="@(ChildContent != null)">
     <RzSeparator class="@SlotClasses.GetSeparator()" />
     @if (ChildContent != null)

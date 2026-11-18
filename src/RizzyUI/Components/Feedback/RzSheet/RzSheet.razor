@@ -4,10 +4,9 @@
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement" 
-                 @attributes="AdditionalAttributes" 
+                 data-slot="sheet" @attributes="AdditionalAttributes" 
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
-                 data-slot="sheet"
                  x-data="rzSheet" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"

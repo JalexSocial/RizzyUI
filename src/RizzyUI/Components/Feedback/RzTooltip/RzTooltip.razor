@@ -4,7 +4,7 @@
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement"
                  id="@Id"
-                 @attributes="@AdditionalAttributes"
+                 data-slot="tooltip" @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
                  x-data="rzTooltip" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
@@ -22,8 +22,7 @@
                  data-delay-duration="@EffectiveDelayDuration"
                  data-skip-delay-duration="@EffectiveSkipDelayDuration"
                  data-disable-hoverable-content="@EffectiveDisableHoverableContent.ToString().ToLowerInvariant()"
-                 aria-label="@EffectiveAriaLabel"
-                 data-slot="tooltip">
+                 aria-label="@EffectiveAriaLabel">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

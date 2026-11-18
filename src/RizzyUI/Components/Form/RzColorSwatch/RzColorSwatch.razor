@@ -3,10 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@RootAttributes"
+             data-slot="color-swatch" role="img" @attributes="@RootAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="color-swatch"
-             role="img"
              aria-label="@EffectiveAriaLabel"
              aria-disabled="@(Disabled ? "true" : null)">
     <div data-alpine-root="@Id"

@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="data-table-selection-header-cell">
+             data-slot="data-table-selection-header-cell" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     <div class="@SlotClasses.GetContent()" data-slot="@DataTableSelectionHeaderCell.SlotNames.NameOf(SlotTypes.Content)">
         <DataTableSelectAllCheckbox Scope="@Scope" AriaLabel="@EffectiveAriaLabel" />
     </div>

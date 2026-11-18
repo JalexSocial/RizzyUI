@@ -4,10 +4,9 @@
 @using Rizzy.Components.Form
 @inherits RzComponent<RadioGroupItemSlots>
 
-<label @attributes="AdditionalAttributes"
+<label data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Base)" @attributes="AdditionalAttributes"
        id="@Id"
        class="@SlotClasses.GetBase()"
-       data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Base)"
        aria-disabled=@Disabled>
     <RzInputRadioBase TValue="TValue"
                       @ref="_elem"

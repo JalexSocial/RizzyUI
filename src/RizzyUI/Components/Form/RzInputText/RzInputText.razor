@@ -3,15 +3,12 @@
 @using Rizzy
 @inherits InputBase<string, RzInputText.Slots>
 
-<RzInputTextBase
+<RzInputTextBase type="@Role.ToString().ToLowerInvariant()" data-slot="@RzInputText.SlotNames.NameOf(SlotTypes.Base)" @attributes="InputAttributes"
     @ref="_elem"
     ValueExpression="@For"
     Value="@Value"
     DisplayName="@DisplayName"
-    type="@Role.ToString().ToLowerInvariant()"
     placeholder="@Placeholder"
-    @attributes="InputAttributes"
     class="@SlotClasses.GetBase()"
     id="@Id"
-    data-slot="@RzInputText.SlotNames.NameOf(SlotTypes.Base)"
 />

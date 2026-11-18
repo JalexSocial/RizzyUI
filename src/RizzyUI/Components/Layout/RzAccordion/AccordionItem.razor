@@ -1,10 +1,10 @@
 @namespace RizzyUI
 @inherits RzComponent<AccordionItem.Slots>
 
-<div x-data="accordionItem" x-load="@LoadStrategyOrNull" @attributes="@AdditionalAttributes" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
+<div data-slot="accordion-item" @attributes="@AdditionalAttributes" x-data="accordionItem" x-load="@LoadStrategyOrNull" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
      data-expanded-class="@SlotClasses.GetChevronIconExpanded()"
-     class="@SlotClasses.GetBase()" data-slot="accordion-item">
+     class="@SlotClasses.GetBase()">
     <h3 class="@SlotClasses.GetHeader()" data-slot="accordion-header">
         <button id="@ButtonId" type="button" class="@SlotClasses.GetButton()" aria-controls="@ContentId" aria-expanded="@((!Collapsed).ToString().ToLowerInvariant())"
                 x-on:click="toggle" x-on:keydown="handleKeydown" x-bind:aria-expanded="getAriaExpanded" data-slot="accordion-trigger">

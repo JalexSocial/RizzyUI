@@ -17,7 +17,7 @@
         </div>
 
         <HtmlElement Element="div"
-                     @attributes="AdditionalAttributes"
+                     role="@Role" data-slot="@ContentDataSlot" @attributes="AdditionalAttributes"
                      x-cloak
                      x-show="modalOpen"
                      x-transition:enter="ease-out duration-300"
@@ -28,14 +28,12 @@
                      x-transition:leave-end="opacity-0 scale-95"
                      x-trap.inert.noreturn="modalOpen"
                      x-on:click.outside="handleClickOutside"
-                     role="@Role"
                      aria-modal="@(IsModal ? "true" : null)"
                      aria-label="@AriaLabel"
                      aria-labelledby="@AriaLabelledBy"
                      aria-describedby="@AriaDescribedBy"
                      data-modal-panel="true"
                      x-ref="rzModalPanel"
-                     data-slot="@ContentDataSlot"
                      class="@ContentClass">
             @ChildContent
         </HtmlElement>

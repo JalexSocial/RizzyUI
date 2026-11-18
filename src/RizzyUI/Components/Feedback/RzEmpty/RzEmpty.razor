@@ -3,10 +3,9 @@
 @inherits RzComponent<RzEmpty.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="empty" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             data-slot="empty"
              aria-label="@EffectiveAriaLabel">
     @ChildContent
 </HtmlElement>

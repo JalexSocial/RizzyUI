@@ -4,7 +4,7 @@
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement"
-                 @attributes="@AdditionalAttributes"
+                 data-slot="navigation-menu" @attributes="@AdditionalAttributes"
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
                  aria-label="@EffectiveAriaLabel"
@@ -13,8 +13,7 @@
                  x-data="rzNavigationMenu" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  x-on:keydown="handleKeydown"
-                 x-on:keydown.escape.window="closeMenu($event)"
-                 data-slot="navigation-menu">
+                 x-on:keydown.escape.window="closeMenu($event)">
         <div class="relative" x-on:mouseleave="scheduleClose">
             @ChildContent
         </div>

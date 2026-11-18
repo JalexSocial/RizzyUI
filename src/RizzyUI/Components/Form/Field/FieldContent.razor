@@ -3,9 +3,8 @@
 @inherits RzComponent<FieldContent.Slots>
 
 <HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
+             data-slot="field-content" @attributes="AdditionalAttributes" 
              id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="field-content">
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

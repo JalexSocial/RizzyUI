@@ -3,13 +3,10 @@
 @using Blazicons
 @inherits RzComponent<BreadcrumbSeparator.Slots>
 
-<HtmlElement Element="@EffectiveElement"
-             role="presentation"
+<HtmlElement Element="@EffectiveElement" role="presentation" data-slot="breadcrumb-separator" @attributes="@AdditionalAttributes"
              aria-hidden="true"
-             @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@SlotClasses.GetBase()"
-             data-slot="breadcrumb-separator">
+             class="@SlotClasses.GetBase()">
     @if (ChildContent != null)
     {
         @ChildContent

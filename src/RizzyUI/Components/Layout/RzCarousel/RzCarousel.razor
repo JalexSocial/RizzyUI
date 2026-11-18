@@ -3,11 +3,10 @@
 @inherits RzComponent<RzCarousel.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-	<HtmlElement Element="@EffectiveElement"
-	             @attributes="@AdditionalAttributes"
+	<HtmlElement Element="@EffectiveElement" data-slot="carousel"
+	             role="region" @attributes="@AdditionalAttributes"
 	             id="@Id"
 	             class="@SlotClasses.GetBase()"
-	             role="region"
 	             aria-roledescription="carousel"
 	             aria-label="@EffectiveAriaLabel">
 		<script type="application/json" id="@Id-config">

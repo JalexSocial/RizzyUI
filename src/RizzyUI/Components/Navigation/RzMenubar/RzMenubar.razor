@@ -4,12 +4,10 @@
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement"
                  id="@Id"
-                 @attributes="@AdditionalAttributes"
+                 role="menubar" data-slot="menubar" @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
-                 role="menubar"
                  x-data="rzMenubar" x-load="@LoadStrategyOrNull"
-                 data-alpine-root="@Id"
-                 data-slot="menubar">
+                 data-alpine-root="@Id">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

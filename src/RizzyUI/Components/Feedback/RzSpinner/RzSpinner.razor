@@ -4,7 +4,7 @@
 
 @* The status role and its name are on the wrapper: on the aria-hidden svg they were never
    announced (RZUI-047). Caller attributes come last, so role and aria-label can be overridden. *@
-<HtmlElement Element="div" id="@Id" role="status" aria-label="@EffectiveAriaLabel" data-slot="spinner" @attributes="AdditionalAttributes">
+<HtmlElement Element="div" role="status" data-slot="spinner" @attributes="AdditionalAttributes" id="@Id" aria-label="@EffectiveAriaLabel">
 	<svg xmlns="http://www.w3.org/2000/svg"
 	     viewBox="0 0 24 24"
 	     aria-hidden="true"

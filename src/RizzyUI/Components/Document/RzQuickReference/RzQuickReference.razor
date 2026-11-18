@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<RzQuickReference.Slots>
 
-<nav aria-label="@EffectiveAriaLabel" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id" data-slot="quick-reference">
+<nav aria-label="@EffectiveAriaLabel" data-slot="quick-reference" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id">
     <p class="@SlotClasses.GetTitle()" data-slot="quick-reference-title">
         @EffectiveTitle
     </p>

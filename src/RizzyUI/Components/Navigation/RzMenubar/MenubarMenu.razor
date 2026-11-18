@@ -4,10 +4,9 @@
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement"
                  id="@Id"
-                 @attributes="@AdditionalAttributes"
+                 data-slot="menubar-menu" @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
-                 data-menu-value="@Value"
-                 data-slot="menubar-menu">
+                 data-menu-value="@Value">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

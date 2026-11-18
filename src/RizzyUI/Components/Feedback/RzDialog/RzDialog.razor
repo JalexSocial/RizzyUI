@@ -12,10 +12,9 @@
 		}
 	}	
 	@* Caller attributes first, so they cannot replace the component's own (RZUI-053). *@
-	<div @attributes="RootAttributes"
+	<div data-slot="dialog" @attributes="RootAttributes"
 	     x-data="rzModal" x-load="@LoadStrategyOrNull"
 	     id="@Id"
-	     data-slot="dialog"
 	     data-alpine-root="@Id"
 	     data-modal-id="@Id"
 	     data-body-id="@BodyId"

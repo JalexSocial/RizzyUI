@@ -1,6 +1,6 @@
 @namespace RizzyUI
 @inherits RzComponent<MenubarGroup.Slots>
 
-<HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="menubar-group">
+<HtmlElement Element="@EffectiveElement" id="@Id" data-slot="menubar-group" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

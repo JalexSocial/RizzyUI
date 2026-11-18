@@ -5,9 +5,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             role="menuitem" data-slot="menubar-item" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             role="menuitem"
              tabindex="-1"
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
              disabled=@(Disabled ? "disabled" : null)
@@ -15,8 +14,7 @@
              data-variant="@Variant.ToString().ToKebabCase()"
              x-on:click="handleItemClick"
              x-on:mouseenter="handleItemMouseEnter"
-             x-on:mouseleave="handleItemMouseLeave"
-             data-slot="menubar-item">
+             x-on:mouseleave="handleItemMouseLeave">
     @if (Icon is not null)
     {
         <Blazicon Svg="@Icon" class="@SlotClasses.GetIcon()" data-slot="icon" aria-hidden="true" />

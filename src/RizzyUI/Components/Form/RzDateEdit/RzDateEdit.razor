@@ -3,11 +3,10 @@
 @using Blazicons
 @inherits RzComponent<RzDateEdit.Slots>
 
-<HtmlElement Element="div"
-             @attributes="AdditionalAttributes"
+<HtmlElement Element="div" data-slot="date-edit"
+             role="group" @attributes="AdditionalAttributes"
              id="@Id"
-             class="@SlotClasses.GetBase()"
-             role="group" aria-label="Date picker">
+             class="@SlotClasses.GetBase()" aria-label="Date picker">
 	
 	<div x-data="rzDateEdit" x-load="@LoadStrategyOrNull"
 	     data-alpine-root="@Id"

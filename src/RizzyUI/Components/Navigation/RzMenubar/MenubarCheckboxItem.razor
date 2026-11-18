@@ -4,16 +4,14 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             role="menuitemcheckbox" data-slot="menubar-checkbox-item" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             role="menuitemcheckbox"
              tabindex="-1"
              aria-checked="@(Checked.ToString().ToLowerInvariant())"
              data-state="@(Checked ? "checked" : "unchecked")"
              x-on:click="toggleCheckboxItem"
              x-on:mouseenter="handleItemMouseEnter"
-             x-on:mouseleave="handleItemMouseLeave"
-             data-slot="menubar-checkbox-item">
+             x-on:mouseleave="handleItemMouseLeave">
     <span class="@SlotClasses.GetIndicator()" data-slot="menubar-item-indicator">
         <Blazicon Svg="MdiIcon.Check" aria-hidden="true" />
     </span>

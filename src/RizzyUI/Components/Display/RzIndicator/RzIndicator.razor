@@ -2,12 +2,10 @@
 @namespace RizzyUI
 @inherits RzComponent<RzIndicator.Slots>
 
-<div x-data="rzIndicator" x-load="@LoadStrategyOrNull"
-     @attributes="@AdditionalAttributes"
+<div data-slot="indicator" @attributes="@AdditionalAttributes" x-data="rzIndicator" x-load="@LoadStrategyOrNull"
      data-alpine-root="@Id"
      id="@Id"
      class="@SlotClasses.GetBase()"
-     data-slot="indicator"
      aria-label="@EffectiveAriaLabel"
      :aria-hidden="notVisible"
      x-show="visible"

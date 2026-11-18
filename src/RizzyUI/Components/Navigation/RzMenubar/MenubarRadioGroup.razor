@@ -2,7 +2,7 @@
 @inherits RzComponent<MenubarRadioGroup.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" role="group" data-radio-group="@Name" data-slot="menubar-radio-group">
+    <HtmlElement Element="@EffectiveElement" id="@Id" role="group" data-slot="menubar-radio-group" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" data-radio-group="@Name">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

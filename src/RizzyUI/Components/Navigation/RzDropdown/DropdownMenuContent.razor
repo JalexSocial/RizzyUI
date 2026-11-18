@@ -3,12 +3,11 @@
 @inherits RzComponent<DropdownMenuContent.Slots>
 
 <template x-teleport="body">
-    <div @attributes="AdditionalAttributes"
+    <div role="menu" data-slot="dropdown-menu-content" @attributes="AdditionalAttributes"
          x-ref="content"
          id="@ContentId"
          data-floating
          data-popover
-         role="menu"
          aria-labelledby="@TriggerId"
          x-show="open"
          x-cloak
@@ -25,8 +24,7 @@
          x-on:keydown.home.prevent="focusFirstItem"
          x-on:keydown.end.prevent="focusLastItem"
          x-on:keydown.tab.prevent="handleContentTabKey"
-         class="@SlotClasses.GetBase()"
-         data-slot="dropdown-menu-content">
+         class="@SlotClasses.GetBase()">
         <div class="@SlotClasses.GetInnerContainer()">
             @ChildContent
         </div>

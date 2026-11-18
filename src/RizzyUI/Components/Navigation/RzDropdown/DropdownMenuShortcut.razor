@@ -3,9 +3,8 @@
 @inherits RzComponent<DropdownMenuShortcut.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="dropdown-menu-shortcut" @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@SlotClasses.GetBase()"
-             data-slot="dropdown-menu-shortcut">
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

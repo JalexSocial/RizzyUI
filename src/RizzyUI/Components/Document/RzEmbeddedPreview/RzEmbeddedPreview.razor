@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<RzEmbeddedPreview.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
+<HtmlElement Element="@EffectiveElement" data-slot="embedded-preview" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
 	<iframe x-data="rzEmbeddedPreview" x-load="@LoadStrategyOrNull"
 	        id="@Id"
 	        data-alpine-root="@Id"

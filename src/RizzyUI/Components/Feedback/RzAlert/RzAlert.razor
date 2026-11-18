@@ -4,12 +4,9 @@
 @inherits RzComponent<RzAlert.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-	<HtmlElement Element="@EffectiveElement"
-	             role="@LiveRegionRole"
+	<HtmlElement Element="@EffectiveElement" role="@LiveRegionRole" data-slot="alert" @attributes="@AdditionalAttributes"
 	             aria-live="@AriaLivePoliteness"
-                 @attributes="@AdditionalAttributes"
                  id="@Id"
-                 data-slot="alert"
                  class="@SlotClasses.GetBase()">
 	    <div aria-atomic="true"
 	         x-data="rzAlert" x-load="@LoadStrategyOrNull" x-show="showAlert"

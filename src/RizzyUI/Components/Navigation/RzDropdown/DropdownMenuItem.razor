@@ -4,16 +4,14 @@
 @inherits RzComponent<DropdownMenuItem.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             role="menuitem" data-slot="dropdown-menu-item" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             role="menuitem"
              tabindex="-1"
              x-on:click="handleItemClick"
              x-on:mouseenter="handleItemMouseEnter"
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
-             disabled="@(Disabled ? "disabled" : null)"
-             data-slot="dropdown-menu-item">
+             disabled="@(Disabled ? "disabled" : null)">
     @if (Icon != null)
     {
         <span class="@SlotClasses.GetIcon()"><Blazicon Svg="@Icon"/></span>

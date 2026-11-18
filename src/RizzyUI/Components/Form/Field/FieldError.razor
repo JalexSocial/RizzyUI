@@ -4,12 +4,9 @@
 
 @if (Content is not null)
 {
-    <HtmlElement Element="@EffectiveElement" 
-                 role="alert" 
-                 @attributes="AdditionalAttributes" 
+    <HtmlElement Element="@EffectiveElement" role="alert" data-slot="field-error" @attributes="AdditionalAttributes" 
                  id="@Id" 
-                 class="@SlotClasses.GetBase()" 
-                 data-slot="field-error">
+                 class="@SlotClasses.GetBase()">
         @Content
     </HtmlElement>
 }

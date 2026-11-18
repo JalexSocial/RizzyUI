@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="animated-gradient-text" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             style="@StyleVariables"
-             data-slot="animated-gradient-text">
+             style="@StyleVariables">
     @ChildContent
 </HtmlElement>

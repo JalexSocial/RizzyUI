@@ -5,7 +5,7 @@
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
 	             id="@Id"
-	             @attributes="@AdditionalAttributes"
+	             data-slot="popover" @attributes="@AdditionalAttributes"
 	             class="@SlotClasses.GetBase()"
 	             x-data="rzPopover" x-load="@LoadStrategyOrNull"
 	             data-alpine-root="@Id"
@@ -18,8 +18,7 @@
 	             data-enable-flip="@EnableFlip.ToString().ToLowerInvariant()"
 	             data-enable-shift="@EnableShift.ToString().ToLowerInvariant()"
 	             data-shift-padding="@ShiftPadding"
-	             aria-label="@EffectiveAriaLabel"
-                 data-slot="popover">
+	             aria-label="@EffectiveAriaLabel">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>
