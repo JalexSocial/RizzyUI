@@ -1,10 +1,14 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace RizzyUI.Tests.Components.Form;
 
 public class RzSliderTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 {
-    public RzSliderTests(WebAppFixture fixture) : base(fixture) { }
+    private readonly WebAppFixture _fixture;
+
+    public RzSliderTests(WebAppFixture fixture) : base(fixture) => _fixture = fixture;
 
     [Fact]
     public void RzSlider_RendersRequiredSlotsAndAlpineContract()
@@ -22,6 +26,16 @@ public class RzSliderTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.NotNull(cut.Find("[data-slot='slider-range']"));
         Assert.NotNull(cut.Find("[data-slot='slider-thumb']"));
         Assert.NotNull(cut.Find("[data-slot='slider-input']"));
+    }
+
+    [Fact]
+    public void RzSlider_LoadsNoExtraScriptByDefault()
+    {
+        // RZUI-030: the default asset was rizzyui.js itself, injected again as a classic script.
+        Assert.Empty(new RzSlider().ComponentAssetKeys);
+
+        var config = _fixture.Host.Services.GetRequiredService<IOptions<RizzyUIConfig>>().Value;
+        Assert.DoesNotContain(config.AssetUrls.Values, url => url.EndsWith("/js/rizzyui.js", StringComparison.Ordinal));
     }
 
     [Fact]

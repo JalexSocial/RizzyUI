@@ -111,7 +111,6 @@ public static class ServiceCollectionExtensions
 
             config.AssetUrls.TryAdd("HighlightJsCore", Constants.ContentUrl("vendor/highlightjs/highlight.js"));
             config.AssetUrls.TryAdd("HighlightJsRazor", Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js"));
-            config.AssetUrls.TryAdd("SliderScript", Constants.ContentUrl("js/rizzyui.js"));
         });
 
         // --- Localization Setup ---
