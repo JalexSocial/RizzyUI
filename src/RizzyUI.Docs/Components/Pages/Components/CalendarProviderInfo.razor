@@ -51,7 +51,7 @@
                     By wrapping an <code>RzCalendar</code> in a provider, you can access the selected date reactively using Alpine.js (<code>x-text="date"</code>). This allows you to display selection feedback instantly.
                 </RzParagraph>
 
-                <RzCard class="w-fit mx-auto mb-6">
+                <RzCard class="w-fit max-w-full overflow-x-auto mx-auto mb-6">
                     <CardHeader><CardTitle>Single Date</CardTitle></CardHeader>
                     <CardContent class="flex flex-col items-center gap-4">
                         <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1">
@@ -84,7 +84,7 @@
                     The provider exposes a public JavaScript API (<code>setToday()</code>, <code>addDays(n)</code>, <code>clear()</code>) that external buttons can call directly within the provider's scope.
                 </RzParagraph>
 
-                <RzCard class="w-fit mx-auto mb-6">
+                <RzCard class="w-fit max-w-full overflow-x-auto mx-auto mb-6">
                      <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1">
                          <div class="flex flex-col lg:flex-row">
                              <div class="flex flex-col gap-2 p-3 lg:border-r">
@@ -204,7 +204,7 @@
                     This example simulates a data fetch using client-side logic to update an event list instantly.
                 </RzParagraph>
 
-                <RzCard class="w-[350px] mx-auto mb-6">
+                <RzCard class="w-[350px] max-w-full overflow-x-auto mx-auto mb-6">
                     <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
                                         FormatOptions="@(new IntlDateTimeFormatOptions { Weekday = TextWidth.Long, Month = MonthStyle.Long, Day = Numeric2Digit.Numeric })">
                         <CardContent class="p-0">
@@ -261,7 +261,7 @@
                 <RzParagraph>
                     The following table summarizes the key parameters for <code>RzCalendarProvider</code>.
                 </RzParagraph>
-                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                <div class="not-prose mt-6 mb-10 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>
@@ -294,7 +294,7 @@
                 <RzParagraph>
                     <code>RzCalendarProvider</code> uses the <code>rzCalendarProvider</code> Alpine <code>x-data</code> component.
                 </RzParagraph>
-                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                <div class="not-prose mt-6 mb-10 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>

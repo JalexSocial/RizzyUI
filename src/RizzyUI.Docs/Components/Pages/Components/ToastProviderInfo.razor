@@ -677,7 +677,7 @@ for (let index = 1; index &lt;= 7; index += 1) {
         new("Styles look wrong or missing", "Classes come from the provider’s server-generated class map and Theme.RzToastProvider. Make sure the provider renders and the Tailwind build includes RizzyUI descriptor classes.")
     ];
 
-    private static RenderFragment RenderTable(IReadOnlyList<TableRow> rows, string firstHeader, string secondHeader, string thirdHeader, string fourthHeader) => @<div class="not-prose mt-4 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+    private static RenderFragment RenderTable(IReadOnlyList<TableRow> rows, string firstHeader, string secondHeader, string thirdHeader, string fourthHeader) => @<div class="not-prose mt-4 mb-10 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
         <table class="w-full text-sm">
             <thead class="bg-zinc-100/75 text-left font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                 <tr>
