@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -73,6 +74,50 @@ public class Phase3CorrectnessTests : BunitAlbaContext, IClassFixture<WebAppFixt
         Assert.StartsWith("first-tab-", spaced);
         Assert.NotEqual(hyphenated, spaced);
         Assert.Equal(spaced, RzTabs.IdSegment("first tab"));
+    }
+
+    private sealed class LabelModel
+    {
+        public string Fruit { get; set; } = "";
+        public string Code { get; set; } = "";
+    }
+
+    private IRenderedComponent<CascadingValue<Microsoft.AspNetCore.Http.HttpContext>> RenderInField(RenderFragment content)
+    {
+        var model = new LabelModel();
+        return Render<CascadingValue<Microsoft.AspNetCore.Http.HttpContext>>(http => http
+            .Add(p => p.Value, HttpContext)
+            .AddChildContent<CascadingValue<Microsoft.AspNetCore.Components.Forms.EditContext>>(edit => edit
+                .Add(p => p.Value, new Microsoft.AspNetCore.Components.Forms.EditContext(model))
+                .Add(p => p.ChildContent, content)));
+    }
+
+    [Fact]
+    public void FieldLabel_NamesTheComboboxSelectAndTheOtpInput()
+    {
+        // The combobox select and the OTP input carried ids no label could target; now they take the
+        // field id, so FieldLabel For points at them (in either order).
+        var model = new LabelModel();
+        var cut = RenderInField(b =>
+        {
+            b.OpenComponent<FieldLabel<string>>(0);
+            b.AddComponentParameter(1, "For", (System.Linq.Expressions.Expression<Func<string>>)(() => model.Fruit));
+            b.CloseComponent();
+            b.OpenComponent<RzCombobox<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem, string>>(2);
+            b.AddComponentParameter(3, "For", (System.Linq.Expressions.Expression<Func<string>>)(() => model.Fruit));
+            b.CloseComponent();
+            b.OpenComponent<RzInputOTP>(4);
+            b.AddComponentParameter(5, "For", (System.Linq.Expressions.Expression<Func<string>>)(() => model.Code));
+            b.CloseComponent();
+            b.OpenComponent<FieldLabel<string>>(6);
+            b.AddComponentParameter(7, "For", (System.Linq.Expressions.Expression<Func<string>>)(() => model.Code));
+            b.CloseComponent();
+        });
+
+        var labels = cut.FindAll("label[for]");
+        Assert.Equal(cut.Find("select").Id, labels[0].GetAttribute("for"));
+        Assert.Equal(cut.Find("input[data-otp-input='true']").Id, labels[^1].GetAttribute("for"));
+        Assert.Null(cut.Find("input[data-otp-input='true']").GetAttribute("aria-label"));
     }
 
     private sealed class ListLogger<T> : ILogger<T>

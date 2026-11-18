@@ -26,6 +26,10 @@ Finding IDs (RZUI-0xx) refer to the
   `ItemDataSelector` parameter, for example
   `ItemDataSelector="@(u => new { u.Name, u.Email, u.Photo })"` (property names become camelCase,
   as before). (RZUI-033)
+- **`RzSwitch` and `RzInputOTP` no longer set a default `aria-label`.** The default ("Toggle",
+  "One-time password") replaced the name a `<label>` or `FieldLabel` gave the control, so screen
+  readers announced the generic text instead of the field's name. Label them with `FieldLabel For`
+  (or a `<label for>`); a control with no visible label needs `aria-label` passed explicitly.
 
 ### Added
 
@@ -111,6 +115,15 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzTabs` values with spaces or other characters that are invalid in an HTML id (for example
   `Value="first tab"`) produce valid ids, so `aria-controls`/`aria-labelledby` work. Values made of
   letters, digits, `-` and `_` keep their current ids. (RZUI-049)
+- `FieldLabel For` names `RzCombobox` and `RzInputOTP`. Their inputs had ids no label could target;
+  they now use the form field's id, like the other inputs. The combobox's hidden native `<select>`
+  is hidden from assistive technology once the widget starts, so it no longer shows as a second,
+  unnamed combobox.
+- Subtle success, warning and information toasts show their title and text in the foreground color
+  (the status color stays on the icon). The status-colored text measured 2.9:1 on the tinted
+  background, below WCAG AA.
+- RZUI-015 (attribute values in Alpine data written with only one kind of quote escaped) is resolved:
+  both quote characters are escaped.
 
 ### Removed
 

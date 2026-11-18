@@ -32,8 +32,6 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     private string? _fieldSelectId;
     private string SelectId => _fieldSelectId ?? $"{Id}-select";
 
-    [CascadingParameter] private HttpContext? HttpContext { get; set; }
-
     private string _serializedConfig = "{}";
     private string _assets = "[]";
     private ComboboxOptions _effectiveOptions = new();
@@ -136,8 +134,8 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     {
         base.OnParametersSet();
 
-        if (HttpContext != null && CurrentEditContext != null && For != null)
-            _fieldSelectId = HttpContext.GetOrReserveFieldId(CurrentEditContext, FieldIdentifier.Create(For));
+        if (CurrentHttpContext != null && CurrentEditContext != null && For != null)
+            _fieldSelectId = CurrentHttpContext.GetOrReserveFieldId(CurrentEditContext, FieldIdentifier.Create(For));
 
         if (_isSelectListItem)
         {

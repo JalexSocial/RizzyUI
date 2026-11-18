@@ -2855,6 +2855,9 @@
   .\!text-destructive-foreground {
     color: var(--destructive-foreground) !important;
   }
+  .\!text-foreground {
+    color: var(--foreground) !important;
+  }
   .\!text-info-foreground {
     color: var(--info-foreground) !important;
   }

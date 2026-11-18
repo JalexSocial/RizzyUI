@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Rizzy;
 using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
 using System.Text.Json;
@@ -132,7 +133,9 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     private bool IsInvalid => Invalid ?? (For is not null && EditContext?.GetValidationMessages(_fieldIdentifier).Any() == true);
 
-    internal string InputId => $"{Id}-input";
+    // In a form field the input carries the field's id, so a FieldLabel (before or after it) names it.
+    private string? _fieldInputId;
+    internal string InputId => _fieldInputId ?? $"{Id}-input";
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -170,8 +173,12 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     private void UpdateFieldIdentifier()
     {
-        if (For is not null)
-            _fieldIdentifier = FieldIdentifier.Create(For);
+        if (For is null)
+            return;
+
+        _fieldIdentifier = FieldIdentifier.Create(For);
+        if (CurrentHttpContext is not null && EditContext is not null)
+            _fieldInputId = CurrentHttpContext.GetOrReserveFieldId(EditContext, _fieldIdentifier);
     }
 
     internal bool GetInvalidValue() => IsInvalid;

@@ -1,4 +1,4 @@
-import { t as bootstrapRizzyUI } from "./chunks/bootstrap-DLlSPcsE.js";
+import { t as bootstrapRizzyUI } from "./chunks/bootstrap-BT2TvBdw.js";
 // node_modules/@alpinejs/csp/dist/module.esm.js
 var flushPending = false;
 var flushing = false;

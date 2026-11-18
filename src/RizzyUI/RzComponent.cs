@@ -38,6 +38,13 @@ public abstract partial class RzComponent : ComponentBase
     protected PathString RequestPathBase => RequestHttpContext?.Request.PathBase ?? PathString.Empty;
 
     /// <summary>
+    /// Gets the current request, or <c>null</c> when the component renders outside one. Derived
+    /// components use this instead of declaring their own cascading <see cref="HttpContext"/>
+    /// parameter: Blazor rejects two parameters with the same name in one class hierarchy.
+    /// </summary>
+    protected HttpContext? CurrentHttpContext => RequestHttpContext;
+
+    /// <summary>
     /// Injected configuration options for RizzyUI. Used primarily to access the default theme
     /// if no theme is provided via the cascading parameter.
     /// </summary>

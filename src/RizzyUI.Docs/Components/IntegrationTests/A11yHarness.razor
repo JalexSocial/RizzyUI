@@ -312,8 +312,9 @@
             break;
 
         case "input-otp":
-            <label id="otp-label" class="block">Verification code</label>
-            <RzInputOTP Length="6" Name="VerificationCode" aria-labelledby="otp-label">
+            <EditForm Model="_model" FormName="harness-otp">
+            <FieldLabel For="@(() => _model.VerificationCode)">Verification code</FieldLabel>
+            <RzInputOTP Length="6" Name="VerificationCode" For="@(() => _model.VerificationCode)">
                 <InputOTPGroup>
                     @for (var i = 0; i < 6; i++)
                     {
@@ -322,6 +323,7 @@
                     }
                 </InputOTPGroup>
             </RzInputOTP>
+            </EditForm>
             break;
 
         case "switch":
@@ -363,7 +365,8 @@
             break;
 
         case "back-to-top":
-            <div style="height: 3000px">Long content</div>
+            @* A class, not style="": the CSP-mode policy blocks inline style attributes. *@
+            <div class="h-[3000px]">Long content</div>
             <RzBackToTop />
             break;
 
@@ -414,5 +417,6 @@
         public string Fruit { get; set; } = "";
         public bool AirplaneMode { get; set; }
         public List<string> Notifications { get; set; } = ["email"];
+        public string VerificationCode { get; set; } = "";
     }
 }
