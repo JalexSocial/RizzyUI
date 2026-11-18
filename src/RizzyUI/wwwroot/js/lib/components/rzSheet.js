@@ -1,4 +1,5 @@
 import { createFocusScope } from '../../runtime/a11y/focusScope.js';
+import { removeMissingReferences } from '../../runtime/a11y/triggerReference.js';
 import { registerDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
 
 export default function rzSheet() {
@@ -29,6 +30,8 @@ export default function rzSheet() {
             // Alpine caches the $refs proxy on first access, so reading $refs here would cache an
             // empty set. Defer the initial lookup until the teleported content is initialized.
             this.$nextTick(() => {
+                // A closed panel is in the DOM too, so fix its references as soon as it exists.
+                removeMissingReferences(this.getPanel());
                 this.applyClosedState(!this.open);
                 if (this.open) {
                     this.registerInteractions();
@@ -41,6 +44,8 @@ export default function rzSheet() {
             if (!panel) {
                 return;
             }
+
+            removeMissingReferences(panel);
 
             if (!this.unregisterLayer) {
                 this.unregisterLayer = registerDismissableLayer({

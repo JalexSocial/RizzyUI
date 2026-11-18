@@ -56,6 +56,25 @@ public class Phase3CorrectnessTests : BunitAlbaContext, IClassFixture<WebAppFixt
         Assert.Contains(logger.Entries, e => e.Level == LogLevel.Debug && e.Message.Contains("non-htmx request"));
     }
 
+    [Theory]
+    [InlineData("account", "account")]
+    [InlineData("billing_2", "billing_2")]
+    public void TabIdSegment_KeepsSafeValues(string value, string expected) =>
+        Assert.Equal(expected, RzTabs.IdSegment(value));
+
+    [Fact]
+    public void TabIdSegment_MakesUnsafeValuesValidAndDistinct()
+    {
+        // RZUI-049: a space in a tab value split aria-controls into two ID references.
+        var spaced = RzTabs.IdSegment("first tab");
+        var hyphenated = RzTabs.IdSegment("first-tab");
+
+        Assert.Matches("^[A-Za-z0-9_-]+$", spaced);
+        Assert.StartsWith("first-tab-", spaced);
+        Assert.NotEqual(hyphenated, spaced);
+        Assert.Equal(spaced, RzTabs.IdSegment("first tab"));
+    }
+
     private sealed class ListLogger<T> : ILogger<T>
     {
         public List<(LogLevel Level, string Message)> Entries { get; } = new();

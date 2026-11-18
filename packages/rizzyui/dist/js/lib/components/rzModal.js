@@ -40,6 +40,14 @@ export default function rzModal() {
             };
             window.addEventListener(this.closeEventName, this._closeEventListener);
 
+            // The closed panel is in the DOM as well (teleported to <body>), so fix its ARIA
+            // references once it exists instead of only on open (RZUI-048). $refs of teleported
+            // content are available after this init(), hence $nextTick.
+            this.$nextTick(() => {
+                const dialogElement = this._resolveDialogElement();
+                if (dialogElement) this._ensureAriaRelationships(dialogElement);
+            });
+
             this.$watch('modalOpen', (value) => {
                 const currentWidth = document.body.offsetWidth;
                 document.body.classList.toggle('overflow-hidden', value);

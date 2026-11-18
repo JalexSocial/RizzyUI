@@ -373,5 +373,35 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect(carousel.getByRole('button', { name: /next/i })).toBeVisible();
       expect(errors).toEqual([]);
     });
+
+    test('dialog and sheet without a title: named by aria-label, no dangling references (RZUI-048)', async ({ page }) => {
+      const errors = await open(page, 'untitled-overlays');
+
+      await page.locator('#untitled-dialog-trigger').click();
+      const dialog = page.getByRole('dialog', { name: 'Quick settings' });
+      await expect(dialog).toBeVisible();
+      await expectNoDanglingAriaReferences(page);
+      await expectNoAxeViolations(page);
+      await page.keyboard.press('Escape');
+      await expect(dialog).toBeHidden();
+
+      await page.locator('#untitled-sheet-trigger').click();
+      const sheet = page.getByRole('dialog', { name: 'Filters' });
+      await expect(sheet).toBeVisible();
+      await expectNoDanglingAriaReferences(page);
+      await expectNoAxeViolations(page);
+      expect(errors).toEqual([]);
+    });
+
+    test('tabs with spaces in their values keep valid id references (RZUI-049)', async ({ page }) => {
+      const errors = await open(page, 'tabs-spaced-values');
+      await expectNoDanglingAriaReferences(page);
+      await expectNoAxeViolations(page);
+
+      const second = page.getByRole('tab', { name: 'Second' });
+      await second.click();
+      await expect(page.getByRole('tabpanel', { name: 'Second' })).toBeVisible();
+      expect(errors).toEqual([]);
+    });
   });
 }

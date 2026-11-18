@@ -231,6 +231,38 @@
             </RzCarousel>
             break;
 
+        case "untitled-overlays":
+            @* RZUI-048: no DialogTitle/DialogDescription; the content is named with aria-label instead. *@
+            <RzDialog>
+                <DialogTrigger AsChild>
+                    <RzButton id="untitled-dialog-trigger">Open untitled dialog</RzButton>
+                </DialogTrigger>
+                <DialogContent AriaLabel="Quick settings">
+                    <div class="p-6"><p>Dialog without a title.</p></div>
+                </DialogContent>
+            </RzDialog>
+            <RzSheet>
+                <SheetTrigger AsChild>
+                    <RzButton id="untitled-sheet-trigger">Open untitled sheet</RzButton>
+                </SheetTrigger>
+                <SheetContent AriaLabel="Filters">
+                    <div class="p-6"><p>Sheet without a title.</p></div>
+                </SheetContent>
+            </RzSheet>
+            break;
+
+        case "tabs-spaced-values":
+            @* RZUI-049: values with spaces must still produce valid id references. *@
+            <RzTabs DefaultValue="first tab">
+                <TabsList>
+                    <TabsTrigger Value="first tab">First</TabsTrigger>
+                    <TabsTrigger Value="second tab">Second</TabsTrigger>
+                </TabsList>
+                <TabsContent Value="first tab">First panel</TabsContent>
+                <TabsContent Value="second tab">Second panel</TabsContent>
+            </RzTabs>
+            break;
+
         default:
             <p id="unknown-family">Unknown family.</p>
             break;

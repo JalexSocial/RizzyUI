@@ -99,6 +99,11 @@ Finding IDs (RZUI-0xx) refer to the
   Escape and choosing an item return focus to the menu's trigger.
 - `RzCommand` points `aria-activedescendant` at the rendered option (`role="option"`), not at the
   item's hidden source element.
+- Dialogs, alert dialogs and sheets without a title or description no longer reference missing
+  elements in `aria-labelledby`/`aria-describedby`, also while closed. (RZUI-048)
+- `RzTabs` values with spaces or other characters that are invalid in an HTML id (for example
+  `Value="first tab"`) produce valid ids, so `aria-controls`/`aria-labelledby` work. Values made of
+  letters, digits, `-` and `_` keep their current ids. (RZUI-049)
 
 ### Removed
 

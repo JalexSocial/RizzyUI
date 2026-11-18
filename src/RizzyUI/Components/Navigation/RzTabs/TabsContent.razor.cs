@@ -34,12 +34,12 @@ public partial class TabsContent : RzComponent<TabsContent.Slots>
     /// <summary>
     /// Gets the unique ID for the trigger element associated with this content.
     /// </summary>
-    protected string TriggerId => $"{ParentTabs?.Id}-{Value}-trigger";
+    protected string TriggerId => $"{ParentTabs?.Id}-{RzTabs.IdSegment(Value)}-trigger";
 
     /// <summary>
     /// Gets the unique ID for the content element.
     /// </summary>
-    protected string ContentId => $"{ParentTabs?.Id}-{Value}-content";
+    protected string ContentId => $"{ParentTabs?.Id}-{RzTabs.IdSegment(Value)}-content";
 
     /// <inheritdoc />
     protected override void OnInitialized()

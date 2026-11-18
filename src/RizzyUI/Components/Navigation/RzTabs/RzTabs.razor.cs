@@ -44,4 +44,40 @@ public partial class RzTabs : RzComponent<RzTabs.Slots>
         [Slot("tabs")]
         public string? Base { get; set; }
     }
+
+    /// <summary>
+    /// Turns a tab value into a segment that is safe inside an HTML id and an ID reference list
+    /// (RZUI-049). Values made of letters, digits, '-' and '_' are used as they are; any other
+    /// character becomes '-', followed by a short hash of the original value so that different
+    /// values cannot produce the same id.
+    /// </summary>
+    internal static string IdSegment(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return "tab";
+
+        var safe = true;
+        foreach (var c in value)
+        {
+            if (!char.IsAsciiLetterOrDigit(c) && c != '-' && c != '_')
+            {
+                safe = false;
+                break;
+            }
+        }
+
+        if (safe)
+            return value;
+
+        var builder = new System.Text.StringBuilder(value.Length + 9);
+        foreach (var c in value)
+            builder.Append(char.IsAsciiLetterOrDigit(c) || c == '-' || c == '_' ? c : '-');
+
+        // FNV-1a: stable across processes (string.GetHashCode is randomized per process).
+        var hash = 2166136261u;
+        foreach (var c in value)
+            hash = (hash ^ c) * 16777619u;
+
+        return builder.Append('-').Append(hash.ToString("x8", System.Globalization.CultureInfo.InvariantCulture)).ToString();
+    }
 }
