@@ -5,9 +5,12 @@ import path from 'node:path';
 import { promises as fs } from 'node:fs';
 import { runInventoryCheck } from '../check-accessibility-inventory.mjs';
 
-async function mk(filePath) {
+// Test files get an accessibility assertion by default: the checker only counts a matching test
+// file that asserts ARIA, roles, focus or keyboard behavior.
+async function mk(filePath, content) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, '');
+  const isTest = /Tests\.cs$|\.a11y\.spec\.(ts|js)$/.test(filePath);
+  await fs.writeFile(filePath, content ?? (isTest ? 'Assert.Equal("dialog", el.GetAttribute("role"));' : ''));
 }
 
 function options(root, overrides = {}) {
@@ -101,4 +104,29 @@ test('matches family docs and tests for components with shared documentation pag
   assert.equal(report[0].component, 'RzDropdownMenu');
   assert.equal(report[0].hasDoc, true);
   assert.equal(report[0].hasTest, true);
+});
+
+test('a matching test file that asserts nothing about accessibility does not count (RZUI-043)', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'rz-a11y-'));
+
+  await mk(path.join(root, 'src/RizzyUI/Components/Form/RzGood/RzGood.razor'));
+  await mk(path.join(root, 'src/RizzyUI.Docs/Components/Pages/Components/GoodInfo.razor'));
+  await mk(path.join(root, 'src/RizzyUI.Tests/Components/Form/RzGoodTests.cs'), 'Assert.NotNull(cut.Find("div"));');
+
+  const [row] = await runInventoryCheck(options(root, { contractDirectories: ['Form/RzGood'] }));
+
+  assert.equal(row.hasTest, false);
+});
+
+test('a sub-component rendered on its family docs page counts as documented', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'rz-a11y-'));
+
+  await mk(path.join(root, 'src/RizzyUI/Components/Form/RzCheckboxGroup/RzInputCheckbox.razor'));
+  await mk(path.join(root, 'src/RizzyUI.Docs/Components/Pages/Components/CheckboxInfo.razor'), '<RzInputCheckbox For="@(() => model.Accept)" />');
+  await mk(path.join(root, 'src/RizzyUI.Tests/Components/Form/RzInputCheckboxTests.cs'));
+
+  const [row] = await runInventoryCheck(options(root, { contractDirectories: ['Form/RzCheckboxGroup'] }));
+
+  assert.equal(row.hasDoc, true);
+  assert.equal(row.hasTest, true);
 });
