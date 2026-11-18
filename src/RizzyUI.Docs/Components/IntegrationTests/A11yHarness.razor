@@ -1,0 +1,145 @@
+@page "/_tests/a11y/{Family}"
+@layout HarnessLayout
+@* Real RizzyUI components for the accessibility specs in tests/integration/*.a11y.spec.ts (RM-4.1).
+   One component family per URL, rendered at the top level of the page (no preview iframe). Mapped
+   only with Docs:EnableTestPages=true; outside Components/Pages, so the static site never has it. *@
+
+<PageTitle>A11y harness: @Family</PageTitle>
+
+<div class="space-y-8 p-6" id="harness" data-family="@Family">
+    <h1 class="text-2xl font-semibold">Accessibility harness: @Family</h1>
+
+    @switch (Family)
+    {
+        case "dialog":
+            <RzDialog>
+                <DialogTrigger AsChild>
+                    <RzButton id="dialog-trigger">Open Account Preferences</RzButton>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Account Preferences</DialogTitle>
+                        <DialogDescription>Update your account preferences and close when finished.</DialogDescription>
+                    </DialogHeader>
+                    <div class="grid gap-3 p-6">
+                        <label for="dialog-input">Display name</label>
+                        <input id="dialog-input" type="text" class="border rounded-md px-2 py-1" />
+                        <RzButton id="dialog-secondary">Secondary action</RzButton>
+                    </div>
+                </DialogContent>
+            </RzDialog>
+            break;
+
+        case "alert-dialog":
+            <RzAlertDialog>
+                <AlertDialogTrigger AsChild>
+                    <RzButton id="alert-dialog-trigger" Variant="ThemeVariant.Destructive">Delete Project</RzButton>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction>Yes, delete project</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </RzAlertDialog>
+            break;
+
+        case "sheet":
+            <RzSheet>
+                <SheetTrigger AsChild>
+                    <RzButton id="sheet-trigger">Open Sheet</RzButton>
+                </SheetTrigger>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>Edit Profile</SheetTitle>
+                        <SheetDescription>Make changes to your profile here.</SheetDescription>
+                    </SheetHeader>
+                    <div class="grid gap-3 p-6">
+                        <label for="sheet-name">Name</label>
+                        <input id="sheet-name" type="text" class="border rounded-md px-2 py-1" />
+                    </div>
+                </SheetContent>
+            </RzSheet>
+            break;
+
+        case "popover":
+            <RzPopover>
+                <PopoverTrigger AsChild>
+                    <RzButton id="popover-trigger">Open Popover</RzButton>
+                </PopoverTrigger>
+                <PopoverContent>
+                    <div class="grid gap-2">
+                        <h4 class="font-medium">Dimensions</h4>
+                        <label for="popover-width">Width</label>
+                        <input id="popover-width" type="text" class="border rounded-md px-2 py-1" />
+                    </div>
+                </PopoverContent>
+            </RzPopover>
+            break;
+
+        case "dropdown-menu":
+            <RzDropdownMenu>
+                <DropdownMenuTrigger AsChild>
+                    <RzButton id="dropdown-trigger">Open Menu</RzButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                </DropdownMenuContent>
+            </RzDropdownMenu>
+            break;
+
+        case "tabs":
+            <RzTabs DefaultValue="account">
+                <TabsList>
+                    <TabsTrigger Value="account">Account</TabsTrigger>
+                    <TabsTrigger Value="password">Password</TabsTrigger>
+                    <TabsTrigger Value="billing">Billing</TabsTrigger>
+                </TabsList>
+                <TabsContent Value="account">Account settings</TabsContent>
+                <TabsContent Value="password">Password settings</TabsContent>
+                <TabsContent Value="billing">Billing settings</TabsContent>
+            </RzTabs>
+            break;
+
+        case "tooltip":
+            <RzTooltip>
+                <TooltipTrigger AsChild>
+                    <RzButton id="tooltip-trigger">Save</RzButton>
+                </TooltipTrigger>
+                <TooltipContent>Save your current changes.</TooltipContent>
+            </RzTooltip>
+            break;
+
+        case "accordion":
+            @* AccordionTrigger renders an h3, so the page provides the h2 above it. *@
+            <h2 class="text-lg font-medium">Frequently asked questions</h2>
+            <RzAccordion Type="AccordionType.Single">
+                <AccordionItem>
+                    <AccordionTrigger>What browsers are supported?</AccordionTrigger>
+                    <AccordionContent>The latest Chrome, Firefox, Safari and Edge.</AccordionContent>
+                </AccordionItem>
+                <AccordionItem>
+                    <AccordionTrigger>How can I contact support?</AccordionTrigger>
+                    <AccordionContent>Email support at any time.</AccordionContent>
+                </AccordionItem>
+            </RzAccordion>
+            break;
+
+        default:
+            <p id="unknown-family">Unknown family.</p>
+            break;
+    }
+
+    @* Something focusable after the component, for Tab-order checks. *@
+    <button id="after-component" type="button" class="border rounded-md px-2 py-1">After the component</button>
+</div>
+
+@code {
+    [Parameter] public string Family { get; set; } = "";
+}

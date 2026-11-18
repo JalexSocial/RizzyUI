@@ -2,6 +2,9 @@ import type { Page } from '@playwright/test';
 
 // Shared helpers for the integration specs (real docs app, real RizzyUI components).
 
+// Third-party resources the docs site itself loads (fonts, DocSearch); not part of RizzyUI.
+const docsSiteThirdParty = /fonts\.googleapis\.com|cdn\.jsdelivr\.net\/npm\/@docsearch\//;
+
 /**
  * Collects uncaught page errors, console errors and failed responses. Failed resource loads are
  * reported by the response listener with their path. Responses the docs site expects to fail are
@@ -12,6 +15,9 @@ export function collectPageErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(`pageerror: ${error.message}`));
   page.on('console', message => {
+    // In CSP mode the docs site's own fonts and search stylesheet violate its connect-src; that is
+    // docs-site configuration, not RizzyUI.
+    if (message.type() === 'error' && /Content Security Policy/.test(message.text()) && docsSiteThirdParty.test(message.text())) return;
     if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) {
       errors.push(`console.error: ${message.text()}`);
     }
