@@ -64,6 +64,12 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     protected bool IsInvalid => EditContext?.GetValidationMessages(_fieldIdentifier).Any() ?? false;
 
     /// <summary>
+    /// Gets the cascaded <see cref="Microsoft.AspNetCore.Components.Forms.EditContext"/> the input
+    /// belongs to, or <c>null</c> outside a form.
+    /// </summary>
+    protected EditContext? CurrentEditContext => EditContext;
+
+    /// <summary>
     /// Gets the input attributes merged with validation accessibility attributes.
     /// </summary>
     protected Dictionary<string, object?> InputAttributes

@@ -10,8 +10,9 @@ namespace RizzyUI;
 public partial class RzSwitch : InputBase<bool, RzSwitchSlots>, IHasRzSwitchStylingProperties
 {
     /// <summary>
-    /// Gets or sets the accessible label for the switch.
-    /// If not set, a default localized label will be applied.
+    /// Gets or sets an accessible label for a switch that has no visible label. Prefer a visible
+    /// label (<c>FieldLabel</c> or <c>&lt;label for&gt;</c>): an <c>aria-label</c> replaces it for
+    /// screen readers, which is why none is rendered by default.
     /// </summary>
     [Parameter]
     public string? AriaLabel { get; set; }
@@ -20,14 +21,12 @@ public partial class RzSwitch : InputBase<bool, RzSwitchSlots>, IHasRzSwitchStyl
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AriaLabel ??= Localizer["RzSwitch.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzSwitch.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>

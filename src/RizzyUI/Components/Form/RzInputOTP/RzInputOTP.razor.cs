@@ -111,7 +111,9 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     public bool? Invalid { get; set; }
 
     /// <summary>
-    /// Gets or sets the input aria-label.
+    /// Gets or sets an accessible label for an input that has no visible label. Prefer a visible
+    /// label (<c>FieldLabel</c>, <c>&lt;label for&gt;</c> or <c>aria-labelledby</c>): an
+    /// <c>aria-label</c> replaces it for screen readers, which is why none is rendered by default.
     /// </summary>
     [Parameter]
     public string? AriaLabel { get; set; }
@@ -136,7 +138,6 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AriaLabel ??= Localizer["RzInputOTP.DefaultAriaLabel"];
         SetElementDefault();
         UpdateFieldIdentifier();
         UpdateAssets();
@@ -146,7 +147,6 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzInputOTP.DefaultAriaLabel"];
         SetElementDefault();
         UpdateFieldIdentifier();
         UpdateAssets();

@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Rizzy;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -25,7 +27,12 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     [Inject] private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
 
     private string ConfigScriptId => $"{Id}-config";
-    private string SelectId => $"{Id}-select";
+    // The native <select> carries the field's id when the combobox is in a form field, so a
+    // FieldLabel (before or after it) points at it and Tom Select names its control from that label.
+    private string? _fieldSelectId;
+    private string SelectId => _fieldSelectId ?? $"{Id}-select";
+
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
 
     private string _serializedConfig = "{}";
     private string _assets = "[]";
@@ -128,6 +135,9 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
+        if (HttpContext != null && CurrentEditContext != null && For != null)
+            _fieldSelectId = HttpContext.GetOrReserveFieldId(CurrentEditContext, FieldIdentifier.Create(For));
 
         if (_isSelectListItem)
         {

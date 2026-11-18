@@ -403,5 +403,140 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect(page.getByRole('tabpanel', { name: 'Second' })).toBeVisible();
       expect(errors).toEqual([]);
     });
+
+    test('combobox: named combobox that opens a listbox and selects with the keyboard', async ({ page }) => {
+      const errors = await open(page, 'combobox');
+      const combobox = page.getByRole('combobox', { name: 'Fruit' });
+      await expect(combobox).toBeVisible();
+      await expectNoAxeViolations(page);
+
+      await combobox.focus();
+      await page.keyboard.press('ArrowDown');
+      const listbox = page.getByRole('listbox');
+      await expect(listbox).toBeVisible();
+      await expect(listbox.getByRole('option', { name: 'Cherry' })).toBeVisible();
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+      await expect.poll(() => page.locator('select[name]').first().inputValue()).not.toBe('banana');
+      await expectNoDanglingAriaReferences(page);
+      expect(errors).toEqual([]);
+    });
+
+    test('data table: captioned table with column headers and rows', async ({ page }) => {
+      // The table's row and cell templates are inline Alpine expressions, which the CSP build does
+      // not run (documented on the DataTable page); the CSP variant is not applicable.
+      test.skip(variant === 'CSP build', 'DataTable templates use inline Alpine expressions (standard runtime only).');
+      const errors = await open(page, 'data-table');
+      const table = page.getByRole('table', { name: 'Team members' });
+      await expect(table).toBeVisible();
+      await expect(table.getByRole('columnheader', { name: 'Name' })).toBeVisible();
+      await expect(table.getByRole('columnheader', { name: 'Email' })).toBeVisible();
+      await expect(table.getByRole('row')).toHaveCount(4);
+      await expect(table.getByRole('cell', { name: 'Grace Hopper' })).toBeVisible();
+      await expectNoAxeViolations(page);
+      expect(errors).toEqual([]);
+    });
+
+    test('toast: a server toast is a named live region with a named close button', async ({ page }) => {
+      const errors = await open(page, 'toast');
+      await expectNoAxeViolations(page);
+
+      await page.locator('#toast-success').click();
+      const toast = page.locator('[data-rz-toast-item]').first();
+      await expect(toast).toBeVisible();
+      await expect(toast).toContainText('Sent from the server.');
+      const live = await toast.evaluate(el => ({ role: el.getAttribute('role'), live: el.getAttribute('aria-live') }));
+      expect(['status', 'alert']).toContain(live.role);
+      expect(['polite', 'assertive']).toContain(live.live);
+      await expect(toast.getByRole('button')).toHaveAccessibleName(/.+/);
+      await expectNoDanglingAriaReferences(page);
+      await expectNoAxeViolations(page);
+      expect(errors).toEqual([]);
+    });
+
+    test('file input: the file control is keyboard reachable and named', async ({ page }) => {
+      const errors = await open(page, 'file-input');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      await page.locator('#harness').focus();
+      await page.keyboard.press('Tab');
+      const focusedName = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        return el ? (el.getAttribute('aria-label') ?? el.getAttribute('aria-labelledby') ?? el.textContent ?? '').trim() : '';
+      });
+      expect(focusedName.length).toBeGreaterThan(0);
+      expect(errors).toEqual([]);
+    });
+
+    test('input OTP: named input that accepts typed digits', async ({ page }) => {
+      const errors = await open(page, 'input-otp');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const input = page.getByRole('textbox').first();
+      await input.focus();
+      await page.keyboard.type('123456');
+      await expect.poll(() => page.locator('input[name="VerificationCode"]').first().inputValue()).toBe('123456');
+      expect(errors).toEqual([]);
+    });
+
+    test('switch: named switch toggled with Space', async ({ page }) => {
+      const errors = await open(page, 'switch');
+      await expectNoAxeViolations(page);
+
+      const toggle = page.getByRole('switch', { name: 'Airplane Mode' });
+      await expect(toggle).not.toBeChecked();
+      await toggle.focus();
+      await page.keyboard.press('Space');
+      await expect(toggle).toBeChecked();
+      expect(errors).toEqual([]);
+    });
+
+    test('checkbox group: named checkboxes in a labelled group, toggled with Space', async ({ page }) => {
+      const errors = await open(page, 'checkbox-group');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const push = page.getByRole('checkbox', { name: 'Push notifications' });
+      const email = page.getByRole('checkbox', { name: 'Email notifications' });
+      await expect(email).toBeChecked();
+      await expect(push).not.toBeChecked();
+      await push.focus();
+      await page.keyboard.press('Space');
+      await expect(push).toBeChecked();
+      expect(errors).toEqual([]);
+    });
+
+    test('native select: labelled select with the model value selected', async ({ page }) => {
+      const errors = await open(page, 'native-select');
+      await expectNoAxeViolations(page);
+      const select = page.getByRole('combobox', { name: 'Fruit' });
+      await expect(select).toHaveValue('banana');
+      expect(errors).toEqual([]);
+    });
+
+    test('alert: dismissible alert with a named close button', async ({ page }) => {
+      const errors = await open(page, 'alert');
+      await expectNoAxeViolations(page);
+      await expect(page.getByText('Update available')).toBeVisible();
+
+      const close = page.getByRole('button', { name: /close|dismiss/i });
+      await close.focus();
+      await page.keyboard.press('Enter');
+      await expect(page.getByText('Update available')).toBeHidden();
+      expect(errors).toEqual([]);
+    });
+
+    test('back to top: named button that returns to the top of the page', async ({ page }) => {
+      const errors = await open(page, 'back-to-top');
+      await page.evaluate(() => window.scrollTo(0, 2000));
+      const button = page.getByRole('button', { name: /top/i });
+      await expect(button).toBeVisible();
+      await expectNoAxeViolations(page);
+      await button.click();
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
+      expect(errors).toEqual([]);
+    });
   });
 }

@@ -1,5 +1,6 @@
 @page "/_tests/a11y/{Family}"
 @layout HarnessLayout
+@using Microsoft.AspNetCore.Mvc.Rendering
 @* Real RizzyUI components for the accessibility specs in tests/integration/*.a11y.spec.ts (RM-4.1).
    One component family per URL, rendered at the top level of the page (no preview iframe). Mapped
    only with Docs:EnableTestPages=true; outside Components/Pages, so the static site never has it. *@
@@ -263,6 +264,109 @@
             </RzTabs>
             break;
 
+        case "combobox":
+            <EditForm Model="_model" FormName="harness-combobox">
+                <FieldLabel For="@(() => _model.Fruit)">Fruit</FieldLabel>
+                <RzCombobox TItem="SelectListItem" TValue="string" For="@(() => _model.Fruit)" Items="_fruits" Placeholder="Choose a fruit" />
+            </EditForm>
+            break;
+
+        case "data-table":
+            <RzDataTable Items="_rows" Config="_tableConfig" RowIdSelector="x => x.Id">
+                <RzTable Border>
+                    <TableCaption>Team members</TableCaption>
+                    <TableHeader>
+                        <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                            <TableRow>
+                                <template x-for="header in headerGroup.headers" :key="header.id">
+                                    <TableHeaderCell x-bind:colspan="header.colSpan">
+                                        <template x-if="!header.isPlaceholder">
+                                            <span x-flexrender="_flex.header(header)"></span>
+                                        </template>
+                                    </TableHeaderCell>
+                                </template>
+                            </TableRow>
+                        </template>
+                    </TableHeader>
+                    <TableBody>
+                        <template x-for="row in rows" :key="row.id">
+                            <TableRow>
+                                <template x-for="cell in row.cells" :key="cell.id">
+                                    <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                </template>
+                            </TableRow>
+                        </template>
+                    </TableBody>
+                </RzTable>
+            </RzDataTable>
+            break;
+
+        case "toast":
+            <RzToastProvider />
+            <RzButton id="toast-success" hx-post="/_tests/toast" hx-swap="none">Save (server toast)</RzButton>
+            break;
+
+        case "file-input":
+            <label id="file-input-label" class="block">Attachments</label>
+            <RzFileInput Name="attachments" Variant="FileInputVariant.Button" aria-labelledby="file-input-label" />
+            break;
+
+        case "input-otp":
+            <label id="otp-label" class="block">Verification code</label>
+            <RzInputOTP Length="6" Name="VerificationCode" aria-labelledby="otp-label">
+                <InputOTPGroup>
+                    @for (var i = 0; i < 6; i++)
+                    {
+                        var index = i;
+                        <InputOTPSlot Index="@index" />
+                    }
+                </InputOTPGroup>
+            </RzInputOTP>
+            break;
+
+        case "switch":
+            <EditForm Model="_model" FormName="harness-switch">
+                <div class="flex items-center gap-2">
+                    <RzSwitch For="@(() => _model.AirplaneMode)" Id="airplane-mode" />
+                    <label for="airplane-mode">Airplane Mode</label>
+                </div>
+            </EditForm>
+            break;
+
+        case "checkbox-group":
+            <EditForm Model="_model" FormName="harness-checkbox-group">
+                <fieldset>
+                    <legend>Notifications</legend>
+                    <RzCheckboxGroup For="@(() => _model.Notifications)">
+                        <RzCheckboxGroupItem TValue="string" Value="@("push")"><span>Push notifications</span></RzCheckboxGroupItem>
+                        <RzCheckboxGroupItem TValue="string" Value="@("email")"><span>Email notifications</span></RzCheckboxGroupItem>
+                    </RzCheckboxGroup>
+                </fieldset>
+            </EditForm>
+            break;
+
+        case "native-select":
+            <EditForm Model="_model" FormName="harness-native-select">
+                <label for="@_nativeSelectId">Fruit</label>
+                <RzNativeSelect TValue="string" Id="@_nativeSelectId" For="@(() => _model.Fruit)">
+                    <RzNativeSelectOption Value="@("apple")">Apple</RzNativeSelectOption>
+                    <RzNativeSelectOption Value="@("banana")">Banana</RzNativeSelectOption>
+                </RzNativeSelect>
+            </EditForm>
+            break;
+
+        case "alert":
+            <RzAlert Variant="ThemeVariant.Information" Dismissable="true">
+                <AlertTitle>Update available</AlertTitle>
+                <AlertDescription>A new version is available.</AlertDescription>
+            </RzAlert>
+            break;
+
+        case "back-to-top":
+            <div style="height: 3000px">Long content</div>
+            <RzBackToTop />
+            break;
+
         default:
             <p id="unknown-family">Unknown family.</p>
             break;
@@ -275,10 +379,40 @@
 @code {
     [Parameter] public string Family { get; set; } = "";
 
-    private readonly HarnessChoices _model = new() { Layout = "default" };
+    private readonly HarnessChoices _model = new() { Layout = "default", Fruit = "banana" };
+    private readonly string _comboboxId = "harness-combobox";
+    private readonly string _nativeSelectId = "harness-native-select";
+
+    private readonly SelectListItem[] _fruits =
+    [
+        new() { Text = "Apple", Value = "apple" },
+        new() { Text = "Banana", Value = "banana" },
+        new() { Text = "Cherry", Value = "cherry" },
+    ];
+
+    private readonly IReadOnlyList<MemberRow> _rows =
+    [
+        new("1", "Ada Lovelace", "ada@example.com"),
+        new("2", "Grace Hopper", "grace@example.com"),
+        new("3", "Alan Turing", "alan@example.com"),
+    ];
+
+    private readonly RzDataTableConfig<MemberRow> _tableConfig = new()
+    {
+        Columns =
+        [
+            new RzDataTableColumn<MemberRow> { Accessor = x => x.Name, Header = "Name" },
+            new RzDataTableColumn<MemberRow> { Accessor = x => x.Email, Header = "Email" },
+        ],
+    };
+
+    private sealed record MemberRow(string Id, string Name, string Email);
 
     private sealed class HarnessChoices
     {
         public string Layout { get; set; } = "";
+        public string Fruit { get; set; } = "";
+        public bool AirplaneMode { get; set; }
+        public List<string> Notifications { get; set; } = ["email"];
     }
 }
