@@ -49,6 +49,10 @@ accessibility, compatibility, packaging or the public API.
 |---|---|---|
 | RM-3.3 / RZUI-053 helpers, `data-slot` coverage, attribute-precedence unification | Maintenance cost only; no behavior change intended. The consumer-facing part (dialog roots dropping attributes) is fixed. `data-slot` additions are additive, so they can ship in any minor release | 1.1 |
 | RM-3.6 / RZUI-061 deterministic IDs | Snapshot tests and future morph swaps; no current defect | 1.x |
+| RM-4.1 remainder: real-component specs for combobox, data table, file input, input OTP, switch, checkbox group, sidebar, back-to-top | Those components keep bUnit and fixture coverage; the harness pattern makes each a small addition | 1.0 RC or 1.1 |
+| RM-4.4 / RZUI-035 theme allocation per component | Unmeasured CPU cost; no reported problem | 1.1 (benchmark first) |
+| RM-4.4 / RZUI-056 eager payload (toast system, focus plugin, unused intersect plugin) and minified bundle recommendation | ~37 KB gz eager today; optimization, not a defect | 1.1 |
+| RM-4.4 / RZUI-062 highlight.js share of the NuGet package (6.1 MB) | Package size and restore time only | 1.1 |
 
 (Updated as work proceeds.)
 
@@ -127,3 +131,47 @@ Totals after Phase 3: 619 .NET tests, 140 JS tests.
 
 **Phase 3 checkpoint.** Required items done; RM-3.3's helper refactoring and RZUI-061 deferred with
 reasons (see Deferred after 1.0). Next: Phase 4.
+
+### Phase 4 — Accessibility and performance (2026-11-17)
+
+**Real-component coverage (RM-4.1).** `/_tests/a11y/{family}` renders real components on a bare
+layout; `real-components.a11y.ts` runs each family's contract (roles, names, descriptions, states,
+keyboard operation, focus trap/return, no dangling ARIA ID references, axe WCAG 2.x A/AA in the
+open and closed state) under the standard runtime and the CSP build. 49 integration tests pass.
+axe is limited to WCAG tags: the best-practice `region` rule fires for every overlay because
+overlays are teleported to `<body>`, outside the page landmarks, by design.
+
+**Defects the new specs found (RM-4.2/4.3), all fixed with tests:**
+
+| Component | Defect | Commit |
+|---|---|---|
+| `RzTooltip` | Tooltip labelled by its trigger, so the trigger's description repeated its own label | `ceb3de38` |
+| `RzPopover`, `RzDropdownMenu` | `aria-labelledby` dangled when the `AsChild` trigger kept its own id | `ceb3de38` |
+| `RzDropdownMenu` | Keyboard open left focus on the trigger (race between two `$nextTick`s) | `ceb3de38` |
+| Arctic / Vercel themes | Destructive white text 3.76:1 (WCAG AA fail) | `ceb3de38` |
+| `RzNavigationMenu` | Opened on focus; announced a menu (RZUI-059) | `07f4878b` |
+| `RzMenubar` | Arrow keys did nothing (`$el` vs `$root`); no focus on open; focus lost on Escape/activation | `07f4878b` |
+| `RzCommand` | `aria-activedescendant` referenced a hidden source element | `07f4878b` |
+| `RzDialog`, `RzSheet` | Dangling title/description references, also while closed (RZUI-048) | `925b7625` |
+| `RzTabs` | Values with spaces broke ID references (RZUI-049) | `925b7625` |
+
+**Manual assistive-technology testing (RM-4.3).** Not performed: this environment has no screen
+reader. `docs/accessibility/manual-testing.md` now states the release gate, adds Toast, dialogs,
+menus and command to its scope (it had called Toast a nonexistent component), and lists 1.0 focus
+scenarios, including RZUI-060 (toast announcements), which needs NVDA and VoiceOver results.
+
+**Performance (RM-4.4), measured on this branch** (`packages/rizzyui/dist/js`, gzip level 9):
+
+| Asset | Min | Gzip | Audit gzip |
+|---|---|---|---|
+| `rizzyui.min.js` | 45.2 KB | 16.3 KB | 16.2 KB |
+| `rizzyui-csp.min.js` | 60.1 KB | 19.9 KB | 19.9 KB |
+| `chunks/bootstrap` | 62.7 KB | 20.7 KB | 20.5 KB |
+| Eager total, standard / CSP | | **37.0 / 40.6 KB** | 36.7 / 40.4 KB |
+| `RizzyUI` nupkg | 6.1 MB | | 6.4 MB (0.9.2) |
+
+The +0.3 KB comes from the runtime fixes in this run (toast provider re-resolution, retries). No
+optimization was made, so no before/after claim is needed; the deferrals are listed above.
+
+**Phase 4 checkpoint.** Remaining risk: the manual AT pass and RZUI-060 are open gates; nine
+interactive components still lack real-component specs (deferred, listed). Next: Phase 5.

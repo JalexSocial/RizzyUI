@@ -80,7 +80,7 @@ audit run** (details in [07](07-implementation-and-verification.md)). Section B 
 
 | Task | Findings | Description | Sev. | Depends on | Effort | Acceptance criteria |
 |---|---|---|---|---|---|---|
-| RM-4.1 | RZUI-023 | Port each fixture spec to the real component in the docs app; real CSP for CSP variants | P1 | RM-1.6 | L | Every interactive root in the inventory has a real-component Playwright spec |
+| RM-4.1 | Partial | Real-component specs (standard + CSP runtime) for dialog, alert dialog, sheet, popover, dropdown menu, tabs, tooltip, accordion, navigation menu, menubar, command, collapsible, slider, radio group, carousel, calendar, date edit, color input, plus harness scenarios (`acc0a943`, `7c0686ee`, `925b7625`). Not yet on real components: combobox, data table, toast (beyond the harness scenario), file input, input OTP, switch, checkbox group, sidebar, back-to-top; their fixture/bUnit tests remain |
 | RM-4.2 | RZUI-047, RZUI-048, RZUI-049 | Spinner status, conditional ARIA relationships, tabs SSR state and ID escaping | P2 | — | M | axe clean on real pages; tests |
 | RM-4.3 | RZUI-059, RZUI-060 | Navigation-menu activation semantics; persistent toast live regions; manual AT pass (NVDA, VoiceOver) | P2 | — | M | Documented AT results in `docs/accessibility/manual-testing.md` |
 | RM-4.4 | RZUI-035, RZUI-056, RZUI-062 | Benchmark render cost (theme allocation, serializers); trim eager bundle; recommend minified bundles; trim highlight.js payload | P3 | — | M | BenchmarkDotNet baseline committed; eager JS reduced with measurements |
@@ -135,8 +135,10 @@ Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (c
 | RM-3.5 | Complete | Agent guidance aligned with the code (`041eeaa2`, `837b49ed`) |
 | RM-3.6 | Partial (by design) | RZUI-050, 051, 052, 055 (`f2c37935`) and RZUI-054 (`36649cd6`) fixed with tests; RZUI-061 deferred |
 | RM-3.7 | Complete | `destroy()` for NumberTicker, Progress, EmbeddedPreview; stacking intervals fixed (`f88294f5`) |
-| RM-4.1 | Partial | Real-component specs exist for dialog, sheet and `RzDateEdit` (integration suite); the a11y suite still runs on static fixtures |
-| RM-4.2 – RM-4.4 | Outstanding | Not started |
+| RM-4.1 | Partial | Real-component specs (standard + CSP runtime) for dialog, alert dialog, sheet, popover, dropdown menu, tabs, tooltip, accordion, navigation menu, menubar, command, collapsible, slider, radio group, carousel, calendar, date edit, color input, plus harness scenarios (`acc0a943`, `7c0686ee`, `925b7625`). Not yet on real components: combobox, data table, toast (beyond the harness scenario), file input, input OTP, switch, checkbox group, sidebar, back-to-top; their fixture/bUnit tests remain |
+| RM-4.2 | Complete | RZUI-047 (`eae79a3b`), RZUI-048 and RZUI-049 (`925b7625`), plus defects found by the new specs: tooltip naming, trigger references, dropdown keyboard focus, destructive contrast (`ceb3de38`) |
+| RM-4.3 | Partial | RZUI-059 fixed (`07f4878b`). RZUI-060 (toast announcements) and the manual NVDA/VoiceOver pass need assistive-technology testing that this environment cannot perform: release gate in `docs/accessibility/manual-testing.md` |
+| RM-4.4 | Partial (measured; optimizations deferred) | Payload measured (eager JS 37.0 KB gz standard, 40.6 KB CSP; audit 36.7 / 40.4); no regression. Theme-allocation benchmark and payload trimming (RZUI-035, 056, 062) deferred to 1.1 |
 | RM-5.1 | Partial | RizzyUI release page in `rizzy.docs` (rizzy.docs#6); migration guide is in the repository but not on the docs site |
 | RM-5.2 | Outstanding | |
 | RM-5.3 | Outstanding | `docs/contributing/releasing.md` has no stable-release checklist |

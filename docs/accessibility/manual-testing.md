@@ -1,6 +1,13 @@
 # Manual Assistive-Technology Testing Checklist
 
-Use this checklist when validating RizzyUI components with real assistive technologies. It is intentionally tied to component names and documentation pages that exist in this repository so that the checklist can be updated without adding obligations for dropped experiments or nonexistent components.
+Use this checklist when validating RizzyUI components with real assistive technologies.
+
+> **1.0 release gate: not yet performed.** Automated checks (axe WCAG 2.x A/AA scans, roles, names,
+> keyboard operation and focus on real components in `src/RizzyUI.Docs/tests/integration`) pass
+> under the standard and CSP runtimes, but no screen-reader pass has been recorded for 1.0. A
+> maintainer must complete at least the primary NVDA + Chrome and VoiceOver + Safari runs below,
+> including the [1.0 focus scenarios](#10-focus-scenarios), and record them in
+> [Recorded runs](#recorded-runs) before the stable release. It is intentionally tied to component names and documentation pages that exist in this repository so that the checklist can be updated without adding obligations for dropped experiments or nonexistent components.
 
 ## Scope
 
@@ -18,12 +25,15 @@ Use this checklist when validating RizzyUI components with real assistive techno
 | `RzFileInput` | `src/RizzyUI/Components/Form/RzFileInput/` | `src/RizzyUI.Docs/Components/Pages/Components/FileInputInfo.razor` | Native file picker with Alpine drag/drop enhancement and status announcements. |
 | `RzSidebar` | `src/RizzyUI/Components/Navigation/RzSidebar/` | `src/RizzyUI.Docs/Components/Pages/Components/SidebarInfo.razor` | Persistent desktop sidebar plus mobile sheet behavior through `RzSheet`. |
 | `RzDataTable` | `src/RizzyUI/Components/DataTable/RzDataTable/` | `src/RizzyUI.Docs/Components/Pages/Components/DataTableInfo.razor` | Native table semantics with Alpine table state, selection, sorting, filtering, pagination, and status announcements. |
+| `RzToastProvider` | `src/RizzyUI/Components/Feedback/RzToast/` | `src/RizzyUI.Docs/Components/Pages/Components/ToastProviderInfo.razor` | Toast notifications shown from the browser (`Rizzy.toast`) or the server (`IRzToastService`), each a live region. |
+| `RzDialog`, `RzAlertDialog`, `RzSheet` | `src/RizzyUI/Components/Feedback/` | `DialogInfo.razor`, `AlertDialogInfo.razor`, `SheetInfo.razor` | Modal panels teleported to `<body>` with a focus trap and focus return. |
+| `RzDropdownMenu`, `RzMenubar` | `src/RizzyUI/Components/Navigation/` | `DropdownInfo.razor`, `MenubarInfo.razor` | Menu button and menubar patterns with arrow-key navigation. |
+| `RzCommand` | `src/RizzyUI/Components/Navigation/RzCommand/` | `CommandInfo.razor` | Combobox input with a listbox and `aria-activedescendant`. |
 
 ### Explicitly out of scope
 
 Do not create or require manual AT scenarios for these names unless a future implementation adds real component paths and documentation pages:
 
-- `Toast`: RizzyUI uses `RzAlert` for alert/live-region guidance in this checklist.
 - `Toggletip`: use `RzTooltip` for non-interactive descriptions and `RzPopover` for interactive disclosure content.
 - `DataGrid`: use `RzDataTable` and its accessibility-mode design note.
 - Dropped overlay-search experiments or earlier prompt prototypes that are not present as existing components.
@@ -180,7 +190,6 @@ Run these checks for every component in scope.
 
 ### `RzAlert`
 
-- Confirm `RzAlert` is used for alert/live-region guidance instead of a nonexistent Toast component.
 - Confirm role, `aria-live`, and atomic announcement behavior match the alert variant and urgency.
 - Insert or reveal an alert and confirm the screen reader announces the title/content once.
 - If the alert is dismissible, reach the close button with keyboard, confirm its accessible name, activate it with `Enter` and `Space`, and verify the alert is removed or hidden without unexpected focus loss.
@@ -226,3 +235,27 @@ Use this section to keep manual findings visible without changing component cont
 | _Add date_ | _Component_ | _AT/browser/version_ | _Observed behavior_ | _Blocker/High/Medium/Low_ | _Temporary guidance_ | _Issue or PR link_ |
 
 When adding a known issue, include exact versions from the test run record and note whether the issue is a RizzyUI bug, an AT/browser quirk, or an intentional APG deviation documented by the component page.
+
+## 1.0 focus scenarios
+
+These cover behavior changed or found during the 1.0 roadmap run (see
+`docs/audits/2026-11-15-rizzyui-initial-audit/08-roadmap-execution.md`). Automated tests cover the
+markup; these confirm what screen readers announce.
+
+| Component | Scenario | Expected |
+|---|---|---|
+| `RzToastProvider` (RZUI-060) | Show a toast from a button (`Rizzy.toast`), then from an htmx response (`IRzToastService`); update a toast; show two in a row | Each toast is announced once, with its title and text; updates are announced; errors are announced assertively, others politely. Record NVDA and VoiceOver separately: live regions created together with their content are announced inconsistently, notably by VoiceOver. |
+| `RzTooltip` | Focus a button with a tooltip | The button is announced with the tooltip text as its description, not its own label repeated. |
+| `RzNavigationMenu` (RZUI-059) | Tab through the triggers; then press Enter on one | Tabbing does not open panels; triggers are announced as buttons with expanded/collapsed state, not as menus; Enter opens the panel. |
+| `RzMenubar` | Arrow left/right across menus; open one with Down Arrow; Escape | Menubar and menu items are announced; focus lands on the first item; Escape returns to the menu's button. |
+| `RzCommand` | Type, then Down Arrow through results | Each highlighted option is announced (`aria-activedescendant`), and the result count changes are perceivable. |
+| `RzSpinner` (RZUI-047) | Show a spinner with `AriaLabel="Saving"` | "Saving" is announced as a status. |
+| `RzDialog`, `RzSheet` without a title (RZUI-048) | Open with `AriaLabel` only | The dialog name is announced; no empty or unrelated label or description. |
+| `RzInputColor` under `rizzyui-csp.js` | Type a color | The value is accepted and announced; no errors. |
+| Destructive buttons | Inspect `ThemeVariant.Destructive` buttons in light and dark mode, Arctic and Vercel | Text remains readable (4.5:1 for white text). |
+
+## Recorded runs
+
+| Date | Tester | Commit | Platform / browser / AT | Scope | Result | Issues |
+|---|---|---|---|---|---|---|
+| — | — | — | — | — | Not yet performed for 1.0 | — |
