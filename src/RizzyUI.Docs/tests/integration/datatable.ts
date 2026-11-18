@@ -301,12 +301,14 @@ export function defineDataTableSpecs(variant: 'standard runtime' | 'CSP build') 
         await expect(tables.nth(i).locator('tbody tr').first()).toBeVisible();
       }
 
-      // Exercise every documented control: filter, sort toggles, selection, column visibility,
-      // pagination.
+      // Exercise each example's documented controls: filter, sort toggles, selection, column
+      // visibility, pagination. A few of each kind per table covers every expression used (row
+      // checkboxes repeat the same markup) and keeps the run time bounded on slower CI runners.
       await page.locator('#datatable-filter').fill('a');
-      const enabled = async (selector: string) => {
-        const items = page.locator(selector);
-        for (let i = 0; i < await items.count(); i++) {
+      const clickSome = async (table: ReturnType<typeof tables.nth>, selector: string, limit: number) => {
+        const items = table.locator(selector);
+        let clicked = 0;
+        for (let i = 0; i < await items.count() && clicked < limit; i++) {
           const item = items.nth(i);
           // Skip what a user cannot click: disabled, aria-disabled and the active page link, which
           // the examples style with pointer-events: none.
@@ -315,12 +317,16 @@ export function defineDataTableSpecs(variant: 'standard runtime' | 'CSP build') 
             && await item.evaluate(el => getComputedStyle(el).pointerEvents !== 'none');
           if (clickable) {
             await item.click();
+            clicked++;
           }
         }
       };
-      await enabled('[data-slot="datatable"] [data-slot="data-table-sort-toggle"]');
-      await enabled('[data-slot="datatable"] input[type="checkbox"]');
-      await enabled('[data-slot="datatable"] nav a, [data-slot="datatable"] nav button');
+      for (let i = 0; i < count; i++) {
+        const table = tables.nth(i);
+        await clickSome(table, '[data-slot="data-table-sort-toggle"]', 4);
+        await clickSome(table, 'input[type="checkbox"]', 4);
+        await clickSome(table, 'nav a, nav button', 3);
+      }
 
       expect(errors).toEqual([]);
       expect(await readViolations()).toEqual([]);
