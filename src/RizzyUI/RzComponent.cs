@@ -15,6 +15,7 @@ namespace RizzyUI;
 /// </summary>
 public abstract partial class RzComponent : ComponentBase
 {
+    private RzTheme? _theme;
     private string? _nonce;
 
     /// <summary>
@@ -125,7 +126,12 @@ public abstract partial class RzComponent : ComponentBase
     /// default theme (<see cref="RizzyUIConfig.DefaultTheme"/>), and finally to the library's
     /// hardcoded default (<see cref="RzTheme.Default"/>).
     /// </summary>
-    protected RzTheme Theme { get; private set; } = RzTheme.Default;
+    /// <remarks>
+    /// Resolved when the component initializes (or on first use, if a derived component reads it
+    /// earlier). There is no field initializer: one used to build a full theme for every component
+    /// instance, only for <see cref="OnInitialized"/> to replace it (RZUI-035).
+    /// </remarks>
+    protected RzTheme Theme => _theme ??= ResolveTheme();
 
     /// <summary>
     /// Gets the Content Security Policy (CSP) nonce value for the current HTTP request.
@@ -153,6 +159,8 @@ public abstract partial class RzComponent : ComponentBase
         base.OnInitialized();
 
         // Resolve the theme instance based on cascade or config/default.
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
+        _theme = ResolveTheme();
     }
+
+    private RzTheme ResolveTheme() => CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
 }
