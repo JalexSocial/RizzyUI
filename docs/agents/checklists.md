@@ -22,9 +22,9 @@
   * Define the non-generic `Slots` class.
   * Define the `static class` containing the `DefaultDescriptor`.
   * Variant expressions in the descriptor **MUST** cast to the `IHas...StylingProperties` interface.
-* Alpine.js: Strictly adhere to API restrictions by always using `Alpine.data` and referencing properties/methods by key only.
+* Alpine.js: Follow the CSP-build restrictions in `docs/agents/alpine.md` (10.1): no property assignment in markup expressions, object style bindings, logic in the component factory.
 * Documentation: Ensure the generated documentation page (`Info.razor`) strictly follows the layout, structure, and content rules in `docs/agents/documentation.md`.
-* Include unit tests *only* when specifically requested (see `docs/agents/testing.md`).
+* Behavior changes, defect fixes and accessibility behavior always need tests; a full scaffolded test suite for a new component is written when requested (see `docs/agents/testing.md`).
 * Adhere to all specified conventions and avoid manual concatenation of class strings.
 * Do not include comments in Razor markup or using statements. Any comments in code blocks should be production-ready.
 
@@ -72,7 +72,7 @@
 * **[ ] 18. Documentation Page Exists:** A file in `src/RizzyUI.Docs/Components/Pages/Components/` exists and matches the component name.
 * **[ ] 19. Structure Compliance:** The documentation page uses `RzQuickReferenceContainer`, `RzBreadcrumb`, and `RzCodeViewer` correctly.
 * **[ ] 20. Content Compliance:** The documentation includes a Parameters table and (if applicable) Alpine API/Event details.
-* **[ ] 21. Navigation Updated:** The new component is listed in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+* **[ ] 21. Navigation Updated:** The new component is listed in `src/RizzyUI.Docs/Components/ComponentList.razor`.
 * **[ ] 21a. Refactor Documentation Accuracy:** Existing component docs were updated in place and still describe the implemented keyboard, focus, ARIA, announcement, event, and SSR/CSP behavior accurately.
 
 #### **Part C: Human Developer Validation Checklist**

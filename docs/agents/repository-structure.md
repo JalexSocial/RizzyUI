@@ -30,7 +30,7 @@ The NPM package responsible for building the CSS (Tailwind) and JavaScript (Alpi
 A Blazor Web App that acts as the documentation site and component playground.
 
 * **`Components/Pages/Components/`**: Contains the documentation pages for specific components (e.g., `ButtonInfo.razor`). These pages serve as the primary source of usage examples.
-* **`Components/Layout/ComponentList.razor`**: The side navigation menu listing all available components.
+* **`Components/ComponentList.razor`**: The side navigation menu listing all available components.
 
 ### `src/RizzyUI.Tests` (Unit Tests)
 

@@ -1,6 +1,6 @@
 ## 11. Unit tests (bUnit) (IMPORTANT: ONLY ON REQUEST)
 
-When unit tests are specifically requested for a new or modified component, they should be generated using bUnit and adhere to the following guidelines. Tests ensure component correctness, accessibility, and integration with the RizzyUI theme system and Alpine.js patterns.
+Behavior changes, defect fixes and accessibility behavior always need tests (AGENTS.md accessibility contract). For generated scaffolding of a new component, write the full suite below when it is requested. Tests use bUnit and adhere to the following guidelines. Tests ensure component correctness, accessibility, and integration with the RizzyUI theme system and Alpine.js patterns.
 
 **SSR-only reminder (CRITICAL):**
 
@@ -90,7 +90,6 @@ When unit tests are specifically requested for a new or modified component, they
 
        * `cut.Find("button").Click()`
        * `cut.Find("input").Change("new value")`
-     * Assert that `EventCallback` parameters are invoked.
      * Assert that component state (if exposed or reflected in markup/ARIA) changes as expected.
 
      **SSR-only clarification for the Interaction Tests subsection (CRITICAL):**

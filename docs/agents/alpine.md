@@ -6,7 +6,7 @@ RizzyUI components that require client-side interactivity leverage Alpine.js. Th
 
 **It is CRITICAL to understand and adhere to these API restrictions when writing Alpine.js code for RizzyUI components.** Since Alpine.js, when built for Content Security Policy (CSP) compliance, can no longer interpret strings as plain JavaScript, it has to parse and construct JavaScript functions from them manually.
 
-Due to this limitation, you **MUST** use `Alpine.data` to register your `x-data` objects, and **MUST** reference properties and methods from it by key only.
+Due to this limitation, component state and logic live in the component factory (10.4), and markup refers to them by name. The CSP build (`@alpinejs/csp` 3.15) parses a safe subset of expressions: property reads (`colorPicker.value`), method calls with arguments (`setValue(colorPicker.value)`), comparisons and literals. It **rejects property assignment** (`colorPicker.value = x`), which is what `x-model="a.b"` and handlers such as `x-on:click="state.open = true"` compile to; use a method (`x-on:input="setValueFromInput"`) or a one-way binding instead. Bind `x-bind:style` to an object, not a CSS string: a string is applied with `setAttribute('style')`, which a policy without `'unsafe-inline'` styles blocks.
 
 For example, an inline component like this **will not work** with the CSP build:
 
@@ -60,9 +60,12 @@ Alpine.data('counter', () => ({
 
 **Key Takeaways for LLMs:**
 
-* **Always use `Alpine.data`** for `x-data` definitions. Never inline `x-data` objects.
-* **Reference properties and methods by key only** (e.g., `increment`, `count`, `foo.increment`). Avoid complex inline expressions like `count++`, `isActive = !isActive`, or `myFunction(param1, param2)`. Instead, encapsulate such logic within methods defined in your `Alpine.data` object.
-* Dot notation for nested properties is allowed.
+* **Define `x-data` in a component factory** (10.4). Never inline `x-data` objects.
+* **Keep expressions to reads and calls**: property reads (`count`, `foo.bar`), method calls, also with
+  arguments (`select(item.id)`), comparisons and literals work in the CSP build.
+* **Never assign in an expression**: `count++`, `isActive = !isActive` and `foo.bar = x` (including
+  `x-model="foo.bar"`) fail in the CSP build. Put the change in a method.
+* Bind `x-bind:style` to an object, not a CSS string.
 
 ### 10.2 Alpine Child-Container Convention (in `.razor` file)
 
@@ -72,6 +75,7 @@ If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` 
 <HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
     <div data-alpine-root="@Id" @* Crucial: Must match the Blazor component's @Id *@
          x-data="rzFancyThing"   @* Alpine component name, e.g., 'rzComponentName' *@
+         x-load="@LoadStrategyOrNull" @* Required next to x-data; rendered only when LoadStrategy is set *@
          data-assets="@_assets"   @* Serialized JSON string of asset URLs for this component *@
          data-nonce="@Nonce">     @* CSP nonce for inline scripts/styles loaded by this component *@
         @* Alpine-interactive content, x-ref, x-on:, :class, etc. goes here *@
@@ -131,112 +135,75 @@ Components **do not** hardcode asset URLs. Instead, they declare their dependenc
 
 ### 10.4 Alpine Component Definition (Individual JavaScript File)
 
-* Each new Alpine component (e.g., `rzFancyThing`) MUST have its logic defined in a **new, separate JavaScript file**.
-* Location: `packages/rizzyui/src/js/lib/components/rzFancyThing.js` (replace `rzFancyThing` with the actual component name).
-* This file MUST export a default function.
-
-  * The first argument to this function will always be the `Alpine` instance.
-  * If the component needs to dynamically load assets (using the `data-assets` attribute), the function should accept `require` as a second argument. This `require` is the `rizzyRequire` utility provided by `components.js`.
-* Inside this exported function, the Alpine component is defined using `Alpine.data('rzFancyThing', () => ({ /* component logic */ }));`. The name used here (e.g., `'rzFancyThing'`) MUST match the `x-data` attribute in the Razor markup.
-* The `init()` method within the Alpine data object is typically responsible for:
-
-  1. Retrieving `assetsToLoad` by parsing `this.$el.dataset.assets`.
-  2. Retrieving `nonce` from `this.$el.dataset.nonce`.
-  3. If `assetsToLoad` is not empty and the `require` function was passed in, call `require(assetsToLoad, { success: callback, error: errCallback }, nonce)`.
-  4. Place any Alpine initialization logic that *depends* on these external assets (e.g., initializing a third-party library like Flatpickr or Highlight.js) inside the `success` callback of `require`.
-  5. Other initialization logic (e.g., setting up internal state, watchers) can be placed directly in `init()` or in a separate method called from `init()` (either before or after `require`, or within its callbacks, as appropriate).
+* Each Alpine component (e.g., `rzFancyThing`) has its own file:
+  `packages/rizzyui/src/js/lib/components/rzFancyThing.js`.
+* The file default-exports a **factory function** that returns the component object. It does not call
+  `Alpine.data` itself; the runtime registers every component lazily (see 10.5).
+* To load third-party assets listed in `data-assets`, import the loader:
+  `import { require } from '../../runtime/rizzyRequire.js';`. It returns a promise and accepts URL
+  strings or `{ src, integrity }` objects (Subresource Integrity).
+* Implement `destroy()` for anything that outlives the element (observers, timers, window or
+  document listeners, third-party instances). Alpine calls it when htmx or Alpine removes the
+  element; a method with another name (for example `cleanup()`) is never called.
 
 **Example: `packages/rizzyui/src/js/lib/components/rzFancyThing.js`**
 
 ```javascript
-// This component demonstrates conditional asset loading.
-// If data-assets is empty or 'require' is not provided, it proceeds without loading.
-export default function(Alpine, require) { // 'require' is optional here
-    Alpine.data('rzFancyThing', () => ({
-        someProperty: 'initialValue',
-        assetsLoaded: false,
+import { require } from '../../runtime/rizzyRequire.js';
+
+export default function rzFancyThing() {
+    return {
+        someProperty: '',
+        observer: null,
 
         init() {
-            const assetsToLoad = JSON.parse(this.$el.dataset.assets || '[]');
-            const nonce = this.$el.dataset.nonce || '';
-            const self = this; // Retain 'this' context for callbacks
+            this.someProperty = this.$el.dataset.initialFancyValue || 'default';
+            const assets = JSON.parse(this.$el.dataset.assets || '[]');
+            const nonce = this.$el.dataset.nonce;
 
-            // Example: Read an initial value from a data attribute
-            this.someProperty = this.$el.dataset.initialFancyValue || 'default fancy value';
-
-            if (assetsToLoad.length > 0 && typeof require === 'function') {
-                console.log(`rzFancyThing (${this.$el.id}): Attempting to load assets:`, assetsToLoad);
-                require(assetsToLoad, {
-                    success: function() {
-                        console.log(`rzFancyThing (${self.$el.id}): Assets loaded successfully.`);
-                        self.assetsLoaded = true;
-                        // Example: Initialize a library if 'some-library.js' was loaded
-                        // if (window.SomeLibrary) {
-                        //     self.libraryInstance = new window.SomeLibrary(self.$el.querySelector('.target-for-lib'));
-                        // }
-                        self.setupInteractivity(); // Call main logic after assets
-                    },
-                    error: function(err) {
-                        console.error(`rzFancyThing (${self.$el.id}): Failed to load assets.`, err);
-                        // Decide if setupInteractivity should still run or if it's critical
-                        self.setupInteractivity(); // Or handle error state
-                    }
-                }, nonce);
-            } else {
-                // No assets to load, or 'require' function not available/needed by this component.
-                // Proceed with non-asset-dependent setup.
-                console.log(`rzFancyThing (${this.$el.id}): No assets to load or require not provided.`);
-                self.setupInteractivity();
+            if (assets.length === 0) {
+                this.setup();
+                return;
             }
+
+            require(assets, nonce)
+                .then(() => this.setup())
+                .catch(error => console.error('[rzFancyThing] Failed to load assets.', error));
         },
 
-        setupInteractivity() {
-            // Main Alpine logic that runs (potentially after assets are loaded)
-            console.log(`rzFancyThing (${this.$el.id}): Setting up interactivity. Current someProperty:`, this.someProperty);
-            
-            // Example: Watch for changes to 'someProperty'
-            // this.$watch('someProperty', (value) => {
-            //    console.log(`rzFancyThing (${this.$el.id}): someProperty changed to:`, value);
-            // });
+        setup() {
+            this.observer = new ResizeObserver(() => this.layout());
+            this.observer.observe(this.$el);
         },
 
-        updateFancyProperty(newValue) {
-            this.someProperty = newValue;
-        }
-        // ... other methods and properties for rzFancyThing
-    }));
+        layout() { /* ... */ },
+
+        destroy() {
+            this.observer?.disconnect();
+            this.observer = null;
+        },
+    };
 }
 ```
 
-### 10.5 Alpine Component Registration (in `packages/rizzyui/src/js/lib/components.js`)
+### 10.5 Alpine Component Registration (bundle and manifest)
 
-* The newly created component registration function (e.g., `registerRzFancyThing` which is the default export from `rzFancyThing.js`) MUST be imported into `packages/rizzyui/src/js/lib/components.js`.
-* It must then be called within the `registerComponents(Alpine)` function in `components.js`. Pass the `Alpine` instance. If the component's registration function (e.g., `export default function(Alpine, require)`) expects the `require` utility, pass `rizzyRequire` (which is `loadjs` aliased as `require` in this file) as the second argument.
+Components are registered lazily: the runtime loads the bundle that owns a component the first
+time an element with that `x-data` name appears. There is no eager registration.
 
-**Example: Modifying `packages/rizzyui/src/js/lib/components.js`**
-
-```javascript
-// packages/rizzyui/src/js/lib/components.js
-import loadjs from "./loadjs/loadjs.js"; // Underlying asset loader
-
-// ... other existing component imports ...
-import registerRzAccordion from './components/rzAccordion.js';
-import registerRzFancyThing from './components/rzFancyThing.js'; // <-- NEW IMPORT
-
-// ... (rizzyRequire function definition using loadjs) ...
-// async function generateBundleId(paths) { ... }
-// function rizzyRequire(paths, callbackFn, nonce) { ... }
-
-
-function registerComponents(Alpine) {
-    // ... other existing component registrations ...
-    registerRzAccordion(Alpine); // Example of a component not needing 'require'
-    
-    // Register the new component.
-    // Pass 'rizzyRequire' if its definition function expects it.
-    registerRzFancyThing(Alpine, rizzyRequire); // <-- NEW REGISTRATION
-}
-
-export { registerComponents, rizzyRequire as require };
-```
+1. Export the factory from exactly one bundle in `packages/rizzyui/src/js/bundles/` (choose the
+   feature cluster it belongs to):
+   ```javascript
+   // packages/rizzyui/src/js/bundles/menu-runtime.js
+   export { default as rzFancyThing } from '../lib/components/rzFancyThing.js';
+   ```
+2. Map the component name to that bundle in
+   `packages/rizzyui/src/js/runtime/componentBundleManifest.js`:
+   ```javascript
+   rzFancyThing: 'menu-runtime',
+   ```
+3. Put `x-data="rzFancyThing"` and `x-load="@LoadStrategyOrNull"` on the same element in the
+   `.razor` file (10.2).
+4. Run `npm run build` in `packages/rizzyui` and commit the regenerated `dist/` and
+   `src/RizzyUI/wwwroot` files; CI checks that they match a fresh build.
 
