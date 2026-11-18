@@ -52,9 +52,9 @@ need to reference `Rizzy` yourself unless you want to pin it.
    ```razor
    <RzHeadOutlet />
    <RzScripts />
-   <script type="module" nonce="@Nonce" src="_content/RizzyUI/js/rizzyui.js"></script>
+   <script type="module" nonce="@Nonce" src="_content/RizzyUI/js/rizzyui.min.js"></script>
    ```
-   Use `_content/RizzyUI/js/rizzyui-csp.js` if the page has a Content Security Policy.
+   Use `_content/RizzyUI/js/rizzyui-csp.min.js` if the page has a Content Security Policy.
 
 4. **No `<base href="/">` in your layout?** `<RzScripts />` loads Rizzy's client from a relative URL
    (`_content/Rizzy/js/rizzy.js`), which breaks on nested routes without a base element. Either add
@@ -162,7 +162,7 @@ builder.Services.AddRazorComponents();
     <HeadOutlet />
     <script nonce="@Nonce" defer src="vendor/htmx/htmx.min.js"></script>
     <script nonce="@Nonce" defer src="_content/Rizzy/js/rizzy.js"></script>
-    <script nonce="@Nonce" type="module" src="_content/RizzyUI/js/rizzyui.js"></script>
+    <script nonce="@Nonce" type="module" src="_content/RizzyUI/js/rizzyui.min.js"></script>
 </head>
 <body hx-ext="rizzy-nonce">
     <a href="/orders" hx-boost="true" hx-select="#content" hx-target="#content"
@@ -184,7 +184,7 @@ builder.Services.AddHtmx(o => o.Scripts = new HtmxScriptOptions { BaseUrl = "/ve
     <link rel="stylesheet" href="css/app.css" />
     <RzHeadOutlet />
     <RzScripts />
-    <script nonce="@Nonce" type="module" src="/_content/RizzyUI/js/rizzyui.js"></script>
+    <script nonce="@Nonce" type="module" src="/_content/RizzyUI/js/rizzyui.min.js"></script>
 </head>
 <body>
     <a href="/orders" hx-boost="true" hx-select="#content" hx-target="#content"

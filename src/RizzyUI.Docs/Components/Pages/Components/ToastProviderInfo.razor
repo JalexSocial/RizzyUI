@@ -33,6 +33,12 @@
             <RzParagraph>
                 Developers do not manually render toast items. Add one provider, then create toasts by calling <code>Rizzy.toast</code> or dispatching <code>rz:toast</code> events from client code, HTMX fragments, or other SSR-safe flows.
             </RzParagraph>
+            <RzParagraph>
+                The toast runtime loads when the first toast is shown, or when the browser is idle on a page with a provider, so it
+                is not part of the initial download. Calls made before it has loaded are queued and return a handle with the toast's
+                id. Await <code>Rizzy.toast.ready()</code> when you need a return value from <code>dismiss()</code> or the manager
+                from <code>configure()</code>.
+            </RzParagraph>
 
             <RzAlert Variant="ThemeVariant.Information" class="my-6">
                 <AlertTitle>Important setup</AlertTitle>

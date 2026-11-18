@@ -134,8 +134,9 @@ In `App.razor` (or your main layout):
     <RzHeadOutlet />
     <RzScripts />
 
-    <!-- RizzyUI runtime (Alpine.js + component behaviors). Use rizzyui-csp.js with a CSP. -->
-    <script type="module" nonce="@NonceProvider.GetNonce()" src="_content/RizzyUI/js/rizzyui.js"></script>
+    <!-- RizzyUI runtime (Alpine.js + component behaviors). Use rizzyui-csp.min.js with a CSP.
+         rizzyui.js / rizzyui-csp.js are the same code unminified, for debugging. -->
+    <script type="module" nonce="@NonceProvider.GetNonce()" src="_content/RizzyUI/js/rizzyui.min.js"></script>
 
     <!-- Theme provider (CSS variables) -->
     <RzThemeProvider />

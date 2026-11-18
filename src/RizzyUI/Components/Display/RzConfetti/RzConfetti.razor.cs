@@ -231,9 +231,10 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
 
     /// <summary>
     /// Gets or sets the logical keys used to resolve optional assets from <see cref="RizzyUIConfig"/>.
+    /// Empty by default: canvas-confetti is bundled with the component's script (RZUI-056).
     /// </summary>
     [Parameter]
-    public string[] ComponentAssetKeys { get; set; } = ["CanvasConfetti"];
+    public string[] ComponentAssetKeys { get; set; } = [];
 
     /// <inheritdoc/>
     protected override void OnInitialized()

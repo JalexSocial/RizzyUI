@@ -32,7 +32,7 @@ test('packaged RizzyUI renders, loads its runtime under a strict CSP, and is int
   const problems = watchProblems(page);
   await collectCspViolations(page);
 
-  const runtime = page.waitForResponse(response => response.url().endsWith('/_content/RizzyUI/js/rizzyui-csp.js'));
+  const runtime = page.waitForResponse(response => response.url().endsWith('/_content/RizzyUI/js/rizzyui-csp.min.js'));
   await page.goto('/');
   expect((await runtime).status()).toBe(200);
 

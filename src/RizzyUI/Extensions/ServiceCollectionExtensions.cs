@@ -34,7 +34,6 @@ public static class ServiceCollectionExtensions
         ("TomSelect", "https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js", "sha256-5Ay2s7ymZ00Z+YWosdB7f+yaDOinoQZizY/y92yLwEQ="),
         ("Coloris", "https://cdn.jsdelivr.net/gh/mdbassit/Coloris@v0.25.1/dist/coloris.min.js", "sha256-zGw5MsLATyj/mrXzq62BPEvGYrrEq+IoROtvBAflZgM="),
         ("ChartJs", "https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.js", "sha256-M4OZ+1uv5ZjSHPxHGwWQthzrMhqYX63k9oSZsVH2f78="),
-        ("CanvasConfetti", "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js", "sha256-4QOrAnhDOdVsk8o96+LFopk3LK/FIVFI1VKD3gRuhtE="),
         ("RzHighlighterCoreScript", "https://cdn.jsdelivr.net/npm/rough-notation@0.5.1/lib/rough-notation.iife.js", "sha256-+QqgCQ42H/SGlLdOAxnhCYVt7LPnV8KA3+JeNgfzX6w="),
         ("VanillaCalendarPro", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.4.0/index.js", "sha256-MQSQHkDQLlYNcigmKBTcHOtS/8qzWsZDnr3FbURMVU0="),
         ("VanillaCalendarCss", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.4.0/styles/index.css", "sha256-hW/VCmZ8+1hXcGA1ipqcuuEIzQX5VNzL+8pvvk9rDSQ="),

@@ -1,56 +1,8 @@
-const fallbackStatuses = ['default', 'info', 'success', 'warning', 'error', 'loading'];
-const fallbackPositions = [
-    'top-left',
-    'top-center',
-    'top-right',
-    'bottom-left',
-    'bottom-center',
-    'bottom-right',
-    'center',
-    'left-center',
-    'right-center',
-];
+import { fallbackStatuses, fallbackPositions, getAliasMap, getAllowedStatuses, getAllowedPositions } from './rzToastDefaults.js';
+
 const fallbackTones = ['subtle', 'solid', 'outline', 'ghost'];
 const fallbackAnimations = ['fade', 'slide', 'none'];
 
-const fallbackAliases = {
-    statuses: {
-        destructive: 'error',
-    },
-    positions: {
-        'right top': 'top-right',
-        'top right': 'top-right',
-        'left top': 'top-left',
-        'top left': 'top-left',
-        'right bottom': 'bottom-right',
-        'bottom right': 'bottom-right',
-        'left bottom': 'bottom-left',
-        'bottom left': 'bottom-left',
-        'top center': 'top-center',
-        'center top': 'top-center',
-        'x-center top': 'top-center',
-        'top x-center': 'top-center',
-        'bottom center': 'bottom-center',
-        'center bottom': 'bottom-center',
-        'x-center bottom': 'bottom-center',
-        'bottom x-center': 'bottom-center',
-        center: 'center',
-        'left center': 'left-center',
-        'left y-center': 'left-center',
-        'y-center left': 'left-center',
-        'right center': 'right-center',
-        'right y-center': 'right-center',
-        'y-center right': 'right-center',
-    },
-    types: {
-        filled: 'solid',
-        outline: 'outline',
-    },
-    effects: {
-        fade: 'fade',
-        slide: 'slide',
-    },
-};
 
 const roleMap = {
     default: { role: 'status', ariaLive: 'polite' },
@@ -65,12 +17,6 @@ function normalizeKey(value) {
     return typeof value === 'string' ? value.trim().toLowerCase() : '';
 }
 
-function getAliasMap(config, name) {
-    return {
-        ...(fallbackAliases[name] || {}),
-        ...((config && config.aliases && config.aliases[name]) || {}),
-    };
-}
 
 function canonicalize(value, allowed, aliases, fallback, kind) {
     const raw = normalizeKey(value);
@@ -194,12 +140,4 @@ export function normalizeToastOptions(options = {}, config = {}, defaultsOverrid
     };
 }
 
-export function getAllowedStatuses(config = {}) {
-    const statuses = Object.keys(config.statuses || {});
-    return statuses.length ? statuses : [...fallbackStatuses];
-}
-
-export function getAllowedPositions(config = {}) {
-    const aliases = Object.keys(getAliasMap(config, 'positions'));
-    return [...new Set([...fallbackPositions, ...aliases])];
-}
+export { getAllowedStatuses, getAllowedPositions };

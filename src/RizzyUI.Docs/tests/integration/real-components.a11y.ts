@@ -570,5 +570,31 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect(trigger).toBeFocused();
       expect(errors).toEqual([]);
     });
+
+    test('toast runtime: not loaded on a page without a provider until it is used (RZUI-056)', async ({ page }) => {
+      const toastChunks: string[] = [];
+      page.on('request', request => {
+        if (/rzToastManager/.test(request.url())) toastChunks.push(request.url());
+      });
+
+      const errors = await open(page, 'alert');
+      await page.waitForLoadState('networkidle');
+      expect(toastChunks).toEqual([]);
+
+      await page.evaluate(() => (window as any).Rizzy.toast.ready());
+      expect(toastChunks.length).toBeGreaterThan(0);
+      expect(errors).toEqual([]);
+    });
+
+    test('toast runtime: preloaded when the page has a provider (RZUI-056)', async ({ page }) => {
+      const toastChunks: string[] = [];
+      page.on('request', request => {
+        if (/rzToastManager/.test(request.url())) toastChunks.push(request.url());
+      });
+
+      const errors = await open(page, 'toast');
+      await expect.poll(() => toastChunks.length).toBeGreaterThan(0);
+      expect(errors).toEqual([]);
+    });
   });
 }

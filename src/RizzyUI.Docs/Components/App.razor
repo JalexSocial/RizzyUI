@@ -27,11 +27,11 @@
 
     @if (UseContentSecurityPolicy)
     {
-        <script nonce="@Nonce" type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.js"]"></script>
+        <script nonce="@Nonce" type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.min.js"]"></script>
     }
     else
     {
-        <script nonce="@Nonce" type="module" src="@Assets["/_content/RizzyUI/js/rizzyui.js"]"></script>
+        <script nonce="@Nonce" type="module" src="@Assets["/_content/RizzyUI/js/rizzyui.min.js"]"></script>
     }
 
     <script nonce="@Nonce" src="/js/site.js"></script>

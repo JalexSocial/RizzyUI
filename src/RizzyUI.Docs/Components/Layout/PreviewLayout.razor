@@ -20,11 +20,11 @@
     <RzScripts />
     @if (App.UseContentSecurityPolicy)
     {
-        <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.js"]"></script>
+        <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.min.js"]"></script>
     }
     else
     {
-        <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui.js"]"></script>
+        <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui.min.js"]"></script>
     }
     <script nonce="@Nonce" src="/js/site.js"></script>
 

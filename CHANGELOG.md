@@ -30,11 +30,25 @@ Finding IDs (RZUI-0xx) refer to the
   "One-time password") replaced the name a `<label>` or `FieldLabel` gave the control, so screen
   readers announced the generic text instead of the field's name. Label them with `FieldLabel For`
   (or a `<label for>`); a control with no visible label needs `aria-label` passed explicitly.
+- **The toast runtime loads on first use.** `Rizzy.toast` is still available immediately, but the
+  toast manager and renderer (about 6 KB gzipped) load when a toast is first shown, or when the
+  browser is idle on a page with an `RzToastProvider`. Calls made before that are queued and run in
+  order; they return a handle with the toast's final id, `dismiss()` and `clear()` return
+  `undefined`, and `configure()`/`registerProvider()` return `Rizzy.toast` instead of the manager.
+  Await `Rizzy.toast.ready()` if you need the manager or a return value. (RZUI-056)
+- **The `CanvasConfetti` asset key is removed** and `RzConfetti.ComponentAssetKeys` defaults to
+  empty. canvas-confetti is bundled with the component's script; the key loaded a second copy from
+  a CDN. Remove `CanvasConfetti` from any `ComponentAssetKeys` you set. (RZUI-056)
+- **The packages no longer ship component sources under `dist/js/lib`** (npm) and
+  `_content/RizzyUI/js/lib` (NuGet), about 0.6 MB that nothing loaded. The stylesheets that
+  `rizzyui-theme.css` imports and the highlight.js Razor grammar remain. Import from the package
+  entry points instead of `dist/js/lib/...`. (RZUI-056)
 
 ### Added
 
 - `RzCombobox.ItemDataSelector` chooses the item data option and item templates can read (see
   Breaking).
+- `Rizzy.toast.ready()` resolves when the toast runtime has loaded (see Breaking).
 - The runtime logs a console warning when the page already has another Alpine.js instance; RizzyUI
   bundles and starts Alpine itself, and a second copy initializes components twice. (RZUI-058)
 
@@ -122,6 +136,13 @@ Finding IDs (RZUI-0xx) refer to the
 - Subtle success, warning and information toasts show their title and text in the foreground color
   (the status color stays on the icon). The status-colored text measured 2.9:1 on the tinted
   background, below WCAG AA.
+
+### Changed
+
+- The README, Getting Started, the theme guide, the migration guide and the `dotnet new rizzyui`
+  template load the minified runtime (`rizzyui.min.js`, `rizzyui-csp.min.js`), about half the bytes
+  of `rizzyui.js`. The unminified files remain for debugging. (RZUI-056)
+- The eager runtime is 33.0 KB gzipped (standard) and 36.7 KB (CSP), down from 37.0 and 40.6 KB.
 
 ### Removed
 
