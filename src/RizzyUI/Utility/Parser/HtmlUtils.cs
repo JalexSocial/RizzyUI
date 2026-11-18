@@ -1,4 +1,5 @@
 
+using System.Net;
 using System.Text;
 using TailwindMerge;
 
@@ -201,7 +202,7 @@ internal static class HtmlUtils
                 // the merged-in classes (the same precedence as the element path of asChild).
                 if (IsClassAttr(attrName, options.Comparer))
                 {
-                    var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
+                    var existing = DecodeMarkupValue(valueSpan);
                     string merged = merge.Merge([newValue, existing]) ?? string.Empty;
                     EmitAttr(sb, "class", merged, quoteKind, options.PreserveUnquotedOnReplace);
                 }
@@ -217,7 +218,7 @@ internal static class HtmlUtils
 
                         case AttrConflictPolicy.AppendSpaceSeparated:
                             {
-                                var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
+                                var existing = DecodeMarkupValue(valueSpan);
                                 var merged = existing.Length == 0 ? newValue : existing + " " + newValue;
                                 EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
                                 break;
@@ -225,7 +226,7 @@ internal static class HtmlUtils
 
                         case AttrConflictPolicy.PrependSpaceSeparated:
                             {
-                                var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
+                                var existing = DecodeMarkupValue(valueSpan);
                                 var merged = existing.Length == 0 ? newValue : newValue + " " + existing;
                                 EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
                                 break;
@@ -294,19 +295,41 @@ internal static class HtmlUtils
 
     private static void EmitAttrAlwaysQuoted(StringBuilder sb, string name, string value)
     {
-        sb.Append(' ').Append(name).Append('=').Append('"').Append(EscapeQuotes(value)).Append('"');
+        sb.Append(' ').Append(name).Append('=').Append('"').Append(EncodeAttributeValue(value)).Append('"');
     }
 
-    // Values supplied by the caller (component parameters and additional attributes) are plain
-    // strings, not HTML. A quote in such a value would end the attribute and let the rest be parsed
-    // as new attributes. Escaping both quote characters keeps the value inside its attribute in
-    // either quoting style; browsers decode the entities back to the original characters. Other
-    // characters (such as '&' in Tailwind arbitrary variants like [&_svg]) are left as they are so
-    // values that came from the original markup are not double-encoded.
-    private static string EscapeQuotes(string value)
-        => value.AsSpan().IndexOfAny('"', '\'') < 0
-            ? value
-            : value.Replace("\"", "&quot;", StringComparison.Ordinal).Replace("'", "&#39;", StringComparison.Ordinal);
+    // Values merged into the markup are plain text: caller values (component parameters and
+    // additional attributes) are not HTML, and values read from the child's markup are decoded first
+    // (DecodeMarkupValue). Every value written is then encoded once, so a caller's "a &amp; b" is shown
+    // as typed, a quote cannot end the attribute, and a markup value such as the Tailwind class
+    // [&_svg]:size-4 round-trips unchanged (RZUI-015). Attributes that are not merged are copied as
+    // they were written.
+    private static string DecodeMarkupValue(ReadOnlySpan<char> value)
+        => value.IsEmpty ? string.Empty : WebUtility.HtmlDecode(value.ToString());
+
+    private static string EncodeAttributeValue(string value)
+    {
+        if (value.AsSpan().IndexOfAny("&\"'<>") < 0)
+        {
+            return value;
+        }
+
+        var sb = new StringBuilder(value.Length + 16);
+        foreach (var ch in value)
+        {
+            switch (ch)
+            {
+                case '&': sb.Append("&amp;"); break;
+                case '"': sb.Append("&quot;"); break;
+                case '\'': sb.Append("&#39;"); break;
+                case '<': sb.Append("&lt;"); break;
+                case '>': sb.Append("&gt;"); break;
+                default: sb.Append(ch); break;
+            }
+        }
+
+        return sb.ToString();
+    }
 
     private static void EmitAttr(
         StringBuilder sb,
@@ -316,10 +339,11 @@ internal static class HtmlUtils
         bool preserveUnquotedOnReplace)
     {
         sb.Append(' ').Append(name).Append('=');
+        var encoded = EncodeAttributeValue(value);
 
-        if (originalQuote == QuoteKind.None && preserveUnquotedOnReplace && IsUnquotedSafe(value))
+        if (originalQuote == QuoteKind.None && preserveUnquotedOnReplace && IsUnquotedSafe(encoded))
         {
-            sb.Append(value);
+            sb.Append(encoded);
             return;
         }
 
@@ -330,7 +354,7 @@ internal static class HtmlUtils
             _ => '"'
         };
 
-        sb.Append(q).Append(EscapeQuotes(value)).Append(q);
+        sb.Append(q).Append(encoded).Append(q);
     }
 
     // HTML5: unquoted value must not contain whitespace or: " ' ` = < >

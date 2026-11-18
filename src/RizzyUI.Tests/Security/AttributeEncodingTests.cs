@@ -47,6 +47,42 @@ public class AttributeEncodingTests : BunitAlbaContext, IClassFixture<WebAppFixt
     }
 
     [Fact]
+    public void AsChild_MarkupChild_CallerValuesAreShownAsTyped()
+    {
+        // RZUI-015 follow-up: '&' in a caller value was written unencoded, so "a &amp; b" was shown
+        // as "a & b" and "<b>" relied on the browser's lenient parsing.
+        var cut = Render<RzDialog>(parameters => parameters
+            .AddChildContent<DialogTrigger>(trigger => trigger
+                .Add(p => p.AsChild, true)
+                .AddUnmatched("title", "Tom &amp; Jerry <b>")
+                .AddUnmatched("data-note", "it's \"quoted\"")
+                .AddChildContent("<a href=\"/somewhere\">Open</a>"))
+            .AddChildContent<DialogContent>(content => content.AddChildContent("Body")));
+
+        var anchor = cut.Find("a[href='/somewhere']");
+        Assert.Equal("Tom &amp; Jerry <b>", anchor.GetAttribute("title"));
+        Assert.Equal("it's \"quoted\"", anchor.GetAttribute("data-note"));
+    }
+
+    [Fact]
+    public void AsChild_MarkupChild_MergedMarkupValuesAreNotDoubleEncoded()
+    {
+        // A class written in the child's markup with an entity is decoded before merging and encoded
+        // once on output.
+        var cut = Render<RzDialog>(parameters => parameters
+            .AddChildContent<DialogTrigger>(trigger => trigger
+                .Add(p => p.AsChild, true)
+                .AddUnmatched("class", "px-2")
+                .AddChildContent("<a href=\"/somewhere\" class=\"[&amp;_svg]:size-4 py-1\">Open</a>"))
+            .AddChildContent<DialogContent>(content => content.AddChildContent("Body")));
+
+        var classes = cut.Find("a[href='/somewhere']").GetAttribute("class")!;
+        Assert.Contains("[&_svg]:size-4", classes);
+        Assert.DoesNotContain("&amp;", classes);
+        Assert.Contains("px-2", classes);
+    }
+
+    [Fact]
     public async Task MarkdownCodeFence_InfoStringCannotInjectAttributes()
     {
         var pipeline = new MarkdownPipelineBuilder().UseRizzySyntaxHighlighting().Build();

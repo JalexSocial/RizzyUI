@@ -139,6 +139,9 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzTabs` values with spaces or other characters that are invalid in an HTML id (for example
   `Value="first tab"`) produce valid ids, so `aria-controls`/`aria-labelledby` work. Values made of
   letters, digits, `-` and `_` keep their current ids. (RZUI-049)
+- `AsChild` with a plain-markup child shows caller attribute values as typed: `&`, `<` and `>` are
+  encoded along with quotes, so `title="Tom &amp; Jerry"` is no longer shown as "Tom & Jerry". Values
+  merged from the child's markup are decoded first, so nothing is encoded twice. (RZUI-015)
 - `FieldLabel For` names `RzCombobox` and `RzInputOTP`. Their inputs had ids no label could target;
   they now use the form field's id, like the other inputs. The combobox's hidden native `<select>`
   is hidden from assistive technology once the widget starts, so it no longer shows as a second,
