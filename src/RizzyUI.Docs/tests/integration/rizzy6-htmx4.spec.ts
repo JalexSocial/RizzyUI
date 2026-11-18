@@ -1,26 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
+import { collectPageErrors } from './helpers';
 
 // Integration tests against the real docs app (server-rendered RizzyUI components, the packaged
 // RizzyUI runtime, htmx 4 and Rizzy 6's client). See playwright.integration.config.ts.
-
-function collectPageErrors(page: Page): string[] {
-  const errors: string[] = [];
-  page.on('pageerror', error => errors.push(`pageerror: ${error.message}`));
-  page.on('console', message => {
-    // Failed resource loads are reported with their URL by the response listener below.
-    if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) {
-      errors.push(`console.error: ${message.text()}`);
-    }
-  });
-  page.on('response', response => {
-    const url = new URL(response.url());
-    // Expected failures: the docs site has no favicon, and the "close via HX-Trigger" demo
-    // posts to an endpoint that only exists in a live backend (see DialogInfo.razor).
-    if (url.pathname === '/favicon.ico' || url.pathname === '/api/dialog/htmx-close-action') return;
-    if (response.status() >= 400) errors.push(`HTTP ${response.status()}: ${url.pathname}`);
-  });
-  return errors;
-}
 
 async function openHtmxDialog(page: Page) {
   // Located by CSS: while the dialog is open, x-trap.inert hides the rest of the page from the

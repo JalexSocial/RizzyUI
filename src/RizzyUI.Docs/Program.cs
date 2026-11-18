@@ -43,6 +43,10 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
         .AddAllWebRootContent(builder.Environment));  // from AspNetStaticContrib project
 #endif
 
+// CSP mode (meta-tag Content Security Policy and the rizzyui-csp.js build) for testing components
+// under the Alpine CSP build: Docs__UseContentSecurityPolicy=true or --Docs:UseContentSecurityPolicy=true.
+App.UseContentSecurityPolicy = builder.Configuration.GetValue("Docs:UseContentSecurityPolicy", false);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
