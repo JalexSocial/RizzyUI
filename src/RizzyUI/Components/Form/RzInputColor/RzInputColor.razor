@@ -33,7 +33,8 @@
                              placeholder="@Placeholder"
                              value="@Value"
                              data-slot="@RzInputColor.SlotNames.NameOf(SlotTypes.Input)"
-                             x-model="colorPicker.value" />
+                             x-bind:value="colorPicker.value"
+                             x-on:input="setValueFromInput" />
         </RzInputGroup>
     </RzColorPickerProvider>
 </HtmlElement>

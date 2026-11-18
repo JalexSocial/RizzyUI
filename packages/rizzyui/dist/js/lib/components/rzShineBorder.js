@@ -1,6 +1,7 @@
 export default function rzShineBorder() {
     return {
-        computedStyle: '',
+        // An object, so Alpine applies it with style.setProperty, which a CSP allows (see rzColorSwatch).
+        computedStyle: {},
 
         init() {
             const dataset = this.$el.dataset;
@@ -23,17 +24,17 @@ export default function rzShineBorder() {
                 ? shineColors.join(',')
                 : (shineColor.length > 0 ? shineColor : fallbackColors.join(','));
 
-            this.computedStyle = [
-                `--border-width:${borderWidth}px`,
-                `--duration:${duration}s`,
-                `background-image:radial-gradient(transparent,transparent,${gradientColors},transparent,transparent)`,
-                'background-size:300% 300%',
-                'mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
-                '-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
-                '-webkit-mask-composite:xor',
-                'mask-composite:exclude',
-                'padding:var(--border-width)',
-            ].join(';');
+            this.computedStyle = {
+                '--border-width': `${borderWidth}px`,
+                '--duration': `${duration}s`,
+                'background-image': `radial-gradient(transparent,transparent,${gradientColors},transparent,transparent)`,
+                'background-size': '300% 300%',
+                mask: 'linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
+                '-webkit-mask': 'linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
+                '-webkit-mask-composite': 'xor',
+                'mask-composite': 'exclude',
+                padding: 'var(--border-width)',
+            };
         },
 
         parseNumber(value, fallback) {

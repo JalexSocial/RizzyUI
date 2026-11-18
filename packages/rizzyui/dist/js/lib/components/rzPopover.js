@@ -6,7 +6,8 @@ export default function rzPopover() {
         open: false,
         ariaExpanded: 'false',
         dataState: 'closed',
-        contentStyle: '',
+        // An object, so Alpine applies it with style.setProperty, which a CSP allows (see rzColorSwatch).
+        contentStyle: {},
         triggerEl: null,
         contentEl: null,
         _cleanupAutoUpdate: null,
@@ -157,7 +158,7 @@ export default function rzPopover() {
 
         getInitialContentStyle() {
             const strategy = this.$el.dataset.strategy || 'absolute';
-            return `position: ${strategy}; left: 0px; top: 0px; visibility: hidden;`;
+            return { position: strategy, left: '0px', top: '0px', visibility: 'hidden' };
         },
 
         async updatePosition() {
@@ -196,7 +197,7 @@ export default function rzPopover() {
                 middleware,
             });
 
-            this.contentStyle = `position: ${strategy}; left: ${x}px; top: ${y}px; visibility: visible;`;
+            this.contentStyle = { position: strategy, left: `${x}px`, top: `${y}px`, visibility: 'visible' };
         },
 
         restoreTriggerFocus() {

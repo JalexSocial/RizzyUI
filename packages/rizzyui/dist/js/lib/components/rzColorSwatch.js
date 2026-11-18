@@ -52,7 +52,7 @@ export default function rzColorSwatch() {
         isDisabled: false,
 
         // Derived inline style string used by the swatch element.
-        swatchStyle: '',
+        swatchStyle: {},
 
         // ──────────────────────────────────────────────────────────────────────
         // LIFECYCLE
@@ -161,37 +161,33 @@ export default function rzColorSwatch() {
         // ──────────────────────────────────────────────────────────────────────
         // STYLE COMPUTATION
         // ──────────────────────────────────────────────────────────────────────
+        // Styles are objects, not CSS strings: Alpine applies an object with style.setProperty (allowed
+        // by a Content Security Policy) and a string with setAttribute('style'), which a policy without
+        // 'unsafe-inline' for styles blocks.
         getEmptyStyle() {
             // "No color" visual: transparent bg with a diagonal destructive slash
-            return [
-                'background:',
-                'linear-gradient(',
-                'to bottom right,',
-                'transparent calc(50% - 1px),',
-                'hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px),',
-                'transparent calc(50% + 1px)',
-                ') no-repeat;'
-            ].join(' ');
+            return {
+                background: 'linear-gradient(to bottom right, transparent calc(50% - 1px), '
+                    + 'hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) no-repeat',
+            };
         },
 
         getInvalidStyle() {
             // Invalid CSS color string: render as transparent.
             // (You could optionally add a warning pattern later.)
-            return 'background-color: transparent;';
+            return { 'background-color': 'transparent' };
         },
 
         getSolidColorStyle(color) {
-            return `background-color: ${color};`;
+            return { 'background-color': color };
         },
 
         getAlphaPreviewStyle(color) {
             // Layer 1: actual color
             // Layer 2: checkerboard transparency pattern
-            return [
-                `background: linear-gradient(${color}, ${color}),`,
-                'repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%)',
-                '0% 50% / 10px 10px;'
-            ].join(' ');
+            return {
+                background: `linear-gradient(${color}, ${color}), repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0% 50% / 10px 10px`,
+            };
         },
 
         refreshSwatch() {
