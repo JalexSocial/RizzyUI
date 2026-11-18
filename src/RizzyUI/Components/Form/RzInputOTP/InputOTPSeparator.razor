@@ -4,10 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@GetSeparatorClasses()"
-             data-slot="input-otp-separator"
-             role="separator">
+             data-slot="input-otp-separator" role="separator" @attributes="@AdditionalAttributes"
+             class="@GetSeparatorClasses()">
     @if (ChildContent is not null)
     {
         @ChildContent

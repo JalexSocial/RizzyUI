@@ -218,6 +218,31 @@ export default () =&gt; ({
             <RzSeparator />
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Stable Ids Across Swaps">
+                    Stable Ids Across Swaps
+                </RzHeading>
+                <RzParagraph>
+                    A component without an <code>Id</code> gets a generated one that is unique on the page but different on every
+                    render. That is fine for most swaps, which replace an element and its children together. When the same markup is
+                    rendered again and must keep its ids (a fragment that replaces itself and is referenced by id elsewhere, a morph
+                    swap that matches elements by id, or a snapshot test), wrap it in <code>RzIdScope</code>. Components inside get
+                    <code>{Prefix}-1</code>, <code>{Prefix}-2</code>, ... in render order, and the ids derived from them (dialog
+                    titles, legends, sections) follow. Components with an explicit <code>Id</code> keep it.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="CartSummary.razor" class="mt-4">
+&lt;RzIdScope Prefix="cart"&gt;
+    &lt;RzCollapsible&gt;...&lt;/RzCollapsible&gt;   @@* id="cart-1" on every render *@@
+    &lt;RzDialog&gt;...&lt;/RzDialog&gt;             @@* id="cart-2", title "cart-2-title" *@@
+&lt;/RzIdScope&gt;
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    The prefix must be unique on the page: two scopes with the same prefix render the same ids.
+                </RzParagraph>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
                     Next Steps
                 </RzHeading>

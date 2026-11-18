@@ -570,5 +570,45 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect(trigger).toBeFocused();
       expect(errors).toEqual([]);
     });
+
+    test('toast runtime: not loaded on a page without a provider until it is used (RZUI-056)', async ({ page }) => {
+      const toastChunks: string[] = [];
+      page.on('request', request => {
+        if (/rzToastManager/.test(request.url())) toastChunks.push(request.url());
+      });
+
+      const errors = await open(page, 'alert');
+      await page.waitForLoadState('networkidle');
+      expect(toastChunks).toEqual([]);
+
+      await page.evaluate(() => (window as any).Rizzy.toast.ready());
+      expect(toastChunks.length).toBeGreaterThan(0);
+      expect(errors).toEqual([]);
+    });
+
+    test('toast runtime: preloaded when the page has a provider (RZUI-056)', async ({ page }) => {
+      const toastChunks: string[] = [];
+      page.on('request', request => {
+        if (/rzToastManager/.test(request.url())) toastChunks.push(request.url());
+      });
+
+      const errors = await open(page, 'toast');
+      await expect.poll(() => toastChunks.length).toBeGreaterThan(0);
+      expect(errors).toEqual([]);
+    });
+
+    test('code viewer and markdown: the bundled highlight.js highlights C#, Razor and PowerShell (RZUI-062)', async ({ page }) => {
+      const missingLanguages: string[] = [];
+      page.on('console', message => {
+        if (/Could not find the language/i.test(message.text())) missingLanguages.push(message.text());
+      });
+
+      const errors = await open(page, 'code-viewer');
+      await expect(page.locator('#code-csharp code .hljs-keyword').first()).toBeVisible();
+      await expect(page.locator('#code-razor code .hljs-keyword, #code-razor code .hljs-tag').first()).toBeVisible();
+      await expect(page.locator('#markdown-powershell code [class^="hljs-"]').first()).toBeVisible();
+      expect(missingLanguages).toEqual([]);
+      expect(errors).toEqual([]);
+    });
   });
 }

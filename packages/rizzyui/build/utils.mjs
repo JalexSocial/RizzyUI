@@ -65,11 +65,14 @@ function isTestArtifact(entry) {
     return entry.isDirectory() ? entry.name === '__tests__' : /\.test\.m?js$/.test(entry.name);
 }
 
-export async function copyFileOrDir(fromPath, toPath) {
+/**
+ * Copies a file or a directory tree, skipping unit tests. `include(relativePath)`, when given,
+ * chooses which files of a directory are copied (paths use '/' and are relative to `fromPath`).
+ */
+export async function copyFileOrDir(fromPath, toPath, include = null, relativeRoot = '') {
     const stats = await fs.stat(fromPath);
 
     if (stats.isDirectory()) {
-        await ensureDir(toPath);
         const entries = await fs.readdir(fromPath, { withFileTypes: true });
         for (const entry of entries) {
             if (isTestArtifact(entry)) {
@@ -77,9 +80,10 @@ export async function copyFileOrDir(fromPath, toPath) {
             }
             const source = path.join(fromPath, entry.name);
             const destination = path.join(toPath, entry.name);
+            const relative = relativeRoot ? `${relativeRoot}/${entry.name}` : entry.name;
             if (entry.isDirectory()) {
-                await copyFileOrDir(source, destination);
-            } else {
+                await copyFileOrDir(source, destination, include, relative);
+            } else if (!include || include(relative)) {
                 await ensureDir(path.dirname(destination));
                 await fs.copyFile(source, destination);
             }

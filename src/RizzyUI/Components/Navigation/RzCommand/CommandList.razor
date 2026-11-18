@@ -3,11 +3,9 @@
 @using Blazicons
 @inherits RzComponent<CommandList.Slots>
 
-<div @attributes="AdditionalAttributes"
+<div data-slot="command-list" role="listbox" @attributes="AdditionalAttributes"
      id="rz-command-list-@ParentCommand?.Id"
      class="@SlotClasses.GetBase()"
-     data-slot="command-list"
-     role="listbox"
      x-data="rzCommandList" x-load="@LoadStrategyOrNull"
      x-on:click.capture="handleItemClick"
      x-on:mouseover.throttle.10ms="handleItemHover">

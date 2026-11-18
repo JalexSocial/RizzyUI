@@ -3,12 +3,9 @@
 @using RizzyUI.Extensions
 @inherits RzComponent<FieldSlots>
 
-<HtmlElement Element="@EffectiveElement" 
-             role="group" 
-             @attributes="AdditionalAttributes" 
+<HtmlElement Element="@EffectiveElement" role="group" data-slot="field" @attributes="AdditionalAttributes" 
              id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="field"
+             class="@SlotClasses.GetBase()"
              data-orientation="@Orientation.ToString().ToKebabCase()">
     @ChildContent
 </HtmlElement>

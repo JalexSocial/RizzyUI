@@ -48,6 +48,9 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
     /// </summary>
     protected string ContentId => $"{ParentTabs?.Id}-{RzTabs.IdSegment(Value)}-content";
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -55,7 +58,6 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
         if (ParentTabs == null)
             throw new InvalidOperationException($"{nameof(TabsTrigger)} must be used within an {nameof(RzTabs)} component.");
 
-        Element = "button";
     }
 
     /// <inheritdoc />
@@ -64,7 +66,7 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
     /// <inheritdoc />
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
             ["class"] = SlotClasses.GetBase(),

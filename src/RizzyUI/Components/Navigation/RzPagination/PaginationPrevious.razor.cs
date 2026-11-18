@@ -39,25 +39,13 @@ public partial class PaginationPrevious : RzComponent<PaginationPrevious.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+    protected override string DefaultElement => "a";
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "a";
+    /// <summary>The <see cref="Label"/> parameter, or its localized default.</summary>
+    protected string EffectiveLabel => Label ?? Localizer["PaginationPrevious.Label"];
 
-        Label ??= Localizer["PaginationPrevious.Label"];
-        AriaLabel ??= Localizer["PaginationPrevious.AriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        Label ??= Localizer["PaginationPrevious.Label"];
-        AriaLabel ??= Localizer["PaginationPrevious.AriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["PaginationPrevious.AriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.PaginationPrevious;

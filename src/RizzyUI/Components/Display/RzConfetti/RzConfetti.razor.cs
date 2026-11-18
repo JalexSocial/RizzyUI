@@ -41,9 +41,6 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
     private string _assets = "[]";
     private string _optionsJson = "{}";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets the effective browser event name used for custom-event mode.
     /// </summary>
@@ -231,9 +228,10 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
 
     /// <summary>
     /// Gets or sets the logical keys used to resolve optional assets from <see cref="RizzyUIConfig"/>.
+    /// Empty by default: canvas-confetti is bundled with the component's script (RZUI-056).
     /// </summary>
     [Parameter]
-    public string[] ComponentAssetKeys { get; set; } = ["CanvasConfetti"];
+    public string[] ComponentAssetKeys { get; set; } = [];
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -256,9 +254,7 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private void UpdateOptions()

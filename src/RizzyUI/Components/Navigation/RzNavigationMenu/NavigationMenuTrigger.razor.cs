@@ -44,13 +44,14 @@ public partial class NavigationMenuTrigger : RzComponent<NavigationMenuTrigger.S
     protected string TriggerXRef => $"trigger_{ParentItem?.Id}";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "button";
 
-        if (Element.Equals("button", StringComparison.OrdinalIgnoreCase) && (AdditionalAttributes is null || !AdditionalAttributes.ContainsKey("type")))
+        if (EffectiveElement.Equals("button", StringComparison.OrdinalIgnoreCase) && (AdditionalAttributes is null || !AdditionalAttributes.ContainsKey("type")))
         {
             AdditionalAttributes ??= new Dictionary<string, object>();
             AdditionalAttributes["type"] = "button";

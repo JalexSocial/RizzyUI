@@ -23,15 +23,8 @@ public partial class ButtonGroupText : RzAsChildComponent<ButtonGroupText.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "div";
-        }
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override RenderFragment? GetAsChildContent() => ChildContent;
@@ -39,7 +32,7 @@ public partial class ButtonGroupText : RzAsChildComponent<ButtonGroupText.Slots>
     /// <inheritdoc />
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),

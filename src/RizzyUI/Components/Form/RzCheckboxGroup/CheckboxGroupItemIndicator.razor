@@ -5,7 +5,7 @@
 
 @if (ShowIndicators)
 {
-    <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="@CheckboxGroupItemIndicator.SlotNames.NameOf(SlotTypes.Base)">
+    <div data-slot="@CheckboxGroupItemIndicator.SlotNames.NameOf(SlotTypes.Base)" @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()">
         @if (ChildContent is null)
         {
             <Blazicon Svg="@(CheckedIcon ?? MdiIcon.CheckBold)" class="@SlotClasses.GetIcon()" />

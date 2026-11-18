@@ -30,11 +30,35 @@ Finding IDs (RZUI-0xx) refer to the
   "One-time password") replaced the name a `<label>` or `FieldLabel` gave the control, so screen
   readers announced the generic text instead of the field's name. Label them with `FieldLabel For`
   (or a `<label for>`); a control with no visible label needs `aria-label` passed explicitly.
+- **The toast runtime loads on first use.** `Rizzy.toast` is still available immediately, but the
+  toast manager and renderer (about 6 KB gzipped) load when a toast is first shown, or when the
+  browser is idle on a page with an `RzToastProvider`. Calls made before that are queued and run in
+  order; they return a handle with the toast's final id, `dismiss()` and `clear()` return
+  `undefined`, and `configure()`/`registerProvider()` return `Rizzy.toast` instead of the manager.
+  Await `Rizzy.toast.ready()` if you need the manager or a return value. (RZUI-056)
+- **The `CanvasConfetti` asset key is removed** and `RzConfetti.ComponentAssetKeys` defaults to
+  empty. canvas-confetti is bundled with the component's script; the key loaded a second copy from
+  a CDN. Remove `CanvasConfetti` from any `ComponentAssetKeys` you set. (RZUI-056)
+- **The packages no longer ship component sources under `dist/js/lib`** (npm) and
+  `_content/RizzyUI/js/lib` (NuGet), about 0.6 MB that nothing loaded. The stylesheets that
+  `rizzyui-theme.css` imports and the highlight.js Razor grammar remain. Import from the package
+  entry points instead of `dist/js/lib/...`. (RZUI-056)
+- **The vendored highlight.js is a smaller build.** `HighlightJsCore` now loads
+  `vendor/highlightjs/highlight.min.js` (164 KB, was the 1.75 MB unminified build of every
+  language), which has highlight.js's common languages plus PowerShell, Dockerfile, F#, HTTP, nginx
+  and properties; Razor still comes from `HighlightJsRazor`. Every other language ships as
+  `vendor/highlightjs/languages/<name>.min.js`: register it as an asset and list its key after
+  `HighlightJsCore` (see `vendor/highlightjs/README.md`). The unused ESM build, unminified files and
+  500 theme stylesheets are gone; the `RizzyUI` package is 2.9 MB (was 6.1 MB) with 246 files (was 1,444). (RZUI-062)
 
 ### Added
 
 - `RzCombobox.ItemDataSelector` chooses the item data option and item templates can read (see
   Breaking).
+- `Rizzy.toast.ready()` resolves when the toast runtime has loaded (see Breaking).
+- `RzIdScope Prefix="..."` gives the components inside it deterministic ids (`{Prefix}-1`,
+  `{Prefix}-2`, ... in render order), so the same markup renders the same ids: for fragments that
+  are re-rendered and swapped, morph swaps and snapshot tests. (RZUI-061)
 - The runtime logs a console warning when the page already has another Alpine.js instance; RizzyUI
   bundles and starts Alpine itself, and a second copy initializes components twice. (RZUI-058)
 
@@ -115,6 +139,9 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzTabs` values with spaces or other characters that are invalid in an HTML id (for example
   `Value="first tab"`) produce valid ids, so `aria-controls`/`aria-labelledby` work. Values made of
   letters, digits, `-` and `_` keep their current ids. (RZUI-049)
+- `AsChild` with a plain-markup child shows caller attribute values as typed: `&`, `<` and `>` are
+  encoded along with quotes, so `title="Tom &amp; Jerry"` is no longer shown as "Tom & Jerry". Values
+  merged from the child's markup are decoded first, so nothing is encoded twice. (RZUI-015)
 - `FieldLabel For` names `RzCombobox` and `RzInputOTP`. Their inputs had ids no label could target;
   they now use the form field's id, like the other inputs. The combobox's hidden native `<select>`
   is hidden from assistive technology once the widget starts, so it no longer shows as a second,
@@ -122,6 +149,41 @@ Finding IDs (RZUI-0xx) refer to the
 - Subtle success, warning and information toasts show their title and text in the foreground color
   (the status color stays on the icon). The status-colored text measured 2.9:1 on the tinted
   background, below WCAG AA.
+
+### Changed
+
+- `Element` is honored on every component. 55 components (for example `RzSeparator`,
+  `DialogTitle`, `SheetTrigger`, `CardContent`, `RzCheckboxGroup`) replaced it with their own tag;
+  they now use it when it is set. Components no longer write their default tag into the `Element`
+  parameter: derived components override `DefaultElement` instead. (RZUI-053)
+- Components no longer write localized defaults into their parameters (`AriaLabel ??= ...` in 41
+  components). The rendered output is unchanged; code that read, for example, `AriaLabel` from a
+  component instance after rendering now sees the value that was passed (or `null`). (RZUI-053)
+- A dictionary passed directly as `AdditionalAttributes` with keys that differ only by case no
+  longer throws ("An item with the same key has already been added") in 29 components; the last
+  key wins, as it does for markup attributes. (RZUI-053)
+- **Attribute precedence is the same on every component**: `role`, `data-slot` and `type` (buttons)
+  can be overridden with attributes; everything else a component computes (`class`, `id`, `x-*`,
+  ARIA state, `aria-label`, configuration `data-*`, `href`) wins over attributes, so change those
+  through the component's parameters. This fixes `Label`, `RzAspectRatio`, `RzCombobox` and
+  `RzCalendarProvider`, where a `class` attribute replaced the component's classes instead of being
+  merged, and `RzDropdownMenu` and `RzCalendarProvider`, where attributes could replace `x-data`.
+  `RzAvatar`, `RzAlert` and `RzToastProvider` no longer take `aria-label`/`aria-live` from attributes
+  (use `AriaLabel`, `RzAlert.LiveRegionMode` and `RegionAriaLabel`). `RzSidebar` renders caller attributes when it is
+  collapsible (they were dropped). Wrapping components now set the `data-slot` they declare on the
+  component they render (for example the `RzInputColor` swatch is `thumbnail`). (RZUI-053)
+- Ids that components derive (dialog and sheet titles and descriptions, dialog body and footer,
+  accordion sections, checkbox and radio group legends, command group headings, sidebar group labels,
+  the code viewer's code element, calendar and date edit elements, Markdown heading anchors) are now
+  `{Id}-<part>` instead of separately generated, and a component given an `Id` no longer generates
+  one it does not use. (RZUI-061)
+- Every component's root has a `data-slot`; 16 did not (`RzSwitch`, `RzLink`, `RzCarousel` and its
+  parts, `RzDateEdit`, `RzSteps`, `RzSearchButton`, `RzDarkModeToggle`, `RzFormSection` and others).
+  (RZUI-053)
+- The README, Getting Started, the theme guide, the migration guide and the `dotnet new rizzyui`
+  template load the minified runtime (`rizzyui.min.js`, `rizzyui-csp.min.js`), about half the bytes
+  of `rizzyui.js`. The unminified files remain for debugging. (RZUI-056)
+- The eager runtime is 33.0 KB gzipped (standard) and 36.7 KB (CSP), down from 37.0 and 40.6 KB.
 
 ### Removed
 

@@ -4,7 +4,6 @@
 @using Rizzy
 @inherits RzComponent<InputGroupInput.Slots>
 
-<RzInputText @attributes="AdditionalAttributes" 
+<RzInputText data-slot="input-group-control" @attributes="AdditionalAttributes" 
              For="@For" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="input-group-control" />
+             class="@SlotClasses.GetBase()" />

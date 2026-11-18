@@ -177,7 +177,7 @@ EOF
     exit 1
   fi
   (cd "$app" && dotnet publish -c Release -o "$work/$framework/publish" --nologo)
-  for file in wwwroot/css/app.css wwwroot/_content/RizzyUI/js/rizzyui.js; do
+  for file in wwwroot/css/app.css wwwroot/_content/RizzyUI/js/rizzyui.min.js; do
     if [[ ! -f "$work/$framework/publish/$file" ]]; then
       echo "error: published app is missing $file" >&2
       exit 1

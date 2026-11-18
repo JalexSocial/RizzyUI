@@ -33,24 +33,19 @@ public partial class RzColorPickerTrigger : RzAsChildComponent<RzColorPickerTrig
     [CascadingParameter] private RzColorPickerProvider.Context? ProviderContext { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzColorPickerTrigger.DefaultAriaLabel"];
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
-
         if (ProviderContext is null)
             throw new InvalidOperationException($"{nameof(RzColorPickerTrigger)} must be used within an {nameof(RzColorPickerProvider)}.");
 
-        AriaLabel ??= Localizer["RzColorPickerTrigger.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzColorPickerTrigger.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>
@@ -59,12 +54,12 @@ public partial class RzColorPickerTrigger : RzAsChildComponent<RzColorPickerTrig
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["role"] = "button",
             ["tabindex"] = Disabled ? -1 : 0,
-            ["aria-label"] = AriaLabel,
+            ["aria-label"] = EffectiveAriaLabel,
             ["aria-disabled"] = Disabled ? "true" : null,
             ["x-on:click"] = Disabled ? null : "colorPicker.open",
             ["x-on:keydown.enter.prevent"] = Disabled ? null : "colorPicker.open",

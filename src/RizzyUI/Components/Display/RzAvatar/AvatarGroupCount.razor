@@ -3,8 +3,7 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="@AvatarGroupCount.SlotNames.NameOf(SlotTypes.Base)">
+             data-slot="@AvatarGroupCount.SlotNames.NameOf(SlotTypes.Base)" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

@@ -52,9 +52,9 @@ need to reference `Rizzy` yourself unless you want to pin it.
    ```razor
    <RzHeadOutlet />
    <RzScripts />
-   <script type="module" nonce="@Nonce" src="_content/RizzyUI/js/rizzyui.js"></script>
+   <script type="module" nonce="@Nonce" src="_content/RizzyUI/js/rizzyui.min.js"></script>
    ```
-   Use `_content/RizzyUI/js/rizzyui-csp.js` if the page has a Content Security Policy.
+   Use `_content/RizzyUI/js/rizzyui-csp.min.js` if the page has a Content Security Policy.
 
 4. **No `<base href="/">` in your layout?** `<RzScripts />` loads Rizzy's client from a relative URL
    (`_content/Rizzy/js/rizzy.js`), which breaks on nested routes without a base element. Either add
@@ -143,6 +143,14 @@ code changes. The full list is in [CHANGELOG.md](../../CHANGELOG.md) under "Unre
 | `AsChild` with plain markup kept the component's classes on a Tailwind conflict | The child's own classes win on both paths, as documented (RZUI-039) | Check `AsChild` children whose classes conflict with the component's (for example two padding classes) |
 | Without `AddLocalization()`, components rendered resource keys; RizzyUI decorated your `IStringLocalizerFactory` | English text is the fallback, and RizzyUI registers only `IStringLocalizer<RizzyLocalization>` (RZUI-036, RZUI-037) | Nothing, unless you resolved RizzyUI strings through your own factory; `Scrutor` is no longer brought in, so add it yourself if your app used it |
 | `RzSlider` loaded an extra `SliderScript` asset | No default assets; the key is gone (RZUI-030) | Remove references to the `SliderScript` asset key |
+| `Rizzy.toast` calls returned the manager's results immediately | The toast runtime loads on first use; calls before that are queued and return a handle with the toast's id; `dismiss()`/`clear()` return `undefined` and `configure()` returns `Rizzy.toast` while loading (RZUI-056) | `await Rizzy.toast.ready()` before code that needs a return value or the manager |
+| `RzConfetti` loaded canvas-confetti from a CDN (`CanvasConfetti` asset key) | Bundled with the component; the key is gone (RZUI-056) | Remove `CanvasConfetti` from any `ComponentAssetKeys` |
+| The packages shipped component sources under `dist/js/lib` / `_content/RizzyUI/js/lib` | Only the stylesheets `rizzyui-theme.css` imports and the Razor highlight grammar remain (RZUI-056) | Import from the package entry points |
+| `HighlightJsCore` loaded every highlight.js language | Common languages plus PowerShell, Dockerfile, F#, HTTP, nginx and properties (RZUI-062) | For another language, register `vendor/highlightjs/languages/<name>.min.js` as an asset and list its key after `HighlightJsCore` |
+| 55 components ignored `Element` | `Element` is honored everywhere (RZUI-053) | Remove `Element` where you passed it without effect |
+| Some components took `class`, `aria-label`, `aria-live` or `x-data` from attributes | `role`, `data-slot` and `type` can be overridden with attributes; everything else a component computes comes from its parameters (RZUI-053) | Use the component's parameter (for example `AriaLabel`) instead of the attribute |
+| Components wrote localized defaults into their parameters | Parameters keep the value you passed (RZUI-053) | Code reading, for example, `component.AriaLabel` after render sees `null` when you passed none |
+| Generated sub-ids (dialog titles, legends, ...) were random | They are `{Id}-title`, `{Id}-legend`, ...; `RzIdScope` gives deterministic ids (RZUI-061) | Nothing, unless CSS or scripts matched the old generated ids |
 
 ## Worked example
 
@@ -162,7 +170,7 @@ builder.Services.AddRazorComponents();
     <HeadOutlet />
     <script nonce="@Nonce" defer src="vendor/htmx/htmx.min.js"></script>
     <script nonce="@Nonce" defer src="_content/Rizzy/js/rizzy.js"></script>
-    <script nonce="@Nonce" type="module" src="_content/RizzyUI/js/rizzyui.js"></script>
+    <script nonce="@Nonce" type="module" src="_content/RizzyUI/js/rizzyui.min.js"></script>
 </head>
 <body hx-ext="rizzy-nonce">
     <a href="/orders" hx-boost="true" hx-select="#content" hx-target="#content"
@@ -184,7 +192,7 @@ builder.Services.AddHtmx(o => o.Scripts = new HtmxScriptOptions { BaseUrl = "/ve
     <link rel="stylesheet" href="css/app.css" />
     <RzHeadOutlet />
     <RzScripts />
-    <script nonce="@Nonce" type="module" src="/_content/RizzyUI/js/rizzyui.js"></script>
+    <script nonce="@Nonce" type="module" src="/_content/RizzyUI/js/rizzyui.min.js"></script>
 </head>
 <body>
     <a href="/orders" hx-boost="true" hx-select="#content" hx-target="#content"

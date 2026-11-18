@@ -648,10 +648,11 @@ test('multiple providers use the first provider and warn in development', () => 
     }
 });
 
-test('facade and manager methods create, update, move, dismiss, and clear toasts', () => {
+test('facade and manager methods create, update, move, dismiss, and clear toasts', async () => {
     const env = setupManager();
 
     try {
+        await Toast.ready();
         Toast.registerProvider(env.document.querySelector('[data-rz-toast-provider]'));
         const handle = Toast.success('Saved', 'Success', { id: 'saved', position: 'bottom-left', autoclose: false });
         const bottomLeft = Toast.configure().stacks.get('bottom-left');
@@ -689,6 +690,63 @@ test('facade and manager methods create, update, move, dismiss, and clear toasts
 
         Toast.clear();
         assert.equal(Toast.configure().getAll().length, 0);
+    } finally {
+        env.restore();
+    }
+});
+
+test('facade calls made before the toast runtime loads are queued, in order, with stable ids (RZUI-056)', async () => {
+    const env = installDom();
+    createProvider(env.document);
+
+    try {
+        // A separate facade instance that has not loaded the runtime yet.
+        const { default: Facade } = await import('../toast.js?queued-calls');
+        const { toastManager } = await import('../rzToastManager.js');
+        toastManager.clear();
+
+        Facade.registerProvider(env.document.querySelector('[data-rz-toast-provider]'));
+        const handle = Facade.success('Saved', 'Success', { autoclose: false });
+        assert.equal(typeof handle.id, 'string');
+        assert.ok(handle.id.length > 0);
+        assert.equal(toastManager.get(handle.id), undefined, 'not shown before the runtime loads');
+
+        handle.update({ text: 'Updated' });
+        const second = Facade.info('Second', 'Info', { id: 'second', autoclose: false });
+        assert.equal(second.id, 'second');
+        assert.equal(Facade.dismiss('second'), undefined, 'queued while loading');
+
+        assert.equal(await Facade.ready(), Facade);
+        assert.equal(toastManager.get(handle.id).options.text, 'Updated');
+        assert.equal(toastManager.get('second').dismissed, true);
+
+        // Once loaded, calls are synchronous again.
+        assert.equal(Facade.configure(), toastManager);
+        assert.equal(Facade.dismiss(handle.id), true);
+        Facade.clear();
+    } finally {
+        env.restore();
+    }
+});
+
+test('toast input events that arrive before the runtime loads are handled once it has (RZUI-056)', async () => {
+    const env = installDom();
+    createProvider(env.document);
+
+    try {
+        const { default: Facade } = await import('../toast.js?queued-events');
+        const { toastManager } = await import('../rzToastManager.js');
+        toastManager.clear();
+        toastManager.registerProvider(env.document.querySelector('[data-rz-toast-provider]'));
+
+        assert.ok(env.window.listeners.get('rz:toast:batch')?.length > 0, 'the facade listens before loading');
+        env.window.dispatchEvent(new FakeEvent('rz:toast:batch', {
+            detail: { commands: [{ type: 'show', options: { id: 'from-server', text: 'From the server', autoclose: false } }] },
+        }));
+
+        await Facade.ready();
+        assert.equal(toastManager.get('from-server').options.text, 'From the server');
+        toastManager.clear();
     } finally {
         env.restore();
     }

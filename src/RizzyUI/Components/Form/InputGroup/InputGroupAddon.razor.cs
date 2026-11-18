@@ -9,7 +9,6 @@ namespace RizzyUI;
 /// </summary>
 public partial class InputGroupAddon : RzComponent<InputGroupAddonSlots>, IHasInputGroupAddonStylingProperties
 {
-
     /// <summary>
     /// Gets or sets the content to be rendered inside the addon.
     /// </summary>
@@ -24,12 +23,7 @@ public partial class InputGroupAddon : RzComponent<InputGroupAddonSlots>, IHasIn
     public InputGroupAddonAlign Align { get; set; } = InputGroupAddonAlign.InlineStart;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
-    }
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<InputGroupAddonSlots>, InputGroupAddonSlots> GetDescriptor() => Theme.InputGroupAddon;

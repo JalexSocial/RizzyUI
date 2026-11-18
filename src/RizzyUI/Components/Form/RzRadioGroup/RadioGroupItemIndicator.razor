@@ -4,7 +4,7 @@
 
 @if (ShowIndicators)
 {
-    <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="@RadioGroupItemIndicator.SlotNames.NameOf(SlotTypes.Base)">
+    <div data-slot="@RadioGroupItemIndicator.SlotNames.NameOf(SlotTypes.Base)" @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()">
         @if (ChildContent is null)
         {
             <div class="@SlotClasses.GetDot()" data-slot="@RadioGroupItemIndicator.SlotNames.NameOf(SlotTypes.Dot)"></div>

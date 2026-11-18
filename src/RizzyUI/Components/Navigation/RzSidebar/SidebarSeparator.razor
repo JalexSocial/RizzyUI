@@ -2,9 +2,8 @@
 @namespace RizzyUI
 @inherits RzComponent<SidebarSeparator.Slots>
 
-<RzSeparator data-slot="sidebar-separator"
+<RzSeparator data-slot="sidebar-separator" @attributes="AdditionalAttributes"
              data-sidebar="separator"
              Orientation="Orientation.Horizontal"
-             @attributes="AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()" />

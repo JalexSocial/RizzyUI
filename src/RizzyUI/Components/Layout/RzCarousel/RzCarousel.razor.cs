@@ -35,9 +35,6 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
     private string _serializedConfig = "{}";
     private string _assets = "[]";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets or sets the content of the carousel, which should include <see cref="CarouselContent"/> and optionally <see cref="CarouselPrevious"/> and <see cref="CarouselNext"/>.
     /// </summary>
@@ -63,11 +60,13 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
     [Parameter]
     public string? AriaLabel { get; set; }
 
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCarousel.DefaultAriaLabel"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AriaLabel ??= Localizer["RzCarousel.DefaultAriaLabel"];
         UpdateConfiguration();
     }
 
@@ -75,7 +74,6 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzCarousel.DefaultAriaLabel"];
         UpdateConfiguration();
     }
 
@@ -96,7 +94,7 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
         var keys = new List<string> { "EmblaCore" };
         keys.AddRange(Plugins.Select(plugin => plugin.AssetKey).Where(key => !string.IsNullOrEmpty(key))!);
 
-        return JsonSerializer.Serialize(RizzyUIConfig.Value.ResolveAssets(keys, RequestPathBase));
+        return SerializeAssetUrls(keys);
     }
 
     /// <inheritdoc/>

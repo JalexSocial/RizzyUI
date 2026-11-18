@@ -27,9 +27,6 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     private string _assets = "[]";
     private FieldIdentifier _fieldIdentifier;
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
@@ -138,6 +135,9 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     internal string InputId => _fieldInputId ?? $"{Id}-input";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -160,15 +160,11 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     private void SetElementDefault()
     {
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
     }
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private void UpdateFieldIdentifier()
@@ -225,7 +221,6 @@ public enum InputOtpType
     /// </summary>
     Alphanumeric
 }
-
 
 /// <summary>
 /// Defines text transformation options applied to OTP text input.

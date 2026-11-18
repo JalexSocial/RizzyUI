@@ -3,12 +3,10 @@
 @inherits RzComponent<TabsList.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="@TabsList.SlotNames.NameOf(SlotTypes.Base)" role="tablist" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             data-slot="@TabsList.SlotNames.NameOf(SlotTypes.Base)"
-             role="tablist"
-             aria-label="@AriaLabel"
+             aria-label="@EffectiveAriaLabel"
              aria-orientation="@Orientation.ToString().ToLowerInvariant()"
              x-on:keydown="onListKeydown">
     @ChildContent

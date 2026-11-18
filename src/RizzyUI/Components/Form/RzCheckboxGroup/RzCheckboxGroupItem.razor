@@ -3,10 +3,9 @@
 @namespace RizzyUI
 @inherits RzComponent<RzCheckboxGroupItemSlots>
 
-<label @attributes="AdditionalAttributes"
+<label data-slot="@RzCheckboxGroupItemSlotNames.NameOf(RzCheckboxGroupItemSlotTypes.Base)" @attributes="AdditionalAttributes"
        id="@Id"
        class="@SlotClasses.GetBase()"
-       data-slot="@RzCheckboxGroupItemSlotNames.NameOf(RzCheckboxGroupItemSlotTypes.Base)"
        aria-disabled=@Disabled>
     <input type="checkbox"
            name="@ParentGroup?.Name"

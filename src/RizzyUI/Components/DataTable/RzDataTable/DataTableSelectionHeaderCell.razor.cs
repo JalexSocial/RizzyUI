@@ -32,26 +32,19 @@ public partial class DataTableSelectionHeaderCell : RzComponent<DataTableSelecti
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "th";
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["DataTableSelectAllCheckbox.DefaultAriaLabel"];
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "th";
-        }
-
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("scope", "col");
 
-        AriaLabel ??= Localizer["DataTableSelectAllCheckbox.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["DataTableSelectAllCheckbox.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>

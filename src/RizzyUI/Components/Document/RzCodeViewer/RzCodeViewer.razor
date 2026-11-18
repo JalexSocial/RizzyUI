@@ -12,7 +12,7 @@
          x-data="rzCodeViewer" x-load="@LoadStrategyOrNull">
     
         <div class="@SlotClasses.GetHeader()">
-            <span class="@SlotClasses.GetHeaderTitle()">@ViewerTitle</span>
+            <span class="@SlotClasses.GetHeaderTitle()">@EffectiveViewerTitle</span>
             <div class="@SlotClasses.GetCopyButtonContainer()">
                 <button type="button" aria-label="@Localizer["RzCodeViewer.CopyButtonAriaLabel"]" role="button" :title="getCopiedTitle" x-on:click="copyHTML"
                         class="@SlotClasses.GetCopyButton()" :class="getCopiedCss" x-on:click.away="disableCopied"

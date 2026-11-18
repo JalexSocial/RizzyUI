@@ -42,9 +42,6 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
 
     private string _assets = "[]";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets or sets the event name to subscribe to.
     /// </summary>
@@ -160,6 +157,33 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
     /// </summary>
     protected string ResolvedEventNamesAttribute => string.Join(',', ResolveEventNames());
 
+    /// <summary>The <see cref="ViewerTitle"/> parameter, or its localized default.</summary>
+    protected string EffectiveViewerTitle => ViewerTitle ?? Localizer["RzEventViewer.DefaultViewerTitle"];
+
+    /// <summary>The <see cref="ClearButtonText"/> parameter, or its localized default.</summary>
+    protected string EffectiveClearButtonText => ClearButtonText ?? Localizer["RzEventViewer.ClearButtonText"];
+
+    /// <summary>The <see cref="CopyButtonText"/> parameter, or its localized default.</summary>
+    protected string EffectiveCopyButtonText => CopyButtonText ?? Localizer["RzEventViewer.CopyButtonText"];
+
+    /// <summary>The <see cref="PauseButtonText"/> parameter, or its localized default.</summary>
+    protected string EffectivePauseButtonText => PauseButtonText ?? Localizer["RzEventViewer.PauseButtonText"];
+
+    /// <summary>The <see cref="ResumeButtonText"/> parameter, or its localized default.</summary>
+    protected string EffectiveResumeButtonText => ResumeButtonText ?? Localizer["RzEventViewer.ResumeButtonText"];
+
+    /// <summary>The <see cref="ListeningStatusText"/> parameter, or its localized default.</summary>
+    protected string EffectiveListeningStatusText => ListeningStatusText ?? Localizer["RzEventViewer.ListeningStatusText"];
+
+    /// <summary>The <see cref="PausedStatusText"/> parameter, or its localized default.</summary>
+    protected string EffectivePausedStatusText => PausedStatusText ?? Localizer["RzEventViewer.PausedStatusText"];
+
+    /// <summary>The <see cref="ExpandEntryDetailsText"/> parameter, or its localized default.</summary>
+    protected string EffectiveExpandEntryDetailsText => ExpandEntryDetailsText ?? Localizer["RzEventViewer.ExpandEntryDetailsText"];
+
+    /// <summary>The <see cref="CollapseEntryDetailsText"/> parameter, or its localized default.</summary>
+    protected string EffectiveCollapseEntryDetailsText => CollapseEntryDetailsText ?? Localizer["RzEventViewer.CollapseEntryDetailsText"];
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -178,15 +202,6 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
 
     private void SetDefaults()
     {
-        ViewerTitle ??= Localizer["RzEventViewer.DefaultViewerTitle"];
-        ClearButtonText ??= Localizer["RzEventViewer.ClearButtonText"];
-        CopyButtonText ??= Localizer["RzEventViewer.CopyButtonText"];
-        PauseButtonText ??= Localizer["RzEventViewer.PauseButtonText"];
-        ResumeButtonText ??= Localizer["RzEventViewer.ResumeButtonText"];
-        ListeningStatusText ??= Localizer["RzEventViewer.ListeningStatusText"];
-        PausedStatusText ??= Localizer["RzEventViewer.PausedStatusText"];
-        ExpandEntryDetailsText ??= Localizer["RzEventViewer.ExpandEntryDetailsText"];
-        CollapseEntryDetailsText ??= Localizer["RzEventViewer.CollapseEntryDetailsText"];
     }
 
     private IReadOnlyList<string> ResolveEventNames()
@@ -222,9 +237,7 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <inheritdoc />

@@ -2,28 +2,39 @@
 
 ```razor
 <HtmlElement Element="@EffectiveElement"
-             id="@Id"
+             data-slot="fancy-thing"
              @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="fancy-thing">
+             id="@Id"
+             class="@SlotClasses.GetBase()">
     @* Optional content here, like an Alpine child-container *@
 </HtmlElement>
 ```
 
-* `Element="@EffectiveElement"` keeps the tag overridable (default "div" in `RzComponent`).
+* `Element="@EffectiveElement"` keeps the tag overridable. The default is `DefaultElement` (`"div"` in
+  `RzComponent`); override it instead of assigning the `Element` parameter:
+
+  ```csharp
+  protected override string DefaultElement => "nav";
+  ```
 * `@Id` is required for HTMX, Alpine, and tests.
-* `@SlotClasses.GetBase()` is supplied by the `TailwindVariants.NET` system in the code-behind.
+* `@SlotClasses.GetBase()` is supplied by the `TailwindVariants.NET` system in the code-behind. It
+  already merges the caller's `class`.
 * `data-slot="component-name"` is a **mandatory** attribute. The value should be the kebab-case version of the component's name (e.g., `RzFancyThing` becomes `fancy-thing`).
 * **Always** convert enum values used as data- attributes into kebab-case (e.g. MyEnumProperty.ToString().ToKebabCase()).
 * **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
-* **Always place `@attributes` before `class`** on component root elements.
+* **Attribute precedence.** In Blazor, an attribute written after `@attributes` overrides the
+  caller's value; one written before it is overridden by the caller. On the root element:
+  * **Before `@attributes` (callers may override):** `role`, `data-slot` and `type` (on buttons, so
+    a caller can submit a form). A component that wraps another passes its own `data-slot` this way.
+  * **After `@attributes` (the component wins):** everything the component computes: `class`, `id`,
+    `x-*` and Alpine bindings, ARIA state and relationships, `aria-label` (expose a parameter such
+    as `AriaLabel` instead), configuration `data-*` attributes, `href`/`src`/`alt`, and event
+    handlers.
 * **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
-* To change the `Element` type, override `OnInitialized()` in the code-behind. Set `Element` to the new type only if `Element` is empty or null.
-
-  ```csharp
-          if (string.IsNullOrEmpty(Element))
-              Element = "nav";
-  ```
+* Localized defaults go in a read-only property (`protected string EffectiveAriaLabel => AriaLabel ??
+  Localizer["..."];`) that the markup reads; never assign them to the parameter.
+* Copy `AdditionalAttributes` with `CopyAdditionalAttributes()` and serialize asset keys with
+  `SerializeAssetUrls(keys)` (both on `RzComponent`).
 
 ---
 

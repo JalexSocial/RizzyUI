@@ -19,22 +19,22 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     /// <summary>
     /// Gets the unique identifier for the `aria-labelledby` attribute, linking the dialog to its title.
     /// </summary>
-    internal string AriaLabelId { get; } = IdGenerator.UniqueId("rzdlgttl");
+    internal string AriaLabelId => $"{Id}-title";
 
     /// <summary>
     /// Gets the unique identifier for the <c>aria-describedby</c> attribute, linking the dialog to its description.
     /// </summary>
-    internal string AriaDescriptionId { get; } = IdGenerator.UniqueId("rzdlgdesc");
+    internal string AriaDescriptionId => $"{Id}-description";
 
     /// <summary>
     /// Gets the unique identifier for the dialog body container, usable as an HTMX target ID.
     /// </summary>
-    public string BodyId { get; } = IdGenerator.UniqueId("rzdlgbody");
+    public string BodyId => $"{Id}-body";
 
     /// <summary>
     /// Gets the unique identifier for the dialog footer container, usable as an HTMX target ID.
     /// </summary>
-    public string FooterId { get; } = IdGenerator.UniqueId("rzdlgfoot");
+    public string FooterId => $"{Id}-footer";
 
     /// <summary>
     /// Gets or sets the content of the dialog, which should include a <see cref="DialogTrigger"/>
@@ -88,9 +88,20 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     /// Caller attributes for the root element. <c>x-ref</c> is excluded: it goes on the inert proxy
     /// element rendered before the root (see the markup).
     /// </summary>
-    private IReadOnlyDictionary<string, object>? RootAttributes => AdditionalAttributes?
-        .Where(attribute => !string.Equals(attribute.Key, "x-ref", StringComparison.OrdinalIgnoreCase))
-        .ToDictionary(attribute => attribute.Key, attribute => attribute.Value, StringComparer.OrdinalIgnoreCase);
+    private IReadOnlyDictionary<string, object?>? RootAttributes
+    {
+        get
+        {
+            if (AdditionalAttributes is null)
+            {
+                return null;
+            }
+
+            var root = CopyAdditionalAttributes();
+            root.Remove("x-ref");
+            return root;
+        }
+    }
 
     /// <summary>
     /// Defines the slots available for styling in the RzDialog component.

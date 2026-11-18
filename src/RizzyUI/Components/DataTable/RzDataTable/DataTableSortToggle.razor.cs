@@ -50,14 +50,12 @@ public partial class DataTableSortToggle : RzComponent<DataTableSortToggle.Slots
     private string ClickExpr => $"sort.toggle({HeaderExpr})";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "button";
-        }
 
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("type", "button");

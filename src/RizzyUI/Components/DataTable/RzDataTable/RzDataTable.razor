@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="datatable">
+             data-slot="datatable" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     <div data-alpine-root="@Id"
          x-data="rzDataTable"
          x-load="@LoadStrategyOrNull"

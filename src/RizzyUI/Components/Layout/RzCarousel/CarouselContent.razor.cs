@@ -33,6 +33,9 @@ public partial class CarouselContent : RzComponent<CarouselContent.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -40,7 +43,6 @@ public partial class CarouselContent : RzComponent<CarouselContent.Slots>
         {
             throw new InvalidOperationException($"{nameof(CarouselContent)} must be used within an {nameof(RzCarousel)}.");
         }
-        Element = "div";
     }
 
     /// <inheritdoc/>

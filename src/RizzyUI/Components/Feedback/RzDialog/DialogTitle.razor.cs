@@ -29,11 +29,7 @@ public partial class DialogTitle : RzComponent<DialogTitle.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "h2";
-    }
+    protected override string DefaultElement => "h2";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DialogTitle;

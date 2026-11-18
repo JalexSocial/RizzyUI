@@ -32,24 +32,10 @@ public partial class DataTableSelectionCell : RzComponent<DataTableSelectionCell
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+    protected override string DefaultElement => "td";
 
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "td";
-        }
-
-        AriaLabel ??= Localizer["DataTableRowSelectCheckbox.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["DataTableRowSelectCheckbox.DefaultAriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["DataTableRowSelectCheckbox.DefaultAriaLabel"];
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DataTableSelectionCell;

@@ -35,13 +35,10 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         }
     );
 
-    private readonly string _uid = IdGenerator.UniqueId("rzdate");
+    private string DateUid => $"{Id}-date";
     private string _assets = "[]";
     private DateTime? _currentValue;
     private string _serializedConfig = "{}";
-
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
 
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
@@ -99,7 +96,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         _currentValue = For?.Compile().Invoke();
         _inputId = HttpContext != null && EditContext != null && For != null
             ? HttpContext.GetOrReserveFieldId(EditContext, FieldIdentifier.Create(For))
-            : $"{_uid}-input";
+            : $"{DateUid}-input";
         SerializeConfigAndAssets();
     }
 
@@ -141,8 +138,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         var alpineData = new { options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
         _serializedConfig = JsonSerializer.Serialize(alpineData, serializerOptions);
 
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <inheritdoc/>

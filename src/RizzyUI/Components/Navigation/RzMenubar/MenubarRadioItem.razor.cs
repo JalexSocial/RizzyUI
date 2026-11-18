@@ -41,13 +41,15 @@ public partial class MenubarRadioItem : RzComponent<MenubarRadioItem.Slots>
     public bool Checked { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         if (ParentRadioGroup is null)
             throw new InvalidOperationException($"{nameof(MenubarRadioItem)} must be used within {nameof(MenubarRadioGroup)}.");
-        if (string.IsNullOrWhiteSpace(Element)) Element = "button";
-        if (Element.Equals("button", StringComparison.OrdinalIgnoreCase) && (AdditionalAttributes is null || !AdditionalAttributes.ContainsKey("type")))
+        if (EffectiveElement.Equals("button", StringComparison.OrdinalIgnoreCase) && (AdditionalAttributes is null || !AdditionalAttributes.ContainsKey("type")))
         {
             AdditionalAttributes ??= new Dictionary<string, object>();
             AdditionalAttributes["type"] = "button";

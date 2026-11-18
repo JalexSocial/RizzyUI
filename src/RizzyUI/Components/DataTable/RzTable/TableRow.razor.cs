@@ -56,15 +56,7 @@ public partial class TableRow : RzComponent<TableRowSlots>, IHasTableRowStylingP
     public bool IsSelected => Selected;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "tr";
-        }
-    }
+    protected override string DefaultElement => "tr";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<TableRowSlots>, TableRowSlots> GetDescriptor() => Theme.TableRow;

@@ -3,10 +3,9 @@
 
 <CascadingValue Value="this" IsFixed="true">
     @* Caller attributes first, so they cannot replace the component's own (RZUI-053). *@
-    <div @attributes="AdditionalAttributes"
+    <div data-slot="alert-dialog" @attributes="AdditionalAttributes"
          x-data="rzModal" x-load="@LoadStrategyOrNull"
          id="@Id"
-         data-slot="alert-dialog"
          data-alpine-root="@Id"
          data-modal-id="@Id"
          data-body-id="@BodyId"

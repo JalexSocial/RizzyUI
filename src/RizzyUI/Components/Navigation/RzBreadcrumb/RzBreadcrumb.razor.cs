@@ -32,21 +32,10 @@ public partial class RzBreadcrumb : RzComponent<RzBreadcrumb.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "nav";
+    protected override string DefaultElement => "nav";
 
-        AriaLabel ??= Localizer["RzBreadcrumb.AriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzBreadcrumb.AriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzBreadcrumb.AriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzBreadcrumb;

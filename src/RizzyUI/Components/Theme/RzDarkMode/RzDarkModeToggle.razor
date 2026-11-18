@@ -3,11 +3,10 @@
 @using Blazicons
 @inherits RzComponent<RzDarkModeToggle.Slots>
 
-<HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+<HtmlElement Element="@EffectiveElement" data-slot="dark-mode-toggle"
+             type="button" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             type="button"
              aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]"
              x-data="rzDarkModeToggle" x-load="@LoadStrategyOrNull"
              x-on:click="toggle"

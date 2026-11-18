@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="pagination" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             aria-label="@AriaLabel"
-             data-slot="pagination">
+             aria-label="@EffectiveAriaLabel">
     @ChildContent
 </HtmlElement>

@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="data-table-sort-toggle" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="data-table-sort-toggle"
              x-bind:disabled="@DisabledExpr"
              x-bind:aria-label="@AriaLabelExpr"
              x-bind:data-sort-direction="@DirectionExpr"

@@ -3,12 +3,11 @@
 @inherits RzComponent<CollapsibleContent.Slots>
 
 <HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
+             data-slot="collapsible-content" @attributes="AdditionalAttributes" 
              id="@($"{ParentCollapsible?.Id}-content")" 
              class="@SlotClasses.GetBase()"
              x-cloak
              x-show="isOpen"
-             x-collapse
-             data-slot="collapsible-content">
+             x-collapse>
     @ChildContent
 </HtmlElement>

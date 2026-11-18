@@ -14,15 +14,7 @@ public partial class TablePagination : RzComponent<TablePaginationSlots>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "div";
-        }
-    }
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> GetDescriptor() => Theme.TablePagination;

@@ -80,7 +80,6 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     [Parameter]
     public int ShiftPadding { get; set; } = 8;
 
-
     /// <summary>
     /// Gets or sets the aria-haspopup value applied to the trigger element.
     /// Use values such as "menu", "listbox", or "dialog" for specialized popups.
@@ -108,19 +107,8 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     /// </summary>
     protected string ContentId => $"{Id}-content";
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AriaLabel ??= Localizer["RzPopover.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzPopover.DefaultAriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzPopover.DefaultAriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzPopover;

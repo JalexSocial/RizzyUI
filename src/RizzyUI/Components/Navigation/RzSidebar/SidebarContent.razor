@@ -2,6 +2,6 @@
 @namespace RizzyUI
 @inherits RzComponent<SidebarContent.Slots>
 
-<HtmlElement Element="@EffectiveElement" data-sidebar="content" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="sidebar-content">
+<HtmlElement Element="@EffectiveElement" data-slot="sidebar-content" @attributes="@AdditionalAttributes" data-sidebar="content" id="@Id" class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

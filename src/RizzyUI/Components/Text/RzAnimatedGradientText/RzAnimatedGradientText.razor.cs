@@ -63,14 +63,8 @@ public partial class RzAnimatedGradientText : RzComponent<RzAnimatedGradientText
     protected string StyleVariables =>
         $"--bg-size: {(Speed * 300m).ToString("0.###", CultureInfo.InvariantCulture)}%; --color-from: {ColorFrom}; --color-to: {ColorTo};";
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "span";
 
     /// <inheritdoc />
     protected override void OnParametersSet()

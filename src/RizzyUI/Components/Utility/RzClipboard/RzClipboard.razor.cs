@@ -58,22 +58,7 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
     private bool IsButtonElement => string.Equals(EffectiveElement, "button", StringComparison.OrdinalIgnoreCase);
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "button";
-
-        AriaLabel ??= Localizer["RzClipboard.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzClipboard.DefaultAriaLabel"];
-    }
+    protected override string DefaultElement => "button";
 
     /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;
@@ -81,7 +66,7 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),
@@ -96,7 +81,7 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
             ["data-use-fallback"] = UseFallback.ToString().ToLowerInvariant(),
             ["data-disabled"] = Disabled.ToString().ToLowerInvariant(),
             ["x-on:click.prevent"] = "copy",
-            ["aria-label"] = AriaLabel,
+            ["aria-label"] = EffectiveAriaLabel,
             ["aria-disabled"] = Disabled ? "true" : null,
             ["disabled"] = Disabled && IsButtonElement ? "disabled" : null,
             ["role"] = IsButtonElement ? null : "button",
@@ -107,6 +92,9 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
 
         return attributes;
     }
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzClipboard.DefaultAriaLabel"];
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.RzClipboard;

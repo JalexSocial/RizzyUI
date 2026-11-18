@@ -23,12 +23,7 @@ public partial class RzKbdGroup : RzComponent<RzKbdGroup.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "kbd";
-    }
+    protected override string DefaultElement => "kbd";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzKbdGroup;

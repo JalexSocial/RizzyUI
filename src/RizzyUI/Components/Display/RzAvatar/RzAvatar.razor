@@ -4,13 +4,10 @@
 @inherits RzComponent<RzAvatar.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-	<HtmlElement Element="@EffectiveElement"
-	             role="img"
+	<HtmlElement Element="@EffectiveElement" role="img" data-slot="avatar" @attributes="@AdditionalAttributes"
 	             aria-label="@EffectiveAriaLabel"
 	             id="@Id"
-             @attributes="@AdditionalAttributes"
              class="@(SlotClasses.GetBase())"
-             data-slot="avatar"
              data-size="@Size.ToString().ToKebabCase()">
         @ChildContent
     </HtmlElement>

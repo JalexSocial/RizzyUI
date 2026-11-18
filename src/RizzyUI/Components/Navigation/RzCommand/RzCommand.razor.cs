@@ -113,18 +113,13 @@ public partial class RzCommand : RzComponent<RzCommand.Slots>
     [Parameter]
     public string? SelectedValue { get; set; }
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AriaLabel ??= Localizer["RzCommand.DefaultAriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCommand.DefaultAriaLabel"];
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzCommand.DefaultAriaLabel"];
 
         if (string.IsNullOrEmpty(ItemsUrl) && Items.Any())
         {

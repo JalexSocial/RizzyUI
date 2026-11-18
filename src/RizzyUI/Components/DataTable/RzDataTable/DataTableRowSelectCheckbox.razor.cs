@@ -33,26 +33,19 @@ public partial class DataTableRowSelectCheckbox : RzComponent<DataTableRowSelect
     private string ChangeExpr => $"selection.setRowSelected({RowExpr}, $event.target.checked)";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "input";
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["DataTableRowSelectCheckbox.DefaultAriaLabel"];
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "input";
-        }
-
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("type", "checkbox");
 
-        AriaLabel ??= Localizer["DataTableRowSelectCheckbox.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["DataTableRowSelectCheckbox.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>

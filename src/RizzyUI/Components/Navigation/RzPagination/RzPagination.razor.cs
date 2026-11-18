@@ -28,22 +28,10 @@ public partial class RzPagination : RzComponent<RzPagination.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+    protected override string DefaultElement => "nav";
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "nav";
-
-        AriaLabel ??= Localizer["RzPagination.AriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzPagination.AriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzPagination.AriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzPagination;

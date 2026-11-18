@@ -36,7 +36,7 @@ public partial class CommandGroup : RzComponent<CommandGroup.Slots>
     /// <summary>
     /// Gets the unique ID for the heading element.
     /// </summary>
-    protected string HeadingId { get; } = IdGenerator.UniqueId("rz-cmd-group-heading-");
+    protected string HeadingId => $"{Id}-heading";
 
     /// <summary>
     /// Gets the unique ID for the heading's template element.

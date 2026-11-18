@@ -3,11 +3,9 @@
 @using System.Globalization
 @inherits RzComponent<RzAspectRatio.Slots>
 
-<HtmlElement Element="@EffectiveElement"
+<HtmlElement Element="@EffectiveElement" data-slot="aspect-ratio-wrapper" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             @attributes="@AdditionalAttributes"
-             data-slot="aspect-ratio-wrapper"
              x-data="rzAspectRatio" x-load="@LoadStrategyOrNull"
              data-alpine-root="@Id"
              data-ratio="@Ratio.ToString(CultureInfo.InvariantCulture)">

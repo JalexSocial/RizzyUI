@@ -82,20 +82,8 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     [Parameter]
     public string? AsideAriaLabel { get; set; }
 
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AsideAriaLabel ??= Localizer["RzArticle.DefaultAsideAriaLabel"];
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AsideAriaLabel ??= Localizer["RzArticle.DefaultAsideAriaLabel"];
-    }
+    /// <summary>The <see cref="AsideAriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAsideAriaLabel => AsideAriaLabel ?? Localizer["RzArticle.DefaultAsideAriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzArticle;

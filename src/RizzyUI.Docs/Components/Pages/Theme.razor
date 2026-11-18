@@ -134,8 +134,9 @@ In `App.razor`, add the head components. This file owns the HTML document struct
     &lt;RzScripts /&gt;
 
     &lt;!-- 3. The RizzyUI runtime (Alpine.js and the component behaviors).
-         Use rizzyui-csp.js instead when the page has a Content Security Policy. --&gt;
-    &lt;script type="module" nonce="@@Nonce" src="/_content/RizzyUI/js/rizzyui.js"&gt;&lt;/script&gt;
+         Use rizzyui-csp.min.js instead when the page has a Content Security Policy.
+         rizzyui.js / rizzyui-csp.js are the unminified builds, for debugging. --&gt;
+    &lt;script type="module" nonce="@@Nonce" src="/_content/RizzyUI/js/rizzyui.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- 4. The Theme Provider
          - Must be in &lt;head&gt; to prevent Flash of Unstyled Content (FOUC)
@@ -166,7 +167,7 @@ In `App.razor`, add the head components. This file owns the HTML document struct
 
 ### Note on Alpine.js and htmx
 RizzyUI components use **Alpine.js** for client-side interactivity (dropdowns, toggles, etc.) and work with **htmx 4** through Rizzy 6.
-*   **How it loads:** `&lt;RzScripts /&gt;` (from Rizzy) loads htmx and Rizzy's client. The RizzyUI runtime is a separate module script, `_content/RizzyUI/js/rizzyui.js` (or `rizzyui-csp.js` with a Content Security Policy). It bundles Alpine.js, so do not load Alpine yourself. RizzyUI does not load htmx.
+*   **How it loads:** `&lt;RzScripts /&gt;` (from Rizzy) loads htmx and Rizzy's client. The RizzyUI runtime is a separate module script, `_content/RizzyUI/js/rizzyui.min.js` (or `rizzyui-csp.js` with a Content Security Policy). It bundles Alpine.js, so do not load Alpine yourself. RizzyUI does not load htmx.
 *   **CSP:** Put the request's nonce on the RizzyUI script. A policy such as `script-src 'nonce-…' 'strict-dynamic'` lets the runtime load its own chunks. Use the CSP build, which avoids `eval`.
 *   **Upgrading from Rizzy 5:** see the migration guide in `docs/migration/rizzy5-to-rizzy6.md` in the RizzyUI repository.
 

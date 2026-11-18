@@ -4,10 +4,9 @@
 @inherits RzComponent<DropdownMenuSubTrigger.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             role="menuitem" data-slot="dropdown-menu-sub-trigger" @attributes="@AdditionalAttributes"
              id="@TriggerId"
              class="@SlotClasses.GetBase()"
-             role="menuitem"
              tabindex="-1"
              aria-haspopup="menu"
              aria-controls="@SubContentId"
@@ -18,8 +17,7 @@
              x-on:mouseleave="handleTriggerMouseLeave"
              x-on:keydown.enter.prevent="handleTriggerKeydown"
              x-on:keydown.space.prevent="handleTriggerKeydown"
-             x-on:keydown.right.prevent="handleTriggerKeydown"
-             data-slot="dropdown-menu-sub-trigger">
+             x-on:keydown.right.prevent="handleTriggerKeydown">
     @if (Icon != null)
     {
         <span class="@SlotClasses.GetIcon()"><Blazicon Svg="@Icon"/></span>

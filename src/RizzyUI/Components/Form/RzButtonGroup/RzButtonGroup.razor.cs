@@ -44,15 +44,8 @@ public partial class RzButtonGroup : RzComponent<RzButtonGroup.Slots>
     [Parameter]
     public ThemeVariant? GroupVariant { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "div";
-        }
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzButtonGroup;

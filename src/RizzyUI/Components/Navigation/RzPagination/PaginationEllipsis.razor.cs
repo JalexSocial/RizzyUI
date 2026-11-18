@@ -27,22 +27,10 @@ public partial class PaginationEllipsis : RzComponent<PaginationEllipsis.Slots>
     public string? ScreenReaderText { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+    protected override string DefaultElement => "span";
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
-
-        ScreenReaderText ??= Localizer["PaginationEllipsis.MorePages"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        ScreenReaderText ??= Localizer["PaginationEllipsis.MorePages"];
-    }
+    /// <summary>The <see cref="ScreenReaderText"/> parameter, or its localized default.</summary>
+    protected string EffectiveScreenReaderText => ScreenReaderText ?? Localizer["PaginationEllipsis.MorePages"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.PaginationEllipsis;

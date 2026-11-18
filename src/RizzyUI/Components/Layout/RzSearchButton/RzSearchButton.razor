@@ -3,16 +3,16 @@
 @using Blazicons
 @inherits RzComponent<RzSearchButton.Slots>
 
-<HtmlElement Element="@EffectiveElement"
+<HtmlElement Element="@EffectiveElement" data-slot="search-button"
              type="button"
              @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             aria-label="@Label">
+             aria-label="@EffectiveLabel">
 	<div class="@SlotClasses.GetInnerContainer()">
 		<span class="@SlotClasses.GetIconSpan()" aria-hidden="true">
 			<Blazicon Svg="MdiIcon.Magnify"/>
 		</span>
-		@Label
+		@EffectiveLabel
 	</div>
 </HtmlElement>

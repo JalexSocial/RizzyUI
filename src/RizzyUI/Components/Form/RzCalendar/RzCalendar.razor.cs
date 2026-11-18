@@ -92,16 +92,13 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
         }
     );
 
-    [Inject] private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     private string _serializedConfig = "{}";
     private string _assets = "[]";
-    private readonly string _calendarId = IdGenerator.UniqueId("vc");
 
     /// <summary>
     /// Gets the unique DOM ID for the calendar instance.
     /// </summary>
-    protected string CalendarId => _calendarId;
+    protected string CalendarId => $"{Id}-calendar";
 
     /// <summary>
     /// Gets the unique ID for the configuration script tag.
@@ -166,18 +163,13 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
     /// </summary>
     [Parameter] public string? AriaLabel { get; set; }
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AriaLabel ??= Localizer["RzCalendar.DefaultAriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCalendar.DefaultAriaLabel"];
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzCalendar.DefaultAriaLabel"];
 
         var config = new VanillaCalendarOptions
         {
@@ -303,8 +295,7 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
 
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <inheritdoc/>

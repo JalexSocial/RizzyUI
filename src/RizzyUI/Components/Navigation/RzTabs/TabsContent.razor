@@ -3,11 +3,9 @@
 @inherits RzComponent<TabsContent.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="@TabsContent.SlotNames.NameOf(SlotTypes.Base)" role="tabpanel" @attributes="@AdditionalAttributes"
              id="@ContentId"
              class="@SlotClasses.GetBase()"
-             data-slot="@TabsContent.SlotNames.NameOf(SlotTypes.Base)"
-             role="tabpanel"
              aria-labelledby="@TriggerId"
              data-value="@Value"
              tabindex="-1"

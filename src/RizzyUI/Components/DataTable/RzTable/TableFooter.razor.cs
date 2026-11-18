@@ -36,6 +36,9 @@ public partial class TableFooter : RzComponent<TableFooterSlots>, IHasTableFoote
     public bool FixedHeader => ParentRzTable is IHasTableStylingProperties table && table.FixedHeader;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "tfoot";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -43,8 +46,6 @@ public partial class TableFooter : RzComponent<TableFooterSlots>, IHasTableFoote
         if (ParentRzTable == null)
             throw new InvalidOperationException($"{GetType().Name} must be used within an RzTable.");
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "tfoot";
     }
 
     /// <inheritdoc/>

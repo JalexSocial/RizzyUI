@@ -21,12 +21,8 @@ public partial class CardContent : RzComponent<CardContent.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "section";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "section";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CardContent;

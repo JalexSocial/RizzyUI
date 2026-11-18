@@ -1,6 +1,6 @@
 @namespace RizzyUI
 @inherits RzComponent<TableHeaderSlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" data-slot="table-header" class="@SlotClasses.GetBase()">
+<HtmlElement Element="@EffectiveElement" data-slot="table-header" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

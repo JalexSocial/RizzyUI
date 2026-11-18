@@ -2,16 +2,14 @@
 @inherits RzComponent<MenubarSubContent.Slots>
 
 <div id="@Id"
-     @attributes="@AdditionalAttributes"
+     role="menu" data-slot="menubar-sub-content" @attributes="@AdditionalAttributes"
      class="@SlotClasses.GetBase()"
-     role="menu"
      x-cloak
      x-on:keydown.down.prevent="focusNextItem"
      x-on:keydown.up.prevent="focusPreviousItem"
      x-on:keydown.left.prevent="handleSubContentLeftKey"
      x-on:keydown.escape.prevent="closeMenus"
      x-on:pointerenter="cancelCloseAll"
-     x-on:pointerleave="scheduleCloseAll"
-     data-slot="menubar-sub-content" hidden>
+     x-on:pointerleave="scheduleCloseAll" hidden>
     @ChildContent
 </div>

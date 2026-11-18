@@ -3,9 +3,8 @@
 @inherits RzComponent<InputGroupText.Slots>
 
 <HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
+             data-slot="input-group-text" @attributes="AdditionalAttributes" 
              id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="input-group-text">
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

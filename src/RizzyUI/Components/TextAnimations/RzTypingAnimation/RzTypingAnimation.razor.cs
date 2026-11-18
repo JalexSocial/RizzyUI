@@ -34,9 +34,6 @@ public partial class RzTypingAnimation : RzComponent<RzTypingAnimation.Slots>
     private string _assets = "[]";
     private string _configJson = "{}";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets or sets optional text source content used when <see cref="Words"/> is not supplied.
     /// </summary>
@@ -127,13 +124,13 @@ public partial class RzTypingAnimation : RzComponent<RzTypingAnimation.Slots>
 
     private string? NoScriptFallbackWord => HasWordSource ? ResolvedWords[0] : null;
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "span";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
 
         UpdateAssets();
         UpdateSerializedConfig();
@@ -153,9 +150,7 @@ public partial class RzTypingAnimation : RzComponent<RzTypingAnimation.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private void UpdateSerializedConfig()

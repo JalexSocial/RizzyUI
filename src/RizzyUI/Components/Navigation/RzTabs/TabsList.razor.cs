@@ -35,20 +35,11 @@ public partial class TabsList : RzComponent<TabsList.Slots>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Horizontal;
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "div";
-        AriaLabel ??= Localizer["RzTabs.DefaultAriaLabel"];
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzTabs.DefaultAriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzTabs.DefaultAriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.TabsList;

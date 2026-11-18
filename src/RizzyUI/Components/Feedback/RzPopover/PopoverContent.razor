@@ -3,7 +3,7 @@
 
 <template x-ref="contentTemplate"
           x-teleport="body">
-    <div @attributes="AdditionalAttributes"
+    <div role="@Role" data-slot="popover-content" @attributes="AdditionalAttributes"
          id="@ContentId"
          data-popover
          x-show="open"
@@ -16,11 +16,9 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 translate-y-1"
-         role="@Role"
          aria-label="@AriaLabel"
          aria-labelledby="@AriaLabelledBy"
-         class="@SlotClasses.GetBase()"
-         data-slot="popover-content">
+         class="@SlotClasses.GetBase()">
         @ChildContent
     </div>
 </template>

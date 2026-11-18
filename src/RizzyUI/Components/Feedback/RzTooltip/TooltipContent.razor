@@ -3,16 +3,14 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@ContentId"
-             @attributes="@AdditionalAttributes"
+             role="tooltip" data-slot="tooltip-content" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
              x-ref="content"
              x-bind:data-state="state"
              x-bind:aria-hidden="ariaHidden"
-             role="tooltip"
              aria-hidden="true"
              data-state="closed"
-             data-side="@Side.ToString().ToKebabCase()"
-             data-slot="tooltip-content">
+             data-side="@Side.ToString().ToKebabCase()">
     @ChildContent
 
     <span class="@SlotClasses.GetArrow()"

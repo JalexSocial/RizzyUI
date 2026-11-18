@@ -29,22 +29,11 @@ public partial class RzSearchButton : RzComponent<RzSearchButton.Slots>
     /// </summary>
     [Parameter] public string? Label { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Label ??= Localizer["RzSearchButton.DefaultLabel"];
+    /// <inheritdoc/>
+    protected override string DefaultElement => "button";
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "button";
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        Label ??= Localizer["RzSearchButton.DefaultLabel"];
-    }
+    /// <summary>The <see cref="Label"/> parameter, or its localized default.</summary>
+    protected string EffectiveLabel => Label ?? Localizer["RzSearchButton.DefaultLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSearchButton;

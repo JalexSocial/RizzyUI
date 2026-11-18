@@ -30,6 +30,9 @@ public partial class DialogTrigger : RzAsChildComponent<DialogTrigger.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -37,7 +40,6 @@ public partial class DialogTrigger : RzAsChildComponent<DialogTrigger.Slots>
         {
             throw new InvalidOperationException($"{nameof(DialogTrigger)} must be used within an {nameof(RzDialog)}.");
         }
-        Element = "button";
     }
 
     /// <inheritdoc/>
@@ -46,7 +48,7 @@ public partial class DialogTrigger : RzAsChildComponent<DialogTrigger.Slots>
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),

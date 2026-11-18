@@ -9,7 +9,7 @@
 }
 else
 {
-    <HtmlElement Element="@EffectiveElement" type="button" @attributes="GetComponentAttributes()">
+    <HtmlElement Element="@EffectiveElement" data-slot="carousel-previous" type="button" @attributes="GetComponentAttributes()">
         @if (ChildContent is not null)
         {
             @ChildContent
@@ -17,7 +17,7 @@ else
         else
         {
             <Blazicon Svg="Lucide.ArrowLeft" class="@SlotClasses.GetButtonIcon()" />
-            <span class="sr-only">@AriaLabel</span>
+            <span class="sr-only">@EffectiveAriaLabel</span>
         }
     </HtmlElement>
 }

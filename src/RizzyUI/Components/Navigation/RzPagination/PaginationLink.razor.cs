@@ -48,13 +48,7 @@ public partial class PaginationLink : RzComponent<PaginationLink.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "a";
-    }
+    protected override string DefaultElement => "a";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.PaginationLink;

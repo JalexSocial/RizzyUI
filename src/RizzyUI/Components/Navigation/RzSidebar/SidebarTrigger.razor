@@ -5,15 +5,14 @@
 
 <HtmlElement Element="@EffectiveElement"
              type="button"
-             @attributes="@AdditionalAttributes"
+             data-slot="sidebar-trigger" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             aria-label="@AriaLabel"
+             aria-label="@EffectiveAriaLabel"
              x-on:click="toggle"
              aria-controls="@ParentProvider?.Id"
              x-bind:aria-expanded="triggerExpanded"
-             data-sidebar="trigger"
-             data-slot="sidebar-trigger">
+             data-sidebar="trigger">
 	@if (ChildContent == null)
 	{
 		<Blazicon Svg="@Lucide.PanelLeft"/>

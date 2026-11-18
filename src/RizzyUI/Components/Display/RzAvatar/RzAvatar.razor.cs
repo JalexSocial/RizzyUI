@@ -100,20 +100,6 @@ public partial class RzAvatar : RzComponent<RzAvatar.Slots>
     /// </summary>
     internal string EffectiveAriaLabel => AriaLabel ?? Localizer["RzAvatar.DefaultAriaLabel"];
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AriaLabel ??= Localizer["RzAvatar.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzAvatar.DefaultAriaLabel"];
-    }
-
     /// <summary>
     /// Internal method called by <see cref="AvatarImage"/> to update the image status.
     /// </summary>

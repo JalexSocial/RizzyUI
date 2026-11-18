@@ -53,16 +53,8 @@ public partial class RzLink : RzComponent<RzLink.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Sets default element to <c>a</c> for the link component.
-    /// </summary>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "a";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "a";
 
     /// <summary>
     /// Invoked when a component's parameters have been set or updated.

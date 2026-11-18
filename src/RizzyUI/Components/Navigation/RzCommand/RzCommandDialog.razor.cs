@@ -75,25 +75,21 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
     [Parameter]
     public string EventTriggerName { get; set; } = string.Empty;
 
+    /// <summary>The <see cref="Title"/> parameter, or its localized default.</summary>
+    protected string EffectiveTitle => Title ?? Localizer["RzCommandDialog.DefaultTitle"];
+
+    /// <summary>The <see cref="Description"/> parameter, or its localized default.</summary>
+    protected string EffectiveDescription => Description ?? Localizer["RzCommandDialog.DefaultDescription"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Title ??= Localizer["RzCommandDialog.DefaultTitle"];
-        Description ??= Localizer["RzCommandDialog.DefaultDescription"];
 
         if (string.IsNullOrEmpty(EventTriggerName))
         {
             EventTriggerName = $"show-command-dialog-{Id}";
         }
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        Title ??= Localizer["RzCommandDialog.DefaultTitle"];
-        Description ??= Localizer["RzCommandDialog.DefaultDescription"];
     }
 
     /// <inheritdoc/>

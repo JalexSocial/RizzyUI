@@ -23,11 +23,7 @@ public partial class CarouselItem : RzComponent<CarouselItem.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "div";
-    }
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CarouselItem;

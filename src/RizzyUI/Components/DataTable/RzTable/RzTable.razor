@@ -2,7 +2,7 @@
 @inherits RzComponent<RzTableSlots>
 
 <CascadingValue Value="this" Name="ParentRzTable" IsFixed="true">
-    <HtmlElement Element="div" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="table-container">
+    <HtmlElement Element="div" id="@Id" data-slot="table-container" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
         <table id="@TableId" class="@SlotClasses.GetTable()" data-slot="table">
             @ChildContent
         </table>

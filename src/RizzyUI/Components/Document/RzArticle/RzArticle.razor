@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<RzArticle.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="article">
+<HtmlElement Element="@EffectiveElement" data-slot="article" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
 	<div class="@SlotClasses.GetInnerContainer()" data-slot="article-inner-container">
 		<article class="@SlotClasses.GetArticle()" data-slot="article-content">
 			<RzBackToTop/>
@@ -11,7 +11,7 @@
 
 		@if (SideContent != null)
 		{
-			<aside class="@SlotClasses.GetAside()" aria-label="@AsideAriaLabel" data-slot="article-aside">
+			<aside class="@SlotClasses.GetAside()" aria-label="@EffectiveAsideAriaLabel" data-slot="article-aside">
 				@SideContent
 			</aside>
 		}

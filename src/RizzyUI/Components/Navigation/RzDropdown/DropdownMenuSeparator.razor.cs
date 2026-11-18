@@ -15,14 +15,7 @@ public partial class DropdownMenuSeparator : RzComponent<DropdownMenuSeparator.S
     );
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "hr";
-        }
-    }
+    protected override string DefaultElement => "hr";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuSeparator;

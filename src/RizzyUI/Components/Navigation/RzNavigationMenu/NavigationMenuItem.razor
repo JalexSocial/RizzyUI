@@ -4,11 +4,10 @@
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
-	             @attributes="@AdditionalAttributes"
+	             data-slot="navigation-menu-item" @attributes="@AdditionalAttributes"
 	             id="@Id"
 	             class="@SlotClasses.GetBase()"
-		             x-on:mouseenter="handleItemEnter"
-                 data-slot="navigation-menu-item">
+		             x-on:mouseenter="handleItemEnter">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>

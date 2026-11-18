@@ -36,6 +36,9 @@ public partial class TableHeader : RzComponent<TableHeaderSlots>, IHasTableHeade
     public bool FixedHeader => ParentRzTable is IHasTableStylingProperties table && table.FixedHeader;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "thead";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -43,8 +46,6 @@ public partial class TableHeader : RzComponent<TableHeaderSlots>, IHasTableHeade
         if (ParentRzTable == null)
             throw new InvalidOperationException($"{GetType().Name} must be used within an RzTable.");
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "thead";
     }
 
     /// <inheritdoc/>

@@ -3,7 +3,7 @@
 @inherits RzComponent<FieldLabelSlots>
 @typeparam TValue
 
-<label @attributes="AdditionalAttributes" for="@_effectiveForId" id="@Id" class="@SlotClasses.GetBase()" data-slot="field-label">
+<label data-slot="field-label" @attributes="AdditionalAttributes" for="@_effectiveForId" id="@Id" class="@SlotClasses.GetBase()">
     @if (ChildContent != null)
     {
         @ChildContent

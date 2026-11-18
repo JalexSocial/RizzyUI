@@ -28,13 +28,15 @@ public partial class MenubarTrigger : RzAsChildComponent<MenubarTrigger.Slots>
     protected MenubarMenu? ParentMenu { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         if (ParentMenu is null)
             throw new InvalidOperationException($"{nameof(MenubarTrigger)} must be used within {nameof(MenubarMenu)}.");
 
-        Element = "button";
     }
 
     /// <inheritdoc/>
@@ -43,7 +45,7 @@ public partial class MenubarTrigger : RzAsChildComponent<MenubarTrigger.Slots>
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["type"] = "button",

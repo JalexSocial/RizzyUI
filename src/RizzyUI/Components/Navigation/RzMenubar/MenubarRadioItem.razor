@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             role="menuitemradio" data-slot="menubar-radio-item" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             role="menuitemradio"
              tabindex="-1"
              aria-checked="@(Checked.ToString().ToLowerInvariant())"
              data-state="@(Checked ? "checked" : "unchecked")"
@@ -14,8 +13,7 @@
              data-radio-value="@Value"
              x-on:click="selectRadioItem"
              x-on:mouseenter="handleItemMouseEnter"
-             x-on:mouseleave="handleItemMouseLeave"
-             data-slot="menubar-radio-item">
+             x-on:mouseleave="handleItemMouseLeave">
     <span class="@SlotClasses.GetIndicator()" data-slot="menubar-item-indicator">
         <Blazicon Svg="MdiIcon.Circle" class="size-2 fill-current" aria-hidden="true" />
     </span>

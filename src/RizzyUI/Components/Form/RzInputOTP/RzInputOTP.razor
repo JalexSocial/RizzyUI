@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@GetContainerClasses()"
-             data-slot="input-otp">
+             data-slot="input-otp" @attributes="@AdditionalAttributes"
+             class="@GetContainerClasses()">
     <div data-alpine-root="@Id"
          x-data="rzInputOTP" x-load="@LoadStrategyOrNull"
          class="flex items-center gap-2"

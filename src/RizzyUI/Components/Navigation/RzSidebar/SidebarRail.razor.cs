@@ -29,6 +29,12 @@ public partial class SidebarRail : RzComponent<SidebarRail.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzSidebarRail.DefaultAriaLabel"];
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -37,17 +43,6 @@ public partial class SidebarRail : RzComponent<SidebarRail.Slots>
             throw new InvalidOperationException($"{nameof(SidebarRail)} must be used within an {nameof(RzSidebarProvider)}.");
         }
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "button";
-
-        AriaLabel ??= Localizer["RzSidebarRail.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzSidebarRail.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>

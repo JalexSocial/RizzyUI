@@ -38,7 +38,7 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
     );
 
     private string _assets = string.Empty;
-    private string CodeId { get; } = IdGenerator.UniqueId("rzcode");
+    private string CodeId => $"{Id}-code";
     private string CodeContent { get; set; } = string.Empty;
 
     [Inject]
@@ -74,11 +74,13 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
     /// <summary> Gets the full language class name for Highlight.js. </summary>
     protected string LanguageClass => CodeLanguage.GetLanguageClass(Language);
 
+    /// <summary>The <see cref="ViewerTitle"/> parameter, or its localized default.</summary>
+    protected string EffectiveViewerTitle => ViewerTitle ?? Localizer["RzCodeViewer.DefaultViewerTitle"];
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"];
         UpdateAssets();
     }
 
@@ -86,15 +88,13 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"];
         SetCodeContent();
         UpdateAssets();
     }
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private void SetCodeContent()

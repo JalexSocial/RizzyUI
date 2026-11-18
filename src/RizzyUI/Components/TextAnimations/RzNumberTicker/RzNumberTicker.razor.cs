@@ -96,9 +96,6 @@ public partial class RzNumberTicker : RzComponent<RzNumberTicker.Slots>
     [Parameter]
     public string[] ComponentAssetKeys { get; set; } = [];
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     private string _assets = "[]";
     private string EffectiveCultureName { get; set; } = CultureInfo.CurrentCulture.Name;
     private CultureInfo EffectiveCultureInfo { get; set; } = CultureInfo.CurrentCulture;
@@ -155,9 +152,7 @@ public partial class RzNumberTicker : RzComponent<RzNumberTicker.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <summary>

@@ -1,10 +1,10 @@
 import { normalizeToastOptions } from './rzToastNormalize.js';
 import { applyToastClasses, createToastDom, updateToastDom } from './rzToastRenderer.js';
+import { toastInputEvents as inputEvents } from './rzToastDefaults.js';
 
 const providerSelector = '[data-rz-toast-provider]';
 const configSelector = '[data-rz-toast-config]';
 const stackSelector = '[data-rz-toast-stack][data-toast-position]';
-const inputEvents = ['rz:toast', 'rz:toast:show', 'rz:toast:update', 'rz:toast:dismiss', 'rz:toast:clear', 'rz:toast:batch'];
 
 function createId() {
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -635,31 +635,39 @@ export class RzToastManager {
         });
     }
 
+    /**
+     * Handles one toast input event (`rz:toast`, `rz:toast:batch`, ...). Each event is handled once,
+     * although it is heard on both `document` and `window`; the eager toast facade also passes
+     * events that arrived before this module loaded.
+     * @param {Event} event
+     */
+    handleInputEvent(event) {
+        if (!event || this.seenInputEvents.has(event)) {
+            return;
+        }
+
+        this.seenInputEvents.add(event);
+        const detail = event.detail || {};
+
+        if (event.type === 'rz:toast' || event.type === 'rz:toast:show') {
+            this.show(detail);
+        } else if (event.type === 'rz:toast:update') {
+            this.update(detail.id, detail.options || detail);
+        } else if (event.type === 'rz:toast:dismiss') {
+            this.dismiss(detail.id, 'api');
+        } else if (event.type === 'rz:toast:clear') {
+            this.clear();
+        } else if (event.type === 'rz:toast:batch') {
+            this.processBatch(detail);
+        }
+    }
+
     installInputEventListeners() {
         if (typeof window === 'undefined' || typeof document === 'undefined') {
             return;
         }
 
-        const listener = event => {
-            if (this.seenInputEvents.has(event)) {
-                return;
-            }
-
-            this.seenInputEvents.add(event);
-            const detail = event.detail || {};
-
-            if (event.type === 'rz:toast' || event.type === 'rz:toast:show') {
-                this.show(detail);
-            } else if (event.type === 'rz:toast:update') {
-                this.update(detail.id, detail.options || detail);
-            } else if (event.type === 'rz:toast:dismiss') {
-                this.dismiss(detail.id, 'api');
-            } else if (event.type === 'rz:toast:clear') {
-                this.clear();
-            } else if (event.type === 'rz:toast:batch') {
-                this.processBatch(detail);
-            }
-        };
+        const listener = event => this.handleInputEvent(event);
 
         inputEvents.forEach(name => {
             window.addEventListener(name, listener);

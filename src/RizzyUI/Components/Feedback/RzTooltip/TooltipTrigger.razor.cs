@@ -37,6 +37,9 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
     /// </summary>
     protected string ContentId => $"{ParentTooltip?.Id}-content";
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -47,10 +50,6 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
             throw new InvalidOperationException($"{nameof(TooltipTrigger)} must be used within an {nameof(RzTooltip)}.");
         }
 
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "button";
-        }
     }
 
     /// <inheritdoc />
@@ -59,7 +58,7 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
     /// <inheritdoc />
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
             ["class"] = SlotClasses.GetBase(),
@@ -73,7 +72,6 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
 
         return attributes;
     }
-
 
     /// <inheritdoc />
     protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.TooltipTrigger;

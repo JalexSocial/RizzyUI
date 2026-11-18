@@ -325,12 +325,12 @@ npm run watch:css
                 </RzParagraph>
                 <ul class="list-disc pl-6 space-y-2">
                     <li>The runtime is loaded as a module after <code>&lt;RzScripts /&gt;</code>:
-                        <code>&lt;script type="module" src="/_content/RizzyUI/js/rizzyui.js"&gt;</code>. Without
+                        <code>&lt;script type="module" src="/_content/RizzyUI/js/rizzyui.min.js"&gt;</code>. Without
                         <code>type="module"</code> the browser rejects it ("Cannot use import statement outside a module").</li>
-                    <li>The request for <code>rizzyui.js</code> returns 200 (Network tab), and the console has no errors.</li>
+                    <li>The request for <code>rizzyui.min.js</code> returns 200 (Network tab), and the console has no errors.</li>
                     <li>No other Alpine.js script is on the page. RizzyUI bundles and starts Alpine and logs a warning when it
                         finds a second copy.</li>
-                    <li>With a Content Security Policy, load <code>rizzyui-csp.js</code> instead and give the script the request
+                    <li>With a Content Security Policy, load <code>rizzyui-csp.min.js</code> instead and give the script the request
                         nonce (<code>IRizzyNonceProvider.GetNonce()</code>).</li>
                 </ul>
             </section>

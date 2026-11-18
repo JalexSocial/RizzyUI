@@ -2,6 +2,6 @@
 @namespace RizzyUI
 @inherits RzTypographyBase<RzParagraph.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="paragraph">
+<HtmlElement Element="@EffectiveElement" data-slot="paragraph" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
 	@ChildContent
 </HtmlElement>

@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="data-table-sort-icon" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="data-table-sort-icon"
              x-show="@CanExpr">
     <span class="@SlotClasses.GetAscending()" data-slot="@DataTableSortIcon.SlotNames.NameOf(SlotTypes.Ascending)" aria-hidden="true" x-show="@AscExpr"><Blazicon Svg="AscendingIcon" /></span>
     <span class="@SlotClasses.GetDescending()" data-slot="@DataTableSortIcon.SlotNames.NameOf(SlotTypes.Descending)" aria-hidden="true" x-show="@DescExpr"><Blazicon Svg="DescendingIcon" /></span>

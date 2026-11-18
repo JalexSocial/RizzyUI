@@ -3,10 +3,9 @@
 @inherits RzComponent<CommandGroup.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <div @attributes="AdditionalAttributes"
+    <div data-slot="command-group" @attributes="AdditionalAttributes"
          id="@Id"
          x-data="rzCommandGroup" x-load="@LoadStrategyOrNull"
-         data-slot="command-group"
          data-alpine-root="@Id"
          data-heading="@Heading"
          data-template-id="@HeadingTemplateId">

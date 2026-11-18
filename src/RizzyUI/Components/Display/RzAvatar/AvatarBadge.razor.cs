@@ -47,12 +47,7 @@ public partial class AvatarBadge : RzComponent<AvatarBadge.Slots>
     private Size AvatarSize => BadgeSize ?? ParentAvatar?.Size ?? RizzyUI.Size.Medium;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
-    }
+    protected override string DefaultElement => "span";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.AvatarBadge;

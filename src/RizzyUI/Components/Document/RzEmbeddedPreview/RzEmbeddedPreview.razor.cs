@@ -41,19 +41,8 @@ public partial class RzEmbeddedPreview : RzComponent<RzEmbeddedPreview.Slots>
     /// </summary>
     [Parameter] public string? IFrameTitle { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
-    }
+    /// <summary>The <see cref="IFrameTitle"/> parameter, or its localized default.</summary>
+    protected string EffectiveIFrameTitle => IFrameTitle ?? Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()

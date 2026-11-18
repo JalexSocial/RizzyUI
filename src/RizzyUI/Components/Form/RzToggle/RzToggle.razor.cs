@@ -76,14 +76,8 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
     /// </summary>
     protected string SsrAriaPressed => (Pressed ?? DefaultPressed) ? "true" : "false";
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "button";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "button";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzToggle;

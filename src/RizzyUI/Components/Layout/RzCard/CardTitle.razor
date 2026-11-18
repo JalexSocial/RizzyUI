@@ -2,6 +2,6 @@
 @namespace RizzyUI
 @inherits RzComponent<CardTitle.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="card-title">
+<HtmlElement Element="@EffectiveElement" data-slot="card-title" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
 	@ChildContent
 </HtmlElement>

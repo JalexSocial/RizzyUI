@@ -46,11 +46,12 @@ public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFiel
     public string? DisplayName { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "label";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "label";
 
         if (EditContext == null && For != null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm when using the 'For' parameter.");

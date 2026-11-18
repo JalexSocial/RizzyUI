@@ -40,9 +40,6 @@ public partial class RzHighlighter : RzComponent<RzHighlighter.Slots>
 
     private string _assets = "[]";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets or sets the content to annotate.
     /// </summary>
@@ -134,12 +131,12 @@ public partial class RzHighlighter : RzComponent<RzHighlighter.Slots>
     protected string EffectiveViewMargin => string.IsNullOrWhiteSpace(ViewMargin) ? DefaultViewMargin : ViewMargin;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "span";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
 
         UpdateAssets();
     }
@@ -156,9 +153,7 @@ public partial class RzHighlighter : RzComponent<RzHighlighter.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <summary>

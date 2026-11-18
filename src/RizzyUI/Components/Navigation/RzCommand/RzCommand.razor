@@ -5,10 +5,9 @@
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement" 
-                 @attributes="@AdditionalAttributes" 
+                 data-slot="command" @attributes="@AdditionalAttributes" 
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
-                 data-slot="command"
                  x-data="rzCommand" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-loop="@(Loop.ToString().ToLowerInvariant())"
@@ -20,7 +19,7 @@
                  data-server-filtering="@(ServerFiltering.ToString().ToLowerInvariant())"
                  data-template-id="@DataItemTemplateId"
                  data-max-render="@MaxRender"
-                 aria-label="@AriaLabel">
+                 aria-label="@EffectiveAriaLabel">
         
         @if (string.IsNullOrEmpty(ItemsUrl) && Items.Any())
         {

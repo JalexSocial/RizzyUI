@@ -13,11 +13,7 @@ public partial class MenubarSeparator : RzComponent<MenubarSeparator.Slots>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(@base: "-mx-1 my-1 h-px bg-muted");
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrWhiteSpace(Element)) Element = "div";
-    }
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.MenubarSeparator;

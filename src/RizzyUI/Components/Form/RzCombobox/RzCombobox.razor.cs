@@ -24,8 +24,6 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     /// <remarks><c>Id</c> is rendered on the Alpine root element; Tom Select labels its own control.</remarks>
     protected override bool IdIsLabelTarget => false;
 
-    [Inject] private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     private string ConfigScriptId => $"{Id}-config";
     // The native <select> carries the field's id when the combobox is in a form field, so a
     // FieldLabel (before or after it) points at it and Tom Select names its control from that label.
@@ -118,11 +116,15 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     protected bool IsSelectListItem => _isSelectListItem;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <summary>The <see cref="Placeholder"/> parameter, or its localized default.</summary>
+    protected string EffectivePlaceholder => Placeholder ?? Localizer["RzCombobox.DefaultPlaceholder"];
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element)) Element = "div";
-        Placeholder ??= Localizer["RzCombobox.DefaultPlaceholder"];
 
         _isSelectListItem = typeof(TItem) == typeof(SelectListItem);
 
@@ -144,7 +146,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
         }
 
         _effectiveOptions = Options.Clone();
-        _effectiveOptions.Placeholder = Placeholder;
+        _effectiveOptions.Placeholder = EffectivePlaceholder;
 
         if (Multiple)
         {
@@ -157,8 +159,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
     private void UpdateConfiguration()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
 
         _effectiveOptions.ValueField = "value";
         _effectiveOptions.LabelField = "text";

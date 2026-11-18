@@ -1,4 +1,4 @@
-
+using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization; // Required for IStringLocalizer
@@ -15,6 +15,8 @@ namespace RizzyUI;
 /// </summary>
 public abstract partial class RzComponent : ComponentBase
 {
+    private RzTheme? _theme;
+    private string? _id;
     private string? _nonce;
 
     /// <summary>
@@ -30,6 +32,12 @@ public abstract partial class RzComponent : ComponentBase
     /// </summary>
     [CascadingParameter]
     private HttpContext? RequestHttpContext { get; set; }
+
+    /// <summary>
+    /// The enclosing <see cref="RzIdScope"/>, if any. Components inside one get deterministic ids.
+    /// </summary>
+    [CascadingParameter]
+    private RzIdScope? IdScope { get; set; }
 
     /// <summary>
     /// Gets the request's path base (for example <c>/app</c> under <c>UsePathBase("/app")</c>), or an
@@ -99,10 +107,17 @@ public abstract partial class RzComponent : ComponentBase
     public string Element { get; set; } = string.Empty;
 
     /// <summary>
-    /// Unique identifier for the component instance. 
+    /// Unique identifier for the component instance. When not set, one is generated on first use:
+    /// inside an <see cref="RzIdScope"/> it is the scope's prefix and a counter (the same markup
+    /// renders the same ids), otherwise a process-unique id (RZUI-061).
     /// </summary>
     [Parameter]
-    public string Id { get; set; } = IdGenerator.UniqueId("rz");
+    [SuppressMessage("Usage", "BL0007:Component parameters should be auto properties", Justification = "The setter only stores the value; the getter generates the id once, on first use, so a caller's Id never allocates one (RZUI-061).")]
+    public string Id
+    {
+        get => _id ??= IdScope?.NextId() ?? IdGenerator.UniqueId("rz");
+        set => _id = string.IsNullOrEmpty(value) ? null : value;
+    }
 
     /// <summary>
     /// An optional loading strategy for `async-alpine`, corresponding to the `x-load` attribute (e.g., "visible", "idle").
@@ -125,7 +140,12 @@ public abstract partial class RzComponent : ComponentBase
     /// default theme (<see cref="RizzyUIConfig.DefaultTheme"/>), and finally to the library's
     /// hardcoded default (<see cref="RzTheme.Default"/>).
     /// </summary>
-    protected RzTheme Theme { get; private set; } = RzTheme.Default;
+    /// <remarks>
+    /// Resolved when the component initializes (or on first use, if a derived component reads it
+    /// earlier). There is no field initializer: one used to build a full theme for every component
+    /// instance, only for <see cref="OnInitialized"/> to replace it (RZUI-035).
+    /// </remarks>
+    protected RzTheme Theme => _theme ??= ResolveTheme();
 
     /// <summary>
     /// Gets the Content Security Policy (CSP) nonce value for the current HTTP request.
@@ -136,9 +156,42 @@ public abstract partial class RzComponent : ComponentBase
     protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
 
     /// <summary>
+    /// The URLs for <paramref name="keys"/>, resolved from <see cref="RizzyUIConfig.AssetUrls"/> with the
+    /// request's path base and any integrity hashes, as the JSON array components pass to the browser
+    /// runtime (<c>Rizzy.require</c>). Unknown keys are skipped.
+    /// </summary>
+    protected string SerializeAssetUrls(IEnumerable<string> keys)
+        => JsonSerializer.Serialize(Config?.Value.ResolveAssets(keys, RequestPathBase) ?? []);
+
+    /// <summary>
+    /// Copies <see cref="AdditionalAttributes"/> into a new case-insensitive dictionary. When two keys
+    /// differ only by case (possible when a dictionary is passed as <c>AdditionalAttributes</c>
+    /// directly), the last one wins, as Blazor does for markup attributes (RZUI-053).
+    /// </summary>
+    protected Dictionary<string, object?> CopyAdditionalAttributes()
+    {
+        var copy = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+        if (AdditionalAttributes is not null)
+        {
+            foreach (var (key, value) in AdditionalAttributes)
+            {
+                copy[key] = value;
+            }
+        }
+
+        return copy;
+    }
+
+    /// <summary>
+    /// The root element tag used when <see cref="Element"/> is not set. Components override this
+    /// instead of assigning <see cref="Element"/>, which is a parameter (RZUI-053).
+    /// </summary>
+    protected virtual string DefaultElement => "div";
+
+    /// <summary>
     /// Actual HTML element tag name to be rendered as the root of this component.
     /// </summary>
-    protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
+    protected string EffectiveElement => string.IsNullOrEmpty(Element) ? DefaultElement : Element;
 
     /// <summary>
     /// Gets the effective async-alpine load strategy, or <see langword="null"/> to omit the `x-load` attribute.
@@ -153,6 +206,8 @@ public abstract partial class RzComponent : ComponentBase
         base.OnInitialized();
 
         // Resolve the theme instance based on cascade or config/default.
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
+        _theme = ResolveTheme();
     }
+
+    private RzTheme ResolveTheme() => CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
 }

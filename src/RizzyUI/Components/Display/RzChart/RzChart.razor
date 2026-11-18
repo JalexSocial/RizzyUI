@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
-             class="@SlotClasses.GetBase()"
-             data-slot="chart">
+             data-slot="chart" @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()">
     <div data-alpine-root="@Id"
          x-data="rzChart" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
@@ -15,7 +14,7 @@
          data-slot="@RzChart.SlotNames.NameOf(SlotTypes.Container)">
         <script type="application/json" id="@ConfigScriptId" nonce="@Nonce">@((MarkupString)_serializedConfig)</script>
         <canvas x-ref="canvas"
-                aria-label="@AriaLabel"
+                aria-label="@EffectiveAriaLabel"
                 role="img"
                 class="@SlotClasses.GetCanvas()"
                 data-slot="@RzChart.SlotNames.NameOf(SlotTypes.Canvas)"></canvas>

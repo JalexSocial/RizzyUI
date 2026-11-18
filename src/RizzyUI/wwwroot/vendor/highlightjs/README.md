@@ -1,45 +1,32 @@
-# Highlight.js CDN Assets
+# highlight.js for RizzyUI
 
-[![install size](https://packagephobia.now.sh/badge?p=highlight.js)](https://packagephobia.now.sh/result?p=highlight.js)
+[highlight.js](https://highlightjs.org/) 11.10.0 (BSD-3-Clause, see `LICENSE`), used by
+`RzCodeViewer` and `RzMarkdown`.
 
-**This package contains only the CDN build assets of highlight.js.**
+| File | Contents |
+|---|---|
+| `highlight.min.js` | Core plus the languages below. Asset key `HighlightJsCore`. Built by `npm run build:highlightjs` in `packages/rizzyui` (`build/build-highlightjs.mjs`); not part of the regular build. |
+| `languages/*.min.js` | Every other highlight.js language, one file each, from `@highlightjs/cdn-assets` 11.10.0. Each registers itself on `window.hljs`, so it must load after `highlight.min.js`. |
 
-This may be what you want if you'd like to install the pre-built distributable highlight.js client-side assets via NPM. If you're wanting to use highlight.js mainly on the server-side you likely want the [highlight.js][1] package instead.
+Built-in languages: bash, c, cpp, csharp, css, diff, dockerfile, fsharp, go, graphql, http, ini,
+java, javascript, json, kotlin, less, lua, makefile, markdown, nginx, objectivec, perl, php,
+php-template, plaintext, powershell, properties, python, python-repl, r, ruby, rust, scss, shell,
+sql, swift, typescript, vbnet, wasm, xml (also HTML), yaml. Razor (`cshtml-razor`) comes from the
+`HighlightJsRazor` asset.
 
-To access these files via CDN:<br>
-https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/
+## Adding a language
 
-**If you just want a single .js file with the common languages built-in:
-<https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js>**
+Register the language file as an asset and list its key after `HighlightJsCore`; assets load in
+order:
 
----
+```csharp
+builder.Services.AddRizzyUI(config =>
+{
+    config.AssetUrls["HighlightJsElixir"] = Constants.ContentUrl("vendor/highlightjs/languages/elixir.min.js");
+});
+```
 
-## Highlight.js
-
-Highlight.js is a syntax highlighter written in JavaScript. It works in
-the browser as well as on the server. It works with pretty much any
-markup, doesn’t depend on any framework, and has automatic language
-detection.
-
-If you'd like to read the full README:<br>
-<https://github.com/highlightjs/highlight.js/blob/main/README.md>
-
-## License
-
-Highlight.js is released under the BSD License. See [LICENSE][7] file
-for details.
-
-## Links
-
-The official site for the library is at <https://highlightjs.org/>.
-
-The Github project may be found at: <https://github.com/highlightjs/highlight.js>
-
-Further in-depth documentation for the API and other topics is at
-<http://highlightjs.readthedocs.io/>.
-
-A list of the Core Team and contributors can be found in the [CONTRIBUTORS.md][8] file.
-
-[1]: https://www.npmjs.com/package/highlight.js
-[7]: https://github.com/highlightjs/highlight.js/blob/main/LICENSE
-[8]: https://github.com/highlightjs/highlight.js/blob/main/CONTRIBUTORS.md
+```razor
+<RzCodeViewer Language="elixir" Source="@code"
+              ComponentAssetKeys="@(new[] { "HighlightJsCore", "HighlightJsRazor", "HighlightJsElixir" })" />
+```

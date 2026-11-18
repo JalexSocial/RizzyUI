@@ -20,14 +20,12 @@ public partial class TableBody : RzComponent<TableBodySlots>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "tbody";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "tbody";
-        }
 
         if (ParentRzTable == null)
         {

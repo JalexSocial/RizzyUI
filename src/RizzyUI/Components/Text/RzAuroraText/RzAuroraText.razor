@@ -3,9 +3,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="aurora-text" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="aurora-text"
              aria-label="@ComputedAriaLabel"
              aria-hidden="@RootAriaHidden">
     @if (ShouldRenderScreenReaderContent)

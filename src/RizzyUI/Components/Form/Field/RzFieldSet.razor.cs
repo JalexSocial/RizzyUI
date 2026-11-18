@@ -23,12 +23,7 @@ public partial class RzFieldSet : RzComponent<RzFieldSet.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "fieldset";
-    }
+    protected override string DefaultElement => "fieldset";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzFieldSet;

@@ -3,9 +3,8 @@
 @inherits RzComponent<BreadcrumbItem.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="breadcrumb-item" @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@SlotClasses.GetBase()"
-             data-slot="breadcrumb-item">
+             class="@SlotClasses.GetBase()">
     @ChildContent
 </HtmlElement>

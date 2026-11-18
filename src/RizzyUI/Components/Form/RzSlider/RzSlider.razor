@@ -4,9 +4,8 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             data-slot="slider" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="slider"
              data-orientation="@Orientation.ToString().ToKebabCase()"
              data-disabled="@Disabled.ToString().ToLowerInvariant()">
     <div data-alpine-root="@Id"

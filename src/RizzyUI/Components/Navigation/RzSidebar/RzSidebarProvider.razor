@@ -4,10 +4,9 @@
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
-	             @attributes="@AdditionalAttributes"
+	             data-slot="sidebar-wrapper" @attributes="@AdditionalAttributes"
 	             id="@Id"
 	             class="@SlotClasses.GetBase()"
-	             data-slot="sidebar-wrapper"
 	             x-data="rzSidebar" x-load="@LoadStrategyOrNull"
 	             x-mobile="isMobile"
 	             data-alpine-root="@Id"

@@ -75,12 +75,7 @@ public partial class RzAuroraText : RzComponent<RzAuroraText.Slots>
     protected string? RootAriaHidden => Decorative ? "true" : null;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
-    }
+    protected override string DefaultElement => "span";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzAuroraText;

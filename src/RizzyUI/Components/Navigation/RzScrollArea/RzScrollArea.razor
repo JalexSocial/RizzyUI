@@ -8,10 +8,9 @@
 @inherits RzComponent<RzScrollArea.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             data-slot="scroll-area" @attributes="@AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()"
-             data-slot="scroll-area"
              data-orientation="@Orientation.ToString().ToLowerInvariant()"
              data-type="@Type.ToString().ToLowerInvariant()"
              data-scroll-hide-delay="@ScrollHideDelay">

@@ -35,19 +35,7 @@ public partial class CarouselNext : RzAsChildComponent<CarouselNext.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "button";
-        AriaLabel ??= Localizer["RzCarousel.NextButtonAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzCarousel.NextButtonAriaLabel"];
-    }
+    protected override string DefaultElement => "button";
 
     /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;
@@ -55,16 +43,19 @@ public partial class CarouselNext : RzAsChildComponent<CarouselNext.Slots>
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),
-            ["aria-label"] = AriaLabel,
+            ["aria-label"] = EffectiveAriaLabel,
             ["x-on:click"] = "scrollNext",
             [":disabled"] = "cannotScrollNext"
         };
         return attributes;
     }
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCarousel.NextButtonAriaLabel"];
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.CarouselNext;

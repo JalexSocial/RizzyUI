@@ -28,12 +28,7 @@ public partial class BreadcrumbSeparator : RzComponent<BreadcrumbSeparator.Slots
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "li";
-    }
+    protected override string DefaultElement => "li";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.BreadcrumbSeparator;

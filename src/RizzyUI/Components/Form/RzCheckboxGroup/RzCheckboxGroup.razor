@@ -4,13 +4,11 @@
 @inherits RzComponent<RzCheckboxGroupSlots>
 
 <HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
+             data-slot="@RzCheckboxGroupSlotNames.NameOf(RzCheckboxGroupSlotTypes.Base)" role="group" @attributes="AdditionalAttributes" 
              id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="@RzCheckboxGroupSlotNames.NameOf(RzCheckboxGroupSlotTypes.Base)" 
-             role="group"
-             aria-labelledby="@_legendId">
-    <legend id="@_legendId" class="sr-only">@DisplayName</legend>
+             class="@SlotClasses.GetBase()"
+             aria-labelledby="@LegendId">
+    <legend id="@LegendId" class="sr-only">@DisplayName</legend>
     <CascadingValue Value="this" IsFixed="true">
         <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
             @ChildContent
