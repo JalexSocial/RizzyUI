@@ -123,10 +123,10 @@ Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (c
 | RM-1.6 | Complete | Integration harness (`3530b145`): popover/dropdown htmx content, OOB swap, 422 swap, 5× replacement with listener and panel counts, server toasts; CSP project (`7e431ce3`). Each defect fixed in this phase has a unit test that fails without the fix; the browser scenarios were not mutation-tested |
 | RM-1.7 | Complete | `RequestPathBase` applied to asset and code-behind URLs (`36649cd6`); unit tests plus an in-process host under `UsePathBase("/app")` through `RazorComponentResult` and `IRizzyService` |
 | RM-2.1 | Complete | Dead MSBuild targets removed (#73, D-6) |
-| RM-2.2 | Outstanding | `RizzyUI.Docs.csproj` runs `npm install` on every build |
-| RM-2.3 | Outstanding | To verify against the checker |
-| RM-2.4 | Partial | 0 build warnings, CS0628 fixed, bUnit 2.15.2 / AngleSharp 1.10.1 (#79); no hard-coded path remains. Left: the test host shares one `HttpContext` across all tests |
-| RM-2.5 | Outstanding | `EnablePackageValidation` is on but has no baseline version; no parameter contract test |
+| RM-2.2 | Complete | `npm ci` only when needed (MSBuild Inputs/Outputs, `ensure-npm-deps.mjs`); generated docs assets `-text`; CI fails when building or testing changes tracked files (`1a238b78`, green in CI) |
+| RM-2.3 | Complete | Windows entry guard fixed; matching tests must assert accessibility; contract list extended; integration specs count (`099121fc`). It found five components without accessibility tests; fixed in `eae79a3b` |
+| RM-2.4 | Complete | 0 build warnings (#79); per-test `HttpContext` (`555bf0fb`) |
+| RM-2.5 | Complete | Package validation against 1.0.0-preview.1 with suppression generation off; `PublicContractTests` baseline of parameters, enums, config and services; both shown to fail on a rename / removed `[Parameter]` (`4937adb3`) |
 | RM-2.6 | Complete | `RizzyUI.Tasks` released from the same tag when its version is new (#73, D-5) |
 | RM-3.1 – RM-3.7 | Outstanding | Not started; classified in [08](08-roadmap-execution.md#phase-3-classification) |
 | RM-4.1 | Partial | Real-component specs exist for dialog, sheet and `RzDateEdit` (integration suite); the a11y suite still runs on static fixtures |

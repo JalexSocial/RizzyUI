@@ -82,3 +82,24 @@ with RM-1.7 because both change the same lines.
 **Phase 1 checkpoint.** Done: RM-1.1 to RM-1.7. Remaining risk: other components may still bind
 string styles or use expressions the CSP build rejects; only the color input and the components
 found while fixing it were checked under CSP. RM-4.1 extends CSP coverage. Next: Phase 2.
+
+### Phase 2 — Engineering reliability (2026-11-17)
+
+| Task | Finding | Change | Verification |
+|---|---|---|---|
+| RM-2.5 | — | `PackageValidationBaselineVersion` 1.0.0-preview.1; `GenerateCompatibilitySuppressionFile` removed (it turned every break into a suppression); `ApiBaseline/public-contract.txt` + `PublicContractTests`; `docs/contributing/api-compatibility.md` | Renaming `RzSlider.TabIndex` fails `dotnet pack` with CP0002; removing its `[Parameter]` fails `PublicContractTests`; both reverted |
+| RM-2.2 | RZUI-045, RZUI-046 | Conditional `npm ci` in the docs csproj and `prebuild:css`; `-text` for generated docs CSS and vendored Tom Select; regenerated stale `app.css`; CI clean-tree check | Second CSS build leaves no diff; a11y tests leave no diff; CI run on `1a238b78` green including the new check (Linux output equals the committed file) |
+| RM-2.3 | RZUI-043 | `pathToFileURL` entry guard; content check for accessibility assertions; 13 more contract directories; integration specs and family docs pages count | 6/6 checker tests (2 new); the checker ran on Windows for the first time and reported 10 gaps, now 0 |
+| RM-2.4 | RZUI-044 | Per-test `HttpContext` and accessor | 601/601 .NET tests |
+| — | RZUI-047 (RM-4.2) | Found by RM-2.3: spinner status semantics moved to the wrapper; toggle `aria-pressed` server-rendered; new tests for input checkbox and a real-component calendar spec | Tests listed in `eae79a3b` |
+
+Package correctness was already covered by the CI checks from #73/#75: `eng/check-package-contents.py`
+(NuGet, Tasks, template, npm), the consumer smoke test of the packed packages under a strict CSP,
+and the template test (net10.0 and net11.0, packed packages, published app over HTTP). Known
+difference: the published `RizzyUI.Tasks` 1.3.5 contains 7 more DLLs than a local pack of the same
+version. CI builds against its own pack, so CI does not exercise the published Tasks package; the
+published packages were exercised by the clean-cache template check after the 1.0.0-preview.1
+release (app built, ran and passed its page checks). Bump `RizzyUITasksVersion` before changing
+`src/RizzyUI.Tasks`, so the published package is replaced rather than diverging further.
+
+**Phase 2 checkpoint.** Done: RM-2.2 to RM-2.5 (RM-2.1, RM-2.6 were already complete). Next: Phase 3.
