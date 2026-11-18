@@ -42,7 +42,7 @@
                     Use <code>RzCalendarProvider</code> to display the selected date reactively.
                 </RzParagraph>
 
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <RzCard>
                         <CardHeader><CardTitle>Single Date</CardTitle></CardHeader>
                         <CardContent class="flex flex-col items-center gap-4">
@@ -83,7 +83,7 @@
                     Use <code>formattedRange</code> to display the start and end dates.
                 </RzParagraph>
 
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <RzCard>
                         <CardHeader><CardTitle>Range Selection</CardTitle></CardHeader>
                         <CardContent class="flex flex-col items-center gap-4">
@@ -123,7 +123,7 @@
                     The provider exposes an API (`setToday`, `addDays`) that external buttons can call directly.
                 </RzParagraph>
 
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <RzCard class="w-fit mx-auto">
                          <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1">
                              <div class="flex flex-col lg:flex-row">
@@ -164,7 +164,7 @@
                 <RzParagraph class="mb-4">
                     <strong>Single Date Popover:</strong> Updates the button label upon selection.
                 </RzParagraph>
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <div class="flex flex-col gap-6 items-center">
                         <div class="flex flex-col gap-2">
                             <Label>Date of birth</Label>
@@ -207,7 +207,7 @@
                 <RzParagraph class="mb-4">
                     <strong>Range Popover:</strong> Closes automatically when the range is complete.
                 </RzParagraph>
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <div class="flex flex-col gap-6 items-center">
                         <div class="flex flex-col gap-2">
                             <Label>Select your stay</Label>
@@ -251,7 +251,7 @@
                 <RzParagraph class="mb-4">
                     <strong>Two-Way Input Binding:</strong> Use <code>x-model.debounce.500ms</code> to allow typing dates without premature validation reset.
                 </RzParagraph>
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <div class="flex flex-col gap-6 items-center">
                         <div class="flex flex-col gap-2 w-[240px]">
                             <Label>Two-Way Input Binding</Label>
@@ -305,7 +305,7 @@
                     This example simulates a data-driven UI. The list of events updates instantly based on the selected <code>date</code> using Alpine.js logic.
                 </RzParagraph>
 
-                <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
+                <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <RzCard class="w-[350px] mx-auto">
                         <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
                                             FormatOptions="@(new IntlDateTimeFormatOptions { Weekday = TextWidth.Long, Month = MonthStyle.Long, Day = Numeric2Digit.Numeric })">

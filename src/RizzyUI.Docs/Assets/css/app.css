@@ -2,3 +2,18 @@
 @import "../../../../packages/rizzyui/dist/css/rizzyui-plugin.css";
 
 @plugin "@tailwindcss/forms";
+
+/* Phones: long identifiers in prose and headings wrap instead of making the page wider than the
+   screen. Tables keep readable columns and scroll inside their own wrapper (overflow-x-auto), so
+   table cells are left out; code blocks (pre) keep their own horizontal scrolling. */
+#content {
+    overflow-wrap: break-word;
+}
+
+#content :where(p, li, dd) {
+    overflow-wrap: anywhere;
+}
+
+#content :where(td, th) {
+    overflow-wrap: normal;
+}
