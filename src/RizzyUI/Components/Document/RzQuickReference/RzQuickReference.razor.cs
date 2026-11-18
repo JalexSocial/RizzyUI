@@ -42,6 +42,12 @@ public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
     [Parameter]
     public string? AriaLabel { get; set; }
 
+    /// <summary>The <see cref="Title"/> parameter, or its localized default.</summary>
+    protected string EffectiveTitle => Title ?? Localizer["RzQuickReference.DefaultTitle"];
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzQuickReference.DefaultAriaLabel"];
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -52,8 +58,6 @@ public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
                 $"{GetType()} must be placed within an {nameof(RzQuickReferenceContainer)}.");
 
         _headings = QuickReferenceContainer.GetHeadingItems();
-        Title ??= Localizer["RzQuickReference.DefaultTitle"];
-        AriaLabel ??= Localizer["RzQuickReference.DefaultAriaLabel"];
     }
 
     /// <inheritdoc />
@@ -61,8 +65,6 @@ public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
     {
         base.OnParametersSet();
         if (QuickReferenceContainer != null) _headings = QuickReferenceContainer.GetHeadingItems();
-        Title ??= Localizer["RzQuickReference.DefaultTitle"];
-        AriaLabel ??= Localizer["RzQuickReference.DefaultAriaLabel"];
     }
 
     /// <inheritdoc />

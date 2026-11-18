@@ -35,6 +35,9 @@ public partial class RzColorPickerTrigger : RzAsChildComponent<RzColorPickerTrig
     /// <inheritdoc/>
     protected override string DefaultElement => "div";
 
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzColorPickerTrigger.DefaultAriaLabel"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -43,14 +46,6 @@ public partial class RzColorPickerTrigger : RzAsChildComponent<RzColorPickerTrig
         if (ProviderContext is null)
             throw new InvalidOperationException($"{nameof(RzColorPickerTrigger)} must be used within an {nameof(RzColorPickerProvider)}.");
 
-        AriaLabel ??= Localizer["RzColorPickerTrigger.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzColorPickerTrigger.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>
@@ -64,7 +59,7 @@ public partial class RzColorPickerTrigger : RzAsChildComponent<RzColorPickerTrig
             ["id"] = Id,
             ["role"] = "button",
             ["tabindex"] = Disabled ? -1 : 0,
-            ["aria-label"] = AriaLabel,
+            ["aria-label"] = EffectiveAriaLabel,
             ["aria-disabled"] = Disabled ? "true" : null,
             ["x-on:click"] = Disabled ? null : "colorPicker.open",
             ["x-on:keydown.enter.prevent"] = Disabled ? null : "colorPicker.open",

@@ -27,9 +27,6 @@ public partial class RzChart : RzComponent<RzChart.Slots>
     private string _assets = "[]";
     private string _serializedConfig = "{}";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets the unique ID for the configuration script tag.
     /// </summary>
@@ -53,11 +50,13 @@ public partial class RzChart : RzComponent<RzChart.Slots>
     [Parameter]
     public string? AriaLabel { get; set; }
 
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzChart.DefaultAriaLabel"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AriaLabel ??= Localizer["RzChart.DefaultAriaLabel"];
         UpdateConfiguration();
         UpdateAssets();
     }
@@ -66,7 +65,6 @@ public partial class RzChart : RzComponent<RzChart.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzChart.DefaultAriaLabel"];
         UpdateConfiguration();
         UpdateAssets();
     }
@@ -89,9 +87,7 @@ public partial class RzChart : RzComponent<RzChart.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <summary>

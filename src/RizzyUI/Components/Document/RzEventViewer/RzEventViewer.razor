@@ -21,19 +21,19 @@
          data-show-event-meta="@ShowEventMeta.ToString().ToLowerInvariant()"
          data-level="@Level"
          data-filter="@Filter"
-         data-pause-text="@PauseButtonText"
-         data-resume-text="@ResumeButtonText"
+         data-pause-text="@EffectivePauseButtonText"
+         data-resume-text="@EffectiveResumeButtonText"
          data-events="@ResolvedEventNamesAttribute"
          data-copy-title="@CopyButtonTitle"
          data-copied-title="@CopiedButtonTitle"
-         data-listening-text="@ListeningStatusText"
-         data-paused-text="@PausedStatusText"
-         data-expand-text="@ExpandEntryDetailsText"
-         data-collapse-text="@CollapseEntryDetailsText"
+         data-listening-text="@EffectiveListeningStatusText"
+         data-paused-text="@EffectivePausedStatusText"
+         data-expand-text="@EffectiveExpandEntryDetailsText"
+         data-collapse-text="@EffectiveCollapseEntryDetailsText"
          class="@SlotClasses.GetContainer()"
          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Container)">
         <div class="@SlotClasses.GetHeader()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Header)">
-            <span class="@SlotClasses.GetTitle()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Title)">@ViewerTitle</span>
+            <span class="@SlotClasses.GetTitle()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Title)">@EffectiveViewerTitle</span>
             <div class="@SlotClasses.GetControls()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Controls)" x-cloak>
                 <span x-text="getStatusText" class="@SlotClasses.GetStatusBadge()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.StatusBadge)"></span>
                 <span x-text="entryCount" class="@SlotClasses.GetEntryCount()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EntryCount)"></span>
@@ -41,7 +41,7 @@
                         x-on:click="copyEntries"
                         :title="getCopiedTitle"
                         x-on:click.away="disableCopied"
-                        aria-label="@CopyButtonText"
+                        aria-label="@EffectiveCopyButtonText"
                         class="@SlotClasses.GetIconButton()"
                         data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.IconButton)">
                     <svg x-show="notCopied"
@@ -73,7 +73,7 @@
                 </button>
                 <button type="button"
                         x-on:click="togglePaused"
-                        aria-label="@PauseButtonText"
+                        aria-label="@EffectivePauseButtonText"
                         class="@SlotClasses.GetIconButton()"
                         data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.IconButton)">
                     <Blazicon Svg="Lucide.CirclePause"
@@ -89,7 +89,7 @@
                 </button>
                 <button type="button"
                         x-on:click="clearEntries"
-                        aria-label="@ClearButtonText"
+                        aria-label="@EffectiveClearButtonText"
                         class="@SlotClasses.GetIconButton()"
                         data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.IconButton)">
                     <Blazicon Svg="Lucide.CircleX"

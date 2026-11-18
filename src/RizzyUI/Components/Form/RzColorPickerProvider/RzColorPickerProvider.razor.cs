@@ -23,9 +23,6 @@ public partial class RzColorPickerProvider : RzComponent<RzColorPickerProvider.S
     private string _assets = "[]";
     private string _serializedConfig = "{}";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets or sets the content rendered inside the provider scope.
     /// </summary>
@@ -117,8 +114,7 @@ public partial class RzColorPickerProvider : RzComponent<RzColorPickerProvider.S
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <inheritdoc />

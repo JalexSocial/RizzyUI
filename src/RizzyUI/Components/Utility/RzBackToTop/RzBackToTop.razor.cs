@@ -80,21 +80,6 @@ public partial class RzBackToTop : RzAsChildComponent<RzBackToTop.Slots>
     protected override string DefaultElement => "button";
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        AriaLabel ??= Localizer["RzBackToTop.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzBackToTop.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;
 
     /// <inheritdoc/>
@@ -120,7 +105,7 @@ public partial class RzBackToTop : RzAsChildComponent<RzBackToTop.Slots>
             ["x-transition:leave-start"] = "opacity-100 translate-y-0",
             ["x-transition:leave-end"] = "opacity-0 translate-y-2",
             ["x-on:click.prevent"] = "scrollToTop",
-            ["aria-label"] = AriaLabel,
+            ["aria-label"] = EffectiveAriaLabel,
             ["type"] = IsButtonElement ? "button" : null,
             ["role"] = IsButtonElement ? null : "button",
             ["tabindex"] = IsButtonElement ? null : 0
@@ -128,6 +113,9 @@ public partial class RzBackToTop : RzAsChildComponent<RzBackToTop.Slots>
 
         return attributes;
     }
+
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzBackToTop.DefaultAriaLabel"];
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.RzBackToTop;

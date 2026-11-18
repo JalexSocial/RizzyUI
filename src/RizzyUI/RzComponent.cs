@@ -1,4 +1,4 @@
-
+using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization; // Required for IStringLocalizer
@@ -140,6 +140,14 @@ public abstract partial class RzComponent : ComponentBase
     /// to comply with strict CSP directives.
     /// </summary>
     protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
+
+    /// <summary>
+    /// The URLs for <paramref name="keys"/>, resolved from <see cref="RizzyUIConfig.AssetUrls"/> with the
+    /// request's path base and any integrity hashes, as the JSON array components pass to the browser
+    /// runtime (<c>Rizzy.require</c>). Unknown keys are skipped.
+    /// </summary>
+    protected string SerializeAssetUrls(IEnumerable<string> keys)
+        => JsonSerializer.Serialize(Config?.Value.ResolveAssets(keys, RequestPathBase) ?? []);
 
     /// <summary>
     /// Copies <see cref="AdditionalAttributes"/> into a new case-insensitive dictionary. When two keys

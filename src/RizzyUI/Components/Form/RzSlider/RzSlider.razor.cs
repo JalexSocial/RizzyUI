@@ -174,11 +174,13 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
     /// <inheritdoc/>
     protected override string DefaultElement => "div";
 
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzSlider.DefaultAriaLabel"];
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AriaLabel ??= Localizer["RzSlider.DefaultAriaLabel"];
         SetElementDefault();
         UpdateState();
     }
@@ -187,7 +189,6 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzSlider.DefaultAriaLabel"];
         SetElementDefault();
         UpdateState();
     }
@@ -208,9 +209,7 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private double[] ResolveEffectiveValues()
@@ -292,7 +291,7 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
             return AriaLabels[index];
 
         if (EffectiveValues.Length <= 1)
-            return AriaLabel ?? Localizer["RzSlider.DefaultAriaLabel"];
+            return EffectiveAriaLabel;
 
         return index == 0
             ? Localizer["RzSlider.MinimumThumbAriaLabel"]

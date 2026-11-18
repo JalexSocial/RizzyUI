@@ -20,7 +20,7 @@
                  data-server-filtering="@(ServerFiltering.ToString().ToLowerInvariant())"
                  data-template-id="@DataItemTemplateId"
                  data-max-render="@MaxRender"
-                 aria-label="@AriaLabel">
+                 aria-label="@EffectiveAriaLabel">
         
         @if (string.IsNullOrEmpty(ItemsUrl) && Items.Any())
         {

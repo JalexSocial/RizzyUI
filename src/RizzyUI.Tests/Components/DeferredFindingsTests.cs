@@ -75,6 +75,20 @@ public class DeferredFindingsTests : BunitAlbaContext, IClassFixture<WebAppFixtu
     }
 
     [Fact]
+    public void LocalizedDefaults_AreRenderedWithoutChangingTheParameter()
+    {
+        // RZUI-053: 41 components wrote their localized default into the parameter
+        // (AriaLabel ??= Localizer[...]) in OnInitialized and OnParametersSet.
+        var cut = Render<RzBackToTop>();
+
+        Assert.Null(cut.Instance.AriaLabel);
+        Assert.False(string.IsNullOrWhiteSpace(cut.Find("[aria-label]").GetAttribute("aria-label")));
+
+        var named = Render<RzBackToTop>(p => p.Add(x => x.AriaLabel, "Up"));
+        Assert.Equal("Up", named.Find("[aria-label]").GetAttribute("aria-label"));
+    }
+
+    [Fact]
     public void RenderedComponents_UseTheConfiguredThemeInstance()
     {
         var configured = Services.GetRequiredService<IOptions<RizzyUIConfig>>().Value.DefaultTheme;

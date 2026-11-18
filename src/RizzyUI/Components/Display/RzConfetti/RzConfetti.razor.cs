@@ -41,9 +41,6 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
     private string _assets = "[]";
     private string _optionsJson = "{}";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
     /// Gets the effective browser event name used for custom-event mode.
     /// </summary>
@@ -257,9 +254,7 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private void UpdateOptions()

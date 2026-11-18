@@ -76,19 +76,8 @@ public partial class RzInputColor : InputBase<string, RzInputColor.Slots>
     /// </summary>
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["Coloris"];
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Placeholder ??= Localizer["RzColorPicker.DefaultPlaceholder"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        Placeholder ??= Localizer["RzColorPicker.DefaultPlaceholder"];
-    }
+    /// <summary>The <see cref="Placeholder"/> parameter, or its localized default.</summary>
+    protected string EffectivePlaceholder => Placeholder ?? Localizer["RzColorPicker.DefaultPlaceholder"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzInputColor;

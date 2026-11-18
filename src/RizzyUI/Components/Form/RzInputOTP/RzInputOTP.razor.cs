@@ -27,9 +27,6 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     private string _assets = "[]";
     private FieldIdentifier _fieldIdentifier;
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
@@ -167,9 +164,7 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     private void UpdateFieldIdentifier()

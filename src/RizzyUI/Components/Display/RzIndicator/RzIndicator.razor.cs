@@ -89,20 +89,6 @@ public partial class RzIndicator : RzComponent<RzIndicator.Slots>
     /// </summary>
     protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzIndicator.DefaultAriaLabel"];
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AriaLabel ??= Localizer["RzIndicator.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzIndicator.DefaultAriaLabel"];
-    }
-
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzIndicator;
 

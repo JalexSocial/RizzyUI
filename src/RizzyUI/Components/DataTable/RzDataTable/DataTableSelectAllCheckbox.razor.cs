@@ -44,6 +44,9 @@ public partial class DataTableSelectAllCheckbox : RzComponent<DataTableSelectAll
     /// <inheritdoc/>
     protected override string DefaultElement => "input";
 
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["DataTableSelectAllCheckbox.DefaultAriaLabel"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -52,14 +55,6 @@ public partial class DataTableSelectAllCheckbox : RzComponent<DataTableSelectAll
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("type", "checkbox");
 
-        AriaLabel ??= Localizer["DataTableSelectAllCheckbox.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["DataTableSelectAllCheckbox.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>

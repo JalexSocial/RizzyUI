@@ -67,9 +67,6 @@ public partial class RzShineBorder : RzComponent<RzShineBorder.Slots>
     [Parameter]
     public string[] ComponentAssetKeys { get; set; } = [];
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     private string _assets = "[]";
     private string _serializedShineColors = "[]";
 
@@ -97,9 +94,7 @@ public partial class RzShineBorder : RzComponent<RzShineBorder.Slots>
 
     private void UpdateAlpinePayload()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
 
         var nonEmptyColors = ShineColors?
             .Where(color => !string.IsNullOrWhiteSpace(color))

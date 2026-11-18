@@ -150,6 +150,12 @@ Finding IDs (RZUI-0xx) refer to the
   `DialogTitle`, `SheetTrigger`, `CardContent`, `RzCheckboxGroup`) replaced it with their own tag;
   they now use it when it is set. Components no longer write their default tag into the `Element`
   parameter: derived components override `DefaultElement` instead. (RZUI-053)
+- Components no longer write localized defaults into their parameters (`AriaLabel ??= ...` in 41
+  components). The rendered output is unchanged; code that read, for example, `AriaLabel` from a
+  component instance after rendering now sees the value that was passed (or `null`). (RZUI-053)
+- A dictionary passed directly as `AdditionalAttributes` with keys that differ only by case no
+  longer throws ("An item with the same key has already been added") in 29 components; the last
+  key wins, as it does for markup attributes. (RZUI-053)
 - The README, Getting Started, the theme guide, the migration guide and the `dotnet new rizzyui`
   template load the minified runtime (`rizzyui.min.js`, `rizzyui-csp.min.js`), about half the bytes
   of `rizzyui.js`. The unminified files remain for debugging. (RZUI-056)

@@ -2,7 +2,7 @@
 @using Blazicons
 @inherits RzComponent<RzSteps.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" aria-label="@AriaLabel">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" aria-label="@EffectiveAriaLabel">
 
 	<CascadingValue Value="this" IsFixed="true">
 		@ChildContent

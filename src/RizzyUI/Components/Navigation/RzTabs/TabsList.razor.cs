@@ -38,19 +38,8 @@ public partial class TabsList : RzComponent<TabsList.Slots>
     /// <inheritdoc/>
     protected override string DefaultElement => "div";
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        AriaLabel ??= Localizer["RzTabs.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzTabs.DefaultAriaLabel"];
-    }
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzTabs.DefaultAriaLabel"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.TabsList;

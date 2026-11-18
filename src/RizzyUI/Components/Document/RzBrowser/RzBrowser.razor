@@ -43,7 +43,7 @@
             <div class="@SlotClasses.GetPreviewContainer()" :class="getBrowserBorderCss" data-slot="browser-preview-container">
                 @if (Layout != null)
                 {
-                    <RzEmbeddedPreview Layout="@Layout" IFrameTitle="@PreviewIFrameTitle">
+                    <RzEmbeddedPreview Layout="@Layout" IFrameTitle="@EffectivePreviewIFrameTitle">
                         @ChildContent
                     </RzEmbeddedPreview>
                 }

@@ -45,19 +45,8 @@ public partial class RzBrowser : RzComponent<RzBrowser.Slots>
     /// </summary>
     [Parameter] public string? PreviewIFrameTitle { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        PreviewIFrameTitle ??= Localizer["RzBrowser.PreviewIFrameTitle"];
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        PreviewIFrameTitle ??= Localizer["RzBrowser.PreviewIFrameTitle"];
-    }
+    /// <summary>The <see cref="PreviewIFrameTitle"/> parameter, or its localized default.</summary>
+    protected string EffectivePreviewIFrameTitle => PreviewIFrameTitle ?? Localizer["RzBrowser.PreviewIFrameTitle"];
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzBrowser;

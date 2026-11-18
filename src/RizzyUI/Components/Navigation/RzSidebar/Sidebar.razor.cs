@@ -88,6 +88,9 @@ public partial class Sidebar : RzComponent<Sidebar.Slots>
     /// <inheritdoc/>
     protected override string DefaultElement => "div";
 
+    /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzSidebar.DefaultAriaLabel"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -96,14 +99,6 @@ public partial class Sidebar : RzComponent<Sidebar.Slots>
         {
             throw new InvalidOperationException($"{nameof(Sidebar)} must be used within an {nameof(RzSidebarProvider)}.");
         }
-        AriaLabel ??= Localizer["RzSidebar.DefaultAriaLabel"];
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        AriaLabel ??= Localizer["RzSidebar.DefaultAriaLabel"];
     }
 
     /// <inheritdoc/>

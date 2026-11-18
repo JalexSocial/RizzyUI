@@ -48,9 +48,9 @@
                 disabled="@Disabled"
                 @attributes="InnerInputAttributes">
              
-             @if (!Multiple && !string.IsNullOrEmpty(Placeholder))
+             @if (!Multiple && !string.IsNullOrEmpty(EffectivePlaceholder))
              {
-                 <option value="">@Placeholder</option>
+                 <option value="">@EffectivePlaceholder</option>
              }
 
              @if (IsSelectListItem)

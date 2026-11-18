@@ -69,9 +69,6 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
 
     private string _assets = "[]";
 
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
@@ -194,8 +191,7 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
-        _assets = JsonSerializer.Serialize(assetUrls);
+        _assets = SerializeAssetUrls(ComponentAssetKeys);
     }
 
     /// <inheritdoc/>

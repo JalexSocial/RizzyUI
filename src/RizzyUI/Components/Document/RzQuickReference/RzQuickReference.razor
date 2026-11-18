@@ -2,9 +2,9 @@
 @namespace RizzyUI
 @inherits RzComponent<RzQuickReference.Slots>
 
-<nav aria-label="@AriaLabel" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id" data-slot="quick-reference">
+<nav aria-label="@EffectiveAriaLabel" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id" data-slot="quick-reference">
     <p class="@SlotClasses.GetTitle()" data-slot="quick-reference-title">
-        @Title
+        @EffectiveTitle
     </p>
     <ul class="@SlotClasses.GetList()" data-slot="quick-reference-list">
         @foreach (var heading in _headings)

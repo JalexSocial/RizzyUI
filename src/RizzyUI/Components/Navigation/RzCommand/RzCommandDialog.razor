@@ -5,8 +5,8 @@
 <RzDialog @attributes="AdditionalAttributes" @bind-Open="Open" EventTriggerName="@EventTriggerName">
     <DialogContent class="@SlotClasses.GetBase()" ShowCloseButton="@ShowCloseButton">
         <DialogHeader class="sr-only">
-            <DialogTitle>@Title</DialogTitle>
-            <DialogDescription>@Description</DialogDescription>
+            <DialogTitle>@EffectiveTitle</DialogTitle>
+            <DialogDescription>@EffectiveDescription</DialogDescription>
         </DialogHeader>
         <RzCommand class="@SlotClasses.GetCommand()"
                    ShouldFilter="@ShouldFilter"
