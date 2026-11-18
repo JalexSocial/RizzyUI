@@ -36,13 +36,7 @@ public partial class TableCell : RzComponent<TableCellSlots>
     }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "td";
-    }
+    protected override string DefaultElement => "td";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<TableCellSlots>, TableCellSlots> GetDescriptor() => Theme.TableCell;

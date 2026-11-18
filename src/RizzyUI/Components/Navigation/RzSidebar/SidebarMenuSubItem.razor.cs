@@ -23,11 +23,7 @@ public partial class SidebarMenuSubItem : RzComponent<SidebarMenuSubItem.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "li";
-    }
+    protected override string DefaultElement => "li";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuSubItem;

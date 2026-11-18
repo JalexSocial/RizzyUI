@@ -38,12 +38,7 @@ public partial class FieldLegend : RzComponent<FieldLegend.Slots>
     public FieldLegendVariant Variant { get; set; } = FieldLegendVariant.Legend;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "legend";
-    }
+    protected override string DefaultElement => "legend";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.FieldLegend;

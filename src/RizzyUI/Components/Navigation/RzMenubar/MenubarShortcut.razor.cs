@@ -20,11 +20,7 @@ public partial class MenubarShortcut : RzComponent<MenubarShortcut.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrWhiteSpace(Element)) Element = "span";
-    }
+    protected override string DefaultElement => "span";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.MenubarShortcut;

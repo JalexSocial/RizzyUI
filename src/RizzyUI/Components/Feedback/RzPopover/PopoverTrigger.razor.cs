@@ -40,6 +40,9 @@ public partial class PopoverTrigger : RzAsChildComponent<PopoverTrigger.Slots>
     protected string ContentId => $"{ParentPopover?.Id}-content";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -47,7 +50,6 @@ public partial class PopoverTrigger : RzAsChildComponent<PopoverTrigger.Slots>
         {
             throw new InvalidOperationException($"{nameof(PopoverTrigger)} must be used within an {nameof(RzPopover)}.");
         }
-        Element = "button";
     }
 
     /// <inheritdoc/>

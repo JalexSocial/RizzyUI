@@ -48,6 +48,9 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
     /// </summary>
     protected string ContentId => $"{ParentTabs?.Id}-{RzTabs.IdSegment(Value)}-content";
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -55,7 +58,6 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
         if (ParentTabs == null)
             throw new InvalidOperationException($"{nameof(TabsTrigger)} must be used within an {nameof(RzTabs)} component.");
 
-        Element = "button";
     }
 
     /// <inheritdoc />

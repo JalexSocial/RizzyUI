@@ -86,13 +86,13 @@ public partial class RzParagraph : RzTypographyBase<RzParagraph.Slots>
     [Parameter]
     public ProseWidth ProseWidth { get; set; } = ProseWidth.Full;
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "p";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "p";
 
         TextColor ??= SemanticColor.Foreground;
     }

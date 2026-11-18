@@ -74,16 +74,8 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Initializes the component, setting the default element type if not specified.
-    /// </summary>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span"; // Default element for a badge
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "span";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzBadge;

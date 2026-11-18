@@ -28,13 +28,15 @@ public partial class MenubarTrigger : RzAsChildComponent<MenubarTrigger.Slots>
     protected MenubarMenu? ParentMenu { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         if (ParentMenu is null)
             throw new InvalidOperationException($"{nameof(MenubarTrigger)} must be used within {nameof(MenubarMenu)}.");
 
-        Element = "button";
     }
 
     /// <inheritdoc/>

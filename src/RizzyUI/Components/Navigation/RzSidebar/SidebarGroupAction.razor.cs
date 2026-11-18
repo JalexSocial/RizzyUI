@@ -23,11 +23,7 @@ public partial class SidebarGroupAction : RzAsChildComponent<SidebarGroupAction.
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "button";
-    }
+    protected override string DefaultElement => "button";
 
     /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;

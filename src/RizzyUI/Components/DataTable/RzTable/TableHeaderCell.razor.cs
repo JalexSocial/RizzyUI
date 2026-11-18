@@ -14,14 +14,12 @@ public partial class TableHeaderCell : RzComponent<TableHeaderCellSlots>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "th";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "th";
-        }
 
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("scope", "col");

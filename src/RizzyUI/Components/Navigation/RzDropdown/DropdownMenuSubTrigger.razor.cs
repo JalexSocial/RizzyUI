@@ -52,6 +52,9 @@ public partial class DropdownMenuSubTrigger : RzComponent<DropdownMenuSubTrigger
     protected string SubContentId => $"{ParentSubmenu?.Id}-subcontent";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -59,11 +62,7 @@ public partial class DropdownMenuSubTrigger : RzComponent<DropdownMenuSubTrigger
         {
             throw new InvalidOperationException($"{nameof(DropdownMenuSubTrigger)} must be used within a {nameof(DropdownMenuSub)}.");
         }
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "button";
-        }
-        if (Element.Equals("button", StringComparison.OrdinalIgnoreCase) &&
+        if (EffectiveElement.Equals("button", StringComparison.OrdinalIgnoreCase) &&
             (AdditionalAttributes == null || !AdditionalAttributes.ContainsKey("type")))
         {
             AdditionalAttributes ??= new Dictionary<string, object>();

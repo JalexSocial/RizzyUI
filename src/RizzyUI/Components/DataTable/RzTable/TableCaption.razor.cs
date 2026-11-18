@@ -14,14 +14,7 @@ public partial class TableCaption : RzComponent<TableCaptionSlots>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "caption";
-        }
-    }
+    protected override string DefaultElement => "caption";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<TableCaptionSlots>, TableCaptionSlots> GetDescriptor() => Theme.TableCaption;

@@ -79,12 +79,8 @@ public partial class RzSeparator : RzComponent<RzSeparator.Slots>
     /// </summary>
     protected bool HasContent => ChildContent != null;
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "div";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSeparator;

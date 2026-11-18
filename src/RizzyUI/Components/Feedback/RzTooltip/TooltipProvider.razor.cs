@@ -46,15 +46,13 @@ public partial class TooltipProvider : RzComponent<TooltipProvider.Slots>
     /// </summary>
     protected TooltipProviderContext Context => _context;
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "div";
-        }
 
         _context.UpdateConfiguration(DelayDuration, SkipDelayDuration, DisableHoverableContent);
     }

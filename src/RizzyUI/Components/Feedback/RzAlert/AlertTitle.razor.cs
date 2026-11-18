@@ -54,13 +54,8 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     /// </summary>
     protected ThemeVariant EffectiveVariant => Variant ?? AlertParent?.Variant ?? ThemeVariant.Accent;
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "h3";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "h3";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.AlertTitle;

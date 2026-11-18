@@ -27,6 +27,30 @@ public class DeferredFindingsTests : BunitAlbaContext, IClassFixture<WebAppFixtu
     }
 
     [Fact]
+    public void DefaultElement_IsRenderedWithoutChangingTheElementParameter()
+    {
+        // RZUI-053: components assigned their default tag to the Element parameter in OnInitialized.
+        var badge = Render<RzBadge>(p => p.AddChildContent("New"));
+        Assert.Equal("SPAN", badge.Find("[data-slot='badge']").TagName);
+        Assert.Equal(string.Empty, badge.Instance.Element);
+
+        var title = Render<CardTitle>(p => p.AddChildContent("Title"));
+        Assert.Equal("H2", title.Find("[data-slot='card-title']").TagName);
+        Assert.Equal(string.Empty, title.Instance.Element);
+    }
+
+    [Fact]
+    public void CallerElement_IsHonoredWhereItUsedToBeOverwritten()
+    {
+        // RZUI-053: RzSeparator (and 54 others) replaced the caller's Element unconditionally.
+        var separator = Render<RzSeparator>(p => p.Add(x => x.Element, "hr"));
+        Assert.Equal("HR", separator.Find("[data-slot='separator']").TagName);
+
+        var title = Render<CardTitle>(p => p.Add(x => x.Element, "h3").AddChildContent("Title"));
+        Assert.Equal("H3", title.Find("[data-slot='card-title']").TagName);
+    }
+
+    [Fact]
     public void RenderedComponents_UseTheConfiguredThemeInstance()
     {
         var configured = Services.GetRequiredService<IOptions<RizzyUIConfig>>().Value.DefaultTheme;

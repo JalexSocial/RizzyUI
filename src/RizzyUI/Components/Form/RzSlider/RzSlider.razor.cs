@@ -171,6 +171,9 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
     /// </summary>
     protected double[] EffectiveValues { get; private set; } = [];
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -201,8 +204,6 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
 
     private void SetElementDefault()
     {
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
     }
 
     private void UpdateAssets()

@@ -29,11 +29,12 @@ public partial class NavigationMenuItem : RzComponent<NavigationMenuItem.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "li";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "li";
 
         ParentMenu?.AddItem(this);
     }

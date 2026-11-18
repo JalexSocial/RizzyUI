@@ -29,6 +29,9 @@ public partial class SidebarGroupLabel : RzAsChildComponent<SidebarGroupLabel.Sl
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -36,7 +39,6 @@ public partial class SidebarGroupLabel : RzAsChildComponent<SidebarGroupLabel.Sl
         {
             throw new InvalidOperationException($"{nameof(SidebarGroupLabel)} must be used within a {nameof(SidebarGroup)}.");
         }
-        Element = "div";
     }
 
     /// <inheritdoc/>

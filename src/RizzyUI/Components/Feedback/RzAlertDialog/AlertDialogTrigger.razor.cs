@@ -26,12 +26,14 @@ public partial class AlertDialogTrigger : RzAsChildComponent<AlertDialogTrigger.
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         if (ParentAlertDialog == null)
             throw new InvalidOperationException($"{nameof(AlertDialogTrigger)} must be used within an {nameof(RzAlertDialog)}.");
-        Element = "button";
     }
 
     /// <inheritdoc/>

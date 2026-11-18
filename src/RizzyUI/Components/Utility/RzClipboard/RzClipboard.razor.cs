@@ -58,12 +58,12 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
     private bool IsButtonElement => string.Equals(EffectiveElement, "button", StringComparison.OrdinalIgnoreCase);
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "button";
 
         AriaLabel ??= Localizer["RzClipboard.DefaultAriaLabel"];
     }

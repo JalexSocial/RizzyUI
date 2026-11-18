@@ -39,12 +39,12 @@ public partial class PaginationNext : RzComponent<PaginationNext.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "a";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "a";
 
         Label ??= Localizer["PaginationNext.Label"];
         AriaLabel ??= Localizer["PaginationNext.AriaLabel"];

@@ -35,10 +35,12 @@ public partial class CarouselPrevious : RzAsChildComponent<CarouselPrevious.Slot
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "button";
         AriaLabel ??= Localizer["RzCarousel.PreviousButtonAriaLabel"];
     }
 

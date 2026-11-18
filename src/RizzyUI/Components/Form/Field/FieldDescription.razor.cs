@@ -23,12 +23,7 @@ public partial class FieldDescription : RzComponent<FieldDescription.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "p";
-    }
+    protected override string DefaultElement => "p";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.FieldDescription;

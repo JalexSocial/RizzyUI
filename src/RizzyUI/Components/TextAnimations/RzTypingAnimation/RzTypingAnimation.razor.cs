@@ -127,13 +127,13 @@ public partial class RzTypingAnimation : RzComponent<RzTypingAnimation.Slots>
 
     private string? NoScriptFallbackWord => HasWordSource ? ResolvedWords[0] : null;
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "span";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
 
         UpdateAssets();
         UpdateSerializedConfig();

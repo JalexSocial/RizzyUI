@@ -102,18 +102,19 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
 
     /// <inheritdoc />
+    protected override string DefaultElement => Level switch
+    {
+        HeadingLevel.H1 => "h1",
+        HeadingLevel.H2 => "h2",
+        HeadingLevel.H3 => "h3",
+        HeadingLevel.H4 => "h4",
+        _ => "h1"
+    };
+
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-
-        Element = Level switch
-        {
-            HeadingLevel.H1 => "h1",
-            HeadingLevel.H2 => "h2",
-            HeadingLevel.H3 => "h3",
-            HeadingLevel.H4 => "h4",
-            _ => "h1"
-        };
 
         if (TextColor is null)
             TextColor = SemanticColor.Foreground;

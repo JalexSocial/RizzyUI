@@ -40,6 +40,9 @@ public partial class DropdownMenuTrigger : RzAsChildComponent<DropdownMenuTrigge
     protected string ContentId => $"{ParentDropdownMenu?.Id}-content";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -47,7 +50,6 @@ public partial class DropdownMenuTrigger : RzAsChildComponent<DropdownMenuTrigge
         {
             throw new InvalidOperationException($"{nameof(DropdownMenuTrigger)} must be used within an {nameof(RzDropdownMenu)}.");
         }
-        Element = "button";
     }
 
     /// <inheritdoc/>

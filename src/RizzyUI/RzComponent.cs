@@ -142,9 +142,15 @@ public abstract partial class RzComponent : ComponentBase
     protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
 
     /// <summary>
+    /// The root element tag used when <see cref="Element"/> is not set. Components override this
+    /// instead of assigning <see cref="Element"/>, which is a parameter (RZUI-053).
+    /// </summary>
+    protected virtual string DefaultElement => "div";
+
+    /// <summary>
     /// Actual HTML element tag name to be rendered as the root of this component.
     /// </summary>
-    protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
+    protected string EffectiveElement => string.IsNullOrEmpty(Element) ? DefaultElement : Element;
 
     /// <summary>
     /// Gets the effective async-alpine load strategy, or <see langword="null"/> to omit the `x-load` attribute.

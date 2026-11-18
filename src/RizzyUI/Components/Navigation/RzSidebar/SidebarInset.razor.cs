@@ -23,11 +23,7 @@ public partial class SidebarInset : RzComponent<SidebarInset.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "main";
-    }
+    protected override string DefaultElement => "main";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarInset;

@@ -35,6 +35,9 @@ public partial class SidebarTrigger : RzComponent<SidebarTrigger.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -42,7 +45,6 @@ public partial class SidebarTrigger : RzComponent<SidebarTrigger.Slots>
         {
             throw new InvalidOperationException($"{nameof(SidebarTrigger)} must be used within an {nameof(RzSidebarProvider)}.");
         }
-        Element = "button";
         AriaLabel ??= Localizer["RzSidebarTrigger.DefaultAriaLabel"];
     }
 

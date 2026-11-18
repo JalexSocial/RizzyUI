@@ -20,12 +20,7 @@ public partial class AlertDialogHeader : RzComponent<AlertDialogHeader.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
-    }
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.AlertDialogHeader;

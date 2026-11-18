@@ -127,15 +127,8 @@ public partial class RzToastProvider : RzComponent<RzToastProviderSlots>, IHasRz
 
     private string ResolvedCloseButtonAriaLabel => ResolveLocalizedString(CloseButtonAriaLabel, "RzToastProvider.CloseButtonAriaLabel", "Dismiss notification");
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "div";
-        }
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override void OnParametersSet()

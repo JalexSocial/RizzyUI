@@ -153,11 +153,12 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     private string? FieldName => For is null ? null : FieldIdentifier.Create(For).FieldName;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
 
         AriaLabel ??= Localize("RzFileInput.DefaultAriaLabel", "File input");
         UpdateValidationState();

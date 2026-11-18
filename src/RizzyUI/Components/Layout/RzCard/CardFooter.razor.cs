@@ -21,12 +21,8 @@ public partial class CardFooter : RzComponent<CardFooter.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "footer";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "footer";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CardFooter;

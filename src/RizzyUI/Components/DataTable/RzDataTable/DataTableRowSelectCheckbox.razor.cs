@@ -33,14 +33,12 @@ public partial class DataTableRowSelectCheckbox : RzComponent<DataTableRowSelect
     private string ChangeExpr => $"selection.setRowSelected({RowExpr}, $event.target.checked)";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "input";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "input";
-        }
 
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("type", "checkbox");

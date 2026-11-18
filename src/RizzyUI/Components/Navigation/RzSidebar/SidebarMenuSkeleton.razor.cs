@@ -31,10 +31,12 @@ public partial class SidebarMenuSkeleton : RzComponent<SidebarMenuSkeleton.Slots
     public bool ShowIcon { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "div";
         _width = $"{Random.Shared.Next(50, 90)}%";
     }
 

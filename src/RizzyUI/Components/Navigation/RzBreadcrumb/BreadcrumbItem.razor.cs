@@ -25,12 +25,7 @@ public partial class BreadcrumbItem : RzComponent<BreadcrumbItem.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "li";
-    }
+    protected override string DefaultElement => "li";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.BreadcrumbItem;

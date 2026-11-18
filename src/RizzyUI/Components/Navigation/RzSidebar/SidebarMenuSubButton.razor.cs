@@ -42,11 +42,7 @@ public partial class SidebarMenuSubButton : RzAsChildComponent<SidebarMenuSubBut
     public Size Size { get; set; } = Size.Medium;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "a";
-    }
+    protected override string DefaultElement => "a";
 
     /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;

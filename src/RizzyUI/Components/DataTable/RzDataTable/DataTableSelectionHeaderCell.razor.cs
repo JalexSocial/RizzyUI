@@ -32,14 +32,12 @@ public partial class DataTableSelectionHeaderCell : RzComponent<DataTableSelecti
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "th";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "th";
-        }
 
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("scope", "col");

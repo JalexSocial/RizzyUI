@@ -33,12 +33,12 @@ public partial class RzColorPickerTrigger : RzAsChildComponent<RzColorPickerTrig
     [CascadingParameter] private RzColorPickerProvider.Context? ProviderContext { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "div";
 
         if (ProviderContext is null)
             throw new InvalidOperationException($"{nameof(RzColorPickerTrigger)} must be used within an {nameof(RzColorPickerProvider)}.");

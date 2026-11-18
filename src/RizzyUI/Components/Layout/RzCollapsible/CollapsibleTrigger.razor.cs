@@ -28,6 +28,9 @@ public partial class CollapsibleTrigger : RzAsChildComponent<CollapsibleTrigger.
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -35,7 +38,6 @@ public partial class CollapsibleTrigger : RzAsChildComponent<CollapsibleTrigger.
         {
             throw new InvalidOperationException($"{nameof(CollapsibleTrigger)} must be used within an {nameof(RzCollapsible)}.");
         }
-        Element = "button";
     }
 
     /// <inheritdoc/>

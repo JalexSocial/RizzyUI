@@ -69,11 +69,13 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
         }
     }
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "fieldset";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "fieldset";
         if (For == null) throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null) throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 

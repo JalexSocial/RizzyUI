@@ -35,11 +35,7 @@ public partial class SidebarMenuAction : RzAsChildComponent<SidebarMenuAction.Sl
     public bool ShowOnHover { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "button";
-    }
+    protected override string DefaultElement => "button";
 
     /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;

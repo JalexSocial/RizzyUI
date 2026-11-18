@@ -48,14 +48,13 @@ public partial class DropdownMenuItem : RzComponent<DropdownMenuItem.Slots>
     public bool Disabled { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "button";
-        }
-        if (Element.Equals("button", StringComparison.OrdinalIgnoreCase) &&
+        if (EffectiveElement.Equals("button", StringComparison.OrdinalIgnoreCase) &&
             (AdditionalAttributes == null || !AdditionalAttributes.ContainsKey("type")))
         {
             AdditionalAttributes ??= new Dictionary<string, object>();

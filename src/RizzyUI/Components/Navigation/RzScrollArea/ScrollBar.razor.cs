@@ -33,12 +33,8 @@ public partial class ScrollBar : RzComponent<ScrollBar.Slots>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "div";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.ScrollBar;

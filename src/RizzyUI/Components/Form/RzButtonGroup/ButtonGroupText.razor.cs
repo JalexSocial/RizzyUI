@@ -23,15 +23,8 @@ public partial class ButtonGroupText : RzAsChildComponent<ButtonGroupText.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "div";
-        }
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override RenderFragment? GetAsChildContent() => ChildContent;

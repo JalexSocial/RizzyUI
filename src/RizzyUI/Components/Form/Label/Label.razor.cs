@@ -29,12 +29,7 @@ public partial class Label : RzComponent<Label.Slots>
     public string? For { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "label";
-    }
+    protected override string DefaultElement => "label";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.Label;

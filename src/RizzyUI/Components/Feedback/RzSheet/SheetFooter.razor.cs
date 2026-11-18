@@ -23,11 +23,7 @@ public partial class SheetFooter : RzComponent<SheetFooter.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "footer";
-    }
+    protected override string DefaultElement => "footer";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SheetFooter;

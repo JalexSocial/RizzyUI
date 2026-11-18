@@ -24,14 +24,7 @@ public partial class DropdownMenuShortcut : RzComponent<DropdownMenuShortcut.Slo
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "span";
-        }
-    }
+    protected override string DefaultElement => "span";
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuShortcut;

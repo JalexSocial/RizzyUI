@@ -30,6 +30,9 @@ public partial class DialogClose : RzAsChildComponent<DialogClose.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -37,7 +40,6 @@ public partial class DialogClose : RzAsChildComponent<DialogClose.Slots>
         {
             throw new InvalidOperationException($"{nameof(DialogClose)} must be used within an {nameof(RzDialog)}.");
         }
-        Element = "button";
     }
 
     /// <inheritdoc/>

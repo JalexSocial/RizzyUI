@@ -64,14 +64,15 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "ol";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
         AriaLabel ??= Localizer["RzSteps.DefaultAriaLabel"];
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "ol";
     }
 
     /// <inheritdoc />

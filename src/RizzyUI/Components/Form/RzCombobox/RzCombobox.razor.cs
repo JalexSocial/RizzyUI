@@ -118,10 +118,12 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     protected bool IsSelectListItem => _isSelectListItem;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element)) Element = "div";
         Placeholder ??= Localizer["RzCombobox.DefaultPlaceholder"];
 
         _isSelectListItem = typeof(TItem) == typeof(SelectListItem);

@@ -29,11 +29,7 @@ public partial class SheetTitle : RzComponent<SheetTitle.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "h2";
-    }
+    protected override string DefaultElement => "h2";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SheetTitle;

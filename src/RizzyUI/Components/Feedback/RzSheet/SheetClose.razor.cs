@@ -30,6 +30,9 @@ public partial class SheetClose : RzAsChildComponent<SheetClose.Slots>
     public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "button";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -37,7 +40,6 @@ public partial class SheetClose : RzAsChildComponent<SheetClose.Slots>
         {
             throw new InvalidOperationException($"{nameof(SheetClose)} must be used within an {nameof(RzSheet)}.");
         }
-        Element = "button";
     }
 
     /// <inheritdoc/>

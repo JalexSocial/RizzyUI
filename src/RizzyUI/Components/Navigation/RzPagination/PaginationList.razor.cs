@@ -22,13 +22,7 @@ public partial class PaginationList : RzComponent<PaginationList.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "ul";
-    }
+    protected override string DefaultElement => "ul";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.PaginationList;

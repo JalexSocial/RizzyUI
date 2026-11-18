@@ -42,14 +42,12 @@ public partial class DataTableSelectAllCheckbox : RzComponent<DataTableSelectAll
         : "selection.setAllPageRows($event.target.checked)";
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "input";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-        {
-            Element = "input";
-        }
 
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("type", "checkbox");

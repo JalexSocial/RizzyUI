@@ -27,12 +27,12 @@ public partial class PaginationEllipsis : RzComponent<PaginationEllipsis.Slots>
     public string? ScreenReaderText { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "span";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
 
         ScreenReaderText ??= Localizer["PaginationEllipsis.MorePages"];
     }

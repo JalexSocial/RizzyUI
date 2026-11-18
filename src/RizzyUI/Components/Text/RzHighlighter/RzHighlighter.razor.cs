@@ -134,12 +134,12 @@ public partial class RzHighlighter : RzComponent<RzHighlighter.Slots>
     protected string EffectiveViewMargin => string.IsNullOrWhiteSpace(ViewMargin) ? DefaultViewMargin : ViewMargin;
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "span";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (string.IsNullOrEmpty(Element))
-            Element = "span";
 
         UpdateAssets();
     }

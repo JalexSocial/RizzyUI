@@ -85,12 +85,8 @@ public partial class RzScrollArea : RzComponent<RzScrollArea.Slots>
     /// </summary>
     protected string InitialScrollbarState => Type == ScrollAreaType.Always ? "visible" : "hidden";
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "div";
-    }
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzScrollArea;

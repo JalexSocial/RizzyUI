@@ -41,11 +41,12 @@ public partial class RzNavigationMenu : RzComponent<RzNavigationMenu.Slots>
     public string? AriaLabel { get; set; }
 
     /// <inheritdoc/>
+    protected override string DefaultElement => "nav";
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "nav";
 
         AriaLabel ??= Localizer["RzNavigationMenu.DefaultAriaLabel"];
     }

@@ -35,11 +35,13 @@ public partial class TabsList : RzComponent<TabsList.Slots>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Horizontal;
 
+    /// <inheritdoc/>
+    protected override string DefaultElement => "div";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "div";
         AriaLabel ??= Localizer["RzTabs.DefaultAriaLabel"];
     }
 
