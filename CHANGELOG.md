@@ -58,6 +58,9 @@ Finding IDs (RZUI-0xx) refer to the
   merges classes with TwMerge like the markup path. On both paths the child's own classes now win
   Tailwind conflicts (for example `<button class="px-6">` keeps `px-6` over a component's `px-2`);
   the markup path used to let the component's classes win. (RZUI-039)
+- `RzDialog`, `RzAlertDialog` and `RzCommandDialog` render attributes you pass (for example
+  `data-testid` or `aria-describedby`) on their root element; they were dropped. They cannot
+  replace the component's own attributes. (RZUI-053)
 
 ### Removed
 
