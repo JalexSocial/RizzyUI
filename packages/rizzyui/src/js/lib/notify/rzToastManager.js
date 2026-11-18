@@ -264,6 +264,14 @@ export class RzToastManager {
     }
 
     ensureProvider() {
+        if (this.provider && this.provider.isConnected === false) {
+            // An htmx swap removed the provider (for example with the layout region that held it).
+            // Its stacks went with it; resolve the provider again below.
+            this.provider = null;
+            this.stacks.clear();
+            this.warnedNoProvider = false;
+        }
+
         if (this.initialized && this.provider) {
             return true;
         }
