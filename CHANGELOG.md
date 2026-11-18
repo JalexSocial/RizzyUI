@@ -42,9 +42,23 @@ Finding IDs (RZUI-0xx) refer to the
 - Popover positioning, color swatches and `RzShineBorder` set their styles through the CSSOM
   instead of a `style` attribute, so they work under a Content Security Policy that does not allow
   inline styles.
+- Components show English text instead of resource keys (for example an `aria-label` of
+  `RzSheet.CloseButtonAriaLabel`) in apps that do not call `AddLocalization()`, including apps made
+  from the `dotnet new rizzyui` template. RizzyUI uses its embedded resources when ASP.NET Core
+  localization is not configured.
+- Localization overrides (`LocalizationResourceType`, `LocalizationResourceLocation`) apply whether
+  `AddLocalization()` is called before or after `AddRizzyUI()`. Calling it afterwards used to
+  disable RizzyUI's localization. (RZUI-037)
+- Calling `AddRizzyUI()` more than once registers RizzyUI's services once (each call's configure
+  action still applies), and the Vercel theme is listed once in `AvailableThemes`. (RZUI-036)
+- The `RzSpinner` status is announced: `role="status"` and its label are on the wrapper instead of
+  an `aria-hidden` SVG. (RZUI-047)
+- `RzToggle` renders its initial `aria-pressed` state on the server.
 
 ### Removed
 
+- `RizzyUI` no longer depends on `Scrutor`, and it no longer decorates the application's
+  `IStringLocalizerFactory`; it registers its own `IStringLocalizer<RizzyLocalization>`.
 - `@jalexsocial/rizzyui` no longer depends on `shadcn-prose` (deprecated) or `tailwindcss-inset`.
   Neither was imported by the package's CSS or JavaScript. If your own stylesheet imports one of
   them, add it to your `package.json`.

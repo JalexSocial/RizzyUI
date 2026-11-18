@@ -48,7 +48,6 @@
         <PackageReference Include="Rizzy" Version="6.0.0-preview.3" />
         <PackageReference Include="Blazicons" Version="3.0.12" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
-        <PackageReference Include="Scrutor" Version="7.0.0" />
         <PackageReference Include="TailwindVariants.NET" Version="0.2.9" />
         <PackageReference Include="RizzyUI.Tasks" Version="$(RizzyUITasksVersion)" />
     </ItemGroup>

@@ -3142,10 +3142,11 @@ RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
 
 # Services registered by AddRizzyUI()
   Microsoft.AspNetCore.Http.IHttpContextAccessor (Singleton) -> Microsoft.AspNetCore.Http.HttpContextAccessor
-  Microsoft.Extensions.Localization.IStringLocalizer<RizzyUI.RizzyLocalization> (Singleton) -> RizzyUI.Localization.DummyRizzyStringLocalizer
+  Microsoft.Extensions.Localization.IStringLocalizer<RizzyUI.RizzyLocalization> (Singleton) -> factory
   Microsoft.Extensions.Options.IConfigureOptions<RizzyUI.RizzyUIConfig> (Singleton) -> instance
   Microsoft.Extensions.Options.IPostConfigureOptions<RizzyUI.RizzyUIConfig> (Singleton) -> instance
   Rizzy.Htmx.IRizzyNonceProvider (Scoped) -> Rizzy.RizzyNonceProvider
+  RizzyUI.RizzyUIRegistrationMarker (Singleton) -> RizzyUI.RizzyUIRegistrationMarker
   RizzyUI.Services.RzToast.IRzToastService (Scoped) -> RizzyUI.Services.RzToast.RzToastService
   RizzyUI.Services.RzToast.Internal.RzToastCommandQueue (Scoped) -> RizzyUI.Services.RzToast.Internal.RzToastCommandQueue
   TailwindMerge.TwMerge (Singleton) -> TailwindMerge.TwMerge

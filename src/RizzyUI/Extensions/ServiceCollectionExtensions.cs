@@ -79,6 +79,12 @@ public static class ServiceCollectionExtensions
     // ReSharper disable once InconsistentNaming
     private static IServiceCollection AddRizzyUIInternal(this IServiceCollection services)
     {
+        // Idempotent (RZUI-036): a second AddRizzyUI() adds its configure action (above) but does not
+        // register services, post-configuration or localization again.
+        if (services.Any(d => d.ServiceType == typeof(RizzyUIRegistrationMarker)))
+            return services;
+        services.AddSingleton<RizzyUIRegistrationMarker>();
+
         // Register core dependencies used by RizzyUI.
         services.AddTailwindVariants(); // Add TailwindVariants.NET service
         services.AddTailwindMerge();
@@ -98,7 +104,8 @@ public static class ServiceCollectionExtensions
                 config.AvailableThemes.Insert(0, config.DefaultTheme);
             }
 
-            config.AvailableThemes.Add(RzTheme.VercelTheme);
+            if (config.AvailableThemes.All(t => t.ThemeCode != RzTheme.VercelTheme.ThemeCode))
+                config.AvailableThemes.Add(RzTheme.VercelTheme);
 
             // Add default asset URLs, allowing users to override them. CDN defaults are pinned to
             // exact versions and carry Subresource Integrity hashes (keyed by URL, so an override
@@ -113,31 +120,15 @@ public static class ServiceCollectionExtensions
             config.AssetUrls.TryAdd("HighlightJsRazor", Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js"));
         });
 
-        // --- Localization Setup ---
-
-        bool localizationFactoryRegistered = services.Any(d => d.ServiceType == typeof(IStringLocalizerFactory));
-
-        if (localizationFactoryRegistered)
-        {
-            // Decorate the existing factory IF localization is configured.
-            services.Decorate<IStringLocalizerFactory>((innerFactory, sp) =>
-            {
-                var config = sp.GetRequiredService<IOptions<RizzyUIConfig>>().Value;
-                // Pass the original factory, the service provider, and override config.
-                return new RizzyStringLocalizerFactory(
-                    innerFactory,
-                    sp, // Provide IServiceProvider
-                    config.LocalizationResourceType,
-                    config.LocalizationResourceLocation
-                );
-            });
-        }
-        else
-        {
-            // If no factory registered, register the dummy for RizzyUI's needs.
-            services.TryAddSingleton<IStringLocalizer<RizzyLocalization>, DummyRizzyStringLocalizer>();
-        }
+        // --- Localization ---
+        // Decided when the localizer is first resolved, not here, so AddLocalization() may come before
+        // or after AddRizzyUI() (RZUI-037). Without AddLocalization() RizzyUI uses its own embedded
+        // resources instead of rendering resource keys.
+        services.TryAddSingleton<IStringLocalizer<RizzyLocalization>>(RizzyLocalizerProvider.Create);
 
         return services;
     }
 }
+
+/// <summary>Marks that <c>AddRizzyUI()</c> has registered RizzyUI's services.</summary>
+internal sealed class RizzyUIRegistrationMarker;
