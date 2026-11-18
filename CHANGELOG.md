@@ -122,8 +122,6 @@ Finding IDs (RZUI-0xx) refer to the
 - Subtle success, warning and information toasts show their title and text in the foreground color
   (the status color stays on the icon). The status-colored text measured 2.9:1 on the tinted
   background, below WCAG AA.
-- RZUI-015 (attribute values in Alpine data written with only one kind of quote escaped) is resolved:
-  both quote characters are escaped.
 
 ### Removed
 
