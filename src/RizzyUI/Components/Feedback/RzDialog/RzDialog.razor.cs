@@ -88,9 +88,20 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     /// Caller attributes for the root element. <c>x-ref</c> is excluded: it goes on the inert proxy
     /// element rendered before the root (see the markup).
     /// </summary>
-    private IReadOnlyDictionary<string, object>? RootAttributes => AdditionalAttributes?
-        .Where(attribute => !string.Equals(attribute.Key, "x-ref", StringComparison.OrdinalIgnoreCase))
-        .ToDictionary(attribute => attribute.Key, attribute => attribute.Value, StringComparer.OrdinalIgnoreCase);
+    private IReadOnlyDictionary<string, object?>? RootAttributes
+    {
+        get
+        {
+            if (AdditionalAttributes is null)
+            {
+                return null;
+            }
+
+            var root = CopyAdditionalAttributes();
+            root.Remove("x-ref");
+            return root;
+        }
+    }
 
     /// <summary>
     /// Defines the slots available for styling in the RzDialog component.

@@ -142,6 +142,25 @@ public abstract partial class RzComponent : ComponentBase
     protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
 
     /// <summary>
+    /// Copies <see cref="AdditionalAttributes"/> into a new case-insensitive dictionary. When two keys
+    /// differ only by case (possible when a dictionary is passed as <c>AdditionalAttributes</c>
+    /// directly), the last one wins, as Blazor does for markup attributes (RZUI-053).
+    /// </summary>
+    protected Dictionary<string, object?> CopyAdditionalAttributes()
+    {
+        var copy = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+        if (AdditionalAttributes is not null)
+        {
+            foreach (var (key, value) in AdditionalAttributes)
+            {
+                copy[key] = value;
+            }
+        }
+
+        return copy;
+    }
+
+    /// <summary>
     /// The root element tag used when <see cref="Element"/> is not set. Components override this
     /// instead of assigning <see cref="Element"/>, which is a parameter (RZUI-053).
     /// </summary>

@@ -51,6 +51,30 @@ public class DeferredFindingsTests : BunitAlbaContext, IClassFixture<WebAppFixtu
     }
 
     [Fact]
+    public void AttributesDifferingOnlyByCase_DoNotThrow()
+    {
+        // RZUI-053: 27 components copied AdditionalAttributes into a case-insensitive dictionary
+        // with the copy constructor, which throws on keys that differ only by case.
+        // Markup attributes are merged case-insensitively by Blazor; a dictionary passed directly as
+        // AdditionalAttributes keeps its own comparer.
+        var ordinal = new Dictionary<string, object>(StringComparer.Ordinal)
+        {
+            ["data-test"] = "lower",
+            ["DATA-TEST"] = "upper",
+        };
+
+        var text = Render<ButtonGroupText>(p => p
+            .Add(x => x.AdditionalAttributes, ordinal)
+            .AddChildContent("Label"));
+        Assert.NotNull(text.Find("[data-slot='button-group-text']").GetAttribute("data-test"));
+
+        var item = Render<RzItem>(p => p
+            .Add(x => x.AdditionalAttributes, ordinal)
+            .AddChildContent("Item"));
+        Assert.NotNull(item.Find("[data-slot='item']").GetAttribute("data-test"));
+    }
+
+    [Fact]
     public void RenderedComponents_UseTheConfiguredThemeInstance()
     {
         var configured = Services.GetRequiredService<IOptions<RizzyUIConfig>>().Value.DefaultTheme;

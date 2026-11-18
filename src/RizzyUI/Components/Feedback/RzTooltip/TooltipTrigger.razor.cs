@@ -58,7 +58,7 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
     /// <inheritdoc />
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
             ["class"] = SlotClasses.GetBase(),

@@ -101,7 +101,7 @@ public partial class RzBackToTop : RzAsChildComponent<RzBackToTop.Slots>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
         var attributes = new Dictionary<string, object?>(
-            AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(),
+            CopyAdditionalAttributes(),
             StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
