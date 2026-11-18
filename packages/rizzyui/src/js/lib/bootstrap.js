@@ -75,6 +75,11 @@ export function bootstrapRizzyUI(Alpine) {
     if (typeof window !== 'undefined') {
         themeController.init();
 
+        // RizzyUI bundles and starts Alpine. A second copy (for example from a CDN script tag)
+        // would initialize the same DOM twice (RZUI-058).
+        if (window.Alpine && window.Alpine !== Alpine) {
+            console.warn('[RizzyUI] Another Alpine.js instance is already on the page. RizzyUI includes and starts Alpine; remove the separate Alpine script so components are not initialized twice.');
+        }
         window.Alpine = Alpine;
         window.Rizzy = mergeIntoRizzyGlobal(window.Rizzy, cachedRizzyUI);
         installHtmxTeleportBridge(window);

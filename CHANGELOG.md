@@ -27,6 +27,13 @@ Finding IDs (RZUI-0xx) refer to the
   `ItemDataSelector="@(u => new { u.Name, u.Email, u.Photo })"` (property names become camelCase,
   as before). (RZUI-033)
 
+### Added
+
+- `RzCombobox.ItemDataSelector` chooses the item data option and item templates can read (see
+  Breaking).
+- The runtime logs a console warning when the page already has another Alpine.js instance; RizzyUI
+  bundles and starts Alpine itself, and a second copy initializes components twice. (RZUI-058)
+
 ### Fixed
 
 - Toasts appear after an htmx swap replaces the region that holds `RzToastProvider`. The runtime

@@ -131,3 +131,16 @@ test.describe('integration harness', () => {
     expect(errors.filter(error => !error.startsWith('HTTP 422'))).toEqual([]);
   });
 });
+
+test('warns when the page already has another Alpine instance (RZUI-058)', async ({ page }) => {
+  const warnings: string[] = [];
+  page.on('console', message => { if (message.type() === 'warning') warnings.push(message.text()); });
+  await page.addInitScript(() => { (window as any).Alpine = { notRizzyUI: true }; });
+
+  await page.goto('/_tests/harness');
+  await expect.poll(() => page.evaluate(() => typeof (window as any).Rizzy?.toast)).not.toBe('undefined');
+
+  expect(warnings.some(text => text.includes('Another Alpine.js instance is already on the page'))).toBe(true);
+  // RizzyUI's Alpine is the one in use.
+  expect(await page.evaluate(() => typeof (window as any).Alpine?.start)).toBe('function');
+});
