@@ -9,7 +9,7 @@
     "build:css": "npm run copy:vendor && npx @tailwindcss/cli -i ./Assets/css/app.css -o ./wwwroot/css/app.css --minify",
     "pretest:a11y": "node ./tests/accessibility/scripts/copy-tom-select-assets.mjs",
     "test:a11y": "node ./tests/accessibility/scripts/run-playwright.mjs",
-    "prebuild:css": "npm ci --prefix ../../packages/rizzyui --no-audit --no-fund",
+    "prebuild:css": "node ./scripts/ensure-npm-deps.mjs ../../packages/rizzyui",
     "copy:vendor": "node ./scripts/copy-vendor-assets.mjs",
     "test:integration": "playwright test -c playwright.integration.config.ts"
   },

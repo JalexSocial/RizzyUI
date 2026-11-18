@@ -203,6 +203,16 @@ jobs:
         working-directory: src/RizzyUI.Docs
         run: npm run test:integration
 
+      # Building and testing must not change tracked files (RZUI-045, RZUI-046). A change here usually
+      # means wwwroot/css/app.css is stale: run `npm run build:css` in src/RizzyUI.Docs and commit it.
+      - name: Check the build and tests left the working tree clean
+        run: |
+          git add -N .
+          if ! git diff --exit-code --stat; then
+            echo "::error::Building or testing the docs app changed tracked files (see the list above)."
+            exit 1
+          fi
+
       - name: Upload Playwright output
         if: failure()
         uses: actions/upload-artifact@v7
