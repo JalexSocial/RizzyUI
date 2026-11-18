@@ -29,7 +29,7 @@ public partial class DataTableRowSelectCheckbox : RzComponent<DataTableRowSelect
 
     private string CheckedExpr => $"selection.isSelected({RowExpr})";
     private string DisabledExpr => $"!selection.canSelect({RowExpr})";
-    private string IndeterminateExpr => $"$el.indeterminate = selection.isSomeSelected({RowExpr}) && !selection.isSelected({RowExpr})";
+    private string IndeterminateExpr => $"selection.isSomeSelected({RowExpr}) && !selection.isSelected({RowExpr})";
     private string ChangeExpr => $"selection.setRowSelected({RowExpr}, $event.target.checked)";
 
     /// <inheritdoc/>

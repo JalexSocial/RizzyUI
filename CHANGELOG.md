@@ -56,6 +56,9 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzCombobox.ItemDataSelector` chooses the item data option and item templates can read (see
   Breaking).
 - `Rizzy.toast.ready()` resolves when the toast runtime has loaded (see Breaking).
+- `x-indeterminate="expression"` keeps a checkbox's `indeterminate` property in sync with an
+  expression. It replaces `x-effect="$el.indeterminate = ..."`, a property assignment that the
+  CSP build (`rizzyui-csp.js`) rejects, and works with both runtimes.
 - `RzIdScope Prefix="..."` gives the components inside it deterministic ids (`{Prefix}-1`,
   `{Prefix}-2`, ... in render order), so the same markup renders the same ids: for fragments that
   are re-rendered and swapped, morph swaps and snapshot tests. (RZUI-061)
@@ -139,6 +142,12 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzTabs` values with spaces or other characters that are invalid in an HTML id (for example
   `Value="first tab"`) produce valid ids, so `aria-controls`/`aria-labelledby` work. Values made of
   letters, digits, `-` and `_` keep their current ids. (RZUI-049)
+- `RzDataTable` row selection works with `rizzyui-csp.js`. `DataTableRowSelectCheckbox` and
+  `DataTableSelectAllCheckbox` (and so `DataTableSelectionCell`/`DataTableSelectionHeaderCell`) set
+  the indeterminate state with `$el.indeterminate = ...`, which the CSP build rejects on every
+  render; they now use `x-indeterminate`. The DataTable documentation's column-visibility example
+  had the same expression. Every other documented DataTable expression already worked under the CSP
+  build, which is now tested in the browser.
 - `AsChild` with a plain-markup child shows caller attribute values as typed: `&`, `<` and `>` are
   encoded along with quotes, so `title="Tom &amp; Jerry"` is no longer shown as "Tom & Jerry". Values
   merged from the child's markup are decoded first, so nothing is encoded twice. (RZUI-015)

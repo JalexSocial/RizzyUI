@@ -34,8 +34,8 @@ public partial class DataTableSelectAllCheckbox : RzComponent<DataTableSelectAll
         : "selection.allPageRowsSelected()";
 
     private string IndeterminateExpr => Scope == DataTableSelectionScope.All
-        ? "$el.indeterminate = selection.someRowsSelected() && !selection.allRowsSelected()"
-        : "$el.indeterminate = selection.somePageRowsSelected() && !selection.allPageRowsSelected()";
+        ? "selection.someRowsSelected() && !selection.allRowsSelected()"
+        : "selection.somePageRowsSelected() && !selection.allPageRowsSelected()";
 
     private string ChangeExpr => Scope == DataTableSelectionScope.All
         ? "selection.setAllRows($event.target.checked)"

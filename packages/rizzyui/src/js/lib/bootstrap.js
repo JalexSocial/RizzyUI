@@ -7,6 +7,7 @@ import $data from './alpineData.js';
 import props from './alpineProps.js';
 import registerMobileDirective from './directives/mobile.js';
 import registerSyncDirective from './directives/sync-prop.js';
+import registerIndeterminateDirective from './directives/indeterminate.js';
 import registerValidateDirective, { initializeValidation } from './directives/validate.js';
 import { createFlexRenderPlugin } from './directives/flexrender.js';
 import { themeController } from './theme.js';
@@ -42,6 +43,7 @@ export function bootstrapRizzyUI(Alpine) {
     registerAsyncBundleComponents(Alpine);
     registerMobileDirective(Alpine);
     registerSyncDirective(Alpine);
+    registerIndeterminateDirective(Alpine);
 
     let validationInstance;
     registerValidateDirective(Alpine, validation => {

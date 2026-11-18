@@ -288,7 +288,7 @@
                                 <label class="inline-flex items-center gap-2 text-sm font-medium">
                                     <input type="checkbox"
                                            x-bind:checked="columns.getIsAllColumnsVisible()"
-                                           x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                                           x-indeterminate="columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
                                            x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
                                     Toggle all columns
                                 </label>
@@ -941,7 +941,7 @@
         <label class="inline-flex items-center gap-2 text-sm font-medium">
             <input type="checkbox"
                    x-bind:checked="columns.getIsAllColumnsVisible()"
-                   x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                   x-indeterminate="columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
                    x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
             Toggle all columns
         </label>
