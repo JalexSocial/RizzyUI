@@ -193,6 +193,10 @@ Finding IDs (RZUI-0xx) refer to the
   template load the minified runtime (`rizzyui.min.js`, `rizzyui-csp.min.js`), about half the bytes
   of `rizzyui.js`. The unminified files remain for debugging. (RZUI-056)
 - The eager runtime is 33.0 KB gzipped (standard) and 36.7 KB (CSP), down from 37.0 and 40.6 KB.
+- The DataTable documentation states the component's contract (headless and composable; the
+  application decides what `Items` exposes), adds grouped columns with custom cells, DTO projection,
+  events, htmx swaps and a tested Strict CSP section, and documents the runtime projections and
+  `x-flexrender`. The engineering contract is in `docs/engineering/rzdatatable-architecture.md`.
 
 ### Removed
 

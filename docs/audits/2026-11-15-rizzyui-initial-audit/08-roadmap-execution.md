@@ -231,7 +231,7 @@ fidelity follow-up). RZUI-019's remaining part is owner action 2. GitHub has one
 
 **Verification on the final branch state** (`roadmap/deferred-before-1.0`, local, Windows, .NET 10,
 Node 24, Chromium): `dotnet test` 636 passed; `npm test` (packages/rizzyui) 146 passed; integration
-suite 77 passed, 1 skipped by design; accessibility fixture suite 63 passed, 2 skipped; accessibility
+suite 77 passed, 1 skipped by design (superseded: see the RzDataTable entry below; the skip is gone); accessibility fixture suite 63 passed, 2 skipped; accessibility
 inventory passes; client bundles rebuilt and committed. CI on the PRs is the authority for Linux,
 pack, consumer smoke and template tests.
 
@@ -262,3 +262,29 @@ non-alpha release"). Branch `roadmap/deferred-before-1.0`, stacked on PR #81.
 
 Every commit was checked against the full .NET suite and, where markup or runtime changed, the
 integration suite under both runtimes before it was pushed.
+
+### RzDataTable: CSP compatibility, integration tests and contract (2026-11-18)
+
+Branch `datatable/csp-and-contract`, stacked on `roadmap/deferred-before-1.0` (PR #82), which carries
+the integration harness and CSP test project this work builds on; `main` has neither yet. Relates to
+RM-3.4 (RZUI-033) and RM-4.1. Owner decisions D-22 and D-23.
+
+**Characterization.** The DataTable docs page (8 real tables, every documented pattern) was loaded
+and exercised under `rizzyui-csp.js` with the docs app's strict policy, collecting Alpine errors and
+CSP violations. One expression class failed: `x-effect="$el.indeterminate = ..."`, a property
+assignment ("Property assignments are prohibited in the CSP build"), 310 times from
+`DataTableRowSelectCheckbox`/`DataTableSelectAllCheckbox` and 4 times from the column-visibility
+example. Ternaries, arithmetic and string concatenation, `&&`/`!`, method calls with arguments,
+`$event.target.*` reads, `x-for`/`x-if`/`:key` and `x-flexrender` produced no errors and no
+violations. The earlier "standard runtime only" skip on the data-table a11y spec was based on the
+look of the expressions, not a test; the basic table passes under the CSP build unchanged.
+
+| Change | Evidence | Commit |
+|---|---|---|
+| `x-indeterminate` directive (read-only, both runtimes); selection helpers and the docs example use it | Unit tests; with the old expression restored the CSP selection spec fails on the Alpine error | `1bfe33df` |
+| `/_tests/datatable`: two real tables (helpers, grouped header, custom cell, filter, pagination, column visibility, hostile data) and htmx insert/replace/remove | `datatable.ts`, 10 specs x 2 runtimes: initialization and axe, sorting (keyboard, `aria-sort`, labels, announcements, events), filtering and empty state, pagination, page selection and indeterminate state, column visibility keeping sort and selection, two independent tables, text data and escaped generated cells, htmx x3 with one `ready` per swap, one event per action and no leaked listeners, every docs example; no Alpine errors and no CSP violations | `027749a2` |
+| Docs: headless contract, client-data contract with a DTO example, grouped columns and custom cells (live), events, htmx swaps, Strict CSP (tested rules), runtime projections and `x-flexrender`; engineering contract `docs/engineering/rzdatatable-architecture.md` | The docs-page spec runs the new example in both runtimes | this entry's commit |
+
+Public API: unchanged (no parameter, event or projection changes). The helpers render
+`x-indeterminate` instead of `x-effect`; markup that copied the old `x-effect` expression keeps
+working under the standard runtime and needs `x-indeterminate` under the CSP build.
