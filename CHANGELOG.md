@@ -91,6 +91,14 @@ Finding IDs (RZUI-0xx) refer to the
   item; focus stayed on the trigger.
 - The destructive color meets WCAG AA contrast with white text (4.8:1, was 3.8:1) in the Arctic
   theme and the Vercel light theme. It is now `oklch(0.577 0.245 27.325)`.
+- `RzNavigationMenu` follows the disclosure navigation pattern: moving focus onto a trigger (for
+  example with Tab) no longer opens its panel, and triggers no longer announce a menu
+  (`aria-haspopup` removed). Panels open with Enter, Space, click or hover. (RZUI-059)
+- `RzMenubar`: ArrowLeft/ArrowRight move between top-level menus (the handler searched the wrong
+  element and did nothing); opening a menu with Enter, Space or ArrowDown focuses its first item;
+  Escape and choosing an item return focus to the menu's trigger.
+- `RzCommand` points `aria-activedescendant` at the rendered option (`role="option"`), not at the
+  item's hidden source element.
 
 ### Removed
 

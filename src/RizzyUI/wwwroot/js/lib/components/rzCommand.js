@@ -164,7 +164,7 @@ export default function rzCommand() {
 
                 if (newIndex > -1 && this.filteredItems[newIndex]) {
                     const selectedItem = this.filteredItems[newIndex];
-                    this.activeDescendantId = selectedItem.id;
+                    this.activeDescendantId = `${selectedItem.id}-option`;
 
                     const el = this.$el.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
                     if (el) {
