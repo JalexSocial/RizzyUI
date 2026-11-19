@@ -6,21 +6,34 @@
   "module": "dist/js/rizzyui.js",
   "exports": {
     ".": {
+      "types": "./types/rizzyui.d.ts",
       "import": "./dist/js/rizzyui.js",
       "default": "./dist/js/rizzyui.js"
     },
     "./csp": {
+      "types": "./types/rizzyui.d.ts",
       "import": "./dist/js/rizzyui-csp.js",
       "default": "./dist/js/rizzyui-csp.js"
     },
     "./antiforgerySnippet": "./dist/js/antiforgerySnippet.js",
     "./antiforgerySnippet.js": "./dist/js/antiforgerySnippet.js",
     "./antiforgerySnippet.min.js": "./dist/js/antiforgerySnippet.min.js",
+    "./testing": {
+      "types": "./types/testing.d.ts",
+      "import": "./testing/index.js",
+      "default": "./testing/index.js"
+    },
+    "./types": "./types/rizzyui.d.ts",
+    "./types/rizzyui.d.ts": "./types/rizzyui.d.ts",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "types": "types/rizzyui.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "types",
+    "testing",
+    "src/js/lib/alpineProps.js"
   ],
   "scripts": {
     "test": "node --test \"src/js/**/*.test.mjs\" \"tests/**/*.test.mjs\"",
@@ -57,11 +70,14 @@
   },
   "homepage": "https://github.com/JalexSocial/RizzyUI#readme",
   "devDependencies": {
+    "@happy-dom/global-registrator": "^20.0.11",
     "@tailwindcss/cli": "^4.2.1",
     "esbuild": "^0.28.2",
+    "happy-dom": "^20.0.11",
     "highlight.js": "11.10.0",
     "postcss": "^8.5.33",
     "postcss-selector-parser": "^7.2.1",
+    "typescript": "^5.9.3",
     "vite": "^8.3.8"
   },
   "dependencies": {

@@ -1,50 +1,28 @@
-const registered = new Map();
-const importCache = new Map();
+import { registerCodeBehindModule } from './codeBehindLoader.js';
+
+// `Rizzy.registerAsyncComponent(name, path)`: registers an Alpine data name that loads from a module
+// URL on first use (with `x-load` on the element). RzAlpineComponent no longer needs it (it renders
+// `x-load-src`), but scripts can still register modules by name. Calls made before Alpine starts
+// are queued until `alpine:init`.
+
+const pending = new Map();
 let onAlpineInitAttached = false;
 
-function onceImport(path) {
-    if (!importCache.has(path)) {
-        importCache.set(
-            path,
-            import(path).catch(error => {
-                importCache.delete(path);
-                throw error;
-            })
-        );
-    }
-
-    return importCache.get(path);
-}
-
-function setAsyncLoader(name, path) {
+function alpineWithAsyncData() {
     const Alpine = globalThis.Alpine;
-
-    if (!(Alpine && typeof Alpine.asyncData === 'function')) {
-        console.error(`[RizzyUI] Could not register async component '${name}'. AsyncAlpine not available.`);
-        return false;
-    }
-
-    Alpine.asyncData(name, () =>
-        onceImport(path).catch(error => {
-            console.error(`[RizzyUI] Failed to load Alpine module '${name}' from '${path}'.`, error);
-            return () => ({
-                _error: true,
-                _errorMessage: `Module '${name}' failed to load.`,
-            });
-        })
-    );
-
-    return true;
+    return Alpine && typeof Alpine.asyncData === 'function' ? Alpine : null;
 }
 
-function ensurePendingAsyncComponentsAreRegistered() {
-    for (const [name, info] of registered) {
-        if (info.loaderSet) {
-            continue;
-        }
-
-        info.loaderSet = setAsyncLoader(name, info.path);
+function flushPending() {
+    const Alpine = alpineWithAsyncData();
+    if (!Alpine) {
+        console.error('[RizzyUI] Could not register async components: async-alpine is not available.');
+        return;
     }
+    for (const [name, path] of pending) {
+        registerCodeBehindModule(Alpine, name, path);
+    }
+    pending.clear();
 }
 
 export function registerAsyncComponent(name, path) {
@@ -53,33 +31,15 @@ export function registerAsyncComponent(name, path) {
         return;
     }
 
-    const previous = registered.get(name);
-
-    if (previous && previous.path !== path) {
-        console.warn(`[RizzyUI] Re-registering '${name}' with a different path.\nPrevious: ${previous.path}\nNew:      ${path}`);
-    }
-
-    const Alpine = globalThis.Alpine;
-
+    const Alpine = alpineWithAsyncData();
     if (Alpine && Alpine.version) {
-        const changedPath = !previous || previous.path !== path;
-        const alreadySet = previous && previous.loaderSet && !changedPath;
-
-        if (!alreadySet) {
-            const loaderSet = setAsyncLoader(name, path);
-            registered.set(name, { path, loaderSet });
-        }
-
+        registerCodeBehindModule(Alpine, name, path);
         return;
     }
 
-    registered.set(name, { path, loaderSet: false });
-
-    if (!onAlpineInitAttached) {
+    pending.set(name, path);
+    if (!onAlpineInitAttached && typeof document !== 'undefined') {
         onAlpineInitAttached = true;
-
-        document.addEventListener('alpine:init', () => {
-            ensurePendingAsyncComponentsAreRegistered();
-        }, { once: true });
+        document.addEventListener('alpine:init', flushPending, { once: true });
     }
 }

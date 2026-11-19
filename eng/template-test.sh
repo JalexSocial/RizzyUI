@@ -88,6 +88,17 @@ http_checks() {
   expect_text 'data-slot="sidebar"' || return 1
   expect_text 'Newest customers' || return 1
   expect_text '/css/app.css' || return 1
+  # The dashboard's code-behind component: its module is referenced by a fingerprinted URL
+  # (MapStaticAssets + WithStaticAssets) that is served with a long-lived cache.
+  local module
+  module=$(grep -o 'x-load-src="[^"]*WelcomeTip[^"]*"' "$work/response.html" | head -1 | sed 's/x-load-src="//; s/"$//')
+  if [[ ! "$module" =~ ^/Features/Home/WelcomeTip\.[a-z0-9]+\.razor\.js$ ]]; then
+    echo "error: expected a fingerprinted WelcomeTip module URL on /, found '$module'" >&2; return 1
+  fi
+  expect_status 200 "$module" -D "$work/headers.txt" || return 1
+  if ! grep -qi 'cache-control: max-age=31536000, immutable' "$work/headers.txt"; then
+    echo "error: $module is not served with an immutable cache header" >&2; cat "$work/headers.txt" >&2; return 1
+  fi
   expect_status 200 /customers || return 1
   expect_text 'id="customer-table"' || return 1
   expect_text 'data-slot="sidebar"' || return 1
@@ -142,6 +153,13 @@ for framework in "${frameworks[@]}"; do
     exit 1
   fi
   grep -q "<TargetFramework>$framework</TargetFramework>" "$app/Contoso.Web.csproj"
+
+  echo "==> dotnet new rizzyui-codebehind"
+  dotnet new rizzyui-codebehind -n Counter -o "$(native_path "$app/Features/Home")" --debug:custom-hive "$hive"
+  for file in Counter.razor Counter.razor.js; do
+    if [[ ! -f "$app/Features/Home/$file" ]]; then echo "error: rizzyui-codebehind did not create $file" >&2; exit 1; fi
+  done
+  if [[ -f "$app/Features/Home/Counter.razor.ts" ]]; then echo "error: rizzyui-codebehind created a .razor.ts without --typescript" >&2; exit 1; fi
   grep -q "Include=\"RizzyUI\" Version=\"$version\"" "$app/Contoso.Web.csproj"
 
   cat > "$app/nuget.config" <<EOF
@@ -174,6 +192,10 @@ EOF
   (cd "$app" && dotnet build -c Release --nologo)
   if [[ ! -s "$app/wwwroot/css/app.css" ]]; then
     echo "error: Tailwind did not produce wwwroot/css/app.css" >&2
+    exit 1
+  fi
+  if [[ ! -s "$app/obj/rizzyui/rizzyui.d.ts" ]]; then
+    echo "error: the build did not copy RizzyUI's type declarations to obj/rizzyui/rizzyui.d.ts" >&2
     exit 1
   fi
   (cd "$app" && dotnet publish -c Release -o "$work/$framework/publish" --nologo)

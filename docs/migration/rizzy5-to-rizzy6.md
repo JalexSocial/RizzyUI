@@ -153,6 +153,19 @@ code changes. The full list is in [CHANGELOG.md](../../CHANGELOG.md) under "1.0.
 | Components wrote localized defaults into their parameters | Parameters keep the value you passed (RZUI-053) | Code reading, for example, `component.AriaLabel` after render sees `null` when you passed none |
 | Generated sub-ids (dialog titles, legends, ...) were random | They are `{Id}-title`, `{Id}-legend`, ...; `RzIdScope` gives deterministic ids (RZUI-061) | Nothing, unless CSS or scripts matched the old generated ids |
 
+## Changes since 1.0.0-preview.2
+
+Not released yet. Alpine code-behind (`RzAlpineComponent`) changed; most components need no change.
+
+| Before | Now | What to do |
+|---|---|---|
+| `RzAlpineComponent` rendered an inline script that registered the module, and a JSON props script (`data-props-id`) | The root has `x-load-src` and `data-rz-props`; no scripts | Nothing, unless code read the props script directly: use `this.$props` or `Rizzy.props(el)` |
+| `Name` was required | Optional; a unique name is generated (`rzcb_Counter_1a2b3c4d`) | Remove `Name` unless other markup refers to the component by name |
+| `Rizzy.props(this.$el)` in `init()` | `this.$props` in any method, `$props` in markup (`Rizzy.props` still works) | Optional: switch to `this.$props` |
+| A `For` component without `[RzAlpineCodeBehind]` rendered a component that never loaded | It throws, naming the attribute and the expected `.razor.js` file | Add `@attribute [RzAlpineCodeBehind]` to the component |
+| `AsChild` with plain markup joined conflicting attribute values (`id="rzX1 mine"`) | The child's own value wins, as with element children | Check `AsChild` children with an `id` or other attributes the component also sets |
+| Module URLs were plain paths with `Cache-Control: no-cache` | Fingerprinted when the app calls `MapStaticAssets()` | Add `app.MapStaticAssets()` (and `.WithStaticAssets()` on controllers or Razor Pages) to get long-lived caching |
+
 ## Worked example
 
 Before (Rizzy 5, htmx 2):

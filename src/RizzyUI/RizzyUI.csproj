@@ -61,6 +61,8 @@
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
         <None Include="build\RizzyUI.targets" Pack="true" PackagePath="build\RizzyUI.targets" />
+        <!-- Type declarations for code-behind modules; RizzyUI.targets copies them to obj/rizzyui/ on build. -->
+        <None Include="..\..\packages\rizzyui\types\rizzyui.d.ts" Pack="true" PackagePath="types\rizzyui.d.ts" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>

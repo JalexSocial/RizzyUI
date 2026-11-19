@@ -1,0 +1,21 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    An Alpine code-behind component: the markup is here, the behavior is in WelcomeTip.razor.js next
+    to this file. Props are passed to the module as JSON (camelCase) and read with this.$props.
+    Create your own with: dotnet new rizzyui-codebehind -n MyComponent
+*@
+
+<RzAlpineComponent For="this" AsChild Props="@(new { StorageKey = "rizzyui-starter-welcome-tip" })">
+    <div x-show="visible" x-cloak>
+        <RzAlert Variant="ThemeVariant.Information">
+            <AlertTitle>Welcome to your RizzyUI app</AlertTitle>
+            <AlertDescription>
+                Pages are server-rendered Razor components, htmx swaps fragments, and small client-side
+                behaviors like this dismissible tip live in a <code>.razor.js</code> file next to the component.
+                <div class="mt-3">
+                    <RzButton Size="Size.Small" Variant="ThemeVariant.Secondary" x-on:click="dismiss">Got it</RzButton>
+                </div>
+            </AlertDescription>
+        </RzAlert>
+    </div>
+</RzAlpineComponent>

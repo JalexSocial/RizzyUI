@@ -45,6 +45,14 @@ test('packaged RizzyUI renders, loads its runtime under a strict CSP, and is int
   expect(state.htmx).toMatch(/^4\./);
   expect(state.diagnostics).toBe('function');
 
+  // Alpine code-behind from the package: the module (SmokeCounter.razor.js) loads with x-load-src
+  // through a dynamic import, which 'strict-dynamic' allows; no inline script is rendered.
+  const counter = page.locator('#smoke-counter-7');
+  await expect(counter.getByTestId('count')).toHaveText('7');
+  await counter.getByTestId('increment').click();
+  await expect(counter.getByTestId('count')).toHaveText('8');
+  expect(await page.locator('main script:not([src])').count()).toBe(0);
+
   // Dialog trigger works under CSP (no inline handler); hx-get swaps a fragment with an Alpine
   // component that initializes after the swap.
   const trigger = page.locator('button[hx-get="/fragments/alert"]');
@@ -53,6 +61,11 @@ test('packaged RizzyUI renders, loads its runtime under a strict CSP, and is int
   const alert = page.locator('#dialog-body [x-data="rzAlert"]');
   await expect(alert).toHaveCount(1);
   await expect.poll(() => alert.evaluate(el => Boolean((el as any)._x_dataStack))).toBe(true);
+  // A code-behind component in the swapped fragment starts too.
+  const swappedCounter = page.locator('#smoke-counter-40');
+  await expect(swappedCounter.getByTestId('count')).toHaveText('40');
+  await swappedCounter.getByTestId('increment').click();
+  await expect(swappedCounter.getByTestId('count')).toHaveText('41');
 
   // A form inside the teleported dialog posts through htmx with the antiforgery token.
   const post = page.waitForResponse(response => response.url().endsWith('/fragments/echo'));

@@ -5,6 +5,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Code-behind modules (*.razor.js, *.razor.ts) are built with esbuild (RizzyUI.targets). -->
+    <RizzyUICodeBehindBuild>esbuild</RizzyUICodeBehindBuild>
   </PropertyGroup>
 
   <ItemGroup>

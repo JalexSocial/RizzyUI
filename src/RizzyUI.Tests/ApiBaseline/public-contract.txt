@@ -1162,7 +1162,8 @@ RizzyUI.RzAlpineComponent
   For: System.Object [EditorRequired]
   Id: System.String
   LoadStrategy: System.String
-  Name: System.String [EditorRequired]
+  Name: System.String
+  Preload: System.Boolean
   Props: System.Object
 RizzyUI.RzAnimatedGradientText
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
@@ -3151,6 +3152,7 @@ RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
   Microsoft.Extensions.Options.IPostConfigureOptions<RizzyUI.RizzyUIConfig> (Singleton) -> instance
   Rizzy.Htmx.IRizzyNonceProvider (Scoped) -> Rizzy.RizzyNonceProvider
   RizzyUI.RizzyUIRegistrationMarker (Singleton) -> RizzyUI.RizzyUIRegistrationMarker
+  RizzyUI.RzAlpineModuleResolver (Singleton) -> RizzyUI.RzAlpineModuleResolver
   RizzyUI.Services.RzToast.IRzToastService (Scoped) -> RizzyUI.Services.RzToast.RzToastService
   RizzyUI.Services.RzToast.Internal.RzToastCommandQueue (Scoped) -> RizzyUI.Services.RzToast.Internal.RzToastCommandQueue
   TailwindMerge.TwMerge (Singleton) -> TailwindMerge.TwMerge

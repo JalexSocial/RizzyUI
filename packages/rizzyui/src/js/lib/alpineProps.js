@@ -1,45 +1,79 @@
-
 /**
- * @file RizzyUI Alpine Props Helper
+ * @file RizzyUI Alpine props
  * @module alpineProps
- * @description Provides a utility function to safely read and parse props passed from a Blazor
- * RzAlpineComponent to its co-located Alpine.js module.
+ * @description Reads the props that `RzAlpineComponent` passes to an Alpine code-behind module.
+ *
+ * `RzAlpineComponent` serializes its `Props` parameter (camelCase) into `data-rz-props` on the
+ * component root. Modules read them with the `$props` magic (`this.$props.initialCount` in a
+ * method, `$props.title` in markup), or with `Rizzy.props(this.$el)`.
  */
+
+const ROOT_SELECTOR = '[x-load-src], [data-rz-props], [data-props-id]';
+const cache = new WeakMap();
+
+function parse(element, raw, source) {
+    const cached = cache.get(element);
+    if (cached && cached.raw === raw) return cached.value;
+
+    let value = {};
+    try {
+        value = raw ? JSON.parse(raw) : {};
+    } catch (error) {
+        console.error(`[Rizzy.props] Failed to parse the props in ${source}.`, error);
+    }
+    cache.set(element, { raw, value });
+    return value;
+}
 
 /**
- * Retrieves and parses the JSON props for an Alpine component initialized by RzAlpineComponent.
- * It reads the `data-props-id` attribute from the Alpine root element to find the
- * corresponding `<script type="application/json">` tag and parses its content.
- *
- * @param {Element} alpineRootElement - The root DOM element of the Alpine component (typically `this.$el`).
- * @returns {object} The parsed JavaScript object from the props JSON. Returns an empty object `{}`
- * if the element is invalid, props are not defined, the script tag is not found, or parsing fails.
+ * The code-behind root for `element`: the element itself or its nearest ancestor rendered by
+ * `RzAlpineComponent`.
+ * @param {Element} element
+ * @returns {Element | null}
  */
-function props(alpineRootElement) {
-    if (!(alpineRootElement instanceof Element)) {
-        console.warn('[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el).');
+export function findCodeBehindRoot(element) {
+    return element instanceof Element ? element.closest(ROOT_SELECTOR) : null;
+}
+
+/**
+ * Returns the props of the code-behind component that contains `element` (usually `this.$el`).
+ * The object is parsed once per element and value and shared, so treat it as read-only.
+ * Returns `{}` when the component has no props.
+ *
+ * @param {Element} element An element inside (or the root of) the component.
+ * @returns {Record<string, any>}
+ */
+function props(element) {
+    if (!(element instanceof Element)) {
+        console.warn('[Rizzy.props] Invalid input. Expected an element, usually this.$el.');
         return {};
     }
 
-    const propsScriptId = alpineRootElement.dataset.propsId;
-    if (!propsScriptId) {
-        // This is a valid scenario where no props are passed.
-        return {};
+    const root = findCodeBehindRoot(element);
+    if (!root) return {};
+
+    if (root.hasAttribute('data-rz-props')) {
+        return parse(root, root.getAttribute('data-rz-props'), 'data-rz-props');
     }
 
-    const propsScriptEl = document.getElementById(propsScriptId);
-    if (!propsScriptEl) {
-        console.warn(`[Rizzy.props] Could not find the props script tag with ID '${propsScriptId}'.`);
+    // Props rendered by RizzyUI 1.0.0-preview.2 and earlier: a JSON script referenced by id.
+    const scriptId = root.getAttribute('data-props-id');
+    if (!scriptId) return {};
+    const script = document.getElementById(scriptId);
+    if (!script) {
+        console.warn(`[Rizzy.props] Could not find the props script with id '${scriptId}'.`);
         return {};
     }
+    return parse(root, script.textContent || '{}', `#${scriptId}`);
+}
 
-    try {
-        // Use textContent for reliability and provide a fallback for empty content.
-        return JSON.parse(propsScriptEl.textContent || '{}');
-    } catch (e) {
-        console.error(`[Rizzy.props] Failed to parse JSON from script tag #${propsScriptId}.`, e);
-        return {}; // Return an empty object to prevent downstream errors.
-    }
+/**
+ * Registers the `$props` magic: the props of the code-behind component the expression or data
+ * object belongs to. Works with the standard and the CSP build of Alpine.
+ * @param {any} Alpine
+ */
+export function registerPropsMagic(Alpine) {
+    Alpine.magic('props', el => props(el));
 }
 
 export default props;

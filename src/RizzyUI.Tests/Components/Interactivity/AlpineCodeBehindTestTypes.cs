@@ -12,3 +12,14 @@ public sealed class FakeAlpineHost
 public sealed class WindowsBuiltHost
 {
 }
+
+// The attribute declared in the component's .razor.cs file.
+[RzAlpineCodeBehind("/workspace/RizzyUI/src/RizzyUI.Tests/Components/Interactivity/PartialClassHost.razor.cs")]
+public sealed class PartialClassHost
+{
+}
+
+// No [RzAlpineCodeBehind]: RzAlpineComponent cannot find a module for it.
+public sealed class UnmarkedHost
+{
+}

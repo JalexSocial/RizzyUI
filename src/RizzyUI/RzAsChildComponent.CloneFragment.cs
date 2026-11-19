@@ -100,8 +100,10 @@ public abstract partial class RzAsChildComponent : RzComponent
                 attributes,
                 new HtmlUtils.MergeOptions
                 {
-                    // Prepending is often safer for things like 'style' or event handlers
-                    ConflictPolicyResolver = name => HtmlUtils.AttrConflictPolicy.PrependSpaceSeparated
+                    // The element's own attributes win, as on the element path below (class is merged
+                    // with TwMerge). Joining values with a space produced invalid ids and broken
+                    // x-data, href and aria-* values.
+                    ConflictPolicyResolver = _ => HtmlUtils.AttrConflictPolicy.KeepExisting
                 });
 
             // Return a new fragment that renders the modified markup.

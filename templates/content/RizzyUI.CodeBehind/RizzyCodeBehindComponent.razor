@@ -1,0 +1,20 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    Markup for RizzyCodeBehindComponent. Its behavior is in the module next to this file
+    (RizzyCodeBehindComponent.razor.js, or .razor.ts). Props are passed to the module as JSON with
+    camelCase names: Title becomes this.$props.title.
+*@
+
+<RzAlpineComponent For="this" AsChild Props="@(new { Title })">
+    <div class="flex items-center gap-3">
+        <span class="font-medium" x-text="$props.title"></span>
+        <RzButton Size="Size.Small" Variant="ThemeVariant.Secondary" x-on:click="decrement" aria-label="Decrease">-</RzButton>
+        <span class="min-w-8 text-center tabular-nums" x-text="count"></span>
+        <RzButton Size="Size.Small" Variant="ThemeVariant.Secondary" x-on:click="increment" aria-label="Increase">+</RzButton>
+    </div>
+</RzAlpineComponent>
+
+@code {
+    /// <summary>Shown next to the counter; passed to the module in Props.</summary>
+    [Parameter] public string Title { get; set; } = "Count";
+}

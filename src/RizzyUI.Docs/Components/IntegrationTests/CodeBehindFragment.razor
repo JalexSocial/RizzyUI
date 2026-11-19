@@ -1,0 +1,9 @@
+@* Fragment for /_tests/codebehind/fragment: code-behind components arriving in an htmx swap. *@
+<div id="swapped" data-round="@Round">
+    <HarnessCounter Label="Swapped" Start="100" Step="10" />
+    <HarnessPanel Title="Swapped panel" />
+</div>
+
+@code {
+    [Parameter] public int Round { get; set; }
+}

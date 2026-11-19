@@ -1,0 +1,266 @@
+@page "/docs/interactivity/code-behind-deployment"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+
+<PageTitle>Building and Deploying Code-Behind</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>Interactivity</BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Building and Deploying</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Building and Deploying Code-Behind">Building and Deploying Code-Behind</RzHeading>
+
+            <RzParagraph class="lead">
+                How code-behind modules get from <code>Counter.razor.js</code> to the browser: how they are published and
+                cached, what happens when you deploy while pages are open, how they work with a Content Security Policy,
+                and how to write them in TypeScript, use npm packages and test them.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Publishing and URLs" Id="publishing">Publishing and URLs</RzHeading>
+                <RzParagraph>
+                    A <code>.razor.js</code> file next to a component is a static web asset: the .NET SDK serves it in
+                    development and copies it into <code>wwwroot</code> when you publish. Its URL is its path in the
+                    project, so <code>Features/Home/Counter.razor.js</code> is served at
+                    <code>/Features/Home/Counter.razor.js</code>. In a Razor class library it is under the library's base
+                    path, for example <code>/_content/MyLibrary/Counter.razor.js</code>. A request path base
+                    (<code>UsePathBase</code>) is added automatically.
+                </RzParagraph>
+                <RzParagraph>
+                    By default the file is published exactly as written: no bundling, no minification, no transpiling.
+                    The build pipeline below is optional.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Caching and fingerprinted URLs" Id="caching">Caching and fingerprinted URLs</RzHeading>
+                <RzParagraph>
+                    With <code>app.MapStaticAssets()</code>, every static asset also gets a fingerprinted URL that
+                    contains a hash of its content (<code>Counter.ezjsubrzj2.razor.js</code>) and is served with
+                    <code>Cache-Control: max-age=31536000, immutable</code>. <code>RzAlpineComponent</code> renders that
+                    URL when it is available, so browsers download a module once and fetch it again only when it
+                    changes. The plain URL is served with <code>no-cache</code>, which makes the browser check it on
+                    every page load.
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Razor component endpoints</strong> (<code>MapRazorComponents</code>) resolve fingerprints automatically.</li>
+                    <li><strong>Controllers and Razor Pages</strong>: add <code>.WithStaticAssets()</code> (<code>app.MapControllers().WithStaticAssets()</code>). The RizzyUI starter does this.</li>
+                    <li><strong>htmx fragments from minimal APIs</strong> use the same fingerprinted URLs as full pages, so a swapped component shares the module the page already loaded.</li>
+                    <li><strong>Without <code>MapStaticAssets()</code></strong> (only <code>UseStaticFiles()</code>, or a static export), the plain URL is used. Everything works; caching just depends on revalidation.</li>
+                </ul>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Program.cs" class="mt-4">
+app.UseStaticFiles();      // physical files under wwwroot
+app.UseRouting();
+// ...
+app.MapStaticAssets();     // fingerprinted URLs with long-lived caching
+app.MapControllers().WithStaticAssets();
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Deploying while pages are open" Id="deployments">Deploying while pages are open</RzHeading>
+                <RzParagraph>
+                    With htmx, a page can stay open for hours and keep receiving fragments from the server, including
+                    after you deploy a new version. Two things protect it:
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li>
+                        <strong>New markup loads the new module.</strong> The generated <code>x-data</code> name includes a
+                        hash of the module's URL, and the fingerprinted URL changes when the module changes. A fragment from
+                        the new version therefore uses a new name and loads the new module, instead of running the old
+                        module (already loaded under the old name) against new markup. If you set <code>Name</code>
+                        yourself, you lose this.
+                    </li>
+                    <li>
+                        <strong>Old markup survives a missing file.</strong> If a fingerprinted file from the previous version
+                        is gone (a lazily loaded component on an old page), RizzyUI retries once with the plain URL and logs
+                        a warning.
+                    </li>
+                </ul>
+                <RzParagraph>
+                    If neither works, RizzyUI logs the failure once and dispatches <code>rz:module-error</code> on
+                    <code>document</code>. A page can use it to suggest a reload:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="site.js" class="mt-4">
+document.addEventListener('rz:module-error', (event) =&gt; {
+  // event.detail: { name, url, fallbackUrl, error }
+  Rizzy.toast.warning('A newer version of this page is available. Reload to continue.');
+});
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    Where possible, keep the previous release's static files available for a while after a deployment (a CDN
+                    or blob storage that does not delete old files does this).
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Preloading" Id="preloading">Preloading</RzHeading>
+                <RzParagraph>
+                    Components with the default <code>eager</code> load strategy also render
+                    <code>&lt;link rel="modulepreload"&gt;</code> for their module, once per request, so the browser
+                    downloads it while it reads the page instead of after Alpine has started. Lazy strategies
+                    (<code>visible</code>, <code>idle</code>, <code>media</code>, <code>event</code>) do not preload. Turn
+                    it off with <code>Preload="false"</code>.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Content Security Policy" Id="csp">Content Security Policy</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li>Code-behind components render no inline scripts. Props are in a <code>data-rz-props</code> attribute; the module is loaded with a dynamic <code>import()</code>.</li>
+                    <li>With <code>script-src 'self'</code>, same-origin modules are allowed. With <code>'nonce-…' 'strict-dynamic'</code>, modules imported by RizzyUI's (nonced) script are allowed too.</li>
+                    <li>Serving static files from a CDN on another origin: add that origin to <code>script-src</code>, and the CDN must send CORS headers, because modules are fetched in CORS mode.</li>
+                    <li>Modules work with both <code>rizzyui.js</code> and the CSP build <code>rizzyui-csp.js</code>. With the CSP build, expressions in your markup must follow its rules (no assignments in attributes); logic in the module is ordinary JavaScript.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Minification and bundling" Id="minification">Minification and bundling</RzHeading>
+                <RzParagraph>
+                    Compression (gzip and Brotli, generated at publish) already removes most of the size of small modules,
+                    so RizzyUI does not minify them by default. If your own build, a CDN's "auto minify" or a static site
+                    generator rewrites them, it must:
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Not rename properties.</strong> The markup calls methods and reads state by name (<code>x-on:click="increment"</code>). Renaming local variables is fine; property mangling is not.</li>
+                    <li><strong>Keep the module an ES module</strong> with its default export. Do not wrap it in an IIFE or convert it to CommonJS.</li>
+                    <li><strong>Keep methods as methods.</strong> Converting them to arrow functions breaks <code>this</code>.</li>
+                    <li><strong>Handle modern syntax.</strong> A minifier that does not understand template literals can cut a file short (this happened to RizzyUI's own static docs site).</li>
+                    <li><strong>Not change files that have integrity hashes</strong>, or must update the hashes.</li>
+                </ul>
+                <RzParagraph>
+                    Do not combine all code-behind modules into one file: each module loads only on pages that use it, and
+                    is cached separately. Bundling one module with the files it imports is useful, and is what the build
+                    pipeline does.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="TypeScript and npm imports: the build pipeline" Id="build-pipeline">TypeScript and npm imports: the build pipeline</RzHeading>
+                <RzParagraph>
+                    Opt in with one property, and install esbuild in the project (it needs Node.js, like the Tailwind
+                    build):
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" ViewerTitle="MyApp.csproj" class="mt-4">
+&lt;PropertyGroup&gt;
+  &lt;RizzyUICodeBehindBuild&gt;esbuild&lt;/RizzyUICodeBehindBuild&gt;
+&lt;/PropertyGroup&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.PowerShell" ViewerTitle="Terminal" class="mt-4">
+npm install --save-dev esbuild
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    Each <code>Component.razor.ts</code> and <code>Component.razor.js</code> is then built on every
+                    <code>dotnet build</code>: esbuild bundles it with the files and npm packages it imports, removes
+                    TypeScript types and writes <code>Component.razor.js</code> under
+                    <code>obj/rizzyui-codebehind/</code>. That file replaces the source as the static web asset, so URLs,
+                    fingerprints, compression and publishing are unchanged. <code>dotnet watch</code> rebuilds when a
+                    <code>.razor.ts</code> file changes.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.TypeScript" ViewerTitle="Counter.razor.ts" class="mt-4">
+import type { AlpineCodeBehind } from 'rizzyui';
+import { formatCount } from './formatting';   // bundled into the module
+
+interface Props { initialCount: number }
+
+const counter: AlpineCodeBehind&lt;Props&gt; = () =&gt; ({
+  count: 0,
+  init() { this.count = this.$props.initialCount; },
+  get label() { return formatCount(this.count); },
+  increment() { this.count++; },
+});
+
+export default counter;
+                </RzCodeViewer>
+                <div class="not-prose my-6 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="bg-zinc-50 dark:bg-zinc-900">
+                            <tr><th class="px-4 py-3 text-left font-medium">Property</th><th class="px-4 py-3 text-left font-medium">Default</th><th class="px-4 py-3 text-left font-medium">Meaning</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-3"><code>RizzyUICodeBehindBuild</code></td><td class="px-4 py-3"><code>none</code></td><td class="px-4 py-3"><code>esbuild</code> turns the pipeline on.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>RizzyUICodeBehindMinify</code></td><td class="px-4 py-3"><code>true</code> in Release</td><td class="px-4 py-3">Removes whitespace and simplifies syntax. Property names are never changed.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>RizzyUICodeBehindSourceMap</code></td><td class="px-4 py-3"><code>inline</code> outside Release</td><td class="px-4 py-3">Source maps so the browser shows your original file; <code>false</code> to turn off.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>RizzyUICodeBehindTarget</code></td><td class="px-4 py-3"><code>es2020</code></td><td class="px-4 py-3">The JavaScript version esbuild writes.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>RizzyUIEsbuildCommand</code></td><td class="px-4 py-3"><code>npx --no-install esbuild</code></td><td class="px-4 py-3">The command that runs esbuild, for an esbuild installed elsewhere.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li>esbuild removes types without checking them. Run <code>npx tsc --noEmit</code> (with a <code>tsconfig.json</code> that maps <code>rizzyui</code> like the starter's <code>jsconfig.json</code>) in CI to type-check.</li>
+                    <li>A component has one module: <code>Counter.razor.ts</code> and <code>Counter.razor.js</code> together are an error (<code>RZUI1002</code>).</li>
+                    <li>The RizzyUI runtime is not imported: use the <code>Rizzy</code> global and Alpine's magics. <code>import type</code> from <code>rizzyui</code> is removed at build time.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Imports between modules without the pipeline" Id="imports">Imports between modules without the pipeline</RzHeading>
+                <RzParagraph>
+                    Without the build pipeline, a module can import other modules by URL. Only <code>*.razor.js</code>
+                    files next to components are served, so put shared code under <code>wwwroot</code>
+                    (<code>import { format } from '/js/format.js'</code>). Such imports use the plain URL; to have them use
+                    fingerprinted URLs too, add an import map to the layout's <code>&lt;head&gt;</code>, before any
+                    module script. It lists every static asset, so it adds to every page's size.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="App.razor" class="mt-4">
+&lt;ImportMap nonce=&quot;@@Nonce&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Static site export" Id="static-export">Static site export</RzHeading>
+                <RzParagraph>
+                    A static site generator must copy every module route, plain and fingerprinted, byte for byte. The
+                    static web assets endpoints manifest in the build output
+                    (<code>MyApp.staticwebassets.endpoints.json</code>) lists them: the RizzyUI documentation site adds every
+                    route ending in <code>.razor.js</code> from it, and copies scripts without rewriting them.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Testing modules" Id="testing">Testing modules</RzHeading>
+                <RzParagraph>
+                    The npm package <code>@@jalexsocial/rizzyui</code> includes a helper that mounts a module the way
+                    <code>RzAlpineComponent</code> renders it, with Alpine and <code>$props</code>, so its logic can be
+                    tested in Node. It needs a DOM, for example happy-dom:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Counter.test.mjs" class="mt-4">
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { GlobalRegistrator } from '@@happy-dom/global-registrator';
+GlobalRegistrator.register();
+
+const { mountCodeBehind } = await import('@@jalexsocial/rizzyui/testing');
+const { default: counter } = await import('../Features/Home/Counter.razor.js');
+
+test('increments from the initial count', async () =&gt; {
+  const { data, root, nextTick } = await mountCodeBehind(counter, {
+    props: { initialCount: 10 },
+    html: '&lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;',
+  });
+  data.increment();
+  await nextTick();
+  assert.equal(root.querySelector('span').textContent, '11');
+});
+                </RzCodeViewer>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

@@ -4,7 +4,7 @@ import AsyncAlpine from 'async-alpine';
 import intersect from '@alpinejs/intersect';
 import toast from './notify/toast.js';
 import $data from './alpineData.js';
-import props from './alpineProps.js';
+import props, { registerPropsMagic } from './alpineProps.js';
 import registerMobileDirective from './directives/mobile.js';
 import registerSyncDirective from './directives/sync-prop.js';
 import registerIndeterminateDirective from './directives/indeterminate.js';
@@ -18,6 +18,7 @@ import {
 } from '../runtime/asyncBundleRegistrar.js';
 import { require } from '../runtime/rizzyRequire.js';
 import { registerAsyncComponent } from '../runtime/asyncComponentRegistrar.js';
+import { installCodeBehindLoader } from '../runtime/codeBehindLoader.js';
 import { mergeIntoRizzyGlobal } from '../runtime/rizzyGlobal.js';
 import { installHtmxTeleportBridge } from '../runtime/htmxTeleportBridge.js';
 
@@ -32,6 +33,8 @@ export function bootstrapRizzyUI(Alpine) {
     Alpine.plugin(intersect);
     Alpine.plugin(focus);
     Alpine.plugin(AsyncAlpine);
+    // Code-behind modules (x-load-src) load through RizzyUI's loader: fallback URL, clear errors.
+    installCodeBehindLoader(Alpine);
     Alpine.plugin(createFlexRenderPlugin());
 
     if (typeof document !== 'undefined') {
@@ -44,6 +47,7 @@ export function bootstrapRizzyUI(Alpine) {
     registerMobileDirective(Alpine);
     registerSyncDirective(Alpine);
     registerIndeterminateDirective(Alpine);
+    registerPropsMagic(Alpine);
 
     let validationInstance;
     registerValidateDirective(Alpine, validation => {

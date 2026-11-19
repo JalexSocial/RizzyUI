@@ -56,6 +56,7 @@ def check_nupkg(path: Path) -> str | None:
         "staticwebassets/js/rizzyui-csp.js",
         "staticwebassets/css/rizzyui.css",
         "build/RizzyUI.targets",
+        "types/rizzyui.d.ts",
         "README.md",
         "LICENSE.md",
     ]

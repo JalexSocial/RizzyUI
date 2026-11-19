@@ -1,70 +1,139 @@
-
 using Microsoft.AspNetCore.Components;
-using System.Collections.Concurrent;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Text.Json;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-/// A component that bridges a server-rendered Blazor component with a co-located JavaScript module,
-/// registering it as an `async-alpine` component. It can render as a wrapper `div` or, using the `AsChild` pattern,
-/// merge its Alpine-related attributes directly onto its single child element.
+/// Connects a server-rendered component to its Alpine code-behind module, the <c>.razor.js</c> file
+/// next to the component. Renders the Alpine root as a wrapper element or, with <c>AsChild</c>, on
+/// its single child element.
 /// </xmldoc>
 /// <remarks>
-/// This component is the cornerstone of RizzyUI's "Alpine Code-Behind" feature. It requires the Blazor component
-/// specified in the `For` parameter to be decorated with the `[RzAlpineCodeBehind]` attribute.
+/// <para>
+/// The component in <see cref="For"/> must be marked with <see cref="RzAlpineCodeBehindAttribute"/>.
+/// The root gets <c>x-data</c> (the data name), <c>x-load</c> (the load strategy) and
+/// <c>x-load-src</c> (the module URL): async-alpine loads the module when the strategy allows and
+/// registers its default export as the Alpine data. No inline script is rendered, so the component
+/// works in the initial page, in htmx swaps and under a strict Content Security Policy.
+/// </para>
+/// <para>
+/// The data name is generated from the component type and the module URL unless <see cref="Name"/>
+/// is set. <see cref="Props"/> is serialized (camelCase) into <c>data-rz-props</c> and read in the
+/// module with <c>this.$props</c>.
+/// </para>
 /// </remarks>
 public partial class RzAlpineComponent : RzAsChildComponent
 {
-    private static readonly ConcurrentDictionary<Type, string?> _pathCache = new();
-    private string? _modulePath;
-    private string _registrationArguments = string.Empty;
-    private string _serializedProps = "{}";
-    private string _propsScriptId = string.Empty;
+    private const string PreloadedModulesKey = "RizzyUI.RzAlpineComponent.PreloadedModules";
+    private static readonly JsonSerializerOptions PropsSerializerOptions = new(JsonSerializerDefaults.Web);
+
+    private string _dataName = string.Empty;
+    private string _moduleUrl = string.Empty;
+    private string? _fallbackUrl;
+    private string? _serializedProps;
+    private string _loadStrategy = "eager";
+    private bool _renderPreload;
+
+    [Inject] private IServiceProvider Services { get; set; } = default!;
 
     /// <summary>
-    /// A reference to the Blazor component instance that has a co-located `.razor.js` file. This is required.
+    /// The component instance whose co-located <c>.razor.js</c> module provides the Alpine data,
+    /// usually <c>this</c>. Its type must be marked with <see cref="RzAlpineCodeBehindAttribute"/>.
     /// </summary>
     [Parameter, EditorRequired] public object For { get; set; } = default!;
 
     /// <summary>
-    /// The name to register the Alpine.js component with. This name will be used in the `x-data` attribute. This is required.
+    /// Optional Alpine data name used in <c>x-data</c>. By default a name is generated from the
+    /// component type and the module URL (for example <c>rzcb_Counter_1a2b3c4d</c>), which cannot
+    /// collide with another component and changes with each deployment of the module. Set it only
+    /// when other markup refers to the component by name; the name is global to the page.
     /// </summary>
-    [Parameter, EditorRequired] public string Name { get; set; } = string.Empty;
+    [Parameter] public string? Name { get; set; }
 
     /// <summary>
-    /// An optional C# object that will be serialized to JSON and passed to the Alpine component's factory function.
+    /// Optional data passed to the module, serialized to JSON with web defaults (property names in
+    /// camelCase: <c>InitialCount</c> becomes <c>initialCount</c>). Read it in the module with
+    /// <c>this.$props</c>.
     /// </summary>
     [Parameter] public object? Props { get; set; }
 
     /// <summary>
-    /// The child content to be rendered within the Alpine-enabled element.
+    /// Whether to render <c>&lt;link rel="modulepreload"&gt;</c> for the module so the browser
+    /// fetches it while it parses the page. Defaults to <c>true</c>; applies only to the
+    /// <c>eager</c> load strategy, and the link is rendered once per request for each module.
+    /// </summary>
+    [Parameter] public bool Preload { get; set; } = true;
+
+    /// <summary>
+    /// The child content rendered within the Alpine root.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        _propsScriptId = $"{Id}-props";
-    }
+    /// <summary>The generated or explicit Alpine data name rendered in <c>x-data</c>.</summary>
+    protected string DataName => _dataName;
+
+    /// <summary>The module URL rendered in <c>x-load-src</c>, including the request path base.</summary>
+    protected string ModuleUrl => _moduleUrl;
+
+    /// <summary>Whether this render emits the module preload link.</summary>
+    protected bool RenderPreload => _renderPreload;
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        if (For is null) throw new InvalidOperationException("'For' is required.");
-        if (string.IsNullOrWhiteSpace(Name)) throw new InvalidOperationException("'Name' is required.");
+        base.OnParametersSet();
 
-        _modulePath = _pathCache.GetOrAdd(For.GetType(), GetComponentModulePath);
-        _registrationArguments = _modulePath is null
-            ? string.Empty
-            : $"{JsonSerializer.Serialize(Name)}, {JsonSerializer.Serialize(RizzyUIConfig.ApplyPathBase(_modulePath, RequestPathBase))}";
+        if (For is null)
+            throw new InvalidOperationException($"{nameof(RzAlpineComponent)} requires 'For', usually For=\"this\".");
 
-        if (Props is not null)
+        var componentType = For.GetType();
+        var resolver = Services.GetService<RzAlpineModuleResolver>() ?? new RzAlpineModuleResolver(Services);
+        var assetKey = RzAlpineModuleResolver.GetAssetKey(componentType);
+
+        var pageAssets = GetPageAssets();
+        var resolvedUrl = resolver.ResolveUrl(assetKey, pageAssets);
+        var plainUrl = "/" + assetKey;
+
+        _moduleUrl = RizzyUIConfig.ApplyPathBase(resolvedUrl, RequestPathBase);
+        _fallbackUrl = resolvedUrl == plainUrl ? null : RizzyUIConfig.ApplyPathBase(plainUrl, RequestPathBase);
+        _dataName = string.IsNullOrWhiteSpace(Name)
+            ? RzAlpineModuleResolver.CreateDataName(componentType, resolvedUrl)
+            : Name;
+
+        // async-alpine only loads elements that have x-load; an empty strategy would never load.
+        _loadStrategy = string.IsNullOrWhiteSpace(LoadStrategy) ? "eager" : LoadStrategy;
+        _serializedProps = Props is null ? null : JsonSerializer.Serialize(Props, PropsSerializerOptions);
+        _renderPreload = Preload && _loadStrategy == "eager" && MarkPreloaded(_moduleUrl);
+    }
+
+    private ResourceAssetCollection? GetPageAssets()
+    {
+        try
         {
-            _serializedProps = JsonSerializer.Serialize(Props, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            return Assets;
         }
+        catch (InvalidOperationException)
+        {
+            // Not attached to a renderer that provides assets (for example some test renderers).
+            return null;
+        }
+    }
+
+    private bool MarkPreloaded(string url)
+    {
+        var items = CurrentHttpContext?.Items;
+        if (items is null)
+            return true;
+
+        if (items[PreloadedModulesKey] is not HashSet<string> preloaded)
+        {
+            preloaded = new HashSet<string>(StringComparer.Ordinal);
+            items[PreloadedModulesKey] = preloaded;
+        }
+
+        return preloaded.Add(url);
     }
 
     /// <inheritdoc/>
@@ -78,46 +147,46 @@ public partial class RzAlpineComponent : RzAsChildComponent
             ["id"] = Id,
             ["class"] = AdditionalAttributes?.GetValueOrDefault("class", string.Empty)?.ToString(),
             ["data-alpine-root"] = Id,
-            ["x-data"] = Name,
+            ["x-data"] = _dataName,
+            ["x-load"] = _loadStrategy,
+            ["x-load-src"] = _moduleUrl,
         };
 
-        if (!string.IsNullOrWhiteSpace(LoadStrategy))
-        {
-            attributes["x-load"] = LoadStrategy;
-        }
+        if (_fallbackUrl is not null)
+            attributes["data-rz-module-fallback"] = _fallbackUrl;
 
-        if (Props is not null)
-        {
-            attributes["data-props-id"] = _propsScriptId;
-        }
+        if (_serializedProps is not null)
+            attributes["data-rz-props"] = _serializedProps;
 
         return attributes;
     }
 
-
     /// <summary>
-    /// Computes the absolute web path to the co-located JavaScript module for a Blazor component type.
-    /// Uses attributes applied at the assembly and component level:
-    /// - <see cref="AssemblyRzAlpineCodeBehindAttribute"/> provides the static web asset base path and caller file path prefix.
-    /// - <see cref="RzAlpineCodeBehindAttribute"/> on the component type provides the original Razor file path.
+    /// Computes the absolute web path to the co-located JavaScript module for a component type,
+    /// from the component's <see cref="RzAlpineCodeBehindAttribute"/> (its source file path) and the
+    /// assembly's <see cref="AssemblyRzAlpineCodeBehindAttribute"/> (the project directory and the
+    /// static web asset base path). This is the plain path; <see cref="RzAlpineComponent"/> renders
+    /// the fingerprinted URL when the app's static asset manifest has one.
     /// </summary>
-    /// <param name="componentType">The Blazor component <see cref="Type"/> whose module path should be resolved.</param>
-    /// <returns>
-    /// A URL path (starting with '/') to the component's `.razor.js` static file or null when the component does not declare a Razor file path.
-    /// </returns>
+    /// <param name="componentType">The component type.</param>
+    /// <returns>A path starting with '/', for example <c>/Components/Counter.razor.js</c>.</returns>
     /// <exception cref="InvalidOperationException">
-    /// Thrown when the assembly is not decorated with <see cref="AssemblyRzAlpineCodeBehindAttribute"/> or
-    /// when the component's razor file path does not start with the expected caller file prefix.
+    /// The type is not marked with <see cref="RzAlpineCodeBehindAttribute"/>, its assembly has no
+    /// <see cref="AssemblyRzAlpineCodeBehindAttribute"/>, or the source path is outside the project.
     /// </exception>
     public static string? GetComponentModulePath(Type componentType)
     {
-        var assembly = componentType.Assembly;
-        _ = typeof(AssemblyRzAlpineCodeBehindAttribute);
-        var assemblyAttr = assembly.GetCustomAttribute<AssemblyRzAlpineCodeBehindAttribute>()
-            ?? throw new InvalidOperationException($"[AssemblyRzAlpineCodeBehindAttribute] missing on '{assembly.FullName}'.");
-
         var componentAttr = componentType.GetCustomAttribute<RzAlpineCodeBehindAttribute>();
-        if (componentAttr?.RazorFilePath is null) return null;
+        if (componentAttr?.RazorFilePath is null)
+            throw new InvalidOperationException(
+                $"'{componentType.FullName}' has no [RzAlpineCodeBehind] attribute, so its code-behind module cannot be found. " +
+                $"Add '@attribute [RzAlpineCodeBehind]' to {componentType.Name}.razor and put the module in {componentType.Name}.razor.js next to it.");
+
+        var assembly = componentType.Assembly;
+        var assemblyAttr = assembly.GetCustomAttribute<AssemblyRzAlpineCodeBehindAttribute>()
+            ?? throw new InvalidOperationException(
+                $"[AssemblyRzAlpineCodeBehind] is missing on '{assembly.GetName().Name}'. RizzyUI's build targets add it to projects " +
+                "that reference the RizzyUI package; a project that references RizzyUI as a project must import build/RizzyUI.targets.");
 
         var razorFilePath = componentAttr.RazorFilePath;
         var pathPrefix = assemblyAttr.CallerFileNamePathPrefix;
@@ -126,12 +195,24 @@ public partial class RzAlpineComponent : RzAsChildComponent
             throw new InvalidOperationException($"Cannot compute relative path for '{componentType.FullName}'. File '{razorFilePath}' does not start with prefix '{pathPrefix}'.");
 
         var relative = razorFilePath.Substring(pathPrefix.Length);
-        var jsPath = Path.ChangeExtension(relative, ".razor.js");
         // RazorFilePath is a compile-time path: a library built on Windows and run on Linux still
         // has backslashes, so normalize both separators (RZUI-054).
-        var webPath = jsPath.Replace('\\', '/');
+        var webPath = GetModuleFileName(relative).Replace('\\', '/');
 
         return BuildAbsoluteUrl(assemblyAttr.StaticWebAssetBasePath, webPath);
+    }
+
+    /// <summary>
+    /// The module file for the file the attribute was declared in: <c>Counter.razor</c> and
+    /// <c>Counter.razor.cs</c> both map to <c>Counter.razor.js</c>.
+    /// </summary>
+    internal static string GetModuleFileName(string sourceFile)
+    {
+        if (sourceFile.EndsWith(".razor.cs", StringComparison.OrdinalIgnoreCase))
+            return sourceFile[..^".cs".Length] + ".js";
+        if (sourceFile.EndsWith(".razor", StringComparison.OrdinalIgnoreCase))
+            return sourceFile + ".js";
+        return Path.ChangeExtension(sourceFile, ".razor.js");
     }
 
     private static string BuildAbsoluteUrl(string? basePath, string relativePath)
