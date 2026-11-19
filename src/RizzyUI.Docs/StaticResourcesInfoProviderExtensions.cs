@@ -79,92 +79,51 @@ public static class StaticResourcesInfoProviderExtensions
         return provider;
     }
 
+    // Every file under wwwroot (and the package static assets) is copied byte for byte as a
+    // BinResource, scripts and stylesheets included. As a CssResource or JsResource the generator
+    // minifies the file again and writes it back as UTF-8 with a byte-order mark: its minifier cut
+    // rizzyui.min.js off inside a template string containing "https://", and any change to
+    // htmx.min.js breaks the integrity (SRI) hash the page declares for it, so no script ran.
+    // These files are already built and minified; HTML pages are still minified by the generator.
     private static void AddVirtualResources(StaticResourcesInfoProvider provider, IWebHostEnvironment env, string virtualPathPrefix)
     {
         var contents = env.WebRootFileProvider.GetDirectoryContents(virtualPathPrefix);
-        var allWebRootFiles = contents
+
+        foreach (var directory in contents.Where(f => f.IsDirectory))
+        {
+            AddVirtualResources(provider, env, $"{virtualPathPrefix}/{directory.Name}");
+        }
+
+        var files = contents
             .Where(f => f is { IsDirectory: false, Exists: true })
-            .Select(f =>
-            {
-                var path = f.PhysicalPath;
-                return Path.GetFileName(f.PhysicalPath) ?? string.Empty;
-            }).ToList();
+            .Select(f => f.Name)
+            .Where(name => !string.IsNullOrEmpty(name) && Path.GetExtension(name) != ".gz")
+            .Select(name => $"{virtualPathPrefix}/{name}")
+            .ToList();
 
-        var directories = contents.Where(f => f.IsDirectory)
-            .Select(f => $"{virtualPathPrefix}/{f.Name}");
-
-        foreach (var directory in directories)
-        {
-            AddVirtualResources(provider, env, directory);
-        }
-
-        string[] cssExts = [".css", ".scss"];
-        string[] jsExts = [".js", ".js.map", ".json"];
-
-        var comparer = StringComparer.OrdinalIgnoreCase;
-
-        provider.Add(allWebRootFiles
-                .Where(r => !string.IsNullOrEmpty(r) && cssExts.Contains(Path.GetExtension(r), comparer))
-                .Select(r => new CssResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
-            ;
-
-        provider.Add(allWebRootFiles
-                .Where(r => !string.IsNullOrEmpty(r) && jsExts.Contains(Path.GetExtension(r), comparer))
-                .Select(r => new JsResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
-            ;
-
-        provider.Add(allWebRootFiles
-                .Where(r =>
-                    !cssExts.Contains(Path.GetExtension(r), comparer) &&
-                    !jsExts.Contains(Path.GetExtension(r), comparer) &&
-                    Path.GetExtension(r) != ".gz"
-                )
-                .Select(r => new BinResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
-            ;
-
-        foreach (var file in allWebRootFiles)
-        {
-            Debug.WriteLine($"Processing {virtualPathPrefix}/{file}");
-        }
-    }
-
-    private static void AddWebResources(StaticResourcesInfoProvider provider, string path, string virtualPathPrefix)
-    {
-        var webRootPath = path;
-        var allWebRootFiles = Directory
-                .GetFiles(webRootPath, "*.*", SearchOption.AllDirectories)
-                .Select(f => f
-                    .Replace(webRootPath, string.Empty)
-                    .Replace(Path.DirectorySeparatorChar, '/')).ToList();
-        ;
-
-        foreach (var file in allWebRootFiles)
+        foreach (var file in files)
         {
             Debug.WriteLine($"Processing {file}");
         }
 
-        string[] cssExts = [".css", ".scss"];
-        string[] jsExts = [".js", ".js.map", ".json"];
+        provider.Add(files.Select(route => new BinResource(route) { Route = route }));
+    }
 
-        var comparer = StringComparer.OrdinalIgnoreCase;
+    private static void AddWebResources(StaticResourcesInfoProvider provider, string path, string virtualPathPrefix)
+    {
+        var files = Directory
+            .GetFiles(path, "*.*", SearchOption.AllDirectories)
+            .Select(f => f
+                .Replace(path, string.Empty)
+                .Replace(Path.DirectorySeparatorChar, '/'))
+            .ToList();
 
-        provider.Add(allWebRootFiles
-                .Where(r => cssExts.Contains(Path.GetExtension(r), comparer))
-                .Select(r => new CssResource(r) { Route = $"{virtualPathPrefix}{r}" }))
-            ;
+        foreach (var file in files)
+        {
+            Debug.WriteLine($"Processing {file}");
+        }
 
-        provider.Add(allWebRootFiles
-                .Where(r => jsExts.Contains(Path.GetExtension(r), comparer))
-                .Select(r => new JsResource(r) { Route = $"{virtualPathPrefix}{r}" }))
-            ;
-
-        provider.Add(allWebRootFiles
-                .Where(r =>
-                    !cssExts.Contains(Path.GetExtension(r), comparer) &&
-                    !jsExts.Contains(Path.GetExtension(r), comparer)
-                )
-                .Select(r => new BinResource(r) { Route = $"{virtualPathPrefix}{r}" }))
-            ;
+        provider.Add(files.Select(r => new BinResource(r) { Route = $"{virtualPathPrefix}{r}" }));
     }
 
     public static StaticResourcesInfoProvider AddAllBlazorPages(
@@ -260,9 +219,9 @@ public static class StaticResourcesInfoProviderExtensions
         !route.Equals("/_tests", StringComparison.OrdinalIgnoreCase) &&
         !route.StartsWith("/_tests/", StringComparison.OrdinalIgnoreCase);
 
-    private static IEnumerable<JsResource> GetAllCodeBehinds()
+    private static IEnumerable<BinResource> GetAllCodeBehinds()
     {
-        var resources = new List<JsResource>();
+        var resources = new List<BinResource>();
         var types = GetAllComponentTypes();
 
         foreach (var type in types)
@@ -275,7 +234,7 @@ public static class StaticResourcesInfoProviderExtensions
 
                 if (path != null)
                 {
-                    resources.Add(new JsResource(path));
+                    resources.Add(new BinResource(path));
                 }
             }
         }
