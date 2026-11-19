@@ -18,6 +18,13 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Fixed
+
+- **`RzQuickReference` lists heading text, not markup.** An `RzHeading` without `QuickReferenceTitle`
+  was listed with its tags as literal text (`Sorting API (<code>sort.*</code>)`). The outline now
+  shows the text a reader sees (`Sorting API (sort.*)`), with entities decoded once. `RzHeading` no
+  longer overwrites its `QuickReferenceTitle` parameter with the derived title.
+
 ## [1.0.0-preview.2] - 2026-11-18
 
 Still on **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. This preview collects the changes planned

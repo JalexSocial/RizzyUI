@@ -22,58 +22,46 @@
 
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="DataTable" class="scroll-mt-20">DataTable</RzHeading>
             <RzParagraph>
-                <code>RzDataTable&lt;TItem&gt;</code> is an SSR-first shell that serializes <code>Items</code>, <code>Config</code>, and <code>RowIdSelector</code> metadata into an inert JSON script, then lets the Alpine runtime named <code>rzDataTable</code> create a TanStack Table instance for consumer-authored table markup.
-                You provide the semantic table composition through <code>ChildContent</code>, usually with <code>RzTable</code>, table subcomponents, Alpine loops, and <code>x-flexrender</code> for TanStack header, cell, and footer renderers.
+                <code>RzDataTable</code> adds sorting, filtering, pagination, row selection and column visibility to a table
+                that you write. You pass the rows and column definitions from C#, and the table runs in the browser: sorting,
+                filtering or changing pages needs no request to the server.
             </RzParagraph>
 
-            <RzAlert class="my-4" Variant="ThemeVariant.Information">
-                <AlertTitle>Headless and composable by design</AlertTitle>
-                <AlertDescription>
-                    RzDataTable is a headless, composable data-table component. It manages table state, data operations, and reactive
-                    behavior while leaving the rendered table structure under developer control. It complements <code>RzTable</code>
-                    rather than replacing it: <code>RzTable</code> gives you semantic table markup and styling, <code>RzDataTable</code>
-                    gives that markup sorting, filtering, pagination, selection and column visibility. You decide what every row and cell
-                    looks like. See <a href="#architecture-and-author-responsibilities" class="underline underline-offset-4">Architecture</a>.
-                </AlertDescription>
-            </RzAlert>
-
-            <RzAlert class="my-4">
-                <AlertTitle>Under the hood</AlertTitle>
-                <AlertDescription>
-                    The component renders a server-side shell with <code>data-slot="datatable"</code>, an Alpine host using <code>x-data="rzDataTable"</code>, a lazy-load directive from <code>LoadStrategy</code>, and <code>data-config-id</code> that points to the JSON configuration script.
-                    TanStack Table remains the source of truth for sorting, filtering, pagination, row selection, and column visibility; Alpine exposes synchronized projections such as <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, and helper APIs.
-                </AlertDescription>
-            </RzAlert>
-
-            <RzAlert class="my-4">
-                <AlertTitle>Accessibility mode decision</AlertTitle>
-                <AlertDescription>
-                    <code>RzDataTable&lt;TItem&gt;</code> is documented as an enhanced semantic table-composition component, not a full ARIA grid.
-                    Read the <a href="/components/datatable/accessibility-mode" class="underline underline-offset-4">DataTable accessibility mode design note</a> for the current behavior inventory, preservation rules, future file targets, and test categories.
-                </AlertDescription>
-            </RzAlert>
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="How it works" class="mt-8 scroll-mt-20" Id="how-it-works">How it works</RzHeading>
+            <ol class="list-decimal space-y-2 pl-6">
+                <li>
+                    Give <code>RzDataTable</code> your rows in <code>Items</code>, a <code>Config</code> with the columns
+                    and features you want, and a <code>RowIdSelector</code> that returns each row's unique id.
+                </li>
+                <li>
+                    Inside it, write the table, usually with <code>RzTable</code>. Loop over <code>headerGroups</code> and
+                    <code>rows</code> with Alpine's <code>x-for</code>, and put
+                    <code class="whitespace-nowrap">x-flexrender="_flex.cell(cell)"</code> on the element that shows each cell.
+                </li>
+                <li>
+                    Add the controls you need: a sort button in a header, a filter input, page links, checkboxes.
+                    Helper components such as <code>DataTableSortToggle</code> and
+                    <code>DataTableRowSelectCheckbox</code> cover the common ones.
+                </li>
+            </ol>
+            <RzParagraph>
+                The <a href="#basic-usage" class="underline underline-offset-4">basic example</a> below is a complete table; each
+                section after it adds one feature. Because you write the markup, a row can look like anything you like.
+                <a href="#architecture-and-author-responsibilities" class="underline underline-offset-4">Why you write the table</a>
+                explains the split.
+            </RzParagraph>
 
             <RzAlert class="my-4" Variant="ThemeVariant.Warning">
                 <AlertTitle>Everything in Items is sent to the browser</AlertTitle>
                 <AlertDescription>
-                    Every serializable property of every item in <code>Items</code> can be read in the page, including properties of
-                    columns that are hidden or not defined. Pass a table DTO with only the fields the table needs, and filter by
-                    authorization before the data reaches the component. See <a href="#client-data-and-dtos" class="underline underline-offset-4">Client data and DTOs</a>.
-                </AlertDescription>
-            </RzAlert>
-
-            <RzAlert class="my-4">
-                <AlertTitle>Works with a strict Content Security Policy</AlertTitle>
-                <AlertDescription>
-                    The shell is server rendered and does not use Blazor event callbacks for browser interaction.
-                    Every example on this page runs unchanged with the CSP build (<code>rizzyui-csp.js</code>) under a policy without
-                    <code>unsafe-eval</code> or <code>unsafe-inline</code>; this is tested in the browser. See
-                    <a href="#strict-csp" class="underline underline-offset-4">Strict CSP</a> for the expression rules your own markup must follow.
+                    Every property of every item can be read in the page, including properties you don't show as columns.
+                    Pass a small class with only the fields the table needs, and leave out rows the user may not see. See
+                    <a href="#client-data-and-dtos" class="underline underline-offset-4">Client data and DTOs</a>.
                 </AlertDescription>
             </RzAlert>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic usage" class="scroll-mt-20">Basic usage</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic usage" class="scroll-mt-20" Id="basic-usage">Basic usage</RzHeading>
                     <div>
                         <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
                             <RzTable Border>
@@ -616,6 +604,10 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
                 <RzParagraph>
                     DataTable follows an enhanced semantic table-composition model. It preserves native table semantics from the authored markup and augments focused controls for sorting, selection, filtering, pagination, and column visibility. It intentionally does not implement the WAI-ARIA grid pattern.
+                </RzParagraph>
+                <RzParagraph>
+                    The <a href="/components/datatable/accessibility-mode" class="underline underline-offset-4">DataTable accessibility mode design note</a>
+                    explains this decision and lists the behavior that must be preserved.
                 </RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3">Semantic table composition</RzHeading>
