@@ -11,7 +11,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 RizzyUI's version is independent of Rizzy's. The first Rizzy 6 release is `1.0.0-preview.1`;
 0.9.x is the last Rizzy 5 / htmx 2 line. Between releases the project version is the next release
-with a `-dev` suffix (now `1.0.0-preview.2-dev`), and CI packages append `-ci.<run>.<attempt>`.
+with a `-dev` suffix (now `1.0.0-preview.3-dev`), and CI packages append `-ci.<run>.<attempt>`.
 
 Finding IDs (RZUI-0xx) refer to the
 [2026-11-15 initial audit](docs/audits/2026-11-15-rizzyui-initial-audit/00-executive-summary.md).
