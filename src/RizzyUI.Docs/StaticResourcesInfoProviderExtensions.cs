@@ -235,17 +235,30 @@ public static class StaticResourcesInfoProviderExtensions
 
             foreach (var routeAttribute in routeAttributes)
             {
-                // Original route template
                 var route = routeAttribute.Template;
 
-                // Add the modified route template to the list
-                routeTemplates.Add(route);
+                if (IsGeneratedRoute(route))
+                {
+                    routeTemplates.Add(route);
+                }
             }
         }
 
         // Return an array of distinct route templates
         return routeTemplates.Distinct().ToArray();
     }
+
+    /// <summary>
+    /// Whether a route becomes a static page. Two kinds are skipped: route templates with
+    /// parameters (for example <c>/_tests/a11y/{Family}</c>), which the generator cannot turn into
+    /// a file and which made it throw, leaving the app running instead of exiting; and the
+    /// integration test harness under <c>/_tests</c>, which exists only for the browser tests and
+    /// must not be published.
+    /// </summary>
+    internal static bool IsGeneratedRoute(string route) =>
+        !route.Contains('{') &&
+        !route.Equals("/_tests", StringComparison.OrdinalIgnoreCase) &&
+        !route.StartsWith("/_tests/", StringComparison.OrdinalIgnoreCase);
 
     private static IEnumerable<JsResource> GetAllCodeBehinds()
     {

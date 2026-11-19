@@ -54,8 +54,11 @@ jobs:
 
       # A Release build of the docs app writes the static site into ./docs and exits
       # (see the #if !DEBUG block in src/RizzyUI.Docs/Program.cs).
+      # If the generator fails it logs the error and leaves the app running instead of exiting, so
+      # the step needs its own timeout (a full generation takes about a minute).
       - name: Generate static docs
         working-directory: src/RizzyUI.Docs
+        timeout-minutes: 10
         run: dotnet run -c Release --no-build --project RizzyUI.Docs.csproj
 
       - name: Configure GitHub Pages
