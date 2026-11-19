@@ -1,0 +1,13 @@
+@attribute [RzAlpineCodeBehind]
+@* Code-behind test component that contains another code-behind component. *@
+<RzAlpineComponent For="this" Name="harnessPanel" Props="@(new { Title })" class="rounded border p-3" data-testid="panel">
+    <p data-testid="panel-title" x-text="title"></p>
+    <p data-testid="panel-opened" x-text="opened"></p>
+    <button type="button" data-testid="panel-toggle" x-on:click="toggle" class="rounded border px-2">Toggle</button>
+    @ChildContent
+</RzAlpineComponent>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

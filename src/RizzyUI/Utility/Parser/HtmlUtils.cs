@@ -26,7 +26,11 @@ internal static class HtmlUtils
         /// <summary>
         /// Prepend the new attribute value to the existing one, separated by a space.
         /// </summary>
-        PrependSpaceSeparated
+        PrependSpaceSeparated,
+        /// <summary>
+        /// Keep the element's own value and ignore the new one.
+        /// </summary>
+        KeepExisting
     }
 
     /// <summary>
@@ -231,6 +235,23 @@ internal static class HtmlUtils
                                 EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
                                 break;
                             }
+
+                        case AttrConflictPolicy.KeepExisting:
+                            if (!hasValue)
+                            {
+                                sb.Append(' ').Append(attrName);
+                            }
+                            else
+                            {
+                                sb.Append(' ').Append(attrName).Append('=');
+                                switch (quoteKind)
+                                {
+                                    case QuoteKind.Double: sb.Append('"').Append(valueSpan).Append('"'); break;
+                                    case QuoteKind.Single: sb.Append('\'').Append(valueSpan).Append('\''); break;
+                                    default: sb.Append(valueSpan); break;
+                                }
+                            }
+                            break;
                     }
                 }
             }

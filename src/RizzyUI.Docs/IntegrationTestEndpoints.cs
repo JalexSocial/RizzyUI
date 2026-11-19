@@ -45,6 +45,10 @@ public static class IntegrationTestEndpoints
 
         group.MapGet("/datatable/empty", () => Results.Content(string.Empty, "text/html"));
 
+        // Code-behind harness (/_tests/codebehind): code-behind components in an htmx swap.
+        group.MapGet("/codebehind/fragment", (IRizzyService rizzy) =>
+            rizzy.PartialView<CodeBehindFragment>(new { Round = Interlocked.Increment(ref _round) }));
+
         group.MapPost("/form", async (HttpContext context, IRizzyService rizzy, IAntiforgery antiforgery) =>
         {
             // The form posts Model.Name / Model.Email (EditForm field names). Read them directly and

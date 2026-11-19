@@ -91,7 +91,7 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="LazyChart.razor" class="mt-4">
-@attribute [RzAlpineCodeBehind]
+@@attribute [RzAlpineCodeBehind]
 
 &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;lazyChart&quot; LoadStrategy=&quot;visible&quot; AsChild
                    Props=&quot;@@(new { ChartData = new { labels = new[] { &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot; }, data = new[] { 12, 19, 3 } } })&quot;&gt;

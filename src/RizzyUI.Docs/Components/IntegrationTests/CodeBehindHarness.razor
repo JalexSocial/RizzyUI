@@ -1,0 +1,28 @@
+@page "/_tests/codebehind"
+@layout HarnessLayout
+@* Alpine code-behind integration harness: components in the initial page, nested components, props
+   in both forms, explicit names, and htmx swaps. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>Code-behind harness</PageTitle>
+
+<div class="space-y-8 p-6">
+    <h1 class="text-2xl font-semibold">Code-behind harness</h1>
+
+    <section aria-labelledby="initial-heading" class="space-y-3">
+        <h2 id="initial-heading" class="text-lg font-medium">In the initial page</h2>
+        <div id="initial-a"><HarnessCounter Label="First" Start="10" Step="2" /></div>
+        <div id="initial-b"><HarnessCounter Label="Second" Start="1" Step="1" /></div>
+        <div id="typed"><HarnessTypedCounter Label="Typed" Start="3" /></div>
+    </section>
+
+    <section aria-labelledby="nested-heading" class="space-y-3">
+        <h2 id="nested-heading" class="text-lg font-medium">Nested</h2>
+        <div id="nested"><HarnessPanel Title="Outer panel"><HarnessCounter Label="Inner" Start="5" Step="5" /></HarnessPanel></div>
+    </section>
+
+    <section aria-labelledby="swap-heading" class="space-y-3">
+        <h2 id="swap-heading" class="text-lg font-medium">htmx swap</h2>
+        <RzButton id="load-fragment" hx-get="/_tests/codebehind/fragment" hx-target="#swap-host" hx-swap="innerHTML">Load fragment</RzButton>
+        <div id="swap-host"></div>
+    </section>
+</div>

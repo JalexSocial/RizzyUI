@@ -91,6 +91,7 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
         services.TryAddScoped<RzToastCommandQueue>();
         services.TryAddScoped<IRzToastService, RzToastService>();
+        services.TryAddSingleton<RzAlpineModuleResolver>();
 
         // Post-configure the options to ensure the default theme is always available.
         // This runs after any user-provided `configure` action.

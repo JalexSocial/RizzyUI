@@ -1,0 +1,16 @@
+{
+  // Editor support for Alpine code-behind modules (*.razor.js): `// @ts-check` in a module turns on
+  // type checking, and `import('rizzyui')` types come from the RizzyUI package (copied to obj/ on build).
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "checkJs": false,
+    "paths": {
+      "rizzyui": ["./obj/rizzyui/rizzyui.d.ts"]
+    }
+  },
+  "include": ["**/*.razor.js", "**/*.razor.ts", "obj/rizzyui/rizzyui.d.ts"],
+  "exclude": ["node_modules", "bin", "wwwroot"]
+}

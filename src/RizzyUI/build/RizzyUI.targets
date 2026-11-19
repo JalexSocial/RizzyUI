@@ -17,6 +17,140 @@
         </PropertyGroup>
     </Target>
 
+    <!--
+      Alpine code-behind check: a component marked [RzAlpineCodeBehind] (in its .razor file or its
+      .razor.cs file) needs Component.razor.js next to Component.razor; without it the module request
+      fails in the browser. Turn off with <RizzyUICheckCodeBehind>false</RizzyUICheckCodeBehind>.
+      Only real declarations count: "@attribute [RzAlpineCodeBehind]" at the start of a line in a
+      .razor file (so "@@attribute" in a code sample does not), or the attribute on a line of a
+      .razor.cs file.
+    -->
+    <Target Name="_RizzyUI_CheckAlpineCodeBehindModules"
+            BeforeTargets="CoreCompile"
+            Condition="'$(DesignTimeBuild)' != 'true' and '$(RizzyUICheckCodeBehind)' != 'false'">
+        <PropertyGroup>
+            <_RizzyUI_RazorDeclarationPattern>(?m)^\s*[@]attribute\s+\[\s*(global::)?(RizzyUI\.)?RzAlpineCodeBehind(Attribute)?\s*[\]\(]</_RizzyUI_RazorDeclarationPattern>
+            <_RizzyUI_CsDeclarationPattern>(?m)^\s*\[\s*(global::)?(RizzyUI\.)?RzAlpineCodeBehind(Attribute)?\s*[\]\(]</_RizzyUI_CsDeclarationPattern>
+        </PropertyGroup>
+        <ItemGroup>
+            <_RizzyUI_CodeBehindRazor Include="@(Content);@(None)" Condition="'%(Extension)' == '.razor'" />
+            <_RizzyUI_CodeBehindRazor Include="@(RazorComponent)" />
+            <_RizzyUI_CodeBehindCandidate Include="@(_RizzyUI_CodeBehindRazor->'%(FullPath)'->Distinct())">
+                <Declared>$([System.Text.RegularExpressions.Regex]::IsMatch($([System.IO.File]::ReadAllText('%(FullPath)')), '$(_RizzyUI_RazorDeclarationPattern)'))</Declared>
+                <ModuleBase>%(FullPath)</ModuleBase>
+            </_RizzyUI_CodeBehindCandidate>
+
+            <_RizzyUI_CodeBehindCs Include="@(Compile->'%(FullPath)')" Condition="$([System.String]::Copy('%(Filename)%(Extension)').EndsWith('.razor.cs'))" />
+            <_RizzyUI_CodeBehindCandidate Include="@(_RizzyUI_CodeBehindCs->Distinct())" Condition="Exists('%(FullPath)')">
+                <Declared>$([System.Text.RegularExpressions.Regex]::IsMatch($([System.IO.File]::ReadAllText('%(FullPath)')), '$(_RizzyUI_CsDeclarationPattern)'))</Declared>
+                <ModuleBase>%(RootDir)%(Directory)%(Filename)</ModuleBase>
+            </_RizzyUI_CodeBehindCandidate>
+
+            <_RizzyUI_CodeBehindDeclared Include="@(_RizzyUI_CodeBehindCandidate)" Condition="'%(Declared)' == 'True'">
+                <ModulePath>%(ModuleBase).js</ModulePath>
+                <TypeScriptPath>%(ModuleBase).ts</TypeScriptPath>
+            </_RizzyUI_CodeBehindDeclared>
+        </ItemGroup>
+
+        <Warning Code="RZUI1001"
+                 File="%(_RizzyUI_CodeBehindDeclared.Identity)"
+                 Text="'%(_RizzyUI_CodeBehindDeclared.Filename)%(_RizzyUI_CodeBehindDeclared.Extension)' is marked [RzAlpineCodeBehind] but its module '%(_RizzyUI_CodeBehindDeclared.ModulePath)' does not exist. Add the .razor.js (or, with RizzyUICodeBehindBuild, .razor.ts) file next to the component, or remove the attribute."
+                 Condition="'@(_RizzyUI_CodeBehindDeclared)' != '' and !Exists('%(_RizzyUI_CodeBehindDeclared.ModulePath)') and !Exists('%(_RizzyUI_CodeBehindDeclared.TypeScriptPath)')" />
+    </Target>
+
+    <!--
+      Type declarations for code-behind modules (Rizzy global, this.$props, AlpineCodeBehind<TProps>),
+      copied to obj/rizzyui/rizzyui.d.ts so a jsconfig.json can map the module name "rizzyui" to a
+      stable path in the project. The package ships them under types/; in this repository they are
+      in packages/rizzyui/types/.
+    -->
+    <PropertyGroup>
+        <_RizzyUI_TypesSource Condition="Exists('$(MSBuildThisFileDirectory)..\types\rizzyui.d.ts')">$(MSBuildThisFileDirectory)..\types\rizzyui.d.ts</_RizzyUI_TypesSource>
+        <_RizzyUI_TypesSource Condition="'$(_RizzyUI_TypesSource)' == '' and Exists('$(MSBuildThisFileDirectory)..\..\..\packages\rizzyui\types\rizzyui.d.ts')">$(MSBuildThisFileDirectory)..\..\..\packages\rizzyui\types\rizzyui.d.ts</_RizzyUI_TypesSource>
+    </PropertyGroup>
+
+    <Target Name="_RizzyUI_CopyTypeDeclarations"
+            BeforeTargets="CoreCompile"
+            Condition="'$(_RizzyUI_TypesSource)' != '' and '$(RizzyUICopyTypeDeclarations)' != 'false'">
+        <Copy SourceFiles="$(_RizzyUI_TypesSource)"
+              DestinationFolder="$(BaseIntermediateOutputPath)rizzyui"
+              SkipUnchangedFiles="true" />
+    </Target>
+
+    <!--
+      Optional build pipeline for code-behind modules (opt in with
+      <RizzyUICodeBehindBuild>esbuild</RizzyUICodeBehindBuild>; needs Node.js and esbuild in the
+      project's package.json: npm install -D esbuild).
+
+      Every Component.razor.ts and Component.razor.js is an entry point. esbuild bundles each one with
+      the modules it imports (relative files and npm packages), removes TypeScript types, and writes
+      Component.razor.js under obj/rizzyui-codebehind/. That file replaces the source as the static web
+      asset at the same path, so URLs, fingerprinting, compression and publishing are unchanged.
+
+      - Output stays an ES module with its default export; only whitespace and syntax are minified
+        (Release by default), never property names, which the markup refers to (x-on:click="save").
+      - Debug builds get an inline source map, so the browser shows the original file.
+      - esbuild does not type-check: run tsc (with the jsconfig/tsconfig the templates provide) for that.
+      - Bare imports of the RizzyUI runtime are not possible: use the Rizzy global and Alpine magics.
+    -->
+    <PropertyGroup>
+        <RizzyUICodeBehindBuild Condition="'$(RizzyUICodeBehindBuild)' == ''">none</RizzyUICodeBehindBuild>
+        <RizzyUICodeBehindMinify Condition="'$(RizzyUICodeBehindMinify)' == '' and '$(Configuration)' == 'Release'">true</RizzyUICodeBehindMinify>
+        <RizzyUICodeBehindSourceMap Condition="'$(RizzyUICodeBehindSourceMap)' == '' and '$(Configuration)' != 'Release'">inline</RizzyUICodeBehindSourceMap>
+        <RizzyUICodeBehindTarget Condition="'$(RizzyUICodeBehindTarget)' == ''">es2020</RizzyUICodeBehindTarget>
+        <RizzyUIEsbuildCommand Condition="'$(RizzyUIEsbuildCommand)' == ''">npx --no-install esbuild</RizzyUIEsbuildCommand>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(RizzyUICodeBehindBuild)' == 'esbuild'">
+        <!-- dotnet watch rebuilds when a TypeScript module changes. -->
+        <Watch Include="**\*.razor.ts" Exclude="bin\**;obj\**;node_modules\**;wwwroot\**" />
+    </ItemGroup>
+
+    <Target Name="_RizzyUI_BuildCodeBehindModules"
+            BeforeTargets="ResolveJSModuleStaticWebAssets"
+            Condition="'$(RizzyUICodeBehindBuild)' == 'esbuild' and '$(DesignTimeBuild)' != 'true'">
+        <PropertyGroup>
+            <_RizzyUI_CodeBehindOutDir>$([MSBuild]::NormalizeDirectory('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)', 'rizzyui-codebehind'))</_RizzyUI_CodeBehindOutDir>
+            <_RizzyUI_EsbuildFlags>--bundle --format=esm --platform=browser --target=$(RizzyUICodeBehindTarget) --log-level=warning --charset=utf8</_RizzyUI_EsbuildFlags>
+            <_RizzyUI_EsbuildFlags Condition="'$(RizzyUICodeBehindMinify)' == 'true'">$(_RizzyUI_EsbuildFlags) --minify-whitespace --minify-syntax</_RizzyUI_EsbuildFlags>
+            <_RizzyUI_EsbuildFlags Condition="'$(RizzyUICodeBehindSourceMap)' != '' and '$(RizzyUICodeBehindSourceMap)' != 'false'">$(_RizzyUI_EsbuildFlags) --sourcemap=$(RizzyUICodeBehindSourceMap)</_RizzyUI_EsbuildFlags>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <_RizzyUI_CodeBehindTs Include="**\*.razor.ts" Exclude="bin\**;obj\**;node_modules\**;wwwroot\**" />
+            <_RizzyUI_CodeBehindJs Include="@(Content);@(None)" Condition="$([System.String]::Copy('%(Filename)%(Extension)').EndsWith('.razor.js'))" />
+            <_RizzyUI_CodeBehindEntry Include="@(_RizzyUI_CodeBehindTs);@(_RizzyUI_CodeBehindJs)">
+                <RelativeSource>$([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)\', '%(FullPath)'))</RelativeSource>
+            </_RizzyUI_CodeBehindEntry>
+            <_RizzyUI_CodeBehindEntry>
+                <RelativeOutput>$([System.Text.RegularExpressions.Regex]::Replace('%(RelativeSource)', '\.razor\.ts$', '.razor.js'))</RelativeOutput>
+            </_RizzyUI_CodeBehindEntry>
+        </ItemGroup>
+
+        <Error Code="RZUI1002"
+               Condition="'@(_RizzyUI_CodeBehindTs)' != '' and Exists('%(_RizzyUI_CodeBehindTs.RootDir)%(_RizzyUI_CodeBehindTs.Directory)%(_RizzyUI_CodeBehindTs.Filename).js')"
+               File="%(_RizzyUI_CodeBehindTs.FullPath)"
+               Text="Both %(_RizzyUI_CodeBehindTs.Filename).ts and %(_RizzyUI_CodeBehindTs.Filename).js exist. A component has one code-behind module: delete one of them." />
+
+        <Error Code="RZUI1003"
+               Condition="'@(_RizzyUI_CodeBehindEntry)' != '' and '$(RizzyUIEsbuildCommand)' == 'npx --no-install esbuild' and !Exists('$(MSBuildProjectDirectory)\node_modules\esbuild\package.json')"
+               Text="RizzyUICodeBehindBuild is 'esbuild' but esbuild is not installed in this project. Run 'npm install --save-dev esbuild', or set RizzyUIEsbuildCommand to an esbuild executable." />
+
+        <Exec Condition="'@(_RizzyUI_CodeBehindEntry)' != ''"
+              Command="$(RizzyUIEsbuildCommand) @(_RizzyUI_CodeBehindEntry->'&quot;%(RelativeSource)&quot;', ' ') $(_RizzyUI_EsbuildFlags) --outbase=. --outdir=&quot;$(BaseIntermediateOutputPath)rizzyui-codebehind&quot;"
+              WorkingDirectory="$(MSBuildProjectDirectory)"
+              StandardOutputImportance="low" />
+
+        <ItemGroup Condition="'@(_RizzyUI_CodeBehindEntry)' != ''">
+            <!-- The built module replaces the source as the static web asset at the same path. -->
+            <None Remove="@(_RizzyUI_CodeBehindJs)" />
+            <Content Remove="@(_RizzyUI_CodeBehindJs)" />
+            <_RizzyUI_CodeBehindOutput Include="@(_RizzyUI_CodeBehindEntry->'$(_RizzyUI_CodeBehindOutDir)%(RelativeOutput)')" />
+            <Content Include="@(_RizzyUI_CodeBehindOutput)" Link="%(_RizzyUI_CodeBehindOutput.RelativeOutput)" />
+            <FileWrites Include="@(_RizzyUI_CodeBehindOutput)" />
+        </ItemGroup>
+    </Target>
+
     <!-- Emit attribute with (prefix, basePath) -->
     <Target Name="_RizzyUI_EmbedAssemblyStaticAssetInfo"
             BeforeTargets="CoreGenerateAssemblyInfo"

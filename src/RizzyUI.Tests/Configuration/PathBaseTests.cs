@@ -70,7 +70,7 @@ public class PathBaseTests : BunitAlbaContext, IClassFixture<WebAppFixture>
             b.CloseComponent();
         });
 
-        Assert.Contains("\"/app/_content/RizzyUI.Tests/Components/Interactivity/FakeAlpineHost.razor.js\"", cut.Markup);
+        Assert.Equal("/app/_content/RizzyUI.Tests/Components/Interactivity/FakeAlpineHost.razor.js", cut.Find("[x-load-src]").GetAttribute("x-load-src"));
     }
 
     private IRenderedComponent<CascadingValue<HttpContext>> RenderWithPathBase(string pathBase, RenderFragment content)

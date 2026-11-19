@@ -53,6 +53,41 @@ public class AsChildMergeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         AssertMerged(cut.Find("a"));
     }
 
+    [Fact]
+    public void ElementAndMarkupChild_KeepTheirOwnValuesForConflictingAttributes()
+    {
+        // The markup path joined conflicting values with a space: id="from-component mine",
+        // x-data="componentData childData".
+        var attributes = new Dictionary<string, object?>
+        {
+            ["id"] = "from-component",
+            ["x-data"] = "componentData",
+            ["aria-label"] = "From component",
+            ["x-load"] = "eager",
+        };
+        RenderFragment elementChild = b =>
+        {
+            b.OpenElement(0, "div");
+            b.AddAttribute(1, "id", "mine");
+            b.AddAttribute(2, "x-data", "childData");
+            b.AddAttribute(3, "aria-label", "From child");
+            b.CloseElement();
+        };
+        RenderFragment markupChild = b => b.AddMarkupContent(0, "<div id=\"mine\" x-data='childData' aria-label=\"From child\"></div>");
+
+        foreach (var child in new[] { elementChild, markupChild })
+        {
+            var div = Render<TestAsChild>(p => p
+                .Add(x => x.Child, child)
+                .Add(x => x.Attributes, attributes)).Find("div");
+
+            Assert.Equal("mine", div.GetAttribute("id"));
+            Assert.Equal("childData", div.GetAttribute("x-data"));
+            Assert.Equal("From child", div.GetAttribute("aria-label"));
+            Assert.Equal("eager", div.GetAttribute("x-load"));
+        }
+    }
+
     private static void AssertMerged(AngleSharp.Dom.IElement anchor)
     {
         Assert.Equal("from-component", anchor.GetAttribute("id"));

@@ -31,6 +31,22 @@ An ASP.NET Core server-rendered app with:
 The template pins the RizzyUI NuGet package and the `@jalexsocial/rizzyui` npm package to the
 version of the template package.
 
+## `dotnet new rizzyui-codebehind`
+
+A Razor component with an Alpine.js code-behind module, in the current folder (or `-o`):
+
+```bash
+dotnet new rizzyui-codebehind -n Counter
+```
+
+creates `Counter.razor` (markup, `[RzAlpineCodeBehind]`, `RzAlpineComponent`) and
+`Counter.razor.js` (the module, type-checked with the `jsconfig.json` the starter includes).
+
+| Option | Values | Default |
+|---|---|---|
+| `-n`, `--name` | The component name | `MyComponent` |
+| `--typescript`, `-ts` | (flag) Create `Counter.razor.ts` instead; needs `<RizzyUICodeBehindBuild>esbuild</RizzyUICodeBehindBuild>` and esbuild installed (`npm install -D esbuild`) | off |
+
 ## Working on the template
 
 The starter app is in `content/RizzyUI.Starter`. Its package versions are the token

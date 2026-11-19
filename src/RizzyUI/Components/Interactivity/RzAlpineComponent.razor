@@ -1,7 +1,11 @@
-
 @namespace RizzyUI
 @inherits RzAsChildComponent
-@using System.Text.Json
+
+@if (RenderPreload)
+{
+    @* Lets the browser fetch the module while it parses the page instead of after Alpine starts. *@
+    <link rel="modulepreload" href="@ModuleUrl" nonce="@Nonce" />
+}
 
 @if (AsChild)
 {
@@ -12,25 +16,4 @@ else
     <HtmlElement Element="@EffectiveElement" data-slot="alpine-component" @attributes="GetComponentAttributes()">
         @ChildContent
     </HtmlElement>
-}
-
-@if (Props is not null)
-{
-    <script type="application/json" id="@_propsScriptId" nonce="@Nonce">
-        @((MarkupString)_serializedProps)
-    </script>
-}
-
-@if (!string.IsNullOrEmpty(_modulePath))
-{
-    @* The arguments are JSON string literals (RZUI-054): HTML-encoding them inside a script turned
-       quotes and non-ASCII characters into entities. *@
-    <script nonce="@Nonce">
-        (function (name, path) {
-            if (window.Rizzy)
-                window.Rizzy.registerAsyncComponent(name, path);
-            else
-                document.addEventListener("rz:init", e => e.detail.Rizzy.registerAsyncComponent(name, path), { once: true });
-        })(@((MarkupString)_registrationArguments));
-    </script>
 }

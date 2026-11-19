@@ -41,6 +41,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStatusCodePagesWithReExecute("/not-found");
 app.UseHttpsRedirection();
+// Files under wwwroot (including the CSS Tailwind builds on every build).
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
@@ -49,8 +50,13 @@ app.UseAuthorization();
 app.UseAntiforgery();
 app.UseRizzy();
 
+// Fingerprinted URLs for static assets (Counter.ezjsubrzj2.razor.js), cached by browsers for a
+// year. WithStaticAssets lets pages resolve them: RizzyUI uses them for code-behind modules, so a
+// deployment never serves an old module from the browser cache.
+app.MapStaticAssets();
+
 // Pages and their forms: controllers in Features/*.
-app.MapControllers();
+app.MapControllers().WithStaticAssets();
 
 // Fragments: minimal API endpoints that return htmx partials.
 app.MapActivityEndpoints();

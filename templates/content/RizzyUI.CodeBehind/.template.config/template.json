@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Michael Tanczos",
+  "classifications": [ "Web", "ASP.NET Core", "RizzyUI", "Alpine.js" ],
+  "identity": "RizzyUI.CodeBehind.CSharp",
+  "groupIdentity": "RizzyUI.CodeBehind",
+  "name": "RizzyUI Alpine code-behind component",
+  "description": "A Razor component with an Alpine.js code-behind module (Component.razor + Component.razor.js) for RizzyUI.",
+  "shortName": "rizzyui-codebehind",
+  "defaultName": "MyComponent",
+  "sourceName": "RizzyCodeBehindComponent",
+  "preferNameDirectory": false,
+  "tags": {
+    "language": "C#",
+    "type": "item"
+  },
+  "symbols": {
+    "TypeScript": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Write the module in TypeScript (Component.razor.ts). Needs <RizzyUICodeBehindBuild>esbuild</RizzyUICodeBehindBuild> in the project.",
+      "defaultValue": "false"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        { "condition": "(TypeScript)", "exclude": [ "RizzyCodeBehindComponent.razor.js" ] },
+        { "condition": "(!TypeScript)", "exclude": [ "RizzyCodeBehindComponent.razor.ts" ] }
+      ]
+    }
+  ],
+  "postActions": []
+}

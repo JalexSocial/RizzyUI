@@ -219,26 +219,29 @@ public static class StaticResourcesInfoProviderExtensions
         !route.Equals("/_tests", StringComparison.OrdinalIgnoreCase) &&
         !route.StartsWith("/_tests/", StringComparison.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Every route of every Alpine code-behind module (<c>*.razor.js</c>): the plain route and the
+    /// fingerprinted one (<c>Counter.ezjsubrzj2.razor.js</c>) that <see cref="RzAlpineComponent"/>
+    /// renders when the app uses MapStaticAssets. Read from the static web assets endpoints manifest
+    /// in the build output, so modules of referenced libraries (<c>_content/...</c>) are included.
+    /// </summary>
     private static IEnumerable<BinResource> GetAllCodeBehinds()
     {
-        var resources = new List<BinResource>();
-        var types = GetAllComponentTypes();
-
-        foreach (var type in types)
+        var manifest = Path.Combine(AppContext.BaseDirectory, $"{typeof(StaticResourcesInfoProviderExtensions).Assembly.GetName().Name}.staticwebassets.endpoints.json");
+        if (!File.Exists(manifest))
         {
-            if (type.GetCustomAttribute<RzAlpineCodeBehindAttribute>() is not null)
-            {
-                Debug.WriteLine($"Found code-behind component: {type.FullName}");
-
-                string? path = RzAlpineComponent.GetComponentModulePath(type);
-
-                if (path != null)
-                {
-                    resources.Add(new BinResource(path));
-                }
-            }
+            Debug.WriteLine($"No static web assets endpoints manifest at {manifest}; code-behind modules are not exported.");
+            return [];
         }
 
-        return resources;
+        using var stream = File.OpenRead(manifest);
+        using var document = System.Text.Json.JsonDocument.Parse(stream);
+
+        return document.RootElement.GetProperty("Endpoints").EnumerateArray()
+            .Select(endpoint => endpoint.GetProperty("Route").GetString())
+            .Where(route => route is not null && route.EndsWith(".razor.js", StringComparison.OrdinalIgnoreCase))
+            .Distinct(StringComparer.Ordinal)
+            .Select(route => new BinResource("/" + route!))
+            .ToList();
     }
 }

@@ -21,6 +21,7 @@
     "@playwright/test": "^1.54.2",
     "@sparticuz/chromium": "^148.0.0",
     "@tailwindcss/forms": "^0.5.4",
+    "esbuild": "^0.28.2",
     "tailwindcss": "^4.2.1",
     "tom-select": "2.4.3"
   },

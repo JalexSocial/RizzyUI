@@ -1,0 +1,13 @@
+@attribute [RzAlpineCodeBehind]
+@* Alpine code-behind from the packed package: SmokeCounter.razor.js is published as a static web
+   asset and loaded with x-load-src under the app's strict CSP. *@
+<RzAlpineComponent For="this" AsChild Props="@(new { Start })">
+    <div id="smoke-counter-@Start" data-testid="smoke-counter">
+        <span data-testid="count" x-text="count"></span>
+        <button type="button" data-testid="increment" x-on:click="increment">Add one</button>
+    </div>
+</RzAlpineComponent>
+
+@code {
+    [Parameter] public int Start { get; set; }
+}
