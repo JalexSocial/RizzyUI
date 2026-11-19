@@ -61,4 +61,31 @@ public class RzQuickReferenceTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         // Assert heading is in list
         Assert.Contains("Intro", cut.Markup);
     }
+
+    [Fact]
+    public void RzQuickReference_ListsHeadingTextWithoutMarkup()
+    {
+        // A heading without QuickReferenceTitle is listed by its text: tags are removed and
+        // entities decoded once, while the heading itself keeps its markup.
+        var cut = Render<RzQuickReferenceContainer>(parameters => parameters
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<RzHeading>(0);
+                builder.AddAttribute(1, "Level", HeadingLevel.H2);
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(b =>
+                    b.AddMarkupContent(0, "Sorting API (<code>sort.*</code>) &amp; rows")));
+                builder.CloseComponent();
+
+                builder.OpenComponent<RzQuickReference>(10);
+                builder.CloseComponent();
+            })
+        );
+
+        var link = cut.Find("[data-slot='quick-reference-link']");
+        Assert.Equal("Sorting API (sort.*) & rows", link.TextContent.Trim());
+        Assert.Empty(link.Children);
+
+        var heading = cut.Find("[data-slot='heading']");
+        Assert.NotNull(heading.QuerySelector("code"));
+    }
 }

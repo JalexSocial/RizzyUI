@@ -121,10 +121,14 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
 
         if (!_registered && QuickReferenceContainer != null)
         {
-            if (string.IsNullOrEmpty(QuickReferenceTitle))
-                QuickReferenceTitle = ChildContent is null ? "[Missing QuickReferenceTitle]" : ChildContent.GetSourceText();
+            // Without a QuickReferenceTitle, the outline shows the heading's text: its markup with
+            // the tags removed, so "Sorting API (<code>sort.*</code>)" is listed as "Sorting API (sort.*)".
+            // The heading itself still renders ChildContent, so QuickReferenceTitle is not overwritten.
+            var title = !string.IsNullOrEmpty(QuickReferenceTitle)
+                ? QuickReferenceTitle
+                : ChildContent is null ? "[Missing QuickReferenceTitle]" : ChildContent.GetPlainText();
 
-            QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle, Id);
+            QuickReferenceContainer.RegisterHeading(Level, title, Id);
 
             _registered = true;
         }

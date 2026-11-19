@@ -50,6 +50,24 @@ internal static partial class RenderFragmentSource
         return LeadingBlankLine().Replace(source.ToString(), string.Empty, 1).TrimEnd();
     }
 
+    /// <summary>
+    /// The text a reader sees in the content: <see cref="GetSourceText"/> without its tags, decoded
+    /// once, with runs of whitespace collapsed to one space. For example
+    /// <c>Sorting API (&lt;code&gt;sort.*&lt;/code&gt;)</c> becomes <c>Sorting API (sort.*)</c>.
+    /// </summary>
+    public static string GetPlainText(this RenderFragment? fragment)
+    {
+        var withoutTags = Tag().Replace(fragment.GetSourceText(), string.Empty);
+        return Whitespace().Replace(WebUtility.HtmlDecode(withoutTags), " ").Trim();
+    }
+
     [GeneratedRegex(@"\A[ \t]*\r?\n")]
     private static partial Regex LeadingBlankLine();
+
+    // A tag or comment. A literal "<" in text is encoded as "&lt;", so it never starts a match.
+    [GeneratedRegex(@"<!--.*?-->|<[^>]*>", RegexOptions.Singleline)]
+    private static partial Regex Tag();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex Whitespace();
 }
