@@ -4,7 +4,7 @@
 import type { AlpineCodeBehind } from 'rizzyui';
 
 interface Props {
-  title: string;
+  Title: string;
 }
 
 const component: AlpineCodeBehind<Props> = () => ({

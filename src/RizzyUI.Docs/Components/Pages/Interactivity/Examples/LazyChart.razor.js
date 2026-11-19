@@ -17,15 +17,15 @@ export default () => ({
               const props = Rizzy.props(this.$el);
               const canvas = this.$el.querySelector('canvas');
 
-              if (canvas && props.chartData) {
+              if (canvas && props.ChartData) {
 
                   this.chartInstance = new Chart(canvas, {
                       type: 'bar',
                       data: {
-                          labels: props.chartData.labels,
+                          labels: props.ChartData.labels,
                           datasets: [{
                               label: '# of Votes',
-                              data: props.chartData.data,
+                              data: props.ChartData.data,
                               borderWidth: 1
                           }]
                       }

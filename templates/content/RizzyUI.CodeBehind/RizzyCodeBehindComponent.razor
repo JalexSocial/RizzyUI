@@ -1,13 +1,13 @@
 @attribute [RzAlpineCodeBehind]
 @*
     Markup for RizzyCodeBehindComponent. Its behavior is in the module next to this file
-    (RizzyCodeBehindComponent.razor.js, or .razor.ts). Props are passed to the module as JSON with
-    camelCase names: Title becomes this.$props.title.
+    (RizzyCodeBehindComponent.razor.js, or .razor.ts). Props reach the module with the names written
+    here: Title is this.$props.Title.
 *@
 
 <RzAlpineComponent For="this" AsChild Props="@(new { Title })">
     <div class="flex items-center gap-3">
-        <span class="font-medium" x-text="$props.title"></span>
+        <span class="font-medium" x-text="$props.Title"></span>
         <RzButton Size="Size.Small" Variant="ThemeVariant.Secondary" x-on:click="decrement" aria-label="Decrease">-</RzButton>
         <span class="min-w-8 text-center tabular-nums" x-text="count"></span>
         <RzButton Size="Size.Small" Variant="ThemeVariant.Secondary" x-on:click="increment" aria-label="Increase">+</RzButton>

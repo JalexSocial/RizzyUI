@@ -14,6 +14,11 @@ export default () => ({
     void props;
   },
 
+  ready() {
+    const dialog = Rizzy.$data(this.$refs.dialog);
+    void dialog;
+  },
+
   increment() {
     this.count++;
   },

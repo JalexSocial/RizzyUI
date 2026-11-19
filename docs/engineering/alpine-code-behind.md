@@ -15,6 +15,7 @@ Code-Behind" on the docs site.
 | async-alpine | npm dependency | Reads `x-load` / `x-load-src`, downloads on the strategy, registers `Alpine.data`, starts the element. |
 | `codeBehindLoader.js` | `packages/rizzyui/src/js/runtime` | Replaces `Alpine.asyncUrl`: one loader per name, fallback URL, one error report, `rz:module-error`. |
 | `alpineProps.js` | `packages/rizzyui/src/js/lib` | `Rizzy.props(el)` and the `$props` magic. |
+| `codeBehindLifecycle.js` | `packages/rizzyui/src/js/lib` | Wraps module factories: `ready()` runs after `init()` and after eager child components (async-alpine `_x_async === 'loaded'`) have started, with a 3 s cap. |
 | `RizzyUI.targets` | `src/RizzyUI/build` | The `RZUI1001` check, the type declarations copy, the optional esbuild pipeline. |
 
 ## Rendered contract
@@ -40,7 +41,8 @@ Code-Behind" on the docs site.
   components endpoint (or controllers/pages with `WithStaticAssets()`); otherwise the collection on
   any endpoint in `EndpointDataSource`, so fragments rendered by minimal APIs get the same URL as the
   page. Without `MapStaticAssets()` the plain path is used.
-- **Props are camelCase JSON** (`JsonSerializerDefaults.Web`) in an attribute. `$props` resolves the
+- **Props keep their C# names** (`RizzyUIConfig.CodeBehindPropsSerializerOptions`, default without a
+  naming policy) in an attribute. `$props` resolves the
   nearest element with `x-load-src`, `data-rz-props` or `data-props-id`, so a nested code-behind
   component without props does not see its parent's.
 

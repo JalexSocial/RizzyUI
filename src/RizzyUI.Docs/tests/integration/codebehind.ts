@@ -132,8 +132,8 @@ export function defineCodeBehindSpecs(runtime: string) {
         host.id = 'stale';
         host.innerHTML = `<div x-data="rzcb_HarnessCounter_stale" x-load="eager"
             x-load-src="${plain.replace('.razor.js', '.removed0000.razor.js')}"
-            data-rz-module-fallback="${plain}" data-rz-props='{"label":"Stale","initialCount":7,"step":1}'>
-          <span data-testid="label" x-text="$props.label"></span>
+            data-rz-module-fallback="${plain}" data-rz-props='{"Label":"Stale","InitialCount":7,"Step":1}'>
+          <span data-testid="label" x-text="$props.Label"></span>
           <span data-testid="count" x-text="count"></span>
           <button type="button" data-testid="increment" x-on:click="increment">+</button>
           <button type="button" data-testid="decrement" x-on:click="decrement">-</button>
@@ -160,6 +160,41 @@ export function defineCodeBehindSpecs(runtime: string) {
       expect(detail.name).toBe('rzcb_Missing_00000000');
       expect(detail.url).toBe('/_tests/missing/Missing.razor.js');
       expect(consoleErrors.filter(e => e.includes('Could not load the code-behind module'))).toHaveLength(1);
+    });
+
+    test('ready() runs after a child RzDialog has started (ModalController example)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.goto('/docs/interactivity/state-reactivity');
+      const trigger = page.getByRole('button', { name: 'Open Modal' });
+      await trigger.scrollIntoViewIfNeeded();
+      // The module reads the dialog's data in ready(), without waiting a tick itself.
+      await expect.poll(() => trigger.evaluate(el => {
+        const root = el.closest('[x-load-src]') as any;
+        return Boolean(root?._x_dataStack?.[0]?.modalInstance);
+      })).toBe(true);
+      await trigger.click();
+      await expect(page.getByRole('dialog', { name: 'My Modal' })).toBeVisible();
+      // The page's RzEmbeddedPreview examples put x-data on an <iframe>, which the CSP build of
+      // Alpine refuses; that is a separate RzEmbeddedPreview issue, not code-behind.
+      expect(errors.filter(e => !e.includes('Evaluating expressions on an iframe'))).toEqual([]);
+    });
+
+    test('ready() waits for a teleported RzDialog (Additional Examples: Show Confirmation)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.goto('/components/co-located-js');
+      // The example runs in a preview iframe; its RzDialog root is teleported out of the component
+      // and x-ref points to an <rz-proxy>.
+      let frame = page.mainFrame();
+      for (const candidate of page.frames()) {
+        if (await candidate.getByRole('button', { name: 'Show Confirmation' }).count()) frame = candidate;
+      }
+      const button = frame.getByRole('button', { name: 'Show Confirmation' });
+      await expect(button).toBeVisible();
+      await button.click();
+      // Before the fix, ready() ran before the teleported dialog had loaded, Rizzy.$data returned
+      // an empty object, and the click failed with "openModal is not a function".
+      await expect(frame.getByRole('dialog')).toBeVisible();
+      expect(errors.filter(e => !e.includes('Evaluating expressions on an iframe'))).toEqual([]);
     });
 
     test('the docs example (inside a preview iframe) works', async ({ page }) => {

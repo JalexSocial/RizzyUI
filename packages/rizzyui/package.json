@@ -33,7 +33,8 @@
     "dist",
     "types",
     "testing",
-    "src/js/lib/alpineProps.js"
+    "src/js/lib/alpineProps.js",
+    "src/js/lib/codeBehindLifecycle.js"
   ],
   "scripts": {
     "test": "node --test \"src/js/**/*.test.mjs\" \"tests/**/*.test.mjs\"",

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Text.Json;
 
@@ -20,14 +21,15 @@ namespace RizzyUI;
 /// </para>
 /// <para>
 /// The data name is generated from the component type and the module URL unless <see cref="Name"/>
-/// is set. <see cref="Props"/> is serialized (camelCase) into <c>data-rz-props</c> and read in the
-/// module with <c>this.$props</c>.
+/// is set. <see cref="Props"/> is serialized into <c>data-rz-props</c> with the names written in C#
+/// (see <see cref="RizzyUIConfig.CodeBehindPropsSerializerOptions"/>) and read in the module with
+/// <c>this.$props</c>.
 /// </para>
 /// </remarks>
 public partial class RzAlpineComponent : RzAsChildComponent
 {
     private const string PreloadedModulesKey = "RizzyUI.RzAlpineComponent.PreloadedModules";
-    private static readonly JsonSerializerOptions PropsSerializerOptions = new(JsonSerializerDefaults.Web);
+    private static readonly JsonSerializerOptions DefaultPropsSerializerOptions = new();
 
     private string _dataName = string.Empty;
     private string _moduleUrl = string.Empty;
@@ -53,9 +55,10 @@ public partial class RzAlpineComponent : RzAsChildComponent
     [Parameter] public string? Name { get; set; }
 
     /// <summary>
-    /// Optional data passed to the module, serialized to JSON with web defaults (property names in
-    /// camelCase: <c>InitialCount</c> becomes <c>initialCount</c>). Read it in the module with
-    /// <c>this.$props</c>.
+    /// Optional data passed to the module as JSON. Property names stay as written in C#:
+    /// <c>new { InitialCount = 10 }</c> is read as <c>this.$props.InitialCount</c>. The serializer is
+    /// <see cref="RizzyUIConfig.CodeBehindPropsSerializerOptions"/>, which can switch the app to
+    /// camelCase or add converters.
     /// </summary>
     [Parameter] public object? Props { get; set; }
 
@@ -104,9 +107,12 @@ public partial class RzAlpineComponent : RzAsChildComponent
 
         // async-alpine only loads elements that have x-load; an empty strategy would never load.
         _loadStrategy = string.IsNullOrWhiteSpace(LoadStrategy) ? "eager" : LoadStrategy;
-        _serializedProps = Props is null ? null : JsonSerializer.Serialize(Props, PropsSerializerOptions);
+        _serializedProps = Props is null ? null : JsonSerializer.Serialize(Props, Props.GetType(), GetPropsSerializerOptions());
         _renderPreload = Preload && _loadStrategy == "eager" && MarkPreloaded(_moduleUrl);
     }
+
+    private JsonSerializerOptions GetPropsSerializerOptions() =>
+        Services.GetService<IOptions<RizzyUIConfig>>()?.Value.CodeBehindPropsSerializerOptions ?? DefaultPropsSerializerOptions;
 
     private ResourceAssetCollection? GetPageAssets()
     {

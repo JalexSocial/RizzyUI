@@ -52,6 +52,13 @@ test('x-load-src registrations go through the RizzyUI loader', async () => {
     assert.deepEqual(module.default(), { loaded: true });
 });
 
+test('module factories are wrapped for the ready() hook', async () => {
+    const module = await importCodeBehindModule('rzcb_Named_5', 'data:text/javascript,export const rzcb_Named_5 = () => ({ named: true }); export default () => ({ named: false });');
+    assert.equal(module.default.__rzLifecycle, true);
+    // async-alpine prefers an export named like the component; the wrapper keeps that choice.
+    assert.deepEqual(module.default(), { named: true });
+});
+
 test('a second URL for the same name is ignored with a warning', () => {
     resetCodeBehindLoaderForTests();
     const Alpine = createAlpine();

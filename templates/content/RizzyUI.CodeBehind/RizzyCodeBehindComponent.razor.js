@@ -2,7 +2,7 @@
 // Alpine code-behind for RizzyCodeBehindComponent.razor. The default export returns a new data
 // object for each instance: properties are reactive state, methods are called from the markup.
 
-/** @type {import('rizzyui').AlpineCodeBehind<{ title: string }>} */
+/** @type {import('rizzyui').AlpineCodeBehind<{ Title: string }>} */
 export default () => ({
   count: 0,
 

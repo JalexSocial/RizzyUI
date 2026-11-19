@@ -106,28 +106,14 @@ export default () =&gt; ({
   itemToDelete: {},
   modal: null,
 
-  init() {
-    // It's safer to get the reference inside a $nextTick to ensure the modal has been initialized by Alpine
-    this.$nextTick(() =&gt; {
-      this.modal = Rizzy.$data(this.$refs.confirmModal);
-    });
+  // ready() runs once the confirmation dialog inside this component has started.
+  ready() {
+    this.modal = Rizzy.$data(this.$refs.confirmModal);
   },
 
   confirmDelete(item) {
     this.itemToDelete = item;
-
-    // Defensive check: re-acquire the reference in case of HTMX swaps
-    const modal = Rizzy.$data(this.$refs.confirmModal);
-    if (modal?.openModal) {
-      modal.openModal();
-    } else {
-      // Fallback or error handling if the modal isn't ready yet
-      console.warn("Modal instance not available yet. Retrying in a moment.");
-      this.$nextTick(() =&gt; {
-        const modalRetry = Rizzy.$data(this.$refs.confirmModal);
-        modalRetry?.openModal();
-      });
-    }
+    this.modal.openModal();
   }
 });
                 </RzCodeViewer>
@@ -192,16 +178,14 @@ export default () =&gt; ({
                     <strong>Problem:</strong> <code>Rizzy.$data()</code> returns <code>null</code> or <code>undefined</code> inside your <code>init()</code> method.
                 </RzParagraph>
                 <RzParagraph>
-                    <strong>Cause:</strong> You're likely trying to access the component before it has been initialized by Alpine. This is common if the target is rendered conditionally or further down the DOM.
+                    <strong>Cause:</strong> Alpine starts a component before the components inside it, and RizzyUI components load their code on demand, so during <code>init()</code> a child component has not started yet.
                 </RzParagraph>
                 <RzParagraph>
-                    <strong>Fix:</strong> Wrap your orchestration setup in <code>this.$nextTick(() => { ... })</code>. This ensures your code runs after Alpine has completed its initial DOM updates.
+                    <strong>Fix:</strong> In a code-behind module, move that setup to <code>ready()</code>. It runs after <code>init()</code> and after the components inside yours have started.
                 </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-4">
-init() {
-  this.$nextTick(() =&gt; {
-    this.sidebar = Rizzy.$data(this.$refs.sidebar);
-  });
+ready() {
+  this.sidebar = Rizzy.$data(this.$refs.sidebar);
 }
                 </RzCodeViewer>
 

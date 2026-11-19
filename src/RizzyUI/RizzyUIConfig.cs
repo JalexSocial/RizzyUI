@@ -22,6 +22,17 @@ public sealed class RizzyUIConfig
     public Dictionary<string, string> AssetIntegrity { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>
+    /// Gets or sets how <see cref="RzAlpineComponent"/> serializes its <c>Props</c> for code-behind
+    /// modules. The default has no naming policy: properties keep the names written in C#, so
+    /// <c>new { InitialCount = 10 }</c> is read as <c>this.$props.InitialCount</c>. Use
+    /// <c>new JsonSerializerOptions(JsonSerializerDefaults.Web)</c> for camelCase names (the
+    /// convention of Blazor's JavaScript interop), or add converters, for example
+    /// <c>JsonStringEnumConverter</c> to send enums as names. <c>[JsonPropertyName]</c> renames a
+    /// single property either way.
+    /// </summary>
+    public System.Text.Json.JsonSerializerOptions CodeBehindPropsSerializerOptions { get; set; } = new();
+
+    /// <summary>
     /// Resolves logical asset keys to the entries a component sends to the client loader: the URL,
     /// or an object with <c>src</c> and <c>integrity</c> when <see cref="AssetIntegrity"/> has a hash
     /// for it. Unknown keys and empty URLs are skipped.

@@ -101,14 +101,14 @@ console.log(Alpine.raw(this.myComplexObject));
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">3. Timing Issue: `$refs` is `undefined` in `init()`</RzHeading>
                 <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
-                    <li><strong>Cause:</strong> The <code>init()</code> method runs before Alpine has necessarily rendered conditional elements (like those inside an <code>x-if</code> or <code>x-show</code>).</li>
-                    <li><strong>Fix:</strong> Wrap your logic in <code>this.$nextTick(() => { ... })</code>. This tells Alpine to wait until the next DOM update cycle before running your code.</li>
+                    <li><strong>Cause:</strong> The <code>init()</code> method runs before the components inside yours have started, and before Alpine has rendered conditional elements (like those inside an <code>x-if</code>).</li>
+                    <li><strong>Fix:</strong> To read a child component (<code>Rizzy.$data(this.$refs.dialog)</code>), use <code>ready()</code> in the code-behind module instead of <code>init()</code>. For an element inside <code>x-if</code>, use <code>this.$nextTick(() => { ... })</code>.</li>
                 </ul>
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">4. Case Sensitivity with `Props`</RzHeading>
                 <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
-                    <li><strong>Cause:</strong> C# uses <code>PascalCase</code> by default, but JSON serialization and JavaScript convention use <code>camelCase</code>.</li>
-                    <li><strong>Fix:</strong> Always access your props in JavaScript using <code>camelCase</code>. <code>MyMessage</code> in C# becomes <code>myMessage</code> in your <code>.razor.js</code> file.</li>
+                    <li><strong>Cause:</strong> Props keep the names written in C#: <code>MyMessage</code> is <code>this.$props.MyMessage</code>, not <code>myMessage</code>. (An app can switch to camelCase with <code>CodeBehindPropsSerializerOptions</code>.)</li>
+                    <li><strong>Fix:</strong> Use the same name in JavaScript as in the <code>Props</code> object, or rename a property with <code>[JsonPropertyName]</code>.</li>
                 </ul>
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">5. HTMX and Stale References</RzHeading>

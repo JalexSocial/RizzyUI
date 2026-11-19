@@ -1,13 +1,13 @@
 // @ts-check
-/** @type {import('rizzyui').AlpineCodeBehind<{ initialCount: number, step: number }>} */
+/** @type {import('rizzyui').AlpineCodeBehind<{ InitialCount: number, Step: number }>} */
 export default () => ({
   count: 0,
   step: 1,
 
   // init() runs when the component starts; this.$props holds the Props from CounterWithProps.razor.
   init() {
-    this.count = this.$props.initialCount;
-    this.step = this.$props.step;
+    this.count = this.$props.InitialCount;
+    this.step = this.$props.Step;
   },
 
   increment() {
