@@ -1,0 +1,18 @@
+@namespace RizzyUI
+@inherits RzComponent<ProgressLabel.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             data-slot="progress-label"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             aria-hidden="true">
+    @if (ChildContent is null)
+    {
+        <span x-text="percentLabel">@($"{Math.Round(ParentProgress?.Percentage ?? 0, MidpointRounding.AwayFromZero)}%")</span>
+    }
+    else
+    {
+        @ChildContent
+    }
+</HtmlElement>

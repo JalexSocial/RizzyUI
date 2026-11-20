@@ -167,6 +167,10 @@ Not released yet. Alpine code-behind (`RzAlpineComponent`) changed; most compone
 | A `For` component without `[RzAlpineCodeBehind]` rendered a component that never loaded | It throws, naming the attribute and the expected `.razor.js` file | Add `@attribute [RzAlpineCodeBehind]` to the component |
 | `AsChild` with plain markup joined conflicting attribute values (`id="rzX1 mine"`) | The child's own value wins, as with element children | Check `AsChild` children with an `id` or other attributes the component also sets |
 | Module URLs were plain paths with `Cache-Control: no-cache` | Fingerprinted when the app calls `MapStaticAssets()` | Add `app.MapStaticAssets()` (and `.WithStaticAssets()` on controllers or Razor Pages) to get long-lived caching |
+| `<RzProgress CurrentValue="40" MinValue="0" MaxValue="100" />` | `<RzProgress Value="40" Min="0" Max="100" />`; `Value` is `double?` and `null` is indeterminate | Rename the parameters |
+| `Label="{percent}% done"`, `LabelPosition` | A visible label in markup referenced with `aria-labelledby`; `ProgressLabel` for text on the bar; `ValueText` for `aria-valuetext` | Replace `Label`/`LabelPosition`; `{percent}` has no replacement in C# (`ProgressLabel` without content shows the percentage) |
+| `AriaLabel` defaulted to "Progress Bar" | No default | Give each bar a name: `aria-labelledby` or `AriaLabel` |
+| Theme slots `OuterBar`, `InnerBar`, `InsideLabel*`, `OutsideLabel*` on `RzProgress` | `RzProgress` (track), `ProgressIndicator`, `ProgressLabel` descriptors | Move theme overrides to the new descriptors, or style instances with `class` |
 
 ## Worked example
 

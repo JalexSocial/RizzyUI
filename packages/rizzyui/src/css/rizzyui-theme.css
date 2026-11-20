@@ -210,6 +210,18 @@
     --highlight-4: var(--highlight-4);
     --highlight-5: var(--highlight-5);    
         
+    /* RzProgress without a value: a third-width bar sweeping across the track. */
+    --animate-progress-indeterminate: progress-indeterminate 1.5s ease-in-out infinite;
+
+    @keyframes progress-indeterminate {
+        from {
+            translate: -100% 0;
+        }
+        to {
+            translate: 300% 0;
+        }
+    }
+
     --animate-shine: shine var(--duration) infinite linear;
 
     @keyframes shine {

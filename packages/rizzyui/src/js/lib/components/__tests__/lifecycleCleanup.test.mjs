@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import rzProgress from '../rzProgress.js';
 import rzEmbeddedPreview from '../rzEmbeddedPreview.js';
 import rzNumberTicker from '../rzNumberTicker.js';
 
@@ -21,26 +20,8 @@ function installResizeObserver() {
   return observers;
 }
 
-test('rzProgress disconnects its ResizeObserver in destroy()', () => {
-  const observers = installResizeObserver();
-  const attributes = new Map([['data-current-val', '40'], ['data-min-val', '0'], ['data-max-val', '100']]);
-  const element = {
-    getAttribute: name => attributes.get(name) ?? null,
-    setAttribute: (name, value) => attributes.set(name, String(value)),
-    querySelector: () => null,
-  };
-
-  const component = rzProgress();
-  component.$el = element;
-  component.$refs = {};
-  component.$watch = () => {};
-  component.updateProgressBar = () => {};
-  component.init();
-
-  assert.equal(observers.length, 1);
-  component.destroy();
-  assert.equal(observers[0].disconnected, true);
-});
+// rzProgress no longer observes layout: it holds state and the markup binds to it (see
+// rzProgress.test.mjs), so it has nothing to release.
 
 test('rzEmbeddedPreview keeps one retry, and destroy() clears it and disconnects', () => {
   const observers = installResizeObserver();

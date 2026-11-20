@@ -1,0 +1,27 @@
+@page "/_tests/progress"
+@layout HarnessLayout
+@* RzProgress integration harness: values, ranges, value text, inside labels and indeterminate bars,
+   updated through the rzProgress client API. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>Progress harness</PageTitle>
+
+<div class="space-y-8 p-6 max-w-xl">
+    <h1 class="text-2xl font-semibold">Progress harness</h1>
+
+    <section class="space-y-2">
+        <p id="basic-label" class="text-sm font-medium">Uploading report.pdf</p>
+        <RzProgress Id="p-basic" Value="33" aria-labelledby="basic-label" />
+    </section>
+
+    <section class="space-y-2">
+        <p id="range-label" class="text-sm font-medium">Downloading</p>
+        <RzProgress Id="p-range" Value="2.5" Min="1" Max="4" ValueText="2.5 of 4 GB" aria-labelledby="range-label" class="h-4">
+            <ProgressIndicator class="bg-success/50" />
+            <ProgressLabel />
+        </RzProgress>
+    </section>
+
+    <section class="space-y-2">
+        <RzProgress Id="p-indeterminate" Value="null" AriaLabel="Connecting" />
+    </section>
+</div>

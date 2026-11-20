@@ -26,6 +26,14 @@ item template and an optional esbuild pipeline. See
 
 ### Breaking
 
+- **`RzProgress` is a track with a `ProgressIndicator` inside, like shadcn/ui.** `CurrentValue`,
+  `MinValue` and `MaxValue` are now `Value` (`double?`; `null` is indeterminate), `Min` and `Max`.
+  `Label`, `LabelPosition` and `ProgressLabelPosition` are gone: put a visible label in markup and
+  reference it with `aria-labelledby`, set `ValueText` for `aria-valuetext`, or add a
+  `ProgressLabel` for text on the bar. `AriaLabel` has no English default ("Progress Bar") any
+  more. The theme slots `OuterBar`, `InnerBar` and the label slots are replaced by the
+  `RzProgress` (track), `ProgressIndicator` and `ProgressLabel` descriptors. `role="progressbar"`
+  is on the root element.
 - **`RzAlpineComponent` renders no scripts.** The module is referenced with `x-load-src` on the
   root and loaded by async-alpine; props are in a `data-rz-props` attribute instead of a
   `<script type="application/json">` referenced by `data-props-id`. `Rizzy.props(el)` reads both.
@@ -43,6 +51,10 @@ item template and an optional esbuild pipeline. See
 
 ### Added
 
+- **`RzProgress`**: `ProgressIndicator` and `ProgressLabel` subcomponents styled per instance with
+  `class`, decimal values and any range, an indeterminate state (with reduced-motion support),
+  `ValueText`, and `setIndeterminate()` in the client API (`setProgress(value, valueText)`,
+  `increment()`, `decrement()` remain).
 - **`this.$props` / `$props`**: an Alpine magic for the component's props, in any method and in
   markup, with the standard and the CSP build.
 - **`ready()` in code-behind modules**: runs after `init()` and after the components inside the
@@ -71,6 +83,10 @@ item template and an optional esbuild pipeline. See
 
 ### Fixed
 
+- **`RzProgress` no longer measures the page.** The bar was sized from script and the inside label
+  positioned with a `ResizeObserver` and `clientWidth` (flicker, layout work on every resize). The
+  indicator now moves with one CSS `translate` binding, and the label is centered with CSS. The
+  meaningless `nonce` attribute on a `div` is gone.
 - **Code-behind components in the initial page never started.** Rizzy 6 defines `window.Rizzy`
   before RizzyUI loads, so the inline registration script called a function that did not exist yet.
   This broke every code-behind example on the documentation site.

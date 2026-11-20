@@ -1102,6 +1102,23 @@ RizzyUI.PopoverTrigger
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+RizzyUI.ProgressIndicator
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.ProgressIndicator.Slots
+  ConfigureClasses: System.Action<RizzyUI.ProgressIndicator.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  [Cascading] ParentProgress: RizzyUI.RzProgress
+RizzyUI.ProgressLabel
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.ProgressLabel.Slots
+  ConfigureClasses: System.Action<RizzyUI.ProgressLabel.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  [Cascading] ParentProgress: RizzyUI.RzProgress
 RizzyUI.RadioGroupItemIndicator
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
@@ -2074,16 +2091,16 @@ RizzyUI.RzPopover
 RizzyUI.RzProgress
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   AriaLabel: System.String
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.RzProgress.Slots
   ConfigureClasses: System.Action<RizzyUI.RzProgress.Slots>
-  CurrentValue: System.Int32
   Element: System.String
   Id: System.String
-  Label: System.String
-  LabelPosition: RizzyUI.ProgressLabelPosition
   LoadStrategy: System.String
-  MaxValue: System.Int32
-  MinValue: System.Int32
+  Max: System.Double
+  Min: System.Double
+  Value: System.Double?
+  ValueText: System.String
   Variant: RizzyUI.StatusColor
 RizzyUI.RzQuickReference
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
@@ -2960,7 +2977,8 @@ RizzyUI.PaginationPrevious.SlotTypes: Base=0, Icon=1, Label=2
 RizzyUI.PopoverContent.SlotTypes: Base=0
 RizzyUI.PopoverTrigger.SlotTypes: Base=0
 RizzyUI.Position: Auto=0, Left=1, Center=2, Right=3, TopLeft=4, TopCenter=5, TopRight=6, BottomLeft=7, BottomCenter=8, BottomRight=9
-RizzyUI.ProgressLabelPosition: Inside=0, Outside=1
+RizzyUI.ProgressIndicator.SlotTypes: Base=0
+RizzyUI.ProgressLabel.SlotTypes: Base=0
 RizzyUI.ProseWidth: Compact=0, Comfortable=1, Relaxed=2, Wide=3, UltraWide=4, Full=5
 RizzyUI.RadioGroupItemIndicator.SlotTypes: Base=0, CustomContentWrapper=1, Dot=2
 RizzyUI.RadioGroupItemSlotTypes: Base=0, Input=1
@@ -3034,7 +3052,7 @@ RizzyUI.RzNumberTicker.SlotTypes: Base=0, Body=1, Value=2
 RizzyUI.RzPagination.SlotTypes: Base=0
 RizzyUI.RzParagraph.SlotTypes: Base=0
 RizzyUI.RzPopover.SlotTypes: Base=0
-RizzyUI.RzProgress.SlotTypes: Base=0, InnerBar=1, InsideLabelContainer=2, InsideLabelText=3, OuterBar=4, OutsideLabelContainer=5, OutsideLabelText=6
+RizzyUI.RzProgress.SlotTypes: Base=0
 RizzyUI.RzQuickReference.SlotTypes: Base=0, Link=1, List=2, ListItem=3, Title=4
 RizzyUI.RzQuickReferenceContainer.SlotTypes: Base=0
 RizzyUI.RzRadioGroupSlotTypes: Base=0

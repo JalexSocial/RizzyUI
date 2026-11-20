@@ -1,132 +1,99 @@
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzProgress
+//
+// State for RzProgress: the value, its range, and the derived percentage. The markup binds to it:
+// the track's aria-valuenow / aria-valuetext / data-state, and the indicator's position
+// (ProgressIndicator: x-bind:style="indicatorStyle"). No layout is measured: the indicator is a
+// full-width bar moved left (CSS `translate`) by the part that is not done, so resizing needs no
+// script. The inline `translate` overrides the indicator's `-translate-x-full` class, which keeps
+// the bar empty until the runtime starts.
+//
+// Client API (for example through Rizzy.$data(el)): setProgress(value, valueText?),
+// increment(step = 1), decrement(step = 1), setIndeterminate(), and the read-only percentage.
+// --------------------------------------------------------------------------------
 
-// --------------------------------------------------------------------------------
-// window.Alpine.js component: rzProgress
-// Implements a progress bar with dynamic percentage calculation, ARIA attributes,
-// and methods to update, increment, or decrement progress.
-// --------------------------------------------------------------------------------
+function toNumber(raw, fallback) {
+    if (raw === null || raw === undefined || raw === '') return fallback;
+    const value = Number(raw);
+    return Number.isFinite(value) ? value : fallback;
+}
+
 export default function rzProgress() {
     return {
-        currentVal: 0,
-        minVal: 0,
-        maxVal: 100,
-        percentage: 0,
-        label: '',
-        /**
-         * Executes the `init` operation.
-         * @returns {any} Returns the result of `init` when applicable.
-         */
+        value: null,
+        min: 0,
+        max: 100,
+        valueText: null,
+
         init() {
             const element = this.$el;
-            // Retrieve progress values from data attributes
-            this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
-            this.minVal = parseInt(element.getAttribute('data-min-val')) || 0;
-            this.maxVal = parseInt(element.getAttribute('data-max-val')) || 100;
-            this.label = element.getAttribute('data-label');
-            // Calculate initial percentage and update ARIA attributes
-            this.calculatePercentage();
-            element.setAttribute('aria-valuenow', this.currentVal);
-            element.setAttribute('aria-valuemin', this.minVal);
-            element.setAttribute('aria-valuemax', this.maxVal);
-            element.setAttribute('aria-valuetext', `${this.percentage}%`);
-            this.updateProgressBar();
+            this.min = toNumber(element.dataset.min, 0);
+            this.max = toNumber(element.dataset.max, 100);
+            this.value = toNumber(element.dataset.value, null);
+            this.valueText = element.getAttribute('aria-valuetext');
+        },
 
-            this.resizeObserver = new ResizeObserver(() => {
-                this.updateProgressBar();
-            });
-            this.resizeObserver.observe(element);
+        /** Whether the progress is unknown (no value). */
+        get indeterminate() {
+            return this.value === null;
+        },
 
-            // Watch for changes in currentVal to update progress dynamically
-            this.$watch('currentVal', () => {
-                this.calculatePercentage();
-                this.updateProgressBar();
-                element.setAttribute('aria-valuenow', this.currentVal);
-                element.setAttribute('aria-valuetext', `${this.percentage}%`);
-            });
+        /** The value as a percentage of the range, clamped to 0–100; 0 when indeterminate. */
+        get percentage() {
+            if (this.value === null || this.max <= this.min) return 0;
+            const percent = ((this.value - this.min) / (this.max - this.min)) * 100;
+            return Math.min(Math.max(percent, 0), 100);
         },
-        // Disconnect the observer when Alpine removes the element (RZUI-029).
-        destroy() {
-            this.resizeObserver?.disconnect();
-            this.resizeObserver = null;
+
+        /** The rounded percentage with a percent sign, for ProgressLabel. */
+        get percentLabel() {
+            return `${Math.round(this.percentage)}%`;
         },
+
+        /** aria-valuenow: the clamped value, or null (attribute removed) when indeterminate. */
+        get valueNow() {
+            if (this.value === null) return null;
+            return Math.min(Math.max(this.value, this.min), Math.max(this.min, this.max));
+        },
+
+        /** data-state: loading, complete or indeterminate. */
+        get state() {
+            if (this.value === null) return 'indeterminate';
+            return this.value >= this.max ? 'complete' : 'loading';
+        },
+
+        /** The indicator's style: moved left by the part that is not done (none when indeterminate). */
+        indicatorStyle() {
+            if (this.value === null) return { translate: '' };
+            return { translate: `-${100 - this.percentage}% 0` };
+        },
+
         /**
-         * Executes the `calculatePercentage` operation.
-         * @returns {any} Returns the result of `calculatePercentage` when applicable.
+         * Sets the value. Pass a new (localized) aria-valuetext with it, or leave it out to have
+         * assistive technology read the percentage. `null` makes the bar indeterminate.
+         * @param {number | null} value
+         * @param {string | null} [valueText]
          */
-        calculatePercentage() {
-            if (this.maxVal === this.minVal) {
-                this.percentage = 0;
-            } else {
-                this.percentage = Math.min(Math.max(((this.currentVal - this.minVal) / (this.maxVal - this.minVal)) * 100, 0), 100);
-            }
+        setProgress(value, valueText = null) {
+            this.value = value === null ? null : toNumber(value, this.value);
+            this.valueText = valueText;
         },
-        /**
-         * Executes the `buildLabel` operation.
-         * @returns {any} Returns the result of `buildLabel` when applicable.
-         */
-        buildLabel() {
-            var label = this.label || '{percent}%';
-            this.calculatePercentage();
-            return label.replace('{percent}', this.percentage);
+
+        /** Adds `step` (default 1), up to the maximum. An indeterminate bar starts from the minimum. */
+        increment(step = 1) {
+            const current = this.value === null ? this.min : this.value;
+            this.setProgress(Math.min(current + step, this.max));
         },
-        /**
-         * Executes the `buildInsideLabelPosition` operation.
-         * @returns {any} Returns the result of `buildInsideLabelPosition` when applicable.
-         */
-        buildInsideLabelPosition() {
-            const progressBar = this.$refs.progressBar;
-            const barLabel = this.$refs.progressBarLabel;
-            const innerLabel = this.$refs.innerLabel;
-            if (barLabel && progressBar && innerLabel) {
-                innerLabel.innerText = this.buildLabel();
-                if (barLabel.clientWidth > progressBar.clientWidth) {
-                    barLabel.style.left = (progressBar.clientWidth + 10) + 'px';
-                } else {
-                    barLabel.style.left = (progressBar.clientWidth / 2 - barLabel.clientWidth / 2) + 'px';
-                }
-            }
+
+        /** Subtracts `step` (default 1), down to the minimum. */
+        decrement(step = 1) {
+            const current = this.value === null ? this.min : this.value;
+            this.setProgress(Math.max(current - step, this.min));
         },
-        /**
-         * Executes the `getLabelCss` operation.
-         * @returns {any} Returns the result of `getLabelCss` when applicable.
-         */
-        getLabelCss() {
-            const barLabel = this.$refs.progressBarLabel;
-            const progressBar = this.$refs.progressBar;
-            if (barLabel && progressBar && barLabel.clientWidth > progressBar.clientWidth) {
-                return "text-foreground dark:text-foreground";
-            }
-            return "";
+
+        /** Makes the bar indeterminate (progress unknown). */
+        setIndeterminate() {
+            this.setProgress(null);
         },
-        /**
-         * Executes the `updateProgressBar` operation.
-         * @returns {any} Returns the result of `updateProgressBar` when applicable.
-         */
-        updateProgressBar() {
-            const progressBar = this.$refs.progressBar;
-            if (progressBar) {
-                progressBar.style.width = `${this.percentage}%`;
-                this.buildInsideLabelPosition();
-            }
-        },
-        // Methods to set, increment, or decrement the progress value
-        setProgress(value) {
-            this.currentVal = value;
-        },
-        /**
-         * Executes the `increment` operation.
-         * @param {any} val Input value for this method.
-         * @returns {any} Returns the result of `increment` when applicable.
-         */
-        increment(val = 1) {
-            this.currentVal = Math.min(this.currentVal + val, this.maxVal);
-        },
-        /**
-         * Executes the `decrement` operation.
-         * @param {any} val Input value for this method.
-         * @returns {any} Returns the result of `decrement` when applicable.
-         */
-        decrement(val = 1) {
-            this.currentVal = Math.max(this.currentVal - val, this.minVal);
-        }
     };
 }

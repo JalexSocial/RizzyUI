@@ -308,6 +308,8 @@ public partial class RzTheme
 
         // RzProgress Family
         RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
+        ProgressIndicator = RizzyUI.ProgressIndicator.DefaultDescriptor;
+        ProgressLabel = RizzyUI.ProgressLabel.DefaultDescriptor;
 
         // RzQuickReference Family
         RzQuickReference = RizzyUI.RzQuickReference.DefaultDescriptor;
