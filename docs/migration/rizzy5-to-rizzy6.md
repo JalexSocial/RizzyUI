@@ -14,14 +14,16 @@ Finding IDs (RZUI-0xx) refer to the
 4. [Breaking changes in RizzyUI](#breaking-changes-in-rizzyui)
 5. [Behavior fixes you may notice](#behavior-fixes-you-may-notice)
 6. [Changes in 1.0.0-preview.2](#changes-in-100-preview2)
-7. [Worked example](#worked-example)
-8. [Troubleshooting](#troubleshooting)
+7. [Changes in 1.0.0-preview.3](#changes-in-100-preview3)
+8. [Worked example](#worked-example)
+9. [Troubleshooting](#troubleshooting)
 
 ## Compatibility
 
 | RizzyUI | Rizzy | htmx | .NET |
 |---|---|---|---|
-| 1.0.0-preview.2 (this guide) | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
+| 1.0.0-preview.3 (this guide) | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
+| 1.0.0-preview.2 | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
 | 1.0.0-preview.1 | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
 | 0.9.2-alpha and earlier | 5.3.x | 2.x | 10 |
 
@@ -153,9 +155,11 @@ code changes. The full list is in [CHANGELOG.md](../../CHANGELOG.md) under "1.0.
 | Components wrote localized defaults into their parameters | Parameters keep the value you passed (RZUI-053) | Code reading, for example, `component.AriaLabel` after render sees `null` when you passed none |
 | Generated sub-ids (dialog titles, legends, ...) were random | They are `{Id}-title`, `{Id}-legend`, ...; `RzIdScope` gives deterministic ids (RZUI-061) | Nothing, unless CSS or scripts matched the old generated ids |
 
-## Changes since 1.0.0-preview.2
+## Changes in 1.0.0-preview.3
 
-Not released yet. Alpine code-behind (`RzAlpineComponent`) changed; most components need no change.
+If you already moved to 1.0.0-preview.2, these are the changes in 1.0.0-preview.3 that may need
+code changes: Alpine code-behind (`RzAlpineComponent`) and `RzProgress`. The full list is in
+[CHANGELOG.md](../../CHANGELOG.md) under "1.0.0-preview.3".
 
 | Before | Now | What to do |
 |---|---|---|

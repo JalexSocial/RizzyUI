@@ -18,11 +18,15 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
-Alpine code-behind (`RzAlpineComponent` with a `Component.razor.js` module) is reworked: it now
-works in the initial page, loads modules from fingerprinted URLs, and has types, a test helper, an
-item template and an optional esbuild pipeline. See
-[Changes since 1.0.0-preview.2](docs/migration/rizzy5-to-rizzy6.md#changes-since-100-preview2) and
-[docs/engineering/alpine-code-behind.md](docs/engineering/alpine-code-behind.md).
+## [1.0.0-preview.3] - 2026-11-20
+
+Still on **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. Alpine code-behind (`RzAlpineComponent`
+with a `Component.razor.js` module) is reworked: it works in the initial page, in htmx swaps and
+under a strict CSP, loads modules from fingerprinted URLs, keeps props under their C# names, adds a
+`ready()` hook, and comes with types, a test helper, an item template and an optional esbuild
+pipeline. `RzProgress` is redesigned after shadcn/ui. Coming from 1.0.0-preview.2, see
+[Changes in 1.0.0-preview.3](docs/migration/rizzy5-to-rizzy6.md#changes-in-100-preview3) in the
+migration guide and [docs/engineering/alpine-code-behind.md](docs/engineering/alpine-code-behind.md).
 
 ### Breaking
 
