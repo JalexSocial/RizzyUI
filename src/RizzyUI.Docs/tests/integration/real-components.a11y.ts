@@ -563,6 +563,10 @@ export function defineRealComponentA11ySpecs(variant: string) {
       // Below the mobile breakpoint the sidebar is a modal sheet: it opens from the trigger, takes
       // focus, and Escape returns focus to the trigger.
       await page.setViewportSize({ width: 375, height: 800 });
+      // The sidebar switches to its mobile mode from a resize handler; pressing Enter before that
+      // toggles the desktop sidebar instead of opening the sheet (seen on slow CI runners).
+      await expect.poll(() => page.evaluate(() =>
+        (window as any).Alpine.$data(document.querySelector('[x-mobile]'))?.isMobile)).toBe(true);
       await expect(trigger).toHaveAttribute('aria-expanded', 'false');
       await trigger.focus();
       await page.keyboard.press('Enter');
