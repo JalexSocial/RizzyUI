@@ -244,6 +244,7 @@
     --highlight-3: var(--highlight-3);
     --highlight-4: var(--highlight-4);
     --highlight-5: var(--highlight-5);
+    --animate-progress-indeterminate: progress-indeterminate 1.5s ease-in-out infinite;
     --animate-shine: shine var(--duration) infinite linear;
   }
 }
@@ -1278,6 +1279,10 @@
   }
   .-translate-x-60 {
     --tw-translate-x: calc(var(--spacing) * -60);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-x-full {
+    --tw-translate-x: -100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .-translate-x-px {
@@ -5442,6 +5447,21 @@
       cursor: e-resize;
     }
   }
+  .in-data-\[state\=indeterminate\]\:w-1\/3 {
+    :where(*[data-state="indeterminate"]) & {
+      width: calc(1 / 3 * 100%);
+    }
+  }
+  .in-data-\[state\=indeterminate\]\:animate-progress-indeterminate {
+    :where(*[data-state="indeterminate"]) & {
+      animation: progress-indeterminate 1.5s ease-in-out infinite;
+    }
+  }
+  .in-data-\[state\=indeterminate\]\:transition-none {
+    :where(*[data-state="indeterminate"]) & {
+      transition-property: none;
+    }
+  }
   .has-disabled\:opacity-50 {
     &:has(*:disabled) {
       opacity: 50%;
@@ -6200,6 +6220,35 @@
   .motion-reduce\:\[animation-play-state\:paused\] {
     @media (prefers-reduced-motion: reduce) {
       animation-play-state: paused;
+    }
+  }
+  .motion-reduce\:in-data-\[state\=indeterminate\]\:w-full {
+    @media (prefers-reduced-motion: reduce) {
+      :where(*[data-state="indeterminate"]) & {
+        width: 100%;
+      }
+    }
+  }
+  .motion-reduce\:in-data-\[state\=indeterminate\]\:translate-x-0 {
+    @media (prefers-reduced-motion: reduce) {
+      :where(*[data-state="indeterminate"]) & {
+        --tw-translate-x: calc(var(--spacing) * 0);
+        translate: var(--tw-translate-x) var(--tw-translate-y);
+      }
+    }
+  }
+  .motion-reduce\:in-data-\[state\=indeterminate\]\:animate-none {
+    @media (prefers-reduced-motion: reduce) {
+      :where(*[data-state="indeterminate"]) & {
+        animation: none;
+      }
+    }
+  }
+  .motion-reduce\:in-data-\[state\=indeterminate\]\:opacity-60 {
+    @media (prefers-reduced-motion: reduce) {
+      :where(*[data-state="indeterminate"]) & {
+        opacity: 60%;
+      }
     }
   }
   .sm\:mt-0 {
@@ -10765,6 +10814,14 @@ pre:has(> code) {
 @keyframes gradient {
   to {
     background-position: var(--bg-size, 300%) 0;
+  }
+}
+@keyframes progress-indeterminate {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 300% 0;
   }
 }
 @keyframes shine {

@@ -1,42 +1,35 @@
-
 @namespace RizzyUI
 @inherits RzComponent<RzProgress.Slots>
 
-<HtmlElement Element="div"
-             data-slot="progress" @attributes="AdditionalAttributes"
-             id="@Id"
-             class="@SlotClasses.GetBase()">
-
-	             <div x-data="rzProgress" x-load="@LoadStrategyOrNull"
-	                  data-alpine-root="@Id"
-	                  data-label="@Label"
-	                  data-current-val="@CurrentValue"
-	                  data-min-val="@MinValue"
-	                  data-max-val="@MaxValue"
-	                  role="progressbar"
-	                  aria-label="@AriaLabel"
-	                  aria-valuenow="@CurrentValue"
-	                  aria-valuemin="@MinValue"
-	                  aria-valuemax="@MaxValue"
-	                  data-progress="true">
-		             
-		             @if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
-		             {
-			             <div class="@SlotClasses.GetOutsideLabelContainer()" data-slot="progress-outside-label-container">
-				             <div class="grow"></div>
-				             <div class="@SlotClasses.GetOutsideLabelText()" data-slot="progress-outside-label-text"><span x-text="buildLabel"></span></div>
-			             </div>
-		             }
-		             <div class="@SlotClasses.GetOuterBar()" data-slot="progress-outer-bar">
-			             <div class="@SlotClasses.GetInnerBar()" x-ref="progressBar" nonce="@Nonce" data-slot="progress-inner-bar">
-				             @if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
-				             {
-					             <div class="@SlotClasses.GetInsideLabelContainer()" x-ref="progressBarLabel" :class="getLabelCss" data-slot="progress-inside-label-container">
-						             <span class="@SlotClasses.GetInsideLabelText()" x-ref="innerLabel" data-slot="progress-inside-label-text"></span>
-					             </div>
-				             }
-			             </div>
-		             </div>
-
-	             </div>
-</HtmlElement>
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 data-slot="progress"
+                 role="progressbar"
+                 @attributes="AdditionalAttributes"
+                 id="@Id"
+                 class="@SlotClasses.GetBase()"
+                 aria-label="@EffectiveAriaLabel"
+                 aria-valuemin="@Format(Min)"
+                 aria-valuemax="@Format(Max)"
+                 aria-valuenow="@ValueNowText"
+                 aria-valuetext="@EffectiveValueText"
+                 data-state="@State"
+                 data-value="@ValueNowText"
+                 data-min="@Format(Min)"
+                 data-max="@Format(Max)"
+                 x-data="rzProgress"
+                 x-load="@LoadStrategyOrNull"
+                 data-alpine-root="@Id"
+                 x-bind:aria-valuenow="valueNow"
+                 x-bind:aria-valuetext="valueText"
+                 x-bind:data-state="state">
+        @if (ChildContent is null)
+        {
+            <ProgressIndicator />
+        }
+        else
+        {
+            @ChildContent
+        }
+    </HtmlElement>
+</CascadingValue>

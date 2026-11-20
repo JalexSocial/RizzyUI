@@ -67,6 +67,10 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzIndicator.Slots>, RzIndicator.Slots> RzIndicator { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzProgress"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzProgress.Slots>, RzProgress.Slots> RzProgress { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ProgressIndicator"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<ProgressIndicator.Slots>, ProgressIndicator.Slots> ProgressIndicator { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ProgressLabel"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<ProgressLabel.Slots>, ProgressLabel.Slots> ProgressLabel { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzNumberTicker"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzNumberTicker.Slots>, RzNumberTicker.Slots> RzNumberTicker { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSeparator"/> component. </summary>

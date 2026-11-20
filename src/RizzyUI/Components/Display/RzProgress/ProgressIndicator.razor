@@ -1,0 +1,11 @@
+@namespace RizzyUI
+@inherits RzComponent<ProgressIndicator.Slots>
+
+@* Positioned with translate by the rzProgress runtime (a single :style binding, allowed under a
+   strict CSP); no inline style attribute is rendered, which such a policy would block. *@
+<HtmlElement Element="@EffectiveElement"
+             data-slot="progress-indicator"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             x-bind:style="indicatorStyle" />

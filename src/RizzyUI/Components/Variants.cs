@@ -468,18 +468,6 @@ public enum StatusColor
 }
 
 /// <summary>
-///     Defines the label position options for the Progress component.
-/// </summary>
-public enum ProgressLabelPosition
-{
-    /// <summary>Label is positioned inside the progress bar.</summary>
-    Inside,
-
-    /// <summary>Label is positioned outside the progress bar.</summary>
-    Outside
-}
-
-/// <summary>
 /// Specifies the type of behavior for accordion components, determining whether single or multiple sections can be expanded simultaneously.
 /// </summary>
 public enum AccordionType
