@@ -316,3 +316,33 @@ document.addEventListener('alpine:init', () => {
         }
     });
 }());
+
+// Sidebar: mark the link for the current page with aria-current="page" (and data-active, which
+// styles it). The server sets it for the page it renders; boosted navigation swaps only #content,
+// so update the sidebar after every navigation. Paths are compared without ".html" (the static
+// site) and without a trailing slash.
+(() => {
+    const normalize = path => {
+        let p = path.replace(/\.html$/i, '').replace(/\/+$/, '');
+        if (p === '' || p.toLowerCase() === '/index') p = '/';
+        return p.toLowerCase();
+    };
+
+    const markCurrentSidebarLink = () => {
+        const current = normalize(location.pathname);
+        document.querySelectorAll('[data-sidebar="menu-button"][href]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('#') || /^[a-z]+:/i.test(href)) return;
+            const active = normalize(new URL(href, location.href).pathname) === current;
+            link.setAttribute('data-active', active ? 'true' : 'false');
+            if (active) link.setAttribute('aria-current', 'page');
+            else link.removeAttribute('aria-current');
+        });
+    };
+
+    for (const event of ['htmx:after:history:update', 'htmx:after:history:push', 'htmx:after:history:replace', 'popstate']) {
+        (event === 'popstate' ? window : document).addEventListener(event, markCurrentSidebarLink);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', markCurrentSidebarLink, { once: true });
+    else markCurrentSidebarLink();
+})();

@@ -12,7 +12,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link nonce="@Nonce" rel="stylesheet" href="/css/app.css" />
+    <link nonce="@Nonce" rel="stylesheet" href="/@Assets["css/app.css"]" />
 
     <RzHeadOutlet />
     <RzThemeProvider />
@@ -20,13 +20,13 @@
     <RzScripts />
     @if (App.UseContentSecurityPolicy)
     {
-        <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.min.js"]"></script>
+        <script nonce="@Nonce" defer type="module" src="/@Assets["_content/RizzyUI/js/rizzyui-csp.min.js"]"></script>
     }
     else
     {
-        <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui.min.js"]"></script>
+        <script nonce="@Nonce" defer type="module" src="/@Assets["_content/RizzyUI/js/rizzyui.min.js"]"></script>
     }
-    <script nonce="@Nonce" src="/js/site.js"></script>
+    <script nonce="@Nonce" src="/@Assets["js/site.js"]"></script>
 
     <link rel="preconnect" nonce="@Nonce" href="https://fonts.googleapis.com">
     <link rel="preconnect" nonce="@Nonce" href="https://fonts.gstatic.com" crossorigin>

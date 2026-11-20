@@ -7,8 +7,9 @@ import { collectCspViolations, collectPageErrors } from './helpers';
 test('the docs app runs the CSP build in CSP mode', async ({ page }) => {
   await page.goto('/');
   const scripts = await page.evaluate(() => [...document.querySelectorAll('script[src]')].map(s => s.getAttribute('src') ?? ''));
-  expect(scripts.some(src => src.includes('/_content/RizzyUI/js/rizzyui-csp.min.js'))).toBe(true);
-  expect(scripts.some(src => /\/rizzyui\.js(\?|$)/.test(src))).toBe(false);
+  // The layout loads it from its fingerprinted URL (rizzyui-csp.min.<hash>.js) via Assets[...].
+  expect(scripts.some(src => /\/_content\/RizzyUI\/js\/rizzyui-csp\.min(\.[a-z0-9]+)?\.js(\?|$)/.test(src))).toBe(true);
+  expect(scripts.some(src => /\/rizzyui(\.min)?(\.[a-z0-9]+)?\.js(\?|$)/.test(src))).toBe(false);
 });
 
 test.describe('RzInputColor', () => {

@@ -220,17 +220,23 @@ public static class StaticResourcesInfoProviderExtensions
         !route.StartsWith("/_tests/", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
-    /// Every route of every Alpine code-behind module (<c>*.razor.js</c>): the plain route and the
-    /// fingerprinted one (<c>Counter.ezjsubrzj2.razor.js</c>) that <see cref="RzAlpineComponent"/>
-    /// renders when the app uses MapStaticAssets. Read from the static web assets endpoints manifest
-    /// in the build output, so modules of referenced libraries (<c>_content/...</c>) are included.
+    /// Routes from the static web assets endpoints manifest in the build output that the pages
+    /// reference but <see cref="AddAllWebRootContent"/> does not add:
+    /// <list type="bullet">
+    /// <item>every route of every Alpine code-behind module (<c>*.razor.js</c>), plain and
+    /// fingerprinted (<c>Counter.ezjsubrzj2.razor.js</c>), which <see cref="RzAlpineComponent"/>
+    /// renders, including modules of referenced libraries (<c>_content/...</c>);</item>
+    /// <item>the fingerprinted routes of stylesheets and entry scripts
+    /// (<c>css/app.mn2xb1k0c4.css</c>), which the layouts reference through <c>Assets[...]</c>. Script
+    /// chunks are left out: entry scripts import them by their plain relative URL.</item>
+    /// </list>
     /// </summary>
     private static IEnumerable<BinResource> GetAllCodeBehinds()
     {
         var manifest = Path.Combine(AppContext.BaseDirectory, $"{typeof(StaticResourcesInfoProviderExtensions).Assembly.GetName().Name}.staticwebassets.endpoints.json");
         if (!File.Exists(manifest))
         {
-            Debug.WriteLine($"No static web assets endpoints manifest at {manifest}; code-behind modules are not exported.");
+            Debug.WriteLine($"No static web assets endpoints manifest at {manifest}; code-behind modules and fingerprinted assets are not exported.");
             return [];
         }
 
@@ -238,10 +244,34 @@ public static class StaticResourcesInfoProviderExtensions
         using var document = System.Text.Json.JsonDocument.Parse(stream);
 
         return document.RootElement.GetProperty("Endpoints").EnumerateArray()
-            .Select(endpoint => endpoint.GetProperty("Route").GetString())
-            .Where(route => route is not null && route.EndsWith(".razor.js", StringComparison.OrdinalIgnoreCase))
+            .Where(IsExportedManifestRoute)
+            .Select(endpoint => endpoint.GetProperty("Route").GetString()!)
             .Distinct(StringComparer.Ordinal)
-            .Select(route => new BinResource("/" + route!))
+            .Select(route => new BinResource("/" + route))
             .ToList();
     }
+
+    private static bool IsExportedManifestRoute(System.Text.Json.JsonElement endpoint)
+    {
+        var route = endpoint.GetProperty("Route").GetString();
+        if (route is null || route.EndsWith(".gz", StringComparison.OrdinalIgnoreCase) || route.EndsWith(".br", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        if (route.EndsWith(".razor.js", StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        var fingerprinted = endpoint.TryGetProperty("EndpointProperties", out var properties)
+            && properties.EnumerateArray().Any(p => p.GetProperty("Name").GetString() == "fingerprint")
+            && !route.Equals(LabelOf(properties), StringComparison.Ordinal);
+
+        return fingerprinted
+            && (route.EndsWith(".css", StringComparison.OrdinalIgnoreCase) || route.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+            && !route.Contains("/chunks/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string? LabelOf(System.Text.Json.JsonElement properties) =>
+        properties.EnumerateArray()
+            .Where(p => p.GetProperty("Name").GetString() == "label")
+            .Select(p => p.GetProperty("Value").GetString())
+            .FirstOrDefault();
 }
