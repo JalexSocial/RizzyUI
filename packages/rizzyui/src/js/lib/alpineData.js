@@ -41,6 +41,13 @@ function $data(idOrElement) {
     if (idOrElement instanceof Element) {
         const target = resolveProxy(idOrElement) || idOrElement;
 
+        // A component root that has not started yet (its code is still loading) has no data of its
+        // own, and Alpine.$data would return its parent's data instead. Report "not ready".
+        if (isUnstartedRoot(target)) {
+            warnNotStarted(target);
+            return undefined;
+        }
+
         // Ask Alpine for the scope bound to this element
         let alpineData = Alpine.$data(target);
 
@@ -86,6 +93,11 @@ function $data(idOrElement) {
                 `locally or globally. Verify that the teleported root rendered and ` +
                 `that 'data-alpine-root="${componentId}"' is present.`
             );
+            return undefined;
+        }
+
+        if (isUnstartedRoot(root)) {
+            warnNotStarted(root);
             return undefined;
         }
 
@@ -137,6 +149,23 @@ async function waitForRoot(componentId, { timeout = 3000, interval = 50 } = {}) 
 }
 
 // ──────────────────────────── Internals ───────────────────────────────────────
+
+/**
+ * Whether `el` is an Alpine component root (`x-data`) that Alpine has not started yet, for
+ * example a RizzyUI component whose code is still loading (async-alpine keeps it ignored).
+ * @param {Element} el
+ */
+function isUnstartedRoot(el) {
+    return el instanceof Element && el.hasAttribute('x-data') && !el._x_dataStack;
+}
+
+function warnNotStarted(el) {
+    console.warn(
+        'Rizzy.$data: the component has not started yet (its code may still be loading), so it has no data. ' +
+        'In a code-behind module, read child components in ready() instead of init().',
+        el
+    );
+}
 
 /**
  * Resolve an `<rz-proxy data-for="...">` element (or any element carrying `data-for`)

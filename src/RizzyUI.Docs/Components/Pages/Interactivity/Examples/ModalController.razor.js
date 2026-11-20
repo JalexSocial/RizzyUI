@@ -1,18 +1,12 @@
 ﻿export default () => ({
     modalInstance: null,
 
-    async init() {
-        
-        // Allow a tick for modal to transport to body (needed by RzDialog)
-        await Alpine.nextTick();
-
-        // Get the Alpine instance of the RzDialog component
+    // ready() runs once the dialog inside this component has started, so its data is there.
+    ready() {
         this.modalInstance = Rizzy.$data(this.$refs.myModal);
     },
 
     openModal() {
-        if (this.modalInstance) {
-            this.modalInstance.openModal();
-        }
+        this.modalInstance.openModal();
     }
 });

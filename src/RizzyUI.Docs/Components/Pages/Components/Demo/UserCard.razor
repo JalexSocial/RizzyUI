@@ -5,8 +5,8 @@
 
 <RzAlpineComponent For="this" Name="userCard" Props="@User" LoadStrategy="visible" AsChild>
     <div class="border p-4 rounded-lg shadow-sm w-64">
-        <h3 class="font-bold" x-text="user.name"></h3>
-        <p class="text-sm text-muted-foreground" x-text="user.email"></p>
+        <h3 class="font-bold" x-text="user.Name"></h3>
+        <p class="text-sm text-muted-foreground" x-text="user.Email"></p>
         <RzButton class="mt-2" x-on:click="showAlert">Show Alert</RzButton>
     </div>
 </RzAlpineComponent>

@@ -28,62 +28,48 @@
                 </BreadcrumbList>
             </RzBreadcrumb>
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Your First Alpine Code-Behind">
-                Your First Alpine Code-Behind with <em>RzAlpineComponent</em>
+                Your First Alpine Code-Behind
             </RzHeading>
 
             <RzParagraph class="lead">
-                A code-behind module keeps a component's client-side behavior in a JavaScript file next to the
-                component: <code>Counter.razor</code> for the markup, <code>Counter.razor.js</code> for the state and
-                methods. The module loads only on pages that use the component, works after htmx swaps, and runs
-                under a strict Content Security Policy.
+                Give a component some browser-side behavior by putting its JavaScript in a file right next to it:
+                <code>Counter.razor</code> holds the markup, <code>Counter.razor.js</code> holds the state and the
+                methods. Let's build a counter.
             </RzParagraph>
 
-            <RzSeparator />
-
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="The two files">
-                    The two files
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="1. The markup">
+                    1. The markup
                 </RzHeading>
-                <ol class="list-decimal space-y-2 pl-6 my-6 text-foreground">
-                    <li><strong><code>Counter.razor</code></strong>: the markup, with <code>@@attribute [RzAlpineCodeBehind]</code> at the top and the markup wrapped in <code>&lt;RzAlpineComponent For="this"&gt;</code>.</li>
-                    <li><strong><code>Counter.razor.js</code></strong>, in the same folder: a module whose default export returns the component's data (state and methods).</li>
-                </ol>
                 <RzParagraph>
-                    To create both, run <code>dotnet new rizzyui-codebehind -n Counter</code> in the folder (from the
-                    <code>RizzyUI.Templates</code> package; add <code>--typescript</code> for a <code>.razor.ts</code> module).
+                    Mark the component with <code>[RzAlpineCodeBehind]</code> and wrap its markup in
+                    <code>&lt;RzAlpineComponent For="this"&gt;</code>. Inside, use Alpine as usual: <code>x-text</code>
+                    shows a value, <code>x-on:click</code> calls a method.
                 </RzParagraph>
-            </section>
-
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step 1: The component">
-                    Step 1: The component
-                </RzHeading>
                 <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Counter.razor" class="mt-4">
 @@attribute [RzAlpineCodeBehind]
 
 &lt;RzAlpineComponent For=&quot;this&quot; AsChild&gt;
   &lt;div class=&quot;flex items-center gap-4&quot;&gt;
     &lt;RzButton x-on:click=&quot;decrement&quot;&gt;-&lt;/RzButton&gt;
-    &lt;span x-text=&quot;count&quot; class=&quot;font-mono text-lg&quot;&gt;&lt;/span&gt;
+    &lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;
     &lt;RzButton x-on:click=&quot;increment&quot;&gt;+&lt;/RzButton&gt;
   &lt;/div&gt;
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
-                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
-                    <li><code>[RzAlpineCodeBehind]</code> records where the component's source file is, so RizzyUI can find <code>Counter.razor.js</code> next to it. In a <code>Counter.razor.cs</code> file, put <code>[RzAlpineCodeBehind]</code> on the class instead. The build warns (<code>RZUI1001</code>) when the module file is missing.</li>
-                    <li><code>For="this"</code> tells <code>RzAlpineComponent</code> which component's module to load.</li>
-                    <li><code>AsChild</code> puts the Alpine attributes on the child element instead of adding a wrapper <code>&lt;div&gt;</code>. The child's own attributes (such as its <code>id</code>) are kept.</li>
-                    <li><code>Name</code> is optional. RizzyUI generates the <code>x-data</code> name from the component type and the module's URL (for example <code>rzcb_Counter_1a2b3c4d</code>), so two components can never collide. Set it only when other markup refers to the component by name.</li>
-                </ul>
+                <RzParagraph class="mt-4">
+                    <code>AsChild</code> puts the component on the <code>&lt;div&gt;</code> itself instead of adding a
+                    wrapper around it.
+                </RzParagraph>
             </section>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step 2: The module">
-                    Step 2: The module
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="2. The JavaScript">
+                    2. The JavaScript
                 </RzHeading>
                 <RzParagraph>
-                    The default export is a function that returns a new data object for each instance of the component.
-                    Properties are reactive state; methods are what the markup calls.
+                    In <code>Counter.razor.js</code>, export a function that returns the component's state and methods.
+                    The names match what the markup uses.
                 </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Counter.razor.js" class="mt-4">
 export default () =&gt; ({
@@ -98,24 +84,20 @@ export default () =&gt; ({
   },
 });
                 </RzCodeViewer>
-                <RzParagraph>
-                    <strong>What the page gets:</strong> the root element carries <code>x-data</code> (the name),
-                    <code>x-load</code> (when to load, <code>eager</code> by default) and <code>x-load-src</code> (the
-                    module's URL). Alpine loads the module when the strategy allows, registers its default export under
-                    the name, and starts the component. No inline script is rendered, so this works the same in the
-                    initial page, in content swapped in by htmx, and under a Content Security Policy without
-                    <code>'unsafe-inline'</code>.
+                <RzParagraph class="mt-4">
+                    That's it: put <code>&lt;Counter /&gt;</code> on a page and it works, including in content that htmx
+                    swaps in later. To create both files in one step, run
+                    <code>dotnet new rizzyui-codebehind -n Counter</code>.
                 </RzParagraph>
             </section>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step 3: Passing data from C#">
-                    Step 3: Passing data from C#
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="3. Passing data from C#">
+                    3. Passing data from C#
                 </RzHeading>
                 <RzParagraph>
-                    The <code>Props</code> parameter takes any JSON-serializable object, including anonymous types.
-                    It is serialized with web defaults, so property names arrive in camelCase:
-                    <code>InitialCount</code> becomes <code>initialCount</code>.
+                    Pass values with <code>Props</code> and read them in JavaScript with <code>this.$props</code>, using
+                    the same names you wrote in C#.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20">
@@ -128,24 +110,19 @@ export default () =&gt; ({
 &lt;RzAlpineComponent For=&quot;this&quot; AsChild Props=&quot;@@(new { InitialCount = 10, Step = 2 })&quot;&gt;
   &lt;div class=&quot;flex items-center gap-4&quot;&gt;
     &lt;RzButton x-on:click=&quot;decrement&quot;&gt;-&lt;/RzButton&gt;
-    &lt;span x-text=&quot;count&quot; class=&quot;font-mono text-lg&quot;&gt;&lt;/span&gt;
+    &lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;
     &lt;RzButton x-on:click=&quot;increment&quot;&gt;+&lt;/RzButton&gt;
   &lt;/div&gt;
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
-                <RzParagraph class="mt-4">
-                    In the module, read them with <code>this.$props</code>, in <code>init()</code> or any other method.
-                    In markup, <code>$props</code> works too (<code>x-text="$props.title"</code>). The props object is
-                    shared and read-only: copy values into the component's own state to change them.
-                </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="CounterWithProps.razor.js" class="mt-4">
 export default () =&gt; ({
   count: 0,
   step: 1,
 
   init() {
-    this.count = this.$props.initialCount;
-    this.step = this.$props.step;
+    this.count = this.$props.InitialCount;
+    this.step = this.$props.Step;
   },
 
   increment() {
@@ -158,61 +135,182 @@ export default () =&gt; ({
 });
                 </RzCodeViewer>
                 <RzParagraph class="mt-4">
-                    <code>Rizzy.props(this.$el)</code> returns the same object, for code outside Alpine methods.
+                    <code>init()</code> runs once when the component starts, which makes it the place to set up state.
+                    In markup you can read props directly too: <code>x-text="$props.InitialCount"</code>.
                 </RzParagraph>
             </section>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Editor support and type checking">
-                    Editor support and type checking
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="4. Working with components inside yours">
+                    4. Working with components inside yours
                 </RzHeading>
                 <RzParagraph>
-                    RizzyUI ships TypeScript declarations for modules. The NuGet package copies them to
-                    <code>obj/rizzyui/rizzyui.d.ts</code> on build; a <code>jsconfig.json</code> that maps the name
-                    <code>rizzyui</code> to that file (the starter template has one) gives your editor completion for
-                    <code>this.$props</code>, Alpine's magics and the <code>Rizzy</code> global. Add
-                    <code>// @@ts-check</code> to a module to have mistakes reported.
+                    To control a RizzyUI component inside yours, such as opening a dialog, get it in <code>ready()</code>.
+                    It runs after <code>init()</code>, once the components inside yours have started.
                 </RzParagraph>
-                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="CounterWithProps.razor.js" class="mt-4">
-// @@ts-check
-/** @@type {import('rizzyui').AlpineCodeBehind&lt;{ initialCount: number, step: number }&gt;} */
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="ModalController.razor.js" class="mt-4">
 export default () =&gt; ({
-  count: 0,
-  init() {
-    this.count = this.$props.initialCount; // a number; this.$props.initalCount is an error
+  dialog: null,
+
+  ready() {
+    this.dialog = Rizzy.$data(this.$refs.myDialog);   // &lt;RzDialog x-ref=&quot;myDialog&quot;&gt;
+  },
+
+  open() {
+    this.dialog.openModal();
   },
 });
                 </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Editor support">
+                    Editor support
+                </RzHeading>
+                <RzParagraph>
+                    Add two comment lines at the top of a module and your editor completes <code>this.$props</code>,
+                    Alpine's helpers and the <code>Rizzy</code> global, and points out typos:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="CounterWithProps.razor.js" class="mt-4">
+// @@ts-check
+/** @@type {import('rizzyui').AlpineCodeBehind&lt;{ InitialCount: number, Step: number }&gt;} */
+export default () =&gt; ({
+  // ...
+});
+                </RzCodeViewer>
                 <RzParagraph class="mt-4">
-                    To write modules in TypeScript, or to import npm packages from a module, turn on the build pipeline
-                    described in <RzLink Href="/docs/interactivity/code-behind-deployment">Building and Deploying Code-Behind</RzLink>.
+                    The starter template is set up for this. In other projects, see
+                    <a href="#behind-the-magic-types" class="underline underline-offset-4">Types</a> below.
                 </RzParagraph>
             </section>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Troubleshooting">
-                    Troubleshooting
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="If something doesn't work">
+                    If something doesn't work
                 </RzHeading>
                 <ul class="list-disc space-y-3 pl-6 my-6 text-foreground">
-                    <li><strong>Build warning <code>RZUI1001</code>:</strong> the component is marked <code>[RzAlpineCodeBehind]</code> but there is no <code>.razor.js</code> next to it. Check the file name: <code>Counter.razor.js</code> for <code>Counter.razor</code>.</li>
-                    <li><strong>An exception names <code>[RzAlpineCodeBehind]</code>:</strong> the component passed in <code>For</code> is not marked with the attribute.</li>
-                    <li><strong>The console says <em>Could not load the code-behind module</em>:</strong> the URL in the message returned an error. Open it in the browser; the module must be next to the component so it is published as a static web asset. RizzyUI also dispatches <code>rz:module-error</code> on <code>document</code>.</li>
-                    <li><strong><em>Two code-behind modules use the Alpine name</em>:</strong> two components set the same <code>Name</code>. Remove <code>Name</code> to use generated names.</li>
-                    <li><strong>A property is "not defined":</strong> the markup uses a name the module does not return. Check the element's <code>x-data</code> and <code>x-load-src</code> in the browser's developer tools; the module is listed under its URL in the Sources panel.</li>
+                    <li><strong>Build warning <code>RZUI1001</code>:</strong> the <code>.razor.js</code> file is missing or misnamed. It must be <code>Counter.razor.js</code>, next to <code>Counter.razor</code>.</li>
+                    <li><strong>An error mentions <code>[RzAlpineCodeBehind]</code>:</strong> add <code>@@attribute [RzAlpineCodeBehind]</code> to the component you pass in <code>For</code>.</li>
+                    <li><strong>A prop is <code>undefined</code>:</strong> check its name. <code>this.$props</code> uses the names exactly as written in <code>Props</code>.</li>
+                    <li><strong>A child component's data is <code>undefined</code>:</strong> read it in <code>ready()</code>, not <code>init()</code>.</li>
+                    <li><strong>The console says <em>Could not load the code-behind module</em>:</strong> open the URL from the message in the browser to see why it fails.</li>
                 </ul>
+                <RzParagraph>
+                    Next: reactivity, <code>$watch</code> and stores in
+                    <RzLink Href="/docs/interactivity/state-reactivity">Working with State and Reactivity</RzLink>.
+                </RzParagraph>
             </section>
 
             <RzSeparator />
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
-                    Next Steps
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Behind the Magic" Id="behind-the-magic">
+                    Behind the Magic
                 </RzHeading>
                 <RzParagraph>
-                    Continue with reactivity, <code>$watch</code>, <code>$refs</code> and stores in
-                    <RzLink Href="/docs/interactivity/state-reactivity">Working with State and Reactivity</RzLink>, or read
-                    <RzLink Href="/docs/interactivity/code-behind-deployment">Building and Deploying Code-Behind</RzLink>
-                    for caching, deployments, TypeScript and testing.
+                    You don't need any of this to write components. It is here for when you want to know exactly what
+                    happens, or need to change it.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Finding the module" class="mt-8">Finding the module</RzHeading>
+                <RzParagraph>
+                    <code>[RzAlpineCodeBehind]</code> records the path of the component's source file at compile time
+                    (with <code>[CallerFilePath]</code>), and RizzyUI's build targets record the project folder and the
+                    static web asset base path. Together they give the module's URL: the path of
+                    <code>Counter.razor.js</code> in the project, for example <code>/Features/Counter.razor.js</code>, or
+                    <code>/_content/MyLibrary/Counter.razor.js</code> in a Razor class library. The attribute can also go
+                    on the class in <code>Counter.razor.cs</code>. The <code>.razor.js</code> file is published as a static
+                    web asset exactly as written.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="What the page receives" class="mt-8">What the page receives</RzHeading>
+                <RzParagraph>
+                    <code>RzAlpineComponent</code> renders only attributes on the component's root element, no scripts:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div id=&quot;rzX1&quot; data-alpine-root=&quot;rzX1&quot;
+     x-data=&quot;rzcb_CounterWithProps_1a2b3c4d&quot;
+     x-load=&quot;eager&quot;
+     x-load-src=&quot;/Features/CounterWithProps.ezjsubrzj2.razor.js&quot;
+     data-rz-module-fallback=&quot;/Features/CounterWithProps.razor.js&quot;
+     data-rz-props='{&quot;InitialCount&quot;:10,&quot;Step&quot;:2}'&gt;
+                </RzCodeViewer>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li><code>x-load</code> and <code>x-load-src</code> are read by async-alpine, which RizzyUI includes: it imports the module when the load strategy allows (<code>eager</code> by default; <code>LoadStrategy</code> can be <code>visible</code>, <code>idle</code>, <code>media (…)</code> or <code>event</code>), registers its default export under the <code>x-data</code> name, and starts the element.</li>
+                    <li>Because nothing is inline, the same markup works in the first page load, in htmx swaps, and under a Content Security Policy without <code>'unsafe-inline'</code> or nonces per component.</li>
+                    <li>Components that load eagerly also render <code>&lt;link rel="modulepreload"&gt;</code> once per request, so the browser fetches the module while it reads the page. <code>Preload="false"</code> turns it off.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="The x-data name" class="mt-8">The <em>x-data</em> name</RzHeading>
+                <RzParagraph>
+                    The name is generated from the component type and a hash of the module's URL. Two components can never
+                    collide, and when a deployment changes a module, its URL (and so its name) changes, so a page left open
+                    loads the new module for new markup instead of reusing the old one. Set <code>Name</code> only when
+                    other markup refers to the component by name; RizzyUI warns if two modules use the same name.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Props" class="mt-8">Props</RzHeading>
+                <RzParagraph>
+                    <code>Props</code> is serialized with <code>System.Text.Json</code> into <code>data-rz-props</code>,
+                    keeping the property names written in C#. <code>this.$props</code> (and <code>Rizzy.props(el)</code>)
+                    parse it once and return a shared, read-only object; copy values into the component's state to change
+                    them. Inside nested code-behind components, <code>$props</code> always belongs to the nearest one.
+                </RzParagraph>
+                <RzParagraph>
+                    The serializer can be configured for the whole app, for example to use camelCase names (the convention of
+                    Blazor's JavaScript interop) or to send enums as names:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Program.cs" class="mt-4">
+builder.Services.AddRizzyUI(config =&gt;
+{
+    config.CodeBehindPropsSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);   // camelCase
+    config.CodeBehindPropsSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    To rename a single property, use <code>[JsonPropertyName]</code>.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="init() and ready()" class="mt-8"><em>init()</em> and <em>ready()</em></RzHeading>
+                <RzParagraph>
+                    <code>init()</code> is Alpine's own hook: it runs when the component starts, before the components inside
+                    it, so state you set there is on screen from the first render. RizzyUI components load their code on
+                    demand, so a dialog inside yours may not have started yet. When the module defines <code>ready()</code>,
+                    RizzyUI calls it after <code>init()</code> (and after its promise, if <code>init()</code> is
+                    <code>async</code>) and after every component inside yours that loads eagerly has started. Components
+                    with a lazy strategy (<code>visible</code>, <code>event</code>, ...) are not waited for. If something
+                    takes longer than three seconds, <code>ready()</code> runs anyway and the console says which components
+                    were still loading.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Types" class="mt-8" Id="behind-the-magic-types">Types</RzHeading>
+                <RzParagraph>
+                    RizzyUI ships TypeScript declarations for modules. The NuGet package copies them to
+                    <code>obj/rizzyui/rizzyui.d.ts</code> on every build; a <code>jsconfig.json</code> maps the name
+                    <code>rizzyui</code> to that file (the npm package exports the same file as
+                    <code>@@jalexsocial/rizzyui</code>):
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Json" ViewerTitle="jsconfig.json" class="mt-4">
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": { "rizzyui": ["./obj/rizzyui/rizzyui.d.ts"] }
+  },
+  "include": ["**/*.razor.js", "obj/rizzyui/rizzyui.d.ts"]
+}
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="When a module fails to load" class="mt-8">When a module fails to load</RzHeading>
+                <RzParagraph>
+                    If a fingerprinted URL fails (typically a page older than the current deployment), RizzyUI retries once
+                    with the plain URL. If that fails too, it logs one error naming the component and the URL, dispatches
+                    <code>rz:module-error</code> on <code>document</code>, and gives the element an empty component so the
+                    rest of the page keeps working.
+                </RzParagraph>
+                <RzParagraph>
+                    Caching, deployments, CSP, minification, TypeScript modules and testing are covered in
+                    <RzLink Href="/docs/interactivity/code-behind-deployment">Building and Deploying Code-Behind</RzLink>.
                 </RzParagraph>
             </section>
 

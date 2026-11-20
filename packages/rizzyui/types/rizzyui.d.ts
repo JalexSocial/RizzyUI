@@ -6,10 +6,10 @@
  *
  * ```js
  * // @ts-check
- * /** @type {import('rizzyui').AlpineCodeBehind<{ initialCount: number }>} *\/
+ * /** @type {import('rizzyui').AlpineCodeBehind<{ InitialCount: number }>} *\/
  * export default () => ({
  *   count: 0,
- *   init() { this.count = this.$props.initialCount; },
+ *   init() { this.count = this.$props.InitialCount; },
  *   increment() { this.count++; },
  * });
  * ```
@@ -21,7 +21,10 @@
 
 /** Alpine's magic properties available on `this` in a component's methods. */
 export interface AlpineMagics<TProps = Record<string, any>> {
-    /** The props passed with `RzAlpineComponent`'s `Props` parameter (camelCase names). Read-only. */
+    /**
+     * The props passed with `RzAlpineComponent`'s `Props` parameter, with the property names written
+     * in C# (unless the app configures `CodeBehindPropsSerializerOptions`). Read-only.
+     */
     readonly $props: Readonly<TProps>;
     /** The component's root element in methods; the current element in markup expressions. */
     readonly $el: HTMLElement;
@@ -43,12 +46,25 @@ export interface AlpineMagics<TProps = Record<string, any>> {
     $id(name: string, key?: string | number): string;
 }
 
+/** Lifecycle methods a code-behind module's data object can define. */
+export interface CodeBehindLifecycle {
+    /** Runs when the component starts, before its children. Set initial state here. */
+    init?(): void | Promise<void>;
+    /**
+     * Runs after `init()` and after the child components that load immediately have started, so
+     * child components (a dialog, a dropdown) can be read with `Rizzy.$data(this.$refs.name)`.
+     */
+    ready?(): void | Promise<void>;
+    /** Runs when the component is removed from the page. */
+    destroy?(): void;
+}
+
 /**
  * The data object a code-behind module returns. Inside its methods, `this` is the data object
  * plus Alpine's magics, with `this.$props` typed as `TProps`.
  */
 export type AlpineComponentData<TProps = Record<string, any>> =
-    Record<string, any> & ThisType<Record<string, any> & AlpineMagics<TProps>>;
+    Record<string, any> & CodeBehindLifecycle & ThisType<Record<string, any> & AlpineMagics<TProps>>;
 
 /**
  * The default export of a code-behind module: a function that returns a new data object for each

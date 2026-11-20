@@ -23,6 +23,7 @@
  */
 import AlpineModule from 'alpinejs';
 import { registerPropsMagic } from '../src/js/lib/alpineProps.js';
+import { withCodeBehindLifecycle } from '../src/js/lib/codeBehindLifecycle.js';
 
 // Node resolves alpinejs to its CommonJS build, which exposes the instance as `default`.
 const Alpine = AlpineModule.default ?? AlpineModule;
@@ -43,7 +44,8 @@ function ensureStarted() {
 }
 
 /**
- * Mounts a code-behind module on a new element appended to `document.body`.
+ * Mounts a code-behind module on a new element appended to `document.body`. Resolves after
+ * `init()` and, when the module defines it, `ready()` have run.
  *
  * @template {Record<string, any>} TProps
  * @param {() => Record<string, any>} factory The module's default export.
@@ -59,7 +61,7 @@ export async function mountCodeBehind(factory, options = {}) {
     ensureStarted();
 
     const name = options.name ?? `rzcbTest${++counter}`;
-    Alpine.data(name, factory);
+    Alpine.data(name, withCodeBehindLifecycle(factory, name));
 
     const root = document.createElement('div');
     root.setAttribute('x-data', name);
@@ -73,6 +75,8 @@ export async function mountCodeBehind(factory, options = {}) {
 
     Alpine.initTree(root);
     await Alpine.nextTick();
+    // A module's ready() runs after its children have started; wait for it like the page would.
+    if (root._rz_ready) await root._rz_ready;
 
     return {
         root,

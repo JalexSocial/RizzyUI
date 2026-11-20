@@ -20,24 +20,22 @@ export default () => ({
     // --- Lifecycle Hooks ---
 
     /**
-     * The `init` method is called by Alpine.js when the component is initialized on the page.
-     * It is responsible for reading the initial data using the Rizzy.props() helper.
+     * `init` runs when the component starts: read the props and set the initial state.
      * @this {import('alpinejs').AlpineComponent}
      */
-    async init() {
-        // Allow a tick for modal to transport to body (needed by RzDialog)
-        await Alpine.nextTick();
-        
+    init() {
         const props = Rizzy.props(this.$el);
-
-        // Update the DOM with the initial message. `this.$refs` provides access to elements
-        // marked with `x-ref` within this component's scope.
         this.message = props.initialMessage || 'Hello from the co-located module!';
         if (this.$refs.messageOutput) {
             this.$refs.messageOutput.innerText = this.message;
         }
+    },
 
-        // Get the Alpine instance for the RzDialog component if it exists
+    /**
+     * `ready` runs once the components inside this one (here, the RzDialog) have started, so
+     * their data can be read.
+     */
+    ready() {
         if (this.$refs.confirmModal) {
             this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
         }

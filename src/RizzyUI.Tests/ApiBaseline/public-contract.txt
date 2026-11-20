@@ -3159,6 +3159,7 @@ RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
   AssetIntegrity: System.Collections.Generic.Dictionary<System.String, System.String>
   AssetUrls: System.Collections.Generic.Dictionary<System.String, System.String>
   AvailableThemes: System.Collections.Generic.List<RizzyUI.RzTheme>
+  CodeBehindPropsSerializerOptions: System.Text.Json.JsonSerializerOptions
   DefaultTheme: RizzyUI.RzTheme
   LocalizationResourceLocation: System.String
   LocalizationResourceType: System.Type

@@ -4,7 +4,7 @@ export default () => ({
   opened: 'no',
 
   init() {
-    this.title = this.$props.title;
+    this.title = this.$props.Title;
   },
 
   toggle() {

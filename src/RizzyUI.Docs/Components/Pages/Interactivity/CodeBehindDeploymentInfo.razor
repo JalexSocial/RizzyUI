@@ -178,11 +178,11 @@ npm install --save-dev esbuild
 import type { AlpineCodeBehind } from 'rizzyui';
 import { formatCount } from './formatting';   // bundled into the module
 
-interface Props { initialCount: number }
+interface Props { InitialCount: number }
 
 const counter: AlpineCodeBehind&lt;Props&gt; = () =&gt; ({
   count: 0,
-  init() { this.count = this.$props.initialCount; },
+  init() { this.count = this.$props.InitialCount; },
   get label() { return formatCount(this.count); },
   increment() { this.count++; },
 });
@@ -239,7 +239,7 @@ export default counter;
                 <RzParagraph>
                     The npm package <code>@@jalexsocial/rizzyui</code> includes a helper that mounts a module the way
                     <code>RzAlpineComponent</code> renders it, with Alpine and <code>$props</code>, so its logic can be
-                    tested in Node. It needs a DOM, for example happy-dom:
+                    tested in Node. It resolves after <code>init()</code> and, if the module has one, <code>ready()</code>. It needs a DOM, for example happy-dom:
                 </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Counter.test.mjs" class="mt-4">
 import test from 'node:test';
@@ -252,7 +252,7 @@ const { default: counter } = await import('../Features/Home/Counter.razor.js');
 
 test('increments from the initial count', async () =&gt; {
   const { data, root, nextTick } = await mountCodeBehind(counter, {
-    props: { initialCount: 10 },
+    props: { InitialCount: 10 },
     html: '&lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;',
   });
   data.increment();

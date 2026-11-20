@@ -44,6 +44,10 @@ item template and an optional esbuild pipeline. See
 - **`AsChild` with a plain markup child keeps the child's own attribute values** when they conflict
   with the component's (`id`, `x-data`, `aria-*`, ...), as the element path already did. Values used
   to be joined with a space (`id="rzX1 mine"`).
+- **Props keep the names written in C#.** `Props="@(new { InitialCount = 10 })"` is read as
+  `this.$props.InitialCount`; it used to be converted to camelCase (`initialCount`). Set
+  `RizzyUIConfig.CodeBehindPropsSerializerOptions` to
+  `new JsonSerializerOptions(JsonSerializerDefaults.Web)` to keep camelCase for the whole app.
 
 ### Added
 
@@ -53,6 +57,11 @@ item template and an optional esbuild pipeline. See
   `increment()`, `decrement()` remain).
 - **`this.$props` / `$props`**: an Alpine magic for the component's props, in any method and in
   markup, with the standard and the CSP build.
+- **`ready()` in code-behind modules**: runs after `init()` and after the components inside the
+  component that load eagerly (RizzyUI's default) have started, so a module can get a child
+  component (`Rizzy.$data(this.$refs.dialog)`) without waiting ticks itself. `init()` is unchanged.
+- **`RizzyUIConfig.CodeBehindPropsSerializerOptions`**: the `JsonSerializerOptions` used for
+  `Props` (naming policy, converters such as `JsonStringEnumConverter`).
 - **Fingerprinted module URLs** with `MapStaticAssets()`: modules are cached for a year and new
   deployments get new data names, so pages left open load the new module for new markup. Also in
   htmx fragments rendered by minimal APIs. Without a manifest the plain URL is used.
