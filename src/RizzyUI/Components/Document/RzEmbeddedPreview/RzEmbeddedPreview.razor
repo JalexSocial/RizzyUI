@@ -1,14 +1,19 @@
-
 @namespace RizzyUI
 @inherits RzComponent<RzEmbeddedPreview.Slots>
 
-<HtmlElement Element="@EffectiveElement" data-slot="embedded-preview" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
-	<iframe x-data="rzEmbeddedPreview" x-load="@LoadStrategyOrNull"
-	        id="@Id"
-	        data-alpine-root="@Id"
-	        class="@SlotClasses.GetIFrame()"
+@* The Alpine component is on the wrapper, not the <iframe>: the CSP build of Alpine refuses to
+   evaluate expressions on an iframe element, so x-data on the iframe threw under rizzyui-csp.js. *@
+<HtmlElement Element="@EffectiveElement"
+             data-slot="embedded-preview"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             x-data="rzEmbeddedPreview"
+             x-load="@LoadStrategyOrNull"
+             data-alpine-root="@Id">
+	<iframe class="@SlotClasses.GetIFrame()"
 	        srcdoc="@_content"
 	        x-ref="iframe"
-			title="@EffectiveIFrameTitle">
+	        title="@EffectiveIFrameTitle">
 	</iframe>
 </HtmlElement>

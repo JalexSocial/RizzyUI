@@ -21,10 +21,16 @@ public class RzEmbeddedPreviewTests : BunitAlbaContext, IClassFixture<WebAppFixt
             .AddChildContent("<div>Preview Content</div>")
         );
 
-        // Assert
+        // Assert: the Alpine component is on the wrapper. The CSP build of Alpine refuses to evaluate
+        // expressions on an <iframe>, so the iframe carries no Alpine directives except x-ref.
+        var root = cut.Find("[data-slot='embedded-preview']");
+        Assert.Equal("rzEmbeddedPreview", root.GetAttribute("x-data"));
+        Assert.Equal(id, root.GetAttribute("data-alpine-root"));
+        Assert.Equal(id, root.Id);
+
         var iframe = cut.Find("iframe");
-        Assert.Equal("rzEmbeddedPreview", iframe.GetAttribute("x-data"));
-        Assert.Equal(id, iframe.GetAttribute("data-alpine-root"));
+        Assert.Equal("iframe", iframe.GetAttribute("x-ref"));
+        Assert.DoesNotContain(iframe.Attributes, a => a.Name.StartsWith("x-", StringComparison.Ordinal) && a.Name != "x-ref");
         Assert.NotNull(iframe.GetAttribute("srcdoc"));
         Assert.Contains("Preview Content", iframe.GetAttribute("srcdoc"));
     }

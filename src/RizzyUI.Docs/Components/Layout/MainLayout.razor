@@ -50,17 +50,17 @@
                             <span class="font-medium">Interactivity</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/introduction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Introduction</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/alpine-fundamentals" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Alpine.js Fundamentals</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/alpine-code-behind" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Your First Code-Behind</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/code-behind-deployment" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Building and Deploying</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/state-reactivity" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>State and Reactivity</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/lifecycle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Lifecycle and Initialization</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/lazy-loading" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Optimizing with Lazy Loading</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/plugins" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Plugins & Directives</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/orchestration" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Advanced: Orchestration</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/debugging" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Debugging and Best Practices</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/co-located-js" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Additional Examples</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/introduction")'><a href="/docs/interactivity/introduction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Introduction</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/alpine-fundamentals")'><a href="/docs/interactivity/alpine-fundamentals" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Alpine.js Fundamentals</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/alpine-code-behind")'><a href="/docs/interactivity/alpine-code-behind" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Your First Code-Behind</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/code-behind-deployment")'><a href="/docs/interactivity/code-behind-deployment" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Building and Deploying</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/state-reactivity")'><a href="/docs/interactivity/state-reactivity" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>State and Reactivity</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/lifecycle")'><a href="/docs/interactivity/lifecycle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Lifecycle and Initialization</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/lazy-loading")'><a href="/docs/interactivity/lazy-loading" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Optimizing with Lazy Loading</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/plugins")'><a href="/docs/interactivity/plugins" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Plugins & Directives</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/orchestration")'><a href="/docs/interactivity/orchestration" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Advanced: Orchestration</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/docs/interactivity/debugging")'><a href="/docs/interactivity/debugging" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Debugging and Best Practices</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/co-located-js")'><a href="/components/co-located-js" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Additional Examples</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -68,15 +68,15 @@
                             <a href="#" class="font-medium">Display</a>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/avatar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Avatar</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/badge" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Badge</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/kbd" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Kbd</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/item" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Item</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/marquee" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Marquee</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/separator" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Separator</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/table" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Table</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/datatable" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>DataTable</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/progress" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Progress</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/avatar")'><a href="/components/avatar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Avatar</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/badge")'><a href="/components/badge" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Badge</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/kbd")'><a href="/components/kbd" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Kbd</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/item")'><a href="/components/item" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Item</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/marquee")'><a href="/components/marquee" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Marquee</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/separator")'><a href="/components/separator" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Separator</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/table")'><a href="/components/table" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Table</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/datatable")'><a href="/components/datatable" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>DataTable</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/progress")'><a href="/components/progress" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Progress</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -84,16 +84,16 @@
                             <span class="font-medium">Feedback</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Alert</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert-dialog" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Alert Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/dialog" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/toast-provider" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Toast Provider</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/sheet" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Sheet</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/empty" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Empty</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/spinner" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Spinner</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/skeleton" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Skeleton</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/steps" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Steps</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/alert")'><a href="/components/alert" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Alert</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/alert-dialog")'><a href="/components/alert-dialog" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Alert Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/dialog")'><a href="/components/dialog" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/toast-provider")'><a href="/components/toast-provider" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Toast Provider</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/tooltip")'><a href="/components/tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/sheet")'><a href="/components/sheet" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Sheet</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/empty")'><a href="/components/empty" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Empty</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/spinner")'><a href="/components/spinner" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Spinner</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/skeleton")'><a href="/components/skeleton" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Skeleton</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/steps")'><a href="/components/steps" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Steps</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -101,15 +101,15 @@
                             <span class="font-medium">Charts</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Chart</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Bar Chart</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-line" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Line Chart</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-bubble" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Bubble Chart</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-doughnut-pie" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Doughnut & Pie</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-mixed" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Mixed Charts</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-polar-area" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Polar Area</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-radar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Radar Chart</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-scatter" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Scatter Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart")'><a href="/components/chart" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-bar")'><a href="/components/chart-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Bar Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-line")'><a href="/components/chart-line" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Line Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-bubble")'><a href="/components/chart-bubble" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Bubble Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-doughnut-pie")'><a href="/components/chart-doughnut-pie" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Doughnut & Pie</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-mixed")'><a href="/components/chart-mixed" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Mixed Charts</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-polar-area")'><a href="/components/chart-polar-area" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Polar Area</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-radar")'><a href="/components/chart-radar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Radar Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-scatter")'><a href="/components/chart-scatter" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Scatter Chart</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem>
                                 <RzCollapsible class="group/collapsible" DefaultOpen="false">
                                 <SidebarGroup class="p-0">
@@ -122,13 +122,13 @@
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
                                             <SidebarMenuSub>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-colors" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Colors</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-decimation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Decimation</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-filler" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Filler</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-legend" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Legend</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-subtitle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Subtitle</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-title" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Title</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>                                            </SidebarMenuSub>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-colors")'><a href="/components/chart-colors" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Colors</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-decimation")'><a href="/components/chart-decimation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Decimation</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-filler")'><a href="/components/chart-filler" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Filler</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-legend")'><a href="/components/chart-legend" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Legend</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-subtitle")'><a href="/components/chart-subtitle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Subtitle</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-title")'><a href="/components/chart-title" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Title</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-tooltip")'><a href="/components/chart-tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>                                            </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
                                 </SidebarGroup>
@@ -146,12 +146,12 @@
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
                                             <SidebarMenuSub>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-scales" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Axis Scales</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Axis Border</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-callbacks" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Axis Callbacks</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-grid" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Axis Grid</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-ticks" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Axis Ticks</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-title" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Axis Title</span></a></SidebarMenuButton></SidebarMenuItem> 
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-axis-scales")'><a href="/components/chart-axis-scales" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Axis Scales</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-axis-border")'><a href="/components/chart-axis-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Axis Border</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-axis-callbacks")'><a href="/components/chart-axis-callbacks" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Axis Callbacks</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-axis-grid")'><a href="/components/chart-axis-grid" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Axis Grid</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-axis-ticks")'><a href="/components/chart-axis-ticks" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Axis Ticks</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-axis-title")'><a href="/components/chart-axis-title" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Axis Title</span></a></SidebarMenuButton></SidebarMenuItem> 
                                             </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
@@ -170,10 +170,10 @@
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
                                             <SidebarMenuSub>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-arc" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Arc</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Bar</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-line" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Line</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-point" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Point</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-element-arc")'><a href="/components/chart-element-arc" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Arc</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-element-bar")'><a href="/components/chart-element-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Bar</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-element-line")'><a href="/components/chart-element-line" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Line</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-element-point")'><a href="/components/chart-element-point" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Point</span></a></SidebarMenuButton></SidebarMenuItem>
                                             </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
@@ -192,12 +192,12 @@
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
                                             <SidebarMenuSub>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-animation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Animation</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-configuration" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Configuration</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-font" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Font</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-interaction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Interaction</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-layout" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Layout</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-padding" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Padding</span></a></SidebarMenuButton></SidebarMenuItem>                                                    
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-animation")'><a href="/components/chart-animation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Animation</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-configuration")'><a href="/components/chart-configuration" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Configuration</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-font")'><a href="/components/chart-font" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Font</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-interaction")'><a href="/components/chart-interaction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Interaction</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-layout")'><a href="/components/chart-layout" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Layout</span></a></SidebarMenuButton></SidebarMenuItem>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/chart-padding")'><a href="/components/chart-padding" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Padding</span></a></SidebarMenuButton></SidebarMenuItem>                                                    
                                             </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
@@ -212,83 +212,83 @@
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/buttons" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Button</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/buttons")'>
+                                    <a href="/components/buttons" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Button</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/button-group" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Button Group</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/button-group")'>
+                                    <a href="/components/button-group" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Button Group</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/calendar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Calendar</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/calendar")'>
+                                    <a href="/components/calendar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Calendar</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>         
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/calendar-provider" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Calendar Provider</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/calendar-provider")'>
+                                    <a href="/components/calendar-provider" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Calendar Provider</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>                             
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/checkbox" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Checkbox</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/checkbox")'>
+                                    <a href="/components/checkbox" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Checkbox</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/combobox" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Combobox</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/combobox")'>
+                                    <a href="/components/combobox" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Combobox</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/color-picker" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Color Picker</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/color-picker")'>
+                                    <a href="/components/color-picker" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Color Picker</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/color-swatch" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Color Swatch</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/color-swatch")'>
+                                    <a href="/components/color-swatch" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Color Swatch</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/file-input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>File Input</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/file-input")'>
+                                    <a href="/components/file-input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>File Input</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Input</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/input")'>
+                                    <a href="/components/input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Input</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/input-otp" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Input OTP</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/input-otp")'>
+                                    <a href="/components/input-otp" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Input OTP</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/native-select" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Native Select</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/native-select")'>
+                                    <a href="/components/native-select" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Native Select</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>                            
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/radiogroup" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Radio Group</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/radiogroup")'>
+                                    <a href="/components/radiogroup" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Radio Group</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/slider" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Slider</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/slider")'>
+                                    <a href="/components/slider" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Slider</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/switch" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Switch</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/switch")'>
+                                    <a href="/components/switch" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Switch</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton AsChild>
-                                    <a href="/components/toggle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Toggle</span></a>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/toggle")'>
+                                    <a href="/components/toggle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Toggle</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenuSub>
@@ -298,18 +298,18 @@
                             <span class="font-medium">Navigation</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/breadcrumb" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Breadcrumb</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/collapsible" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Collapsible</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/command" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Command</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/dropdown" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Dropdown Menu</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/link" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Link</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/menubar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Menubar</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/navigation-menu" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Navigation Menu</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/scroll-area" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Scroll Area</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/popover" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Popover</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/pagination" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Pagination</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/sidebar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Sidebar</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/tabs" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Tabs</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/breadcrumb")'><a href="/components/breadcrumb" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Breadcrumb</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/collapsible")'><a href="/components/collapsible" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Collapsible</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/command")'><a href="/components/command" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Command</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/dropdown")'><a href="/components/dropdown" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Dropdown Menu</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/link")'><a href="/components/link" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Link</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/menubar")'><a href="/components/menubar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Menubar</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/navigation-menu")'><a href="/components/navigation-menu" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Navigation Menu</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/scroll-area")'><a href="/components/scroll-area" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Scroll Area</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/popover")'><a href="/components/popover" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Popover</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/pagination")'><a href="/components/pagination" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Pagination</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/sidebar")'><a href="/components/sidebar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Sidebar</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/tabs")'><a href="/components/tabs" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Tabs</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -317,11 +317,11 @@
                             <span class="font-medium">Layout</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/accordion" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Accordion</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/aspect-ratio" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Aspect Ratio</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/card" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Card</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/carousel" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Carousel</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/markdown" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Markdown</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/accordion")'><a href="/components/accordion" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Accordion</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/aspect-ratio")'><a href="/components/aspect-ratio" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Aspect Ratio</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/card")'><a href="/components/card" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Card</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/carousel")'><a href="/components/carousel" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Carousel</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/markdown")'><a href="/components/markdown" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Markdown</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -329,8 +329,8 @@
                             <span class="font-medium">Special Effects</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/shine-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Shine Border</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/confetti" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Confetti</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/shine-border")'><a href="/components/shine-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Shine Border</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/confetti")'><a href="/components/confetti" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Confetti</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>     
                     <SidebarMenuItem>
@@ -338,11 +338,11 @@
                             <span class="font-medium">Text Animation</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/aurora-text" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Aurora Text</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/animated-gradient-text" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Animated Gradient Text</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/number-ticker" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Number Ticker</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/highlighter" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Text Highlighter</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/typing-animation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Typing</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/aurora-text")'><a href="/components/aurora-text" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Aurora Text</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/animated-gradient-text")'><a href="/components/animated-gradient-text" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Animated Gradient Text</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/number-ticker")'><a href="/components/number-ticker" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Number Ticker</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/highlighter")'><a href="/components/highlighter" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Text Highlighter</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/typing-animation")'><a href="/components/typing-animation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Typing</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>                    
                     
@@ -351,8 +351,8 @@
                             <span class="font-medium">Utility</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/clipboard" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Clipboard</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/back-to-top" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close" aria-current="page"><span>Back To Top</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/clipboard")'><a href="/components/clipboard" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Clipboard</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild IsActive='@IsCurrent("/components/back-to-top")'><a href="/components/back-to-top" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Back To Top</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>                    
                 </SidebarMenu>
@@ -392,4 +392,19 @@
 @code {
     [CascadingParameter]
     private RzTheme Theme { get; set; } = null!;
+
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
+
+    // The sidebar link for the current page gets aria-current="page" (SidebarMenuButton IsActive).
+    // Boosted navigation swaps only #content, so js/site.js updates it after each navigation.
+    private bool IsCurrent(string href) =>
+        string.Equals(NormalizePath(new Uri(Navigation.Uri).AbsolutePath), NormalizePath(href), StringComparison.OrdinalIgnoreCase);
+
+    private static string NormalizePath(string path)
+    {
+        if (path.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+            path = path[..^".html".Length];
+        path = path.TrimEnd('/');
+        return path.Length == 0 || path.Equals("/index", StringComparison.OrdinalIgnoreCase) ? "/" : path;
+    }
 }

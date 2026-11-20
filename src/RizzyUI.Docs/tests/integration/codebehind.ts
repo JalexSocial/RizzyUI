@@ -174,9 +174,7 @@ export function defineCodeBehindSpecs(runtime: string) {
       })).toBe(true);
       await trigger.click();
       await expect(page.getByRole('dialog', { name: 'My Modal' })).toBeVisible();
-      // The page's RzEmbeddedPreview examples put x-data on an <iframe>, which the CSP build of
-      // Alpine refuses; that is a separate RzEmbeddedPreview issue, not code-behind.
-      expect(errors.filter(e => !e.includes('Evaluating expressions on an iframe'))).toEqual([]);
+      expect(errors).toEqual([]);
     });
 
     test('ready() waits for a teleported RzDialog (Additional Examples: Show Confirmation)', async ({ page }) => {
@@ -194,7 +192,7 @@ export function defineCodeBehindSpecs(runtime: string) {
       // Before the fix, ready() ran before the teleported dialog had loaded, Rizzy.$data returned
       // an empty object, and the click failed with "openModal is not a function".
       await expect(frame.getByRole('dialog')).toBeVisible();
-      expect(errors.filter(e => !e.includes('Evaluating expressions on an iframe'))).toEqual([]);
+      expect(errors).toEqual([]);
     });
 
     test('the docs example (inside a preview iframe) works', async ({ page }) => {

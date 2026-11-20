@@ -83,6 +83,10 @@ item template and an optional esbuild pipeline. See
 
 ### Fixed
 
+- **`RzEmbeddedPreview` (and `RzBrowser` previews) under the CSP build.** `x-data` was on the
+  `<iframe>`, which the CSP build of Alpine refuses ("Evaluating expressions on an iframe is
+  prohibited"), so every page with a preview logged an error. The Alpine component is now on the
+  wrapper element, which also gets the component's `id`.
 - **`RzProgress` no longer measures the page.** The bar was sized from script and the inside label
   positioned with a `ResizeObserver` and `clientWidth` (flicker, layout work on every resize). The
   indicator now moves with one CSS `translate` binding, and the label is centered with CSS. The
