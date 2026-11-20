@@ -9,8 +9,12 @@
  * - retries once with the plain URL (`data-rz-module-fallback`) when the fingerprinted URL fails,
  *   which happens on a page left open across a deployment that removed the old file;
  * - reports a failure once, names the module, dispatches `rz:module-error` on `document`, and
- *   registers an inert data object so the rest of the page keeps working.
+ *   registers an inert data object so the rest of the page keeps working;
+ * - wraps the module's factory so a `ready()` method runs once the component's children have
+ *   started (see codeBehindLifecycle.js).
  */
+
+import { withCodeBehindLifecycle } from '../lib/codeBehindLifecycle.js';
 
 const loaders = new Map();
 
@@ -32,6 +36,17 @@ function findFallbackUrl(url) {
     return null;
 }
 
+/** The export async-alpine would use: one named like the component, the default, or the first. */
+function pickExport(module, name) {
+    if (typeof module === 'function') return module;
+    return module?.[name] || module?.default || Object.values(module ?? {})[0];
+}
+
+function withLifecycle(module, name) {
+    const factory = pickExport(module, name);
+    return typeof factory === 'function' ? { default: withCodeBehindLifecycle(factory, name) } : module;
+}
+
 function failedModule(name) {
     return {
         default: () => ({
@@ -50,12 +65,12 @@ function failedModule(name) {
  */
 export async function importCodeBehindModule(name, url, fallbackUrl = null) {
     try {
-        return await import(/* @vite-ignore */ absoluteUrl(url));
+        return withLifecycle(await import(/* @vite-ignore */ absoluteUrl(url)), name);
     } catch (error) {
         const fallback = fallbackUrl ?? findFallbackUrl(url);
         if (fallback && fallback !== url) {
             try {
-                const module = await import(/* @vite-ignore */ absoluteUrl(fallback));
+                const module = withLifecycle(await import(/* @vite-ignore */ absoluteUrl(fallback)), name);
                 console.warn(`[RizzyUI] Loaded '${name}' from ${fallback} because ${url} failed to load. ` +
                     'The page is probably older than the current deployment; reload it to get matching markup and modules.');
                 return module;

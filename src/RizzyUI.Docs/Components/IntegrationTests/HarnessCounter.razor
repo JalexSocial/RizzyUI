@@ -2,7 +2,7 @@
 @* Code-behind test component: props read with this.$props in init and $props in markup. *@
 <RzAlpineComponent For="this" AsChild Props="@(new { Label, InitialCount = Start, Step })">
     <div class="flex items-center gap-3" data-testid="counter">
-        <span data-testid="label" x-text="$props.label"></span>
+        <span data-testid="label" x-text="$props.Label"></span>
         <button type="button" data-testid="decrement" x-on:click="decrement" class="rounded border px-2">-</button>
         <span data-testid="count" x-text="count"></span>
         <button type="button" data-testid="increment" x-on:click="increment" class="rounded border px-2">+</button>

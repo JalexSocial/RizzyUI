@@ -4,8 +4,8 @@ import type { AlpineCodeBehind } from 'rizzyui';
 import { formatTitle } from './harnessFormat';
 
 interface Props {
-  label: string;
-  start: number;
+  Label: string;
+  Start: number;
 }
 
 const counter: AlpineCodeBehind<Props> = () => ({
@@ -13,8 +13,8 @@ const counter: AlpineCodeBehind<Props> = () => ({
   title: '',
 
   init() {
-    this.count = this.$props.start;
-    this.title = formatTitle(this.$props.label);
+    this.count = this.$props.Start;
+    this.title = formatTitle(this.$props.Label);
   },
 
   increment() {

@@ -117,6 +117,29 @@ init() {
 }
                 </RzCodeViewer>
 
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="ready(): after child components start" class="mt-8">
+                    <em>ready()</em>: after child components start
+                </RzHeading>
+                <RzParagraph>
+                    Alpine runs <code>init()</code> before the components inside yours start, and RizzyUI components (a dialog, a dropdown)
+                    load their code on demand. To work with them, define <code>ready()</code> in your code-behind module: RizzyUI calls it
+                    after <code>init()</code> (and after its promise, if <code>init()</code> is async) and after every component inside yours
+                    that loads immediately has started. Use <code>init()</code> for your own state, so it is on screen from the first render.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-2">
+export default () =&gt; ({
+  dialog: null,
+
+  ready() {
+    this.dialog = Rizzy.$data(this.$refs.dialog);
+  },
+
+  open() {
+    this.dialog.openModal();
+  },
+});
+                </RzCodeViewer>
+
                 <RzAlert Variant="ThemeVariant.Information" class="mt-6">
                     <AlertTitle>Deferring DOM Access with <code>$nextTick</code></AlertTitle>
                     <AlertDescription>

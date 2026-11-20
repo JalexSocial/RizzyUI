@@ -4,10 +4,10 @@ export default () => ({
 
     init() {
         this.user = Rizzy.props(this.$el);
-        console.log('UserCard initialized for:', this.user.name);
+        console.log('UserCard initialized for:', this.user.Name);
     },
 
     showAlert() {
-        alert(`You clicked on ${this.user.name}'s card!`);
+        alert(`You clicked on ${this.user.Name}'s card!`);
     }
 });

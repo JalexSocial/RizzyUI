@@ -4,8 +4,8 @@ export default () => ({
   step: 1,
 
   init() {
-    this.count = this.$props.initialCount;
-    this.step = this.$props.step;
+    this.count = this.$props.InitialCount;
+    this.step = this.$props.Step;
   },
 
   increment() {

@@ -1,9 +1,9 @@
 // @ts-check
-/** @type {import('rizzyui').AlpineCodeBehind<{ start: number }>} */
+/** @type {import('rizzyui').AlpineCodeBehind<{ Start: number }>} */
 export default () => ({
   count: 0,
   init() {
-    this.count = this.$props.start;
+    this.count = this.$props.Start;
   },
   increment() {
     this.count++;

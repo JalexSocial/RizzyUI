@@ -1,4 +1,7 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
@@ -35,16 +38,42 @@ public class RzAlpineComponentTests : BunitAlbaContext, IClassFixture<WebAppFixt
     }
 
     [Fact]
-    public void PropsAreSerializedInCamelCaseIntoTheRoot()
+    public void PropsKeepTheNamesWrittenInCSharp()
     {
         var cut = Render<RzAlpineComponent>(p => p
             .Add(x => x.For, new FakeAlpineHost())
-            .Add(x => x.Props, new { InitialCount = 10, DisplayName = "Ada \"Byron\" <b>" }));
+            .Add(x => x.Props, new { InitialCount = 10, displayName = "Ada \"Byron\" <b>", Status = DayOfWeek.Monday }));
 
         var json = cut.Find("[x-load-src]").GetAttribute("data-rz-props");
         using var document = JsonDocument.Parse(json!);
-        Assert.Equal(10, document.RootElement.GetProperty("initialCount").GetInt32());
+        Assert.Equal(10, document.RootElement.GetProperty("InitialCount").GetInt32());
         Assert.Equal("Ada \"Byron\" <b>", document.RootElement.GetProperty("displayName").GetString());
+        Assert.Equal(1, document.RootElement.GetProperty("Status").GetInt32());
+        Assert.False(document.RootElement.TryGetProperty("initialCount", out _));
+    }
+
+    [Fact]
+    public void PropsSerializerOptionsAreConfigurable()
+    {
+        var config = Services.GetRequiredService<IOptions<RizzyUIConfig>>().Value;
+        var original = config.CodeBehindPropsSerializerOptions;
+        var camelCase = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        camelCase.Converters.Add(new JsonStringEnumConverter());
+        config.CodeBehindPropsSerializerOptions = camelCase;
+        try
+        {
+            var cut = Render<RzAlpineComponent>(p => p
+                .Add(x => x.For, new FakeAlpineHost())
+                .Add(x => x.Props, new { InitialCount = 10, Status = DayOfWeek.Monday }));
+
+            using var document = JsonDocument.Parse(cut.Find("[x-load-src]").GetAttribute("data-rz-props")!);
+            Assert.Equal(10, document.RootElement.GetProperty("initialCount").GetInt32());
+            Assert.Equal("Monday", document.RootElement.GetProperty("status").GetString());
+        }
+        finally
+        {
+            config.CodeBehindPropsSerializerOptions = original;
+        }
     }
 
     [Fact]
