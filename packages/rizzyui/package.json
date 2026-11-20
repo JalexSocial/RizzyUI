@@ -1,6 +1,6 @@
 {
   "name": "@jalexsocial/rizzyui",
-  "version": "1.0.0-preview.3-dev",
+  "version": "1.0.0-preview.4-dev",
   "description": "Client library for Asp.net RizzyUI",
   "main": "dist/js/rizzyui.js",
   "module": "dist/js/rizzyui.js",

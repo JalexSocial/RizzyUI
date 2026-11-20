@@ -30,12 +30,12 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>1.0.0-preview.3</Version>
+        <Version>1.0.0-preview.4-dev</Version>
         <!-- Public API compatibility (RM-2.5): pack fails when the public API breaks compatibility with
              the baseline release. Update the baseline after each release; accept an intentional break
              with `dotnet pack -p:ApiCompatGenerateSuppressionFile=true` (see docs/contributing/api-compatibility.md). -->
         <EnablePackageValidation>true</EnablePackageValidation>
-        <PackageValidationBaselineVersion>1.0.0-preview.2</PackageValidationBaselineVersion>
+        <PackageValidationBaselineVersion>1.0.0-preview.3</PackageValidationBaselineVersion>
         <StaticWebAssetBasePath>_content/RizzyUI</StaticWebAssetBasePath>
 		<HotReloadAutoRestart>true</HotReloadAutoRestart>
 	</PropertyGroup>
