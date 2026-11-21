@@ -36,6 +36,8 @@ function server(port: number, csp: boolean) {
       ASPNETCORE_ENVIRONMENT: 'Testing',
       Summit__Csp__Enabled: String(csp),
       Summit__Database__Path: `App_Data/e2e-${csp ? 'csp' : 'standard'}.db`,
+      // The nightly CDN run (SUMMIT_CDN=1) loads the widget libraries from RizzyUI's CDN defaults.
+      Summit__Assets__UseCdnDefaults: process.env.SUMMIT_CDN ? 'true' : 'false',
     },
   };
 }

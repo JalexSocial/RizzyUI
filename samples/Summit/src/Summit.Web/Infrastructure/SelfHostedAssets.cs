@@ -18,11 +18,16 @@ internal sealed class SelfHostedAssets(IWebHostEnvironment environment, IOptions
 {
     public void PostConfigure(string? name, RizzyUIConfig config)
     {
-        if (summit.Value.Assets.UseCdnDefaults)
-            return;
-
         foreach (var asset in ReadManifest(environment.ContentRootPath))
         {
+            // CDN mode keeps RizzyUI's defaults, but keys only Summit defines (flatpickr's German
+            // locale, SF-073) still need a URL: the same file on the CDN.
+            if (summit.Value.Assets.UseCdnDefaults)
+            {
+                config.AssetUrls.TryAdd(asset.Key, asset.Url);
+                continue;
+            }
+
             var localUrl = "/" + asset.Path;
             config.AssetUrls[asset.Key] = localUrl;
 

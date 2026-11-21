@@ -52,6 +52,8 @@ export const test = base.extend<Fixtures>({
     page.on('request', request => {
       const url = new URL(request.url());
       if (!['http:', 'https:'].includes(url.protocol)) return;
+      // The nightly CDN run is the one place a CDN is expected (decision D-5).
+      if (process.env.SUMMIT_CDN && url.hostname === 'cdn.jsdelivr.net') return;
       if (url.origin !== origin) problems.push(`external request: ${url.href}`);
     });
 
