@@ -1,0 +1,71 @@
+@attribute [RzAlpineCodeBehind]
+@using System.Globalization
+@*
+    The dashboard filters: a date range (RzCalendar in a popover, held by RzCalendarProvider), quick
+    ranges and a ticket type. One form; a change sends one request for every panel and pushes the URL.
+
+    The structure follows the RizzyUI docs' "Range Popover" example (provider around the popover). The
+    code-behind (DashboardFilters.razor.ts) compensates for two gaps:
+    - SF-057: the popover teleports the calendar to <body>, so its events never reach the provider; the
+      code-behind forwards them;
+    - SF-058: the provider keeps its dates in Alpine state only, so hidden inputs mirror them and the
+      code-behind submits the form when a range is complete.
+    - SF-062 and SF-005: RzChart leaks or throws when its chart is replaced or the theme changes; the
+      code-behind destroys the Chart.js instances itself and reloads the charts on a theme change.
+    Quick ranges set the provider's dates the same way (application behavior).
+*@
+<RzAlpineComponent For="this" Props="@(new { ProviderId = "dashboard-range", CalendarId = "dashboard-calendar", Today = Iso(Today), AllFrom = Iso(Today.AddDays(-119)) })">
+    <form id="dashboard-filters" class="flex flex-wrap items-end gap-3"
+          hx-get="/organizer/dashboard/panels" hx-trigger="change" hx-target="#dashboard-charts" hx-swap="outerHTML"
+          hx-vals='{"push": "true"}' hx-sync="this:replace">
+        <div class="flex flex-col gap-1.5">
+            <span id="dashboard-range-label" class="text-sm font-medium">Date range</span>
+            <RzCalendarProvider id="dashboard-range" Mode="SelectionDatesMode.MultipleRanged" Locale="@CultureInfo.CurrentCulture.Name"
+                                Range="@(new CalendarDateRange { From = Filter.From!.Value.ToDateTime(TimeOnly.MinValue), To = Filter.To!.Value.ToDateTime(TimeOnly.MinValue) })"
+                                FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Short, Day = Numeric2Digit.Numeric, Year = Numeric2Digit.Numeric })">
+                <input type="hidden" name="From" value="@Iso(Filter.From!.Value)" x-bind:value="startDate" />
+                <input type="hidden" name="To" value="@Iso(Filter.To!.Value)" x-bind:value="endDate" />
+                <RzPopover>
+                    <PopoverTrigger AsChild>
+                        <RzButton type="button" Variant="ThemeVariant.Secondary" Outline class="h-9 min-w-64 justify-start font-normal"
+                                  aria-labelledby="dashboard-range-label dashboard-range-text">
+                            <Blazicon Svg="Lucide.CalendarRange" class="size-4" />
+                            <span id="dashboard-range-text" x-text="formattedRange">@RangeText</span>
+                        </RzButton>
+                    </PopoverTrigger>
+                    <PopoverContent class="w-auto p-0">
+                        <RzCalendar id="dashboard-calendar" Mode="SelectionDatesMode.MultipleRanged" MaxDate="Today" AriaLabel="Choose the first and last day"
+                                    Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })" />
+                    </PopoverContent>
+                </RzPopover>
+            </RzCalendarProvider>
+        </div>
+
+        <RzButtonGroup aria-label="Quick ranges">
+            <RzButton type="button" Variant="ThemeVariant.Secondary" Outline Size="Size.Small" class="h-9" x-on:click="last7">Last 7 days</RzButton>
+            <RzButton type="button" Variant="ThemeVariant.Secondary" Outline Size="Size.Small" class="h-9" x-on:click="last30">Last 30 days</RzButton>
+            <RzButton type="button" Variant="ThemeVariant.Secondary" Outline Size="Size.Small" class="h-9" x-on:click="wholeSale">Whole sale</RzButton>
+        </RzButtonGroup>
+
+        <label class="flex flex-col gap-1.5 text-sm font-medium">
+            Ticket
+            <select name="Ticket" class="border-input bg-background h-9 min-w-44 rounded-md border px-2 text-sm">
+                <option value="" selected="@(Filter.Ticket is null)">All tickets</option>
+                @foreach (var ticket in TicketTypes)
+                {
+                    <option value="@ticket.Slug" selected="@(Filter.Ticket == ticket.Slug)">@ticket.Name</option>
+                }
+            </select>
+        </label>
+    </form>
+</RzAlpineComponent>
+
+@code {
+    [Parameter, EditorRequired] public DashboardFilter Filter { get; set; } = null!;
+    [Parameter, EditorRequired] public DateOnly Today { get; set; }
+    [Parameter, EditorRequired] public IReadOnlyList<TicketType> TicketTypes { get; set; } = [];
+
+    private static string Iso(DateOnly day) => day.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    private string RangeText => $"{Filter.From!.Value.ToString("d MMM yyyy", CultureInfo.CurrentCulture)} – {Filter.To!.Value.ToString("d MMM yyyy", CultureInfo.CurrentCulture)}";
+}

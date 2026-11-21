@@ -45,7 +45,7 @@ tracks how much application code exists only to compensate.
 | SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet, attendees S-03 (workflow) |
 | SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works (own `CloseEventName`) | Open | e2e: attendees S-04 (workflow) |
 | SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open | n/a |
-| SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Not reached yet (dashboard) | Open | None yet |
+| SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Works (workaround: charts reloaded on theme change) | Open | e2e: dashboard dark mode (workflow) |
 | SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
 | SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
@@ -97,6 +97,13 @@ tracks how much application code exists only to compensate.
 | SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect) |
 | SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` (with Create) sends focus to `<body>` instead of the next field | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
+| SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works (workaround: event forwarding) | Open | e2e: dashboard calendar range (workflow) |
+| SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open | e2e: dashboard calendar range, quick ranges |
+| SF-059 | RizzyUI | RzChart | Bug | Medium | The chart config has no top-level `type` (only per-dataset types), so Chart.js uses no chart-type defaults: a doughnut's legend shows the dataset label instead of one entry per slice | Works (workaround: HTML legend) | Open | e2e: dashboard panels (legend items not asserted) |
+| SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works (workaround: whole numbers) | Open | None (de-DE stats not asserted yet; phase 5) |
+| SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works (workaround: `class="h-full"`, parents of at least 300 px) | Open | Manual (sizes checked in the browser) |
+| SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works (workaround: destroy the raw instance, reload on theme change) | Open | e2e: dashboard dark mode, quick ranges (no page errors) |
+| SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe |
 
 ## Integration code ledger
 
@@ -128,6 +135,10 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `AttendeeTable.razor`: `aria-labelledby` on sort toggles | 3 | SF-053 | Sort toggles named after their column |
 | `Components/Shared/SummitClasses.cs` (`TextArea`), one attribute per text area | ~15 C# | SF-052 | Styled `RzInputTextArea` |
 | `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
+| `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: calendar event forwarding, hidden range inputs and `send()`, raw chart teardown and reload on theme change | ~75 TS | SF-057, SF-058, SF-062, SF-005 | A calendar that finds its provider, a form-aware provider, a proxy-free RzChart that re-reads colors |
+| `DashboardCharts.razor`: HTML legend for the doughnut; `class="h-full"` on charts | ~12 Razor | SF-059, SF-061 | Chart type in the config; a chart that fills its parent |
+| `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
+| Money tickers in whole euros | 2 | SF-060 | Invariant `data-value` |
 
 ### Application-specific code (would exist anyway)
 
@@ -137,12 +148,15 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Features/Schedule/ScheduleBoard.razor.js` (level filter, day memory) | ~45 JS | Client-side filtering of rendered cards; keeping the active tab in the filter form |
 | `Features/Checkout/TicketEstimate.razor.js` | ~35 JS | Live price estimate while the ticket form changes |
 | `AttendeeTableState.razor.ts`: bulk-action bar label and confirmation text; `Components/Shared/text.ts` | ~20 TS | Bulk actions on the selected attendees |
+| `DashboardFilters.razor.ts`: quick ranges (`last7`, `last30`, `wholeSale`), closing the popover | ~20 TS | Preset date ranges |
 
 Running total after phase 3: about 340 lines of compensating code (C# and JavaScript), about 110
 lines of application-specific client code. After the attendees page (phase 4a): about 445 lines of
 compensating code, about 130 lines of application-specific client code. The attendees page alone added
 about 105 compensating lines against 20 application lines: the DataTable is the component that needs the
-most glue so far.
+most glue so far. After the dashboard: about 535 lines of compensating code, about 150
+lines of application-specific client code. The dashboard's code-behind is 80% compensation: forwarding
+calendar events, making a range part of a form, and keeping Chart.js alive across swaps and theme changes.
 
 ## Recurring patterns
 
@@ -179,6 +193,15 @@ finding on its own.
    naming scheme from the column ids, and the expressions are strings checked only at run time. The
    server-rendered component model and Alpine-rendered rows meet here without a contract; a default
    rendering, per-row ids and `htmx.process` after each render would cover most of it.
+9. **Teleported overlays break DOM assumptions** (SF-057, and the `htmxTeleportBridge` that already exists
+   for htmx). Popover, dialog and sheet content moves to `<body>`; anything that finds its owner by
+   bubbling (calendar to provider) or by `closest()` stops working inside an overlay. One mechanism
+   (forwarding events from teleported content, or resolving owners through Alpine scope) would cover
+   every composite component.
+10. **Third-party instances in reactive state, and culture in machine-readable output** (SF-062,
+    SF-060). Chart.js through an Alpine proxy, and a decimal written with the UI culture into `data-*`:
+    both pass every English, single-render demo and fail in a real app. A review rule ("no third-party
+    instance in Alpine data; every number in markup is invariant") would prevent the class.
 
 ## Entries
 
@@ -230,6 +253,10 @@ finding on its own.
 - **Tag:** Bug, Medium
 - **What:** `rzChart.js` resolves `var(--chart-1)` and friends once at init. Its `rz:theme-change`
   handler only calls `chart.update()`, which redraws with the colors already resolved.
+- **Confirmed (phase 4a):** on the dashboard the y-axis tick color stayed `oklch(0.47 0.03 283)` after
+  the dark-mode toggle; the same handler also throws (SF-062).
+- **Summit workaround:** `DashboardFilters.razor.ts` destroys the charts and reloads the panels on
+  `rz:theme-change`, so the colors are resolved under the new theme.
 - **Library fix:** keep the unresolved config and re-resolve it in the theme-change handler before
   `update()`.
 
@@ -853,3 +880,105 @@ finding on its own.
 - **Summit:** writes the markup by hand, following the docs example.
 - **Library suggestion:** a default body (for example `RenderDefault="true"`) with per-column cell
   templates, so the headless form is the escape hatch rather than the only way.
+
+### SF-057 A calendar in a popover is disconnected from its provider
+
+- **Tag:** Bug, High (owner: RizzyUI; the docs example is affected)
+- **What:** `CalendarMoreExamplesInfo.razor` shows `RzCalendarProvider` wrapping an `RzPopover` whose
+  content holds the `RzCalendar`. `PopoverContent` teleports its content to `<body>`. `rzCalendar.js`
+  announces itself and every click with `$dispatch('rz:calendar:…')`, which bubbles from the teleported
+  element to `<body>`; `rzCalendarProvider.js` listens on its own element. The provider never receives
+  `rz:calendar:init` (its `calendarApi` stays null, so the calendar opens on today's month instead of
+  the selected range) nor `rz:calendar:click-day` (picking days changes nothing: no `range-complete`, no
+  label update). Found on the dashboard: picking two days did nothing.
+- **Root cause:** DOM events do not follow Alpine's `x-teleport`; the calendar finds its provider by
+  bubbling. Confirmed in the browser (`calendarApi` false; events seen on `<body>` only).
+- **Summit workaround:** `DashboardFilters.razor.ts` listens for the three calendar events on
+  `document` and re-dispatches those from its calendar on the provider (about 10 lines).
+- **Library fix:** let the calendar find its provider through Alpine scope (`closest` data stack) or
+  an id (`ProviderId`), or have the popover forward events from its teleported content; add the range
+  popover example to the docs tests.
+- **Regression test (library):** a browser test of the docs "Range Popover" example: pick two days, the
+  label changes and `rz:calendar:range-complete` fires on the provider.
+
+### SF-058 A calendar range cannot be part of a form without script
+
+- **Tag:** Gap, Medium (owner: RizzyUI)
+- **What:** `RzCalendarProvider` keeps its dates in Alpine state and dispatches `rz:calendar:range-complete`.
+  Nothing posts them: no `Name`/`StartName`/`EndName`, no hidden inputs, no `change` event on a form
+  control. In an htmx app every filter is a form, so a date range filter needs two hidden inputs with
+  `x-bind:value`, a listener and a manual submit. The bindings also lag: the provider normalizes dates
+  over more than one tick, so a submit on the next tick still sent the old range (found when the quick
+  range buttons sent stale dates); Summit writes the inputs itself.
+- **Plan reference:** F-14 (`RzDateEdit` range mode cannot bind) is the same gap from the other side.
+- **Summit workaround:** hidden `From`/`To` inputs in the provider and `send(from, to)` in the
+  code-behind, which writes them and triggers the form's `change`.
+- **Library fix:** `StartName`/`EndName` (or `Name` with a separator) rendering hidden inputs kept in
+  sync, and a bubbling `change` event on them when a range completes.
+
+### SF-059 RzChart never sets the chart type
+
+- **Tag:** Bug, Medium (owner: RizzyUI)
+- **What:** `ChartBuilder` serializes `{ data, options }`; the type is set only on each dataset
+  (`DoughnutPieDataset { Type = "doughnut" }`). Chart.js applies chart-type defaults and overrides (the
+  doughnut legend's `generateLabels`, its tooltip and interaction defaults) from the config's `type`, so a
+  doughnut renders with a line chart's legend: one entry labelled "Tickets" instead of one per ticket
+  type. There is no builder method to set the type.
+- **Summit workaround:** the Chart.js legend is hidden and the card renders its own legend (a list
+  with `bg-chart-N` swatches and counts), which is also easier to read and to translate.
+- **Library fix:** set `type` from the first dataset (or add `ChartBuilder.Type(...)`); add a doughnut
+  example with its legend to the docs tests.
+
+### SF-060 Decimal tickers show zero in German
+
+- **Tag:** Bug, High for non-English apps (owner: RizzyUI)
+- **What:** `RzNumberTicker.razor` renders `data-value="@Value"` (and `data-start-value`) with the
+  current culture. Under de-DE the revenue renders `data-value="96356,2"`, `parseNumber` in
+  `rzNumberTicker.js` gets 0 (or NaN), and the dashboard showed "€0,00" for revenue and average order.
+  The `Culture` parameter only affects the display format. Integers are unaffected, which is why the
+  home page stats never showed it.
+- **Summit workaround:** money tickers use whole euros (`Math.Round`, `DecimalPlaces = 0`).
+- **Library fix:** format the data attributes with `CultureInfo.InvariantCulture`; audit other components
+  that write numbers into `data-*` or JSON by string interpolation.
+- **Regression test (library):** bUnit under de-DE: `data-value` of `Value = 1.5m` is `1.5`.
+
+### SF-061 Charts overflow a fixed-height parent
+
+- **Tag:** Bug, Low (owner: RizzyUI)
+- **What:** `RzChart`'s base slot is `w-full` and its container `relative h-full min-h-[300px] w-full`.
+  `h-full` of a base without a height is auto, so with `maintainAspectRatio: false` the canvas sizes the
+  container and the container the canvas: in a `h-56` card the bar chart rendered 484 px tall and
+  covered the card below. The docs examples set a height on a wrapper but not on the chart.
+- **Summit workaround:** `class="h-full"` on each `RzChart`, inside wrappers of 256 or 320 px.
+- **Library fix:** `h-full` on the base slot, and drop the fixed `min-h` (or document it).
+
+### SF-062 Charts throw on a theme change and when replaced
+
+- **Tag:** Bug, High (owner: RizzyUI)
+- **What:** `rzChart.js` declares `chartInstance: null` in its Alpine data and assigns the Chart.js
+  instance to it, so every later access (`this.chartInstance.update()`, `.destroy()`) goes through a
+  reactive proxy. Chart.js does not work through a proxy: toggling dark mode on the dashboard threw
+  "Maximum call stack size exceeded" and "Cannot set properties of undefined (setting 'fullSize')"
+  from the theme handler, and swapping the charts region while a chart was animating threw "Cannot read
+  properties of null (reading 'save')" from Chart.js's animator, which still held the real chart because
+  `destroy()` unregistered the proxy. Any htmx app that replaces charts or toggles the theme hits it.
+- **Root cause:** reactive wrapping of a third-party instance (the known Alpine and Chart.js pitfall);
+  the fix is `Alpine.raw()` or keeping the instance outside the reactive data.
+- **Summit workaround:** `DashboardFilters.razor.ts` destroys the raw instances (`Alpine.raw`) and removes
+  their theme listeners before the charts region is swapped (`htmx:before:swap`) and on a theme change,
+  then reloads the panels. About 35 lines with SF-005.
+- **Library fix:** keep the instance in a non-reactive field (a closure or a `WeakMap`), or call
+  `Alpine.raw(this.chartInstance)` everywhere. Re-resolve colors on theme change at the same time (SF-005).
+- **Regression test (library):** a docs-page browser test that toggles the theme and replaces a chart
+  with no page errors.
+
+### SF-063 A scrolling table is not keyboard accessible
+
+- **Tag:** Bug, Low (owner: RizzyUI; accessibility)
+- **What:** `RzTable` wraps the table in `overflow-x-auto`. When a table is wider than its card and has
+  no links or buttons (the dashboard's recent orders), keyboard users cannot scroll it; axe reports
+  `scrollable-region-focusable` (WCAG 2.1.1).
+- **Summit workaround:** `RzTable tabindex="0" role="region" aria-label="Recent orders table"` (the
+  attributes land on the container).
+- **Library fix:** give the container `tabindex="0"`, a role and a name (from the caption) when it can
+  scroll, or always.

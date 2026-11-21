@@ -1,0 +1,25 @@
+@using System.Globalization
+@* Seats sold per ticket type over the whole sale (out of band with the panels request). *@
+<RzCard id="dashboard-capacity">
+    <CardHeader>
+        <CardTitle>Capacity</CardTitle>
+        <CardDescription>Seats sold per ticket type, whole sale</CardDescription>
+    </CardHeader>
+    <CardContent class="flex flex-col gap-5">
+        @foreach (var row in Rows)
+        {
+            var percent = row.Capacity == 0 ? 0 : Math.Min(100, row.Sold * 100.0 / row.Capacity);
+            <RzProgress Value="percent" Variant="@(percent >= 90 ? StatusColor.Warning : StatusColor.Primary)"
+                        AriaLabel="@($"{row.Name} capacity")" ValueText="@($"{row.Sold} of {row.Capacity} seats sold")">
+                <ProgressLabel class="flex justify-between text-sm">
+                    <span>@row.Name</span>
+                    <span class="text-muted-foreground tabular-nums">@row.Sold.ToString("N0", CultureInfo.CurrentCulture) / @row.Capacity.ToString("N0", CultureInfo.CurrentCulture)</span>
+                </ProgressLabel>
+            </RzProgress>
+        }
+    </CardContent>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<CapacityRow> Rows { get; set; } = [];
+}

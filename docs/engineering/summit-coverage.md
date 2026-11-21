@@ -19,19 +19,19 @@ a browser test.
 
 ## Matrix
 
-Status after phase 4a, attendees (public site, checkout, organizer attendees). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 4a (public site, checkout, organizer attendees and dashboard). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
 | RzDataTable | 4 | organizer attendees (600 rows): sorting, search, column visibility, paging, rows per page, selection across pages, group header | organizer-attendees: S-03, S-04, filters | state carried through server rebuilds (SF-001); row actions via script (SF-048); SF-050, SF-053, SF-054, SF-056 |
-| RzTable | 4 | attendees (inside RzDataTable) | organizer-attendees | SF-049, SF-054 |
+| RzTable | 4 | attendees (inside RzDataTable), dashboard recent orders (server-paged) | organizer-attendees; organizer-dashboard: orders page | SF-049, SF-054, SF-063 |
 | RzAvatar | 1 | speaker cards, session page, sidebar | axe | labels set by hand (SF-031) |
 | RzBadge | 1 | everywhere | axe (contrast) | |
-| RzChart | 0 | (dashboard) | | |
+| RzChart | 4 | dashboard: line, doughnut, bar; replaced on every filter change | organizer-dashboard: panels, filters, dark mode | SF-005, SF-059, SF-061, SF-062 (theme change and replacement worked around) |
 | RzConfetti | 2 | checkout confirmation (`Trigger=Load`) | | not visible under reduced motion; an HX-Trigger event would be missed (SF-039) |
-| RzIndicator | 0 | (check-in) | | |
+| RzIndicator | 1 | dashboard "check-in desk is open" link | axe | decorative dot (check-in counter in phase 4b) |
 | RzMarquee | 1 | home sponsors | axe | decorative; names in an sr-only list |
-| RzProgress | 2 | contact form (indeterminate, `hx-indicator`), tickets (low stock) | | visibility during upload not asserted |
+| RzProgress | 4 | contact form (indeterminate, `hx-indicator`), tickets (low stock), dashboard capacity | organizer-dashboard: panels | `ValueText`; upload visibility not asserted |
 | RzSeparator | 1 | layouts | axe | |
 | RzArticle | 1 | session, help | axe | side column hidden on phones |
 | RzBrowser | 4 | session page slides | public: slide preview | iframe content asserted |
@@ -43,18 +43,18 @@ Status after phase 4a, attendees (public site, checkout, organizer attendees). "
 | RzAlert | 4 | sign-in error, contact success, tickets | shell: sign-in 422; public: contact | live-region defaults (SF-022) |
 | RzAlertDialog | 4 | attendees bulk actions | organizer-attendees: S-04 | opened by a window event, closed by `HX-Trigger` with its own close event (SF-003); Cancel returns focus |
 | RzDialog | 4 | search palette, quick actions | public: search palette; shell: quick actions | with RzCommand, opened by window events |
-| RzEmpty | 4 | speakers, schedule, errors | public: no speakers match | |
-| RzPopover | 4 | room details on session cards; attendee column menu | organizer-attendees: S-03 | column toggles inside the popover drive the table |
+| RzEmpty | 4 | speakers, schedule, errors, attendees, dashboard | public: no speakers match; organizer-dashboard: empty range | |
+| RzPopover | 4 | room details on session cards; attendee column menu; dashboard date range | organizer-attendees: S-03; organizer-dashboard: calendar range | column toggles drive the table; closed from code when a range is complete |
 | RzSheet | 4 | session details, attendee editor, mobile navigation | public: details sheet; organizer-attendees: S-03 | swapped in open, removed out of band (SF-002); a 422 inside the teleported panel; mobile nav not asserted |
-| RzSkeleton | 4 | home stats | public: lazy numbers | replaced by an `intersect once` swap |
+| RzSkeleton | 4 | home stats, dashboard placeholders | public: lazy numbers; organizer-dashboard: failed request keeps them | replaced by `intersect once` and `load` swaps |
 | RzSpinner | 1 | schedule filters, speaker search (`hx-indicator`) | axe | |
 | RzToast | 4 | agenda, contact form, server errors | public: agenda toast, message sent | server toasts via `HX-Trigger` |
 | RzTooltip | 1 | organizer sidebar (collapsed) | axe | |
 | Field family | 4 | sign-in, contact, checkout (list-bound fields) | shell, public, checkout | 422 round trips; list items need SF-044 |
 | InputGroup | 4 | speaker search | public: speakers | |
 | RzButton | 4 | everywhere | many | as links via `Element="a"` (SF-018) |
-| RzButtonGroup | 0 | (dashboard, schedule builder) | | |
-| RzCalendar | 0 | (dashboard) | | |
+| RzButtonGroup | 4 | dashboard quick ranges | organizer-dashboard: quick ranges | `aria-label` on the group |
+| RzCalendar | 4 | dashboard range (two months, `MaxDate`) in a popover, with `RzCalendarProvider` | organizer-dashboard: calendar range | SF-057 (teleport), SF-058 (form) worked around |
 | RzCheckboxGroup | 4 | schedule track filter, checkout add-ons | public: track filter; checkout | GET form with a cascaded `EditContext` (SF-028) |
 | RzInputCheckbox | 4 | checkout code of conduct | checkout: 422 then checked | focus moves to it after the 422 |
 | RzColorPickerProvider | 0 | (schedule builder) | | |
@@ -89,7 +89,7 @@ Status after phase 4a, attendees (public site, checkout, organizer attendees). "
 | RzLink | 1 | footer, help | axe | |
 | RzMenubar | 0 | (schedule builder) | | |
 | RzNavigationMenu | 1 | public header mega menu | axe | not opened by a test |
-| RzPagination | 4 | speakers | public: pages with htmx | `hx-get` + pushed URL |
+| RzPagination | 4 | speakers, dashboard orders | public: pages with htmx; organizer-dashboard: orders page | `hx-get` + pushed URL; in-card paging without URL |
 | RzScrollArea | 1 | schedule day tabs | axe | |
 | RzSidebar | 1 | organizer layout | axe | collapse, mobile sheet and cookie not tested; SF-049 |
 | RzTabs | 4 | schedule days | public: filter keeps the day | `rz:tabs-change` feeds the filter form |
@@ -97,7 +97,7 @@ Status after phase 4a, attendees (public site, checkout, organizer attendees). "
 | RzAnimatedGradientText | 1 | home hero | axe | |
 | RzAuroraText | 1 | home hero | axe | SF-035 |
 | RzHighlighter | 1 | home, speaker matches | axe | |
-| RzNumberTicker | 4 | home stats | public: lazy numbers | final value under reduced motion |
+| RzNumberTicker | 4 | home stats, dashboard key figures | public: lazy numbers; organizer-dashboard | final value under reduced motion; decimals broken under de-DE (SF-060) |
 | RzTypingAnimation | 1 | home hero | axe | |
 | RzDarkModeToggle | 4 | all layouts | shell: dark mode | |
 | RzThemeProvider | 4 | app shell (custom theme from JSON) | axe contrast (detects SF-034) | |

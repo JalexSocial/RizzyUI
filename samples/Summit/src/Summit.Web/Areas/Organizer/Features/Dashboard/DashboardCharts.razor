@@ -1,0 +1,137 @@
+@using System.Globalization
+@using RizzyUI.Charts
+@*
+    The charts region (the main target of the panels request). Each RzChart is replaced on every filter
+    change, so the old Chart.js instance must be destroyed with its element. Every chart has an
+    AriaLabel and a visually hidden table with the same numbers. Each chart has class="h-full" inside a
+    wrapper with a fixed height: without it the canvas grows past its card (SF-061).
+*@
+<div id="dashboard-charts" class="grid gap-4 lg:grid-cols-3">
+    @if (Panels.IsEmpty)
+    {
+        <RzCard class="lg:col-span-3">
+            <CardContent class="pt-6">
+                <RzEmpty>
+                    <EmptyHeader>
+                        <EmptyMedia Variant="EmptyMediaVariant.Icon"><Blazicon Svg="Lucide.ChartNoAxesColumn" /></EmptyMedia>
+                        <EmptyTitle>No sales in this range</EmptyTitle>
+                        <EmptyDescription>Choose a longer range or another ticket type.</EmptyDescription>
+                    </EmptyHeader>
+                </RzEmpty>
+            </CardContent>
+        </RzCard>
+    }
+    else
+    {
+        <RzCard class="lg:col-span-2">
+            <CardHeader>
+                <CardTitle>Tickets sold per day</CardTitle>
+                <CardDescription>@Panels.Stats.Tickets.ToString("N0", CultureInfo.CurrentCulture) tickets in the range</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="h-80">
+                    <RzChart id="chart-daily" class="h-full" AriaLabel="Line chart of tickets sold per day" Configure="@(c => c
+                        .Data(d => d
+                            .Labels(Panels.Daily.Select(p => DashboardFormat.Day(p.Day)).ToArray())
+                            .Datasets(ds => ds.Line()
+                                .Label("Tickets")
+                                .Data(Panels.Daily.Select(p => p.Tickets).ToArray())
+                                .BorderColor("var(--chart-1)")
+                                .BackgroundColor("var(--chart-1)")
+                                .PointRadius(0)
+                                .Tension(0.3)))
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Legend(l => l.Display(false)))
+                            .Scales(s => s
+                                .ScaleId("x").Ticks(t => t.Color("var(--muted-foreground)")).Grid(g => g.Display(false))
+                                .ScaleId("y").BeginAtZero(true).Ticks(t => t.Color("var(--muted-foreground)")).Grid(g => g.Color("var(--border)")))))" />
+                </div>
+                @SummaryTable("Tickets sold per day", "Day", "Tickets", Panels.Daily.Select(p => (DashboardFormat.Day(p.Day), p.Tickets)))
+            </CardContent>
+        </RzCard>
+
+        <RzCard>
+            <CardHeader>
+                <CardTitle>Tickets by type</CardTitle>
+                <CardDescription>Share of the tickets in the range</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="h-64">
+                    <RzChart id="chart-tickets" class="h-full" AriaLabel="Doughnut chart of tickets by type" Configure="@(c => c
+                        .Data(d => d
+                            .Labels(Panels.ByTicket.Select(t => t.Name).ToArray())
+                            .Datasets(ds => ds.Doughnut()
+                                .Label("Tickets")
+                                .Data(Panels.ByTicket.Select(t => t.Count).ToArray())
+                                .BackgroundColors("var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)")
+                                .BorderColor("var(--card)")))
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Legend(l => l.Display(false)))))" />
+                </div>
+                @* An HTML legend: without a chart type, Chart.js's own legend shows the dataset label instead
+                   of one entry per slice (SF-059). *@
+                <ul class="mt-4 flex flex-col gap-1 text-sm" aria-hidden="true">
+                    @for (var i = 0; i < Panels.ByTicket.Count; i++)
+                    {
+                        <li class="flex items-center gap-2">
+                            <span class="@($"size-2.5 shrink-0 rounded-sm {Swatches[i % Swatches.Length]}")"></span>
+                            <span class="truncate">@Panels.ByTicket[i].Name</span>
+                            <span class="text-muted-foreground ms-auto tabular-nums">@Panels.ByTicket[i].Count</span>
+                        </li>
+                    }
+                </ul>
+                @SummaryTable("Tickets by type", "Ticket", "Tickets", Panels.ByTicket.Select(t => (t.Name, t.Count)))
+            </CardContent>
+        </RzCard>
+
+        <RzCard class="lg:col-span-3">
+            <CardHeader>
+                <CardTitle>Orders by country</CardTitle>
+                <CardDescription>The eight countries with the most orders in the range</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="h-80">
+                    <RzChart id="chart-countries" class="h-full" AriaLabel="Bar chart of orders by country" Configure="@(c => c
+                        .Data(d => d
+                            .Labels(Panels.ByCountry.Select(x => x.Name).ToArray())
+                            .Datasets(ds => ds.Bar()
+                                .Label("Orders")
+                                .Data(Panels.ByCountry.Select(x => x.Count).ToArray())
+                                .BackgroundColor("var(--chart-2)")
+                                .BorderRadius(4)))
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Legend(l => l.Display(false)))
+                            .Scales(s => s
+                                .ScaleId("x").Ticks(t => t.Color("var(--muted-foreground)")).Grid(g => g.Display(false))
+                                .ScaleId("y").BeginAtZero(true).Ticks(t => t.Color("var(--muted-foreground)")).Grid(g => g.Color("var(--border)")))))" />
+                </div>
+                @SummaryTable("Orders by country", "Country", "Orders", Panels.ByCountry.Select(x => (x.Name, x.Count)))
+            </CardContent>
+        </RzCard>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public DashboardPanels Panels { get; set; } = null!;
+
+    // The doughnut's slice colors, in order, as Tailwind classes for the HTML legend.
+    private static readonly string[] Swatches = ["bg-chart-1", "bg-chart-2", "bg-chart-3", "bg-chart-4", "bg-chart-5"];
+
+    private static RenderFragment SummaryTable(string caption, string label, string value, IEnumerable<(string Label, int Value)> rows) =>
+        @<table class="sr-only">
+            <caption>@caption</caption>
+            <thead><tr><th scope="col">@label</th><th scope="col">@value</th></tr></thead>
+            <tbody>
+                @foreach (var row in rows)
+                {
+                    <tr><th scope="row">@row.Label</th><td>@row.Value</td></tr>
+                }
+            </tbody>
+        </table>;
+}
