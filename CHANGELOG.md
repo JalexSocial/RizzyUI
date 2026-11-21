@@ -18,6 +18,12 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Fixed
+
+- **A sheet opened from its trigger takes focus and traps Tab** (Summit SF-074). `RzSheet` activated its
+  focus scope before the panel was visible, so focus stayed on the trigger behind the overlay and Tab
+  walked the page. Sheets opened with `DefaultOpen` were not affected.
+
 ## [1.0.0-preview.3] - 2026-11-20
 
 Still on **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. Alpine code-behind (`RzAlpineComponent`

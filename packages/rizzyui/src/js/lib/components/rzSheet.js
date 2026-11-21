@@ -59,8 +59,14 @@ export default function rzSheet() {
             }
 
             if (this.modal && !this.focusScope) {
-                this.focusScope = createFocusScope(panel, { fallbackFocus: panel });
-                this.focusScope.activate();
+                // The `open` watcher runs before x-show has displayed the panel, so nothing inside it
+                // is focusable yet and focus would stay on the trigger, behind the overlay (SF-074).
+                // Activate once the panel is shown.
+                this.$nextTick(() => {
+                    if (!this.open || this.focusScope || !panel.isConnected) return;
+                    this.focusScope = createFocusScope(panel, { fallbackFocus: panel });
+                    this.focusScope.activate();
+                });
             }
         },
 

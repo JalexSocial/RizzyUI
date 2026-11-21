@@ -110,7 +110,7 @@ export function defineRealComponentA11ySpecs(variant: string) {
       expect(errors).toEqual([]);
     });
 
-    test('sheet: named dialog, Escape closes and focus returns', async ({ page }) => {
+    test('sheet: named dialog, focus trap, Escape closes and focus returns', async ({ page }) => {
       const errors = await open(page, 'sheet');
       const trigger = page.locator('#sheet-trigger');
       await trigger.focus();
@@ -119,6 +119,8 @@ export function defineRealComponentA11ySpecs(variant: string) {
       const sheet = page.getByRole('dialog', { name: 'Edit Profile' });
       await expect(sheet).toBeVisible();
       await expect(sheet).toHaveAccessibleDescription(/Make changes to your profile/);
+      // SF-074: a sheet opened from its trigger takes focus and keeps Tab inside.
+      await expectFocusStaysInside(page, '[data-slot="sheet-content"]');
       await expectNoDanglingAriaReferences(page);
       await expectNoAxeViolations(page);
 
