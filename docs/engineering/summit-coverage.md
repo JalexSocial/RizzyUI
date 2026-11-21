@@ -19,17 +19,17 @@ a browser test.
 
 ## Matrix
 
-Status after phase 4a (public site, checkout, organizer attendees and dashboard). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 4b, check-in desk (public site, checkout, organizer attendees, dashboard, check-in). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
 | RzDataTable | 4 | organizer attendees (600 rows): sorting, search, column visibility, paging, rows per page, selection across pages, group header | organizer-attendees: S-03, S-04, filters | state carried through server rebuilds (SF-001); row actions via script (SF-048); SF-050, SF-053, SF-054, SF-056 |
 | RzTable | 4 | attendees (inside RzDataTable), dashboard recent orders (server-paged) | organizer-attendees; organizer-dashboard: orders page | SF-049, SF-054, SF-063 |
-| RzAvatar | 1 | speaker cards, session page, sidebar | axe | labels set by hand (SF-031) |
+| RzAvatar | 3 | speaker cards, session page, sidebar, check-in result (fallback initials) | axe; organizer-checkin | labels set by hand (SF-031) |
 | RzBadge | 1 | everywhere | axe (contrast) | |
 | RzChart | 4 | dashboard: line, doughnut, bar; replaced on every filter change | organizer-dashboard: panels, filters, dark mode | SF-005, SF-059, SF-061, SF-062 (theme change and replacement worked around) |
 | RzConfetti | 2 | checkout confirmation (`Trigger=Load`) | | not visible under reduced motion; an HX-Trigger event would be missed (SF-039) |
-| RzIndicator | 1 | dashboard "check-in desk is open" link | axe | decorative dot (check-in counter in phase 4b) |
+| RzIndicator | 1 | dashboard link, check-in counter (live dots) | axe | `role="img"` added (SF-066); a dot has no behavior to exercise |
 | RzMarquee | 1 | home sponsors | axe | decorative; names in an sr-only list |
 | RzProgress | 4 | contact form (indeterminate, `hx-indicator`), tickets (low stock), dashboard capacity | organizer-dashboard: panels | `ValueText`; upload visibility not asserted |
 | RzSeparator | 1 | layouts | axe | |
@@ -40,14 +40,14 @@ Status after phase 4a (public site, checkout, organizer attendees and dashboard)
 | RzEventViewer | 0 | (settings) | | |
 | RzMarkdown | 4 | session abstracts, bios, FAQ | public: untrusted Markdown | safe default verified |
 | RzQuickReference | 3 | session, help | public: quick reference link | with RzHeading and RzArticle |
-| RzAlert | 4 | sign-in error, contact success, tickets | shell: sign-in 422; public: contact | live-region defaults (SF-022) |
+| RzAlert | 4 | sign-in error, contact success, tickets, check-in result (status vs alert by outcome) | shell: sign-in 422; public: contact; organizer-checkin: S-05 | live-region defaults (SF-022); colored variants' base text (SF-065) |
 | RzAlertDialog | 4 | attendees bulk actions | organizer-attendees: S-04 | opened by a window event, closed by `HX-Trigger` with its own close event (SF-003); Cancel returns focus |
 | RzDialog | 4 | search palette, quick actions | public: search palette; shell: quick actions | with RzCommand, opened by window events |
 | RzEmpty | 4 | speakers, schedule, errors, attendees, dashboard | public: no speakers match; organizer-dashboard: empty range | |
 | RzPopover | 4 | room details on session cards; attendee column menu; dashboard date range | organizer-attendees: S-03; organizer-dashboard: calendar range | column toggles drive the table; closed from code when a range is complete |
 | RzSheet | 4 | session details, attendee editor, mobile navigation | public: details sheet; organizer-attendees: S-03 | swapped in open, removed out of band (SF-002); a 422 inside the teleported panel; mobile nav not asserted |
 | RzSkeleton | 4 | home stats, dashboard placeholders | public: lazy numbers; organizer-dashboard: failed request keeps them | replaced by `intersect once` and `load` swaps |
-| RzSpinner | 1 | schedule filters, speaker search (`hx-indicator`) | axe | |
+| RzSpinner | 1 | schedule filters, speaker search, check-in (`hx-indicator`) | axe | visibility during a request not asserted |
 | RzToast | 4 | agenda, contact form, server errors | public: agenda toast, message sent | server toasts via `HX-Trigger` |
 | RzTooltip | 1 | organizer sidebar (collapsed) | axe | |
 | Field family | 4 | sign-in, contact, checkout (list-bound fields) | shell, public, checkout | 422 round trips; list items need SF-044 |
@@ -65,7 +65,7 @@ Status after phase 4a (public site, checkout, organizer attendees and dashboard)
 | RzFormSection | 3 | checkout attendee sections | checkout (rendered in the flow) | `Description` is a RenderFragment |
 | RzInputColor | 0 | (schedule builder) | | |
 | RzInputNumber | 4 | checkout quantity | checkout | feeds the live estimate |
-| RzInputOTP | 4 | checkout discount code | checkout: expired, then valid | alphanumeric, upper-cased; check-in desk planned |
+| RzInputOTP | 4 | checkout discount code, check-in badge (posted on completion) | checkout: expired, then valid; organizer-checkin: S-05, 422, mobile | `rz:inputotp:onchange` as an `hx-trigger`; focus by script (SF-064) |
 | RzInputText | 4 | sign-in, contact, speaker search | shell, public | |
 | RzInputTextArea | 4 | contact, checkout accessibility needs, attendee notes | public: contact | unstyled by default (SF-052) |
 | RzNativeSelect | 4 | contact topic, attendee ticket and status | public: contact; organizer-attendees | enum and int values bound |
@@ -79,7 +79,7 @@ Status after phase 4a (public site, checkout, organizer attendees and dashboard)
 | RzCard | 1 | everywhere | axe | |
 | RzCarousel | 4 | home featured speakers | public: carousel buttons | autoplay off under reduced motion |
 | RzCollapsible | 1 | help | axe | |
-| RzItem | 1 | session speakers, details sheet | axe | `role="listitem"` added by hand (SF-038) |
+| RzItem | 3 | session speakers, details sheet, check-in result | axe; organizer-checkin | `role="listitem"` added by hand (SF-038) |
 | RzSearchButton | 2 | header | | opens the palette; the test uses Ctrl+K instead |
 | RzSteps | 4 | checkout step indicator | checkout: `aria-current="step"` | re-rendered out of band each step |
 | RzBreadcrumb | 1 | session page, organizer header | axe | |

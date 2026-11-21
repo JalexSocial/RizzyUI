@@ -1,0 +1,60 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    The badge form, with the last result above it. Posted with htmx when the six characters are complete
+    (rz:inputotp:onchange) or on submit; the response replaces #checkin-form. After a check-in the form
+    comes back empty and focus returns to the badge input for the next person: RzInputOTP passes extra
+    attributes to its container, so autofocus cannot reach the input (SF-064) and the code-behind
+    focuses it.
+*@
+<RzAlpineComponent For="this" id="checkin-form" class="flex flex-col gap-4">
+    @if (Result is not null)
+    {
+        <CheckInResultCard Result="Result" />
+    }
+    <RzCard>
+        <CardContent class="pt-6">
+            <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-4"
+                      hx-post="/organizer/check-in" hx-trigger="submit, rz:inputotp:onchange"
+                      hx-target="#checkin-form" hx-swap="outerHTML"
+                      hx-indicator="#checkin-spinner" hx-disabled-elt="find button[type=submit]">
+                <RzModelStateProvider />
+                <FocusFirstError />
+                <Field>
+                    <FieldLabel For="@(() => Model!.BadgeCode)" />
+                    @* Name set explicitly: RzInputOTP defaults to the bare property name (SF-009). *@
+                    <RzInputOTP For="@(() => Model!.BadgeCode)" Name="Model.BadgeCode" Length="6" Autocomplete="off"
+                                OtpType="InputOtpType.Alphanumeric" TextTransform="InputOtpTextTransform.ToUpper">
+                        <InputOTPGroup>
+                            <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+                        </InputOTPGroup>
+                        <InputOTPSeparator />
+                        <InputOTPGroup>
+                            <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+                        </InputOTPGroup>
+                    </RzInputOTP>
+                    <FieldDescription>The badge is checked as soon as the sixth character is typed.</FieldDescription>
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.BadgeCode)" /></FieldError>
+                </Field>
+                <div class="flex items-center gap-3">
+                    <RzButton type="submit" Variant="ThemeVariant.Primary">Check in</RzButton>
+                    <span id="checkin-spinner" class="htmx-indicator"><RzSpinner Size="Size.Small" AriaLabel="Checking the badge" /></span>
+                </div>
+            </EditForm>
+        </CardContent>
+    </RzCard>
+</RzAlpineComponent>
+
+@code {
+    [SupplyParameterFromForm(FormName = "Model")]
+    public CheckInModel? Model { get; set; }
+
+    [Parameter] public CheckInResult? Result { get; set; }
+    /// <summary>Show an empty form (after a code was handled).</summary>
+    [Parameter] public bool Reset { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new CheckInModel();
+        if (Reset) Model = new CheckInModel();
+    }
+}

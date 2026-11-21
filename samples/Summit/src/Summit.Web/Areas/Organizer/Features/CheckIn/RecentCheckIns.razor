@@ -1,0 +1,31 @@
+@* The latest check-ins; a new one is prepended to the body out of band (SwapStyle.afterbegin). *@
+<RzCard>
+    <CardHeader>
+        <CardTitle>Latest check-ins</CardTitle>
+        <CardDescription>Newest first</CardDescription>
+    </CardHeader>
+    <CardContent>
+        @* tabindex, role and name: the scroll container must be reachable by keyboard (SF-063). *@
+        <RzTable tabindex="0" role="region" aria-label="Latest check-ins table">
+            <TableCaption class="sr-only">Latest check-ins</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHeaderCell>Name</TableHeaderCell>
+                    <TableHeaderCell>Ticket</TableHeaderCell>
+                    <TableHeaderCell>Badge</TableHeaderCell>
+                    <TableHeaderCell>Time</TableHeaderCell>
+                </TableRow>
+            </TableHeader>
+            <TableBody id="recent-checkins-body">
+                @foreach (var row in Rows)
+                {
+                    <RecentCheckInRow Row="row" />
+                }
+            </TableBody>
+        </RzTable>
+    </CardContent>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<RecentCheckIn> Rows { get; set; } = [];
+}

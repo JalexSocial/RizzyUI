@@ -22,6 +22,7 @@ public static class SummitFeatures
         services.AddScoped<Checkout.CheckoutService>();
         services.AddScoped<Areas.Organizer.Features.Attendees.AttendeeQuery>();
         services.AddScoped<Areas.Organizer.Features.Dashboard.DashboardQuery>();
+        services.AddScoped<Areas.Organizer.Features.CheckIn.CheckInDesk>();
         return services;
     }
 

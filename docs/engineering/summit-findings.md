@@ -104,6 +104,9 @@ tracks how much application code exists only to compensate.
 | SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works (workaround: `class="h-full"`, parents of at least 300 px) | Open | Manual (sizes checked in the browser) |
 | SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works (workaround: destroy the raw instance, reload on theme change) | Open | e2e: dashboard dark mode, quick ranges (no page errors) |
 | SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe |
+| SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
+| SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works (workaround: `text-foreground` on the content) | Open | e2e: check-in S-05 (axe) |
+| SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe) |
 
 ## Integration code ledger
 
@@ -139,6 +142,8 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `DashboardCharts.razor`: HTML legend for the doughnut; `class="h-full"` on charts | ~12 Razor | SF-059, SF-061 | Chart type in the config; a chart that fills its parent |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | Money tickers in whole euros | 2 | SF-060 | Invariant `data-value` |
+| `CheckIn/CheckInForm.razor.js` (focus the badge input) | ~5 JS | SF-064 | An input attribute or `AutoFocus` on RzInputOTP |
+| `text-foreground` in alerts, `role="img"` on indicators | 1 per use | SF-065, SF-066 | Correct defaults |
 
 ### Application-specific code (would exist anyway)
 
@@ -982,3 +987,42 @@ finding on its own.
   attributes land on the container).
 - **Library fix:** give the container `tabindex="0"`, a role and a name (from the caption) when it can
   scroll, or always.
+
+### SF-064 RzInputOTP's input cannot take autofocus
+
+- **Tag:** DX, Low (owner: RizzyUI)
+- **What:** `RzInputOTP` splats `AdditionalAttributes` on its container `div`; the real `<input>` (hidden
+  behind the slots) only gets the parameters the component defines. `autofocus`, which htmx 4 honors
+  after a swap and would put the cursor back in the badge field after each check-in, ends up on the
+  `div`. The same applies to `autocapitalize` and `enterkeyhint`, which matter on phones.
+- **Summit workaround:** `CheckInForm.razor.js` focuses `[data-otp-input]` when the form initializes
+  (4 lines).
+- **Library fix:** an `InputAttributes` dictionary (or `AutoFocus`) for the input, as other inputs take
+  their attributes on the input element.
+- **Observed working:** `rz:inputotp:onchange` fires once the code is complete, after the hidden input
+  holds the value, so `hx-trigger="submit, rz:inputotp:onchange"` on the form posts the full code with
+  no script (open question from the plan, answered).
+
+### SF-065 Content inside a colored alert is unreadable
+
+- **Tag:** Bug, Medium (owner: RizzyUI; accessibility)
+- **What:** `RzAlert`'s Success variant is `border-success bg-success/10 text-success-foreground`
+  (Warning, Info and Destructive follow the same pattern). `success-foreground` is the text color for a
+  solid `bg-success` (white in light mode, dark in dark mode); on a 10% tint it is near-white on
+  near-white. `AlertTitle` and `AlertDescription` set their own colors, which hides the problem until
+  an alert contains anything else: the check-in result's `RzItem` title measured 1.14:1 (axe
+  `color-contrast`) and was invisible in dark mode.
+- **Summit workaround:** `class="text-foreground"` on the item inside the alert.
+- **Library fix:** use `text-foreground` (or `text-card-foreground`) as the alert's base color for
+  tinted variants; keep `*-foreground` only for solid fills.
+- **Regression test (library):** axe over an alert of every variant containing plain text.
+
+### SF-066 RzIndicator labels a div without a role
+
+- **Tag:** Bug, Low (owner: RizzyUI; accessibility)
+- **What:** `RzIndicator.razor` renders `<div aria-label="@EffectiveAriaLabel">` with no role, and the
+  default label is the localized "Indicator". ARIA prohibits `aria-label` on a generic element, so the
+  label is ignored or reported (axe `aria-prohibited-attr`), and "Indicator" says nothing anyway.
+- **Summit workaround:** `role="img" AriaLabel="Live"` on the live dots (dashboard, check-in counter).
+- **Library fix:** `role="img"` when a label is given, `aria-hidden="true"` (decorative) when not; no
+  generic default label.

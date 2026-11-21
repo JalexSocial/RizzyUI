@@ -50,7 +50,7 @@
                                     <RzBadge Variant="ThemeVariant.Secondary" Soft class="ms-1">Invoiced</RzBadge>
                                 }
                             </TableCell>
-                            <TableCell class="hidden sm:table-cell">@order.CreatedAt.ToString("d MMM, HH:mm", CultureInfo.CurrentCulture)</TableCell>
+                            <TableCell class="hidden sm:table-cell">@order.CreatedAt.AtVenue().ToString("d MMM, HH:mm", CultureInfo.CurrentCulture)</TableCell>
                         </TableRow>
                     }
                 </TableBody>
