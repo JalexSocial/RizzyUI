@@ -1,0 +1,35 @@
+<RzPageTitle>@Title · Summit</RzPageTitle>
+
+<div class="mx-auto max-w-xl px-4 py-24">
+    <RzEmpty>
+        <EmptyHeader>
+            <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                <Blazicon Svg="Lucide.CircleAlert" />
+            </EmptyMedia>
+            <EmptyTitle><h1>@Title</h1></EmptyTitle>
+            <EmptyDescription>@Description</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+            <RzButton Element="a" href="/" Variant="ThemeVariant.Primary">Back to the home page</RzButton>
+        </EmptyContent>
+    </RzEmpty>
+</div>
+
+@code {
+    [Parameter] public int Code { get; set; }
+
+    private string Title => Code switch
+    {
+        400 => "That request didn't work",
+        401 or 403 => "You don't have access to that page",
+        405 => "That action isn't allowed here",
+        _ => "Something went wrong",
+    };
+
+    private string Description => Code switch
+    {
+        400 => "The form may have expired. Reload the page and try again.",
+        401 or 403 => "Sign in with an organizer account to continue.",
+        _ => $"The server answered with status {Code}.",
+    };
+}

@@ -1,0 +1,38 @@
+@* Language and formats. A link with ?culture= switches; SummitCultures remembers it in a cookie. *@
+<RzDropdownMenu Anchor="AnchorPoint.BottomEnd">
+    <DropdownMenuTrigger AsChild>
+        @* The visible text ("EN") is part of the accessible name ("Language, EN"): WCAG 2.5.3. *@
+        <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small">
+            <Blazicon Svg="Lucide.Languages" class="size-4" />
+            <span class="sr-only">Language,</span>
+            <span class="text-xs font-medium uppercase">@Current.TwoLetterISOLanguageName</span>
+        </RzButton>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent class="w-48">
+        <DropdownMenuLabel>Language</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        @foreach (var culture in SummitCultures.Supported)
+        {
+            <DropdownMenuItem Element="a" href="@LinkFor(culture)" hx-boost="false" aria-current="@(IsCurrent(culture) ? "true" : null)"
+                              Icon="@(IsCurrent(culture) ? Lucide.Check : null)">
+                @culture.NativeName.Split(' ')[0]
+            </DropdownMenuItem>
+        }
+    </DropdownMenuContent>
+</RzDropdownMenu>
+
+@code {
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    private static CultureInfo Current => CultureInfo.CurrentUICulture;
+
+    private static bool IsCurrent(CultureInfo culture) => culture.Name == Current.Name;
+
+    private string LinkFor(CultureInfo culture)
+    {
+        var request = HttpContext?.Request;
+        var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(request?.QueryString.Value);
+        query["culture"] = culture.Name;
+        return Microsoft.AspNetCore.WebUtilities.QueryHelpers.AddQueryString(request?.Path.Value ?? "/", query);
+    }
+}

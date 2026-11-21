@@ -1,0 +1,130 @@
+@using System.Security.Claims
+@* No fixed ids in here: Sidebar renders its content twice, once for phones and once for desktop (SF-011). *@
+<Sidebar Collapsible="SidebarCollapsible.Icon" AriaLabel="Organizer">
+    <SidebarHeader>
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton Size="Size.Large" AsChild Tooltip="Dashboard">
+                    <a href="/organizer">
+                        <SummitLogo IconOnly />
+                        <span class="flex flex-col gap-0.5 leading-none">
+                            <span class="font-semibold">Summit</span>
+                            <span class="text-muted-foreground text-xs">Organizer</span>
+                        </span>
+                    </a>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    </SidebarHeader>
+
+    <SidebarContent>
+        @foreach (var group in Groups)
+        {
+            <SidebarGroup>
+                <SidebarGroupLabel>@group.Title</SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        @foreach (var item in group.Items)
+                        {
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive="@IsActive(item.Href)" Tooltip="@item.Title">
+                                    <a href="@item.Href">
+                                        <Blazicon Svg="item.Icon" />
+                                        <span>@item.Title</span>
+                                    </a>
+                                </SidebarMenuButton>
+                                @if (item.Badge is not null)
+                                {
+                                    <SidebarMenuBadge>@item.Badge</SidebarMenuBadge>
+                                }
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+        }
+    </SidebarContent>
+
+    <SidebarFooter>
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton AsChild Tooltip="Public site">
+                    <a href="/">
+                        <Blazicon Svg="Lucide.Globe" />
+                        <span>View public site</span>
+                    </a>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+                <RzDropdownMenu Anchor="AnchorPoint.TopStart">
+                    <DropdownMenuTrigger AsChild>
+                        <SidebarMenuButton Size="Size.Large" Tooltip="Account">
+                            <RzAvatar Size="Size.Small" class="rounded-lg">
+                                <AvatarFallback class="rounded-lg">@Initials</AvatarFallback>
+                            </RzAvatar>
+                            <span class="flex min-w-0 flex-col text-left leading-tight">
+                                <span class="truncate text-sm font-medium">@UserName</span>
+                                <span class="text-muted-foreground truncate text-xs">@UserEmail</span>
+                            </span>
+                            <Blazicon Svg="Lucide.ChevronsUpDown" class="ml-auto size-4" />
+                        </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent class="w-56">
+                        <DropdownMenuLabel>@UserEmail</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem Element="a" href="/organizer/settings" Icon="Lucide.Settings">Settings</DropdownMenuItem>
+                        <DropdownMenuItem Element="a" href="/" Icon="Lucide.Globe">Public site</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem Icon="Lucide.LogOut" hx-post="/account/sign-out" hx-target="body" hx-push-url="/account/sign-in">
+                            Sign out
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </RzDropdownMenu>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    </SidebarFooter>
+
+    <SidebarRail />
+</Sidebar>
+
+@code {
+    private sealed record NavItem(string Title, string Href, SvgIcon Icon, string? Badge = null);
+
+    private sealed record NavGroup(string Title, NavItem[] Items);
+
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    private NavGroup[] Groups { get; set; } = [];
+
+    private string UserName => HttpContext?.User.Identity?.Name ?? "Organizer";
+
+    private string UserEmail => HttpContext?.User.FindFirstValue(ClaimTypes.Email) ?? "";
+
+    private string Initials => string.Concat(UserName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p => p[0]));
+
+    [Inject] private Summit.Web.Features.ConferenceInfo Info { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var attendees = await Info.CountActiveAttendeesAsync();
+        Groups =
+        [
+            new("Overview", [new("Dashboard", "/organizer", Lucide.LayoutDashboard)]),
+            new("Event",
+            [
+                new("Attendees", "/organizer/attendees", Lucide.Users, attendees.ToString("N0", CultureInfo.CurrentCulture)),
+                new("Check-in desk", "/organizer/check-in", Lucide.ScanLine),
+                new("Schedule builder", "/organizer/schedule-builder", Lucide.CalendarCog),
+            ]),
+            new("Admin", [new("Settings", "/organizer/settings", Lucide.Settings)]),
+        ];
+    }
+
+    private bool IsActive(string href)
+    {
+        var path = HttpContext?.Request.Path.Value ?? "/";
+        return href == "/organizer"
+            ? path.Equals("/organizer", StringComparison.OrdinalIgnoreCase) || path.Equals("/organizer/", StringComparison.OrdinalIgnoreCase)
+            : path.StartsWith(href, StringComparison.OrdinalIgnoreCase);
+    }
+}

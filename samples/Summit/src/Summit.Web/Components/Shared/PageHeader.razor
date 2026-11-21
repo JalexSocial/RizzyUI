@@ -1,0 +1,26 @@
+@* The title block at the top of a page: eyebrow, h1, description and optional actions. *@
+<div class="@($"flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between {Class}")">
+    <div class="flex max-w-3xl flex-col gap-2">
+        @if (Eyebrow is not null)
+        {
+            <p class="text-primary text-sm font-semibold uppercase tracking-wide">@Eyebrow</p>
+        }
+        <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">@Title</h1>
+        @if (Description is not null)
+        {
+            <p class="text-muted-foreground text-base sm:text-lg">@Description</p>
+        }
+    </div>
+    @if (Actions is not null)
+    {
+        <div class="flex shrink-0 flex-wrap items-center gap-2">@Actions</div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public string? Eyebrow { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public RenderFragment? Actions { get; set; }
+    [Parameter] public string? Class { get; set; }
+}

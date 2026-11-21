@@ -1,0 +1,22 @@
+<Project>
+
+  <!-- RizzyUITasksVersion, the single source for the RizzyUI.Tasks version, lives with the library. -->
+  <Import Project="$(MSBuildThisFileDirectory)..\..\src\Directory.Build.props" />
+
+  <PropertyGroup>
+    <SummitRepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\'))</SummitRepoRoot>
+
+    <!--
+      How Summit references RizzyUI:
+        Project (default): the library source in src/RizzyUI, for local development.
+        Package: the RizzyUI NuGet package at $(RizzyUIVersion), for CI (eng/summit-test.sh), so the
+                 app is tested against exactly what consumers install.
+    -->
+    <SummitRizzyUISource Condition="'$(SummitRizzyUISource)' == ''">Project</SummitRizzyUISource>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+</Project>

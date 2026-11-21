@@ -1,0 +1,43 @@
+@inherits LayoutComponentBase
+@inject IRizzyNonceProvider NonceProvider
+@inject IOptions<SummitOptions> Options
+@inject ThemeSelection Themes
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    @* Asset URLs are made absolute: Assets[...] returns a relative path, and a <base href="/"> would break
+       in-page links such as the skip link (summit-findings.md SF-017). *@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Summit: a three-day developer conference. A fictional event built to demonstrate RizzyUI." />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/@Assets["favicon.svg"]" />
+    <link rel="stylesheet" href="/@Assets["css/app.css"]" />
+
+    @* The htmx-config meta tag and page head content, then htmx 4, rizzy.js and its extensions. *@
+    <RzHeadOutlet />
+    <RzScripts />
+
+    @* RizzyUI's runtime. The CSP build uses Alpine's CSP build (no eval); Summit's markup works with both. *@
+    <script type="module" nonce="@Nonce" src="/@Assets[RuntimePath]"></script>
+</head>
+@* hx-boost: links and forms become htmx requests that swap the body without a full reload. htmx 4 does
+   not inherit attributes by default: a plain hx-boost="true" on <body> boosts nothing (SF-021). *@
+<body class="bg-background text-foreground min-h-dvh antialiased" hx-boost:inherited="true">
+    <RzThemeProvider Theme="Themes.Current">
+        @Body
+        <RzToastProvider Position="ToastPosition.BottomRight" />
+        <AppNotifications />
+        <CommandNavigation />
+    </RzThemeProvider>
+</body>
+</html>
+
+@code {
+    private string Nonce => NonceProvider.GetNonce();
+
+    private string RuntimePath => Options.Value.Csp.Enabled
+        ? "_content/RizzyUI/js/rizzyui-csp.min.js"
+        : "_content/RizzyUI/js/rizzyui.min.js";
+}

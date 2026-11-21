@@ -1,0 +1,131 @@
+@inject Summit.Web.Features.Agenda.AgendaService Agenda
+
+<header class="bg-background/80 supports-[backdrop-filter]:bg-background/65 sticky top-0 z-40 border-b backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
+        @* Phones: the navigation lives in a sheet. *@
+        <RzSheet>
+            <SheetTrigger AsChild>
+                <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="lg:hidden" aria-label="Open navigation">
+                    <Blazicon Svg="Lucide.Menu" class="size-5" />
+                </RzButton>
+            </SheetTrigger>
+            <SheetContent Side="SheetSide.Left" class="w-80">
+                <SheetHeader>
+                    <SheetTitle><SummitLogo /></SheetTitle>
+                    <SheetDescription>@Conference.Name · @Conference.City</SheetDescription>
+                </SheetHeader>
+                <nav aria-label="Mobile" class="flex flex-col gap-1 px-4 pb-6">
+                    @foreach (var link in MobileLinks)
+                    {
+                        <a href="@link.Href" class="hover:bg-accent hover:text-accent-foreground flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium">
+                            <Blazicon Svg="link.Icon" class="text-muted-foreground size-4" />
+                            @link.Title
+                        </a>
+                    }
+                    <RzSeparator class="my-3" />
+                    <RzButton Element="a" href="/tickets" Variant="ThemeVariant.Primary">Get tickets</RzButton>
+                </nav>
+            </SheetContent>
+        </RzSheet>
+
+        <a href="/" class="shrink-0 rounded-md" aria-label="@Conference.Name home">
+            <SummitLogo />
+        </a>
+
+        <RzNavigationMenu AriaLabel="Main" class="ml-4 hidden lg:flex">
+            <NavigationMenuList>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>Program</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <div class="grid w-[640px] grid-cols-[1fr_1.1fr] gap-3 p-4">
+                            <ul class="flex flex-col gap-1">
+                                @MenuLink("/schedule", "Schedule", "Three days, five tracks, ninety talks.", Lucide.CalendarDays)
+                                @MenuLink("/speakers", "Speakers", "Sixty-four people who build things for a living.", Lucide.Mic)
+                                @MenuLink("/schedule?format=workshop", "Workshops", "Ninety minutes of hands-on work, forty seats each.", Lucide.Hammer)
+                            </ul>
+                            <div class="bg-muted/60 rounded-lg p-3">
+                                <p class="text-muted-foreground mb-2 px-1 text-xs font-medium uppercase tracking-wide">Tracks</p>
+                                <ul class="flex flex-col gap-0.5">
+                                    @foreach (var track in Tracks)
+                                    {
+                                        <li>
+                                            <NavigationMenuLink Href="@($"/schedule?track={track.Slug}")" class="hover:bg-background flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm">
+                                                    <RzColorSwatch Value="@track.Color" Size="ColorSwatchSize.Small" WithoutTransparency aria-hidden="true" />
+                                                    @track.Name
+                                                </NavigationMenuLink>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>Attend</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul class="grid w-[460px] gap-1 p-4">
+                            @MenuLink("/tickets", "Tickets", "Passes, workshops and student tickets.", Lucide.Ticket)
+                            @MenuLink("/help", "Help & FAQ", "Venue, travel, accessibility and contact.", Lucide.LifeBuoy)
+                            @MenuLink("/schedule?agenda=mine", "My agenda", "The talks you saved, in one list.", Lucide.Bookmark)
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+        </RzNavigationMenu>
+
+        <div class="ml-auto flex items-center gap-1.5">
+            <SearchButton />
+
+            <RzButton Element="a" href="/schedule?agenda=mine" Variant="ThemeVariant.Ghost" Size="Size.Small" class="relative" aria-label="@($"My agenda, {AgendaCount} saved")"><Blazicon Svg="Lucide.Bookmark" class="size-4" />
+                    <AgendaCount Count="AgendaCount" /></RzButton>
+
+            <CultureSwitch />
+            <RzDarkModeToggle />
+
+            <RzButton Element="a" href="/tickets" Variant="ThemeVariant.Primary" Size="Size.Small" class="ml-1 hidden sm:inline-flex">Get tickets</RzButton>
+        </div>
+    </div>
+</header>
+
+@code {
+    private sealed record NavLink(string Title, string Href, SvgIcon Icon);
+
+    private static readonly NavLink[] MobileLinks =
+    [
+        new("Home", "/", Lucide.House),
+        new("Schedule", "/schedule", Lucide.CalendarDays),
+        new("Speakers", "/speakers", Lucide.Mic),
+        new("Tickets", "/tickets", Lucide.Ticket),
+        new("My agenda", "/schedule?agenda=mine", Lucide.Bookmark),
+        new("Help & FAQ", "/help", Lucide.LifeBuoy),
+        new("Organizer sign-in", "/account/sign-in", Lucide.LockKeyhole),
+    ];
+
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    [Inject] private Summit.Web.Features.ConferenceInfo Info { get; set; } = null!;
+
+    private Conference Conference { get; set; } = null!;
+    private IReadOnlyList<Track> Tracks { get; set; } = [];
+    private int AgendaCount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Conference = await Info.GetConferenceAsync();
+        Tracks = await Info.GetTracksAsync();
+        AgendaCount = await Agenda.CountAsync(HttpContext?.GetVisitorId());
+    }
+
+    private static RenderFragment MenuLink(string href, string title, string description, SvgIcon icon) =>
+        @<li>
+            <NavigationMenuLink Href="@href" class="hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent flex items-start gap-3 rounded-md p-3 outline-none">
+                    <span class="bg-primary/10 text-primary mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-md">
+                        <Blazicon Svg="icon" class="size-4" />
+                    </span>
+                    <span class="flex flex-col gap-1">
+                        <span class="text-sm font-medium leading-none">@title</span>
+                        <span class="text-muted-foreground line-clamp-2 text-sm leading-snug">@description</span>
+                    </span>
+                </NavigationMenuLink>
+        </li>;
+}

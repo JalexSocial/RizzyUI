@@ -1,0 +1,11 @@
+@* The saved-sessions count in the header. Agenda changes replace it with an out-of-band swap. *@
+<span id="agenda-count" class="contents">
+    @if (Count > 0)
+    {
+        <RzBadge Variant="ThemeVariant.Primary" class="absolute -right-1 -top-1 h-4 min-w-4 justify-center rounded-full px-1 text-[10px] leading-none">@Count</RzBadge>
+    }
+</span>
+
+@code {
+    [Parameter] public int Count { get; set; }
+}

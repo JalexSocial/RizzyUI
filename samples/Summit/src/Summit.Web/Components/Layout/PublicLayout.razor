@@ -1,0 +1,15 @@
+@inherits LayoutComponentBase
+
+<a href="#content" class="bg-primary text-primary-foreground sr-only z-[60] rounded-md px-4 py-2 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+    Skip to content
+</a>
+
+<SiteHeader />
+
+<main id="content" tabindex="-1" class="min-h-[60vh] outline-none">
+    @Body
+</main>
+
+<SiteFooter />
+
+<RzBackToTop AriaLabel="Back to top" />

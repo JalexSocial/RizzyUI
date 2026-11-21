@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Summit.Web</RootNamespace>
+    <!-- Code-behind modules (*.razor.js, *.razor.ts) are bundled with esbuild (RizzyUI.targets). -->
+    <RizzyUICodeBehindBuild>esbuild</RizzyUICodeBehindBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.15" />
+  </ItemGroup>
+
+  <!-- RizzyUI from source (development) or from the package (CI). See Directory.Build.props. -->
+  <ItemGroup Condition="'$(SummitRizzyUISource)' == 'Project'">
+    <ProjectReference Include="$(SummitRepoRoot)src\RizzyUI\RizzyUI.csproj" />
+    <PackageReference Include="RizzyUI.Tasks" Version="$(RizzyUITasksVersion)" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(SummitRizzyUISource)' == 'Package'">
+    <PackageReference Include="RizzyUI" Version="$(RizzyUIVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Summit.Tests" />
+  </ItemGroup>
+
+  <!--
+    npm: Tailwind CSS v4 builds Styles/app.css into wwwroot/css/app.css before every build, and esbuild
+    bundles the code-behind modules. -p:SkipNpm=true builds without Node when wwwroot/css/app.css
+    already exists.
+  -->
+  <ItemGroup>
+    <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
+    <None Remove="node_modules/**" />
+    <Content Remove="node_modules/**" />
+    <Content Remove="scripts/**" />
+    <None Include="scripts/**" />
+  </ItemGroup>
+
+  <Target Name="SummitNpmInstall" BeforeTargets="Build" Condition="'$(SkipNpm)' != 'true'"
+          Inputs="package-lock.json" Outputs="node_modules/.package-lock.json">
+    <Exec Command="npm ci --no-audit --no-fund" />
+  </Target>
+
+  <Target Name="SummitTailwind" BeforeTargets="Build" AfterTargets="SummitNpmInstall" Condition="'$(SkipNpm)' != 'true'">
+    <Exec Command="npm run build:css" />
+  </Target>
+
+  <!-- On the first build the CSS did not exist when the project was evaluated. Add it so it is served and published. -->
+  <Target Name="SummitIncludeTailwindOutput" AfterTargets="SummitTailwind" BeforeTargets="AssignTargetPaths;ResolveStaticWebAssetsInputs">
+    <ItemGroup>
+      <Content Include="wwwroot/css/app.css" Exclude="@(Content)" Condition="Exists('wwwroot/css/app.css')" />
+    </ItemGroup>
+  </Target>
+
+  <!-- A project reference does not import a package's build/ targets, so import RizzyUI.targets directly. -->
+  <Import Project="$(SummitRepoRoot)src\RizzyUI\build\RizzyUI.targets"
+          Condition="'$(SummitRizzyUISource)' == 'Project' and Exists('$(SummitRepoRoot)src\RizzyUI\build\RizzyUI.targets')" />
+
+</Project>
