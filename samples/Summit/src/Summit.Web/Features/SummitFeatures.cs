@@ -23,6 +23,7 @@ public static class SummitFeatures
         services.AddScoped<Areas.Organizer.Features.Attendees.AttendeeQuery>();
         services.AddScoped<Areas.Organizer.Features.Dashboard.DashboardQuery>();
         services.AddScoped<Areas.Organizer.Features.CheckIn.CheckInDesk>();
+        services.AddScoped<Areas.Organizer.Features.ScheduleBuilder.ScheduleBuilder>();
         return services;
     }
 

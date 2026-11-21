@@ -19,7 +19,7 @@ a browser test.
 
 ## Matrix
 
-Status after phase 4b, check-in desk (public site, checkout, organizer attendees, dashboard, check-in). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 4b, schedule builder (public site, checkout, organizer attendees, dashboard, check-in, schedule builder). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
@@ -58,20 +58,20 @@ Status after phase 4b, check-in desk (public site, checkout, organizer attendees
 | RzCheckboxGroup | 4 | schedule track filter, checkout add-ons | public: track filter; checkout | GET form with a cascaded `EditContext` (SF-028) |
 | RzInputCheckbox | 4 | checkout code of conduct | checkout: 422 then checked | focus moves to it after the 422 |
 | RzColorPickerProvider | 0 | (schedule builder) | | |
-| RzColorSwatch | 1 | navigation menu tracks | axe | |
+| RzColorSwatch | 4 | navigation menu tracks, schedule builder list | organizer-schedule-builder: track color | labelled with the hex value; follows a saved color |
 | RzCombobox | 4 | checkout company (create) and country, per attendee in a list; attendee tags (multiple, create) | checkout; organizer-attendees: S-03 | values survive a 422 swap; fast Enter picks the wrong item (SF-046); Tab out of a multiple combobox loses focus (SF-055) |
-| RzDateEdit | 0 | (schedule builder) | | |
+| RzDateEdit | 4 | session start (date and time, typed input) | organizer-schedule-builder: 422 keeps the value | input named "Select date" (SF-068); de-DE locale not tested yet |
 | RzFileInput | 4 | contact form | public: wrong file type, then valid | multipart 422 round trip |
 | RzFormSection | 3 | checkout attendee sections | checkout (rendered in the flow) | `Description` is a RenderFragment |
-| RzInputColor | 0 | (schedule builder) | | |
-| RzInputNumber | 4 | checkout quantity | checkout | feeds the live estimate |
+| RzInputColor | 4 | track color with swatches | organizer-schedule-builder: track color | typed value posted; picker popup not opened by a test |
+| RzInputNumber | 4 | checkout quantity, session capacity | checkout; organizer-schedule-builder: 422 | feeds the live estimate |
 | RzInputOTP | 4 | checkout discount code, check-in badge (posted on completion) | checkout: expired, then valid; organizer-checkin: S-05, 422, mobile | `rz:inputotp:onchange` as an `hx-trigger`; focus by script (SF-064) |
 | RzInputText | 4 | sign-in, contact, speaker search | shell, public | |
 | RzInputTextArea | 4 | contact, checkout accessibility needs, attendee notes | public: contact | unstyled by default (SF-052) |
-| RzNativeSelect | 4 | contact topic, attendee ticket and status | public: contact; organizer-attendees | enum and int values bound |
+| RzNativeSelect | 4 | contact topic, attendee ticket and status, session room and track | public: contact; organizer-attendees; organizer-schedule-builder | enum and int values bound |
 | RzRadioGroup | 4 | checkout ticket cards, payment method | checkout | disabled items; `id=""` on inputs (SF-047) |
-| RzSlider | 1 | schedule length filter | axe | range posts `Filter.Length[0/1]`; not changed by a test yet |
-| RzSwitch | 4 | agenda toggle (95 forms on a page), "only my agenda" | public: agenda | out-of-band header count |
+| RzSlider | 4 | schedule length filter (range), session length (single, keyboard) | organizer-schedule-builder: slider | not an EditForm input (SF-070); public range slider still not changed by a test |
+| RzSwitch | 4 | agenda toggle (95 forms on a page), "only my agenda", session published | public: agenda; organizer-schedule-builder | out-of-band header count; label click toggles |
 | RzToggle | 4 | schedule level filter | public: level toggles | delegated listener (SF-030) |
 | RzAlpineComponent | 4 | 6 code-behind components | public, shell | one TypeScript module planned (attendees) |
 | RzAccordion | 1 | FAQ on help and tickets, ticket perks in checkout | axe | expand/collapse not asserted |
@@ -87,10 +87,10 @@ Status after phase 4b, check-in desk (public site, checkout, organizer attendees
 | RzCommandDialog | 4 | organizer quick actions (static items) | shell: quick actions | |
 | RzDropdownMenu | 4 | language menu, organizer user menu | shell: language switch | items as links |
 | RzLink | 1 | footer, help | axe | |
-| RzMenubar | 0 | (schedule builder) | | |
+| RzMenubar | 4 | schedule builder: File (htmx item, dialog item), View (checkbox, radio group), Help (disabled items with shortcuts) | organizer-schedule-builder: menubar (keyboard and pointer) | SF-067, SF-069 worked around |
 | RzNavigationMenu | 1 | public header mega menu | axe | not opened by a test |
 | RzPagination | 4 | speakers, dashboard orders | public: pages with htmx; organizer-dashboard: orders page | `hx-get` + pushed URL; in-card paging without URL |
-| RzScrollArea | 1 | schedule day tabs | axe | |
+| RzScrollArea | 3 | schedule day tabs, schedule builder session list | axe; organizer-schedule-builder | content replaced out of band inside it |
 | RzSidebar | 1 | organizer layout | axe | collapse, mobile sheet and cookie not tested; SF-049 |
 | RzTabs | 4 | schedule days | public: filter keeps the day | `rz:tabs-change` feeds the filter form |
 | RzShineBorder | 1 | home ticket, tickets page | axe | inline style (CSP report-only) |
@@ -102,7 +102,7 @@ Status after phase 4b, check-in desk (public site, checkout, organizer attendees
 | RzDarkModeToggle | 4 | all layouts | shell: dark mode | |
 | RzThemeProvider | 4 | app shell (custom theme from JSON) | axe contrast (detects SF-034) | |
 | RzHeading / RzParagraph | 1 | session, help | axe | |
-| RzKbd | 1 | header, quick actions | axe | |
+| RzKbd | 1 | header, quick actions, menubar shortcuts | axe | |
 | RzBackToTop | 1 | public layout | axe | |
 | RzClipboard | 1 | session copy link, confirmation badge codes | public: button present | copy not exercised |
 | RzIdScope | 0 | (self-re-rendering fragments) | | |

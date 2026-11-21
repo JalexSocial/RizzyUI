@@ -1,3 +1,81 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    Organizer › Schedule builder: a menubar, the session list and the editor.
+
+    The View menu's checkbox and radio items only change their own aria-checked state; they dispatch
+    no event and post nothing (SF-067). The code-behind (ScheduleBuilderPage.razor.js) watches item
+    clicks and copies the state to data attributes on this component's root, which the list's classes
+    read (group-data-*/builder), so the view survives the list being swapped.
+*@
 <RzPageTitle>Schedule builder · Summit organizer</RzPageTitle>
 
 <PageHeader Title="Schedule builder" Description="Edit sessions, times and track colors." />
+
+<RzAlpineComponent For="this" class="group/builder flex flex-col gap-4" data-density="comfortable" data-drafts-only="false">
+    <RzMenubar aria-label="Schedule builder">
+        <MenubarMenu Value="file">
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+                <MenubarItem Icon="Lucide.Plus" hx-get="/organizer/schedule-builder/new" hx-target="#session-editor" hx-swap="outerHTML">New session</MenubarItem>
+                <MenubarSeparator />
+                @* x-on:click.capture, not x-on:click: MenubarItem writes its own x-on:click after the
+                   caller's attributes, which replaces ours (SF-069). The modifier makes it a separate attribute. *@
+                <MenubarItem Icon="Lucide.Send" x-on:click.capture="$dispatch('builder:publish-confirm')">Publish all drafts…</MenubarItem>
+            </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu Value="view">
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+                <MenubarCheckboxItem data-view-option="drafts-only">Drafts only</MenubarCheckboxItem>
+                <MenubarSeparator />
+                <MenubarLabel>Density</MenubarLabel>
+                <MenubarRadioGroup Name="density">
+                    <MenubarRadioItem Value="comfortable" Checked="true" data-view-density="comfortable">Comfortable</MenubarRadioItem>
+                    <MenubarRadioItem Value="compact" data-view-density="compact">Compact</MenubarRadioItem>
+                </MenubarRadioGroup>
+            </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu Value="help">
+            <MenubarTrigger>Help</MenubarTrigger>
+            <MenubarContent>
+                <MenubarLabel>Keyboard</MenubarLabel>
+                <MenubarItem Disabled="true">Move between menus<MenubarShortcut><RzKbd>←</RzKbd> <RzKbd>→</RzKbd></MenubarShortcut></MenubarItem>
+                <MenubarItem Disabled="true">Move within a menu<MenubarShortcut><RzKbd>↑</RzKbd> <RzKbd>↓</RzKbd></MenubarShortcut></MenubarItem>
+                <MenubarItem Disabled="true">Close the menu<MenubarShortcut><RzKbd>Esc</RzKbd></MenubarShortcut></MenubarItem>
+            </MenubarContent>
+        </MenubarMenu>
+    </RzMenubar>
+
+    <div class="grid gap-4 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+        <SessionList Items="Items" SelectedId="SelectedId" />
+        @if (Initial is not null && Context is not null)
+        {
+            <SessionEditor Initial="Initial" Context="Context" />
+        }
+        else
+        {
+            <SessionEditorEmpty />
+        }
+    </div>
+
+    <RzAlertDialog EventTriggerName="builder:publish-confirm" CloseEventName="builder:publish-close" CloseOnEscape>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Publish all drafts?</AlertDialogTitle>
+                <AlertDialogDescription>Every draft session appears on the public schedule.</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel>Not yet</AlertDialogCancel>
+                <AlertDialogAction hx-post="/organizer/schedule-builder/publish-all" hx-swap="none" hx-include="#builder-token">Publish</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </RzAlertDialog>
+    <div id="builder-token" hidden><AntiforgeryToken /></div>
+</RzAlpineComponent>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<BuilderItem> Items { get; set; } = [];
+    [Parameter] public int? SelectedId { get; set; }
+    [Parameter] public SessionEditModel? Initial { get; set; }
+    [Parameter] public EditorContext? Context { get; set; }
+}

@@ -107,6 +107,10 @@ tracks how much application code exists only to compensate.
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works (workaround: `text-foreground` on the content) | Open | e2e: check-in S-05 (axe) |
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe) |
+| SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
+| SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Affected (no workaround) | Open | e2e: locator by name documents it |
+| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open | e2e: schedule builder publish all |
+| SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
 
 ## Integration code ledger
 
@@ -144,6 +148,8 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | Money tickers in whole euros | 2 | SF-060 | Invariant `data-value` |
 | `CheckIn/CheckInForm.razor.js` (focus the badge input) | ~5 JS | SF-064 | An input attribute or `AutoFocus` on RzInputOTP |
 | `text-foreground` in alerts, `role="img"` on indicators | 1 per use | SF-065, SF-066 | Correct defaults |
+| `ScheduleBuilder/ScheduleBuilderPage.razor.js` (menubar view options) | ~20 JS | SF-067 | Change events from menubar checkbox and radio items |
+| `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 
 ### Application-specific code (would exist anyway)
 
@@ -1026,3 +1032,56 @@ finding on its own.
 - **Summit workaround:** `role="img" AriaLabel="Live"` on the live dots (dashboard, check-in counter).
 - **Library fix:** `role="img"` when a label is given, `aria-hidden="true"` (decorative) when not; no
   generic default label.
+
+### SF-067 Menubar checkbox and radio items cannot be observed
+
+- **Tag:** Gap, Medium (owner: RizzyUI)
+- **What:** `rzMenubar.js` toggles `data-state` and `aria-checked` on `MenubarCheckboxItem` and
+  `MenubarRadioItem` in its click handlers and does nothing else: no `rz:menubar:checked-change`
+  event, no hidden input, no `Name`/`Value` posted (the radio group's `Name` only groups the items).
+  A "View" menu that changes the page (Summit: drafts only, density) needs code that listens for
+  clicks on the teleported menu content and reads `aria-checked` after the component's handler.
+- **Summit workaround:** `ScheduleBuilderPage.razor.js` (about 15 lines): a document click listener,
+  a microtask, and data attributes on the page root that CSS reads.
+- **Library fix:** dispatch a bubbling change event with the item's value and state (and forward it
+  from the teleported content); optionally a `Name` that renders hidden inputs, so a menu can drive
+  an htmx form.
+- **Observed working:** radio items stay exclusive; checkbox and radio items keep the menu open, and
+  arrow keys, Enter and Escape follow the APG menubar pattern.
+
+### SF-068 RzDateEdit hides its field label
+
+- **Tag:** Bug, Medium (owner: RizzyUI; accessibility; noted in the component's own docs)
+- **What:** The input rendered by `RzDateEdit` has a hard-coded `aria-label="Select date"`, and the
+  wrapper is a group labelled "Date picker". `aria-label` wins over the `<label for>` that
+  `FieldLabel` renders, so a screen reader announces every date field in the app as "Select date" and
+  `getByLabel('Starts at')` finds nothing (the Summit test had to locate the input by its name).
+  The text is English-only.
+- **Summit workaround:** none without script; the attribute is written after the caller's attributes.
+- **Library fix:** no `aria-label` when the input has a label (or `aria-labelledby` pointing at the
+  field label); an `AriaLabel` parameter for the rare unlabeled case; localize the defaults.
+
+### SF-069 A menubar item's click handler replaces the caller's
+
+- **Tag:** Bug, Medium (owner: RizzyUI)
+- **What:** `MenubarItem.razor` renders `@attributes="@AdditionalAttributes"` followed by
+  `x-on:click="handleItemClick"`. A caller's `x-on:click` (Summit's "Publish all drafts…" opens a
+  confirmation dialog) is overwritten without warning: the menu closes and nothing else happens. The
+  same shape as SF-030 (RzToggle) and recurring pattern 1.
+- **Summit workaround:** `x-on:click.capture="…"`, which Alpine treats as a different attribute, so both
+  handlers run. Subtle enough that it needs a comment where it is used.
+- **Library fix:** merge handlers (call the caller's expression from `handleItemClick`, or use a
+  different attribute for the component's own handler such as `x-on:click.self`), and document which
+  attributes each component reserves.
+
+### SF-070 RzSlider does not bind to a model
+
+- **Tag:** DX, Low (owner: RizzyUI)
+- **What:** Every other form control in the session editor takes `For`; the slider takes
+  `Value="@([Model.LengthMinutes])"`, `Name="Model.LengthMinutes"` and `UseIndexedNames="false"` (the
+  default posts `Model.LengthMinutes[0]`, which does not bind to an `int`). It cannot be targeted by
+  `FieldLabel For`, gets no `aria-invalid`, and `FocusFirstError` cannot move focus to it. The posted
+  value binds correctly once named by hand.
+- **Summit workaround:** the three parameters above and `AriaLabelledBy` pointing at a plain label.
+- **Library fix:** an `RzInputSlider` (or `For`/`Value` overloads for a single `double`/`int`) built on
+  `InputBase`, like the other inputs.
