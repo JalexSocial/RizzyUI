@@ -46,5 +46,7 @@ if (!existsSync(testDir)) {
   process.exit(0);
 }
 
-const result = spawnSync(process.execPath, ['--test', testDir], { cwd: projectRoot, stdio: 'inherit' });
+// The files themselves, not the folder: Node 22 on Linux does not expand a directory argument.
+const testFiles = readdirSync(testDir).filter(name => name.endsWith('.test.mjs')).map(name => join(testDir, name));
+const result = spawnSync(process.execPath, ['--test', ...testFiles], { cwd: projectRoot, stdio: 'inherit' });
 process.exit(result.status ?? 1);
