@@ -74,7 +74,7 @@
                                 }
                                 <Field class="sm:col-span-2">
                                     <FieldLabel For="@(() => Model!.Attendees[i].AccessibilityNeeds)">Accessibility needs (optional)</FieldLabel>
-                                    <RzInputTextArea For="@(() => Model!.Attendees[i].AccessibilityNeeds)" rows="2" placeholder="Step-free routes, captions, a quiet room, dietary needs…" />
+                                    <RzInputTextArea For="@(() => Model!.Attendees[i].AccessibilityNeeds)" rows="2" placeholder="Step-free routes, captions, a quiet room, dietary needs…" class="@SummitClasses.TextArea" />
                                 </Field>
                             </div>
                         </Content>

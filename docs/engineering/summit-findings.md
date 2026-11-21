@@ -41,9 +41,9 @@ tracks how much application code exists only to compensate.
 
 | Id | Owner | Area | Tag | Severity | Summary | Application | Library | Regression test |
 |---|---|---|---|---|---|---|---|---|
-| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Not reached yet (attendees page) | Open | None yet |
-| SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet (workflow) |
-| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Not reached yet | Open | None yet |
+| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Works (workaround: `AttendeeTableState`) | Open | e2e: attendees S-03, filters (workflow) |
+| SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet, attendees S-03 (workflow) |
+| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works (own `CloseEventName`) | Open | e2e: attendees S-04 (workflow) |
 | SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open | n/a |
 | SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Not reached yet (dashboard) | Open | None yet |
 | SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
@@ -88,6 +88,15 @@ tracks how much application code exists only to compensate.
 | SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works (workaround) | Open | e2e: checkout attendees 422 focus (workflow) |
 | SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Affected (fast typists); test waits | Open | None (test waits for the match) |
 | SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect) |
+| SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works (workaround: `edit()` calls `htmx.ajax`) | Open | e2e: attendees S-03 (workflow) |
+| SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works (workaround: `min-w-0`) | Open | Manual (page width checked in the browser) |
+| SF-050 | RizzyUI | RzDataTable | DX | Low | In row templates, `row` is RizzyUI's view object (`{ id, row, cells }`), and the row data is camelCase while column ids keep the C# names | Works (uses `row.id`, `row.row.original.name`) | Open | e2e: attendees S-03 |
+| SF-051 | Summit | Attendees | Bug | Low | A hidden input named `Filter` matched the action parameter `filter`, so MVC bound `AttendeeServerFilter` with the prefix `filter.` and lost Status and Ticket | Fixed (renamed to `Search`) | n/a | e2e: attendees server filters |
+| SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works (workaround: `SummitClasses.TextArea`) | Open | None (visual; checked in the browser) |
+| SF-053 | RizzyUI | RzDataTable | Bug | Medium | `DataTableSortToggle` is named "Sort ascending" / "Clear sort" with no column, hiding its visible text (WCAG 2.5.3, axe `label-content-name-mismatch`); the strings are English-only | Works (workaround: `aria-labelledby`) | Open | e2e: attendees S-03 (axe) |
+| SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect) |
+| SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` (with Create) sends focus to `<body>` instead of the next field | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
+| SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
 
 ## Integration code ledger
 
@@ -115,6 +124,10 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
 | `Components/Shared/FocusFirstError.razor(.js)`, one line per form | ~25 JS | SF-045 | A form-level "focus the first invalid field" behavior |
 | a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
+| `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
+| `AttendeeTable.razor`: `aria-labelledby` on sort toggles | 3 | SF-053 | Sort toggles named after their column |
+| `Components/Shared/SummitClasses.cs` (`TextArea`), one attribute per text area | ~15 C# | SF-052 | Styled `RzInputTextArea` |
+| `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
 
 ### Application-specific code (would exist anyway)
 
@@ -123,9 +136,13 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Features/Home/ConferenceCountdown.razor.js` | ~30 JS | Countdown from the server's clock |
 | `Features/Schedule/ScheduleBoard.razor.js` (level filter, day memory) | ~45 JS | Client-side filtering of rendered cards; keeping the active tab in the filter form |
 | `Features/Checkout/TicketEstimate.razor.js` | ~35 JS | Live price estimate while the ticket form changes |
+| `AttendeeTableState.razor.ts`: bulk-action bar label and confirmation text; `Components/Shared/text.ts` | ~20 TS | Bulk actions on the selected attendees |
 
 Running total after phase 3: about 340 lines of compensating code (C# and JavaScript), about 110
-lines of application-specific client code.
+lines of application-specific client code. After the attendees page (phase 4a): about 445 lines of
+compensating code, about 130 lines of application-specific client code. The attendees page alone added
+about 105 compensating lines against 20 application lines: the DataTable is the component that needs the
+most glue so far.
 
 ## Recurring patterns
 
@@ -148,12 +165,20 @@ finding on its own.
    buffering in the runtime would fix it once.
 5. **Accessibility defaults** (SF-022, SF-023, SF-026, SF-029, SF-031, SF-035 to SF-038). Generic default
    labels ("Avatar", "File input"), roles without required children, live regions on static content and
-   low-contrast status colors. Axe and a unique-id check over the docs pages would have found most of them.
+   low-contrast status colors, sort buttons without their column (SF-053), duplicate ids in row
+   templates (SF-054), unstyled text areas (SF-052). Axe and a unique-id check over the docs pages would
+   have found most of them.
 6. **htmx 4 behavior the template and Rizzy do not account for** (SF-017, SF-020, SF-021, SF-024). The
    template test checks pages with curl; one browser test of boosted navigation, an expired session and
    a nested URL would have caught all four.
 7. **Who owns the `<head>`** (SF-012, SF-017, SF-034). Theme styles, asset URLs and third-party scripts
    all assume things about the head that apps break by doing normal things.
+8. **Server components inside client templates** (SF-048, SF-050, SF-054, SF-056). `RzDataTable` renders
+   rows in the browser from `<template x-for>`, but what goes inside the template is server-rendered
+   Razor. Ids are rendered once and copied, htmx never sees the rows, the data inside uses a different
+   naming scheme from the column ids, and the expressions are strings checked only at run time. The
+   server-rendered component model and Alpine-rendered rows meet here without a contract; a default
+   rendering, per-row ids and `htmx.process` after each render would cover most of it.
 
 ## Entries
 
@@ -701,3 +726,130 @@ finding on its own.
   failing.
 - **Library fix:** in Rizzy, only add `id` when it is not empty; in RizzyUI, give each item's input an
   id derived from the group's.
+
+### SF-048 htmx attributes in DataTable rows are never processed
+
+- **Tag:** Gap, Medium (owner: RizzyUI)
+- **What:** `RzDataTable` renders rows with `x-for` from JSON after the page has loaded. htmx processes
+  elements when they are swapped in; elements Alpine adds later are not processed. RizzyUI's
+  `htmxTeleportBridge` covers content teleported to `<body>`, but nothing covers rows. An `hx-get` on a
+  row button is inert, so the most natural way to write a row action in an htmx app does not work, and
+  nothing warns about it.
+- **Root cause:** `rzDataTable.js` never calls `htmx.process` on rendered rows (confirmed by reading it;
+  `rzCommandList.js` does this for its own remote items, so the pattern exists in the library).
+- **Summit workaround:** the Edit button calls `edit(row.id)` in the `AttendeeTableState` code-behind,
+  which calls `htmx.ajax('GET', …, { target: '#attendee-editor' })`. About 6 lines.
+- **Library fix:** after each render, call `htmx.process` on the table body (or on rows added since the
+  last render), the way `rzCommandList` does; document that `hx-*` works in row templates.
+- **Regression test (library):** a DataTable whose row template has a button with `hx-get`; clicking it
+  issues the request.
+
+### SF-049 A wide table widens the whole organizer page
+
+- **Tag:** DX, Low (owner: RizzyUI; shadcn/ui has the same default)
+- **What:** `SidebarInset` is `flex w-full flex-1 flex-col` inside a flex row. Without `min-w-0` a flex
+  item cannot shrink below its content, so the attendee table (about 1,180 px of natural width) made the
+  inset, and the page, wider than the window: a horizontal page scroll and a cut-off header. Separately,
+  `class` on `RzTable` lands on its `table-container` div (which scrolls), not on the `<table>` as in
+  shadcn's `Table`; `class="min-w-[56rem]"` therefore widened the container instead of the table.
+- **Summit workaround:** `SidebarInset class="min-w-0"` in `OrganizerLayout`, and no width class on
+  `RzTable` (its own container scrolls).
+- **Library fix:** add `min-w-0` to `SidebarInset`'s base classes; document which element `RzTable`'s
+  `class` styles.
+
+### SF-050 Two naming schemes in one DataTable template
+
+- **Tag:** DX, Low (owner: RizzyUI)
+- **What:** In `x-for="row in rows"`, `row` is a view model (`{ id, row, cells }`); the TanStack row is
+  `row.row`. Its `original` is serialized with camelCase names (`name`, `email`), while column ids and
+  `cell.column.id` keep the C# property names (`Name`, `Email`). The first version of the Edit button
+  used `row.original.Id` (both levels wrong); it produced Alpine expression errors and an empty
+  `data-edit-id`, found only in the browser.
+- **Summit workaround:** `row.id` (the `RowIdSelector` value) and `row.row.original.name`.
+- **Library fix:** document the row view object and the serialization casing in the DataTable docs (what
+  `row`, `row.row`, `cell` and `header` are), or serialize with the same naming as the column ids.
+
+### SF-051 A form field named like an action parameter changes model binding
+
+- **Tag:** Bug, Low (owner: Summit; ASP.NET Core behavior)
+- **What:** The table-state inputs included `Filter` (the search text) and the action had a parameter
+  `AttendeeServerFilter filter`. When a value key matches a complex parameter's name, MVC binds that
+  parameter with the name as a prefix, so it looked for `filter.Status` and the status filter was
+  silently ignored. Found in the browser: the request carried `Status=Registered`, the pushed URL did not.
+- **Fix:** the field is now `Search`. Not a library defect, but relevant if a built-in state transport
+  (SF-001) is added: its field names should be prefixed.
+
+### SF-052 Text areas are unstyled
+
+- **Tag:** Bug, Medium (owner: RizzyUI)
+- **What:** Every `RzInputTextArea` renders `class="flex field-sizing-content min-h-16 resize-none"` and
+  nothing else: no border, no background (white in dark mode), no padding, no focus ring. In light mode
+  it is a white box without a border on a white card, easy to miss; the contact form shipped in phase 3
+  with it. Found when the attendee editor's Notes field showed a white block in dark mode.
+- **Root cause:** `RzInputTextArea.DefaultDescriptor` is `new(extends: FormInputStyles.DefaultDescriptor,
+  @base: "...")`. `RzInputText`, which works, extends the same descriptor without a `base` of its own.
+  The textarea's slot is also named `textarea` where the form-input slot is `input`. Either the own
+  `base` replaces the extended one or the slot names keep them apart; the rendered HTML shows the shared
+  classes are lost. The merge was not traced inside TailwindVariants.NET.
+- **Summit workaround:** `Components/Shared/SummitClasses.cs` holds the shared input classes; the three
+  text areas pass `class="@SummitClasses.TextArea"`.
+- **Library fix:** repeat the form-input classes in the textarea's base (minus `h-9`), or fix the merge.
+- **Regression test (library):** bUnit: `RzInputTextArea` output contains `border-input`.
+
+### SF-053 Sort buttons do not say which column they sort
+
+- **Tag:** Bug, Medium (owner: RizzyUI; accessibility)
+- **What:** `DataTableSortToggle` binds `aria-label` to `sort.nextLabel(header)`, which returns "Sort
+  ascending", "Sort descending" or "Clear sort". Every sortable header button gets the same name, the
+  visible column text is not part of it (axe reports `label-content-name-mismatch`, WCAG 2.5.3), and a
+  screen reader user hears "Sort ascending, button" six times. The strings are hard-coded English in
+  `rzDataTable.js`, so they are not localized like the rest of RizzyUI.
+- **Summit workaround:** `x-bind:aria-labelledby` on the toggle, pointing at the label span passed as its
+  `ChildContent`, so the button is named after its column; the header's `aria-sort` gives the direction.
+  Three lines in `AttendeeTable.razor`.
+- **Library fix:** name the button after its column and put the action in a description, or build the
+  label as "{column}, sort ascending" from localized resources.
+- **Regression test (library):** axe over the DataTable docs page (it would have failed).
+
+### SF-054 Components in row templates duplicate their ids
+
+- **Tag:** Bug, Medium (owner: RizzyUI)
+- **What:** `RzComponent.Id` always renders a generated id. Inside `<template x-for>` the server renders
+  each component once and Alpine clones it per row, so `TableRow`, `TableCell`,
+  `DataTableRowSelectCheckbox`, `DataTableSortToggle`, `RzButton` and others repeat the same id in every
+  row (on the attendees page one id appears 90 times, several 10 or 17 times). No `aria-*` or `for`
+  references them, so nothing is announced wrongly today, but the HTML is invalid and any future
+  reference would point at the first row.
+- **Summit workaround:** none that keeps the library components. Summit's unique-id check reports
+  duplicates of ids that appear inside a `<template>` as an annotation and still fails on any other
+  duplicate.
+- **Library fix:** components meant for row templates (the DataTable helpers, `TableRow`, `TableCell`)
+  should not render an id unless one is given, or should bind one per row (`x-bind:id`). A general
+  option: an id scope that suppresses generated ids inside templates.
+- **Regression test (library):** the DataTable docs page has no duplicate ids after rendering.
+
+### SF-055 Tab out of a multiple combobox loses focus
+
+- **Tag:** Bug, Medium (owner: RizzyUI or Tom Select; root cause not yet established)
+- **What:** In the attendee editor, Tags is `RzCombobox Multiple` with `Create = true`. With focus in its
+  input (list open), Tab fires `focusout` on the input and no `focusin` anywhere: focus ends on `<body>`,
+  although the Notes text area follows in tab order. A keyboard user is thrown out of the form.
+- **Established:** not caused by the sheet's focus trap (the same happens with the trap deactivated);
+  nothing prevents the keydown; the next tabbable element exists and is visible. A likely cause is Tom
+  Select closing its dropdown on blur while the browser moves focus into it (Chrome treats a scrollable
+  dropdown as focusable). Not yet reproduced outside a sheet or with a single-value combobox.
+- **Summit workaround:** none in the app; the browser test closes the list with a click elsewhere.
+- **Library fix:** to be determined after a reduced reproduction (a multiple combobox on a plain page).
+
+### SF-056 A DataTable needs a lot of headless markup
+
+- **Tag:** DX, Medium (owner: RizzyUI)
+- **What:** `RzDataTable` renders no table. `AttendeeTable.razor` is about 130 lines of `x-for`, `x-if` and
+  string expressions (`sort.can(header)`, `_flex.cell(cell)`, `header.isPlaceholder`) for a standard
+  table: sortable headers, a selection column, search, a column menu, rows per page, paging and an empty
+  state. Mistakes in the expressions (SF-050) show up only in the browser, the CSP build limits what the
+  expressions may contain, and components inside the templates bring their own problems (SF-048,
+  SF-053, SF-054).
+- **Summit:** writes the markup by hand, following the docs example.
+- **Library suggestion:** a default body (for example `RenderDefault="true"`) with per-column cell
+  templates, so the headless form is the escape hatch rather than the only way.

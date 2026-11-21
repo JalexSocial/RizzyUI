@@ -6,7 +6,8 @@
 <RzSidebarProvider DefaultOpen="SidebarState.IsOpen(HttpContext)" Collapsible="SidebarCollapsible.Icon">
     <OrganizerSidebar />
 
-    <SidebarInset>
+    @* min-w-0: without it the inset grows to the width of a wide table instead of letting it scroll (SF-049). *@
+    <SidebarInset class="min-w-0">
         <header class="bg-background/80 sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b px-3 backdrop-blur sm:px-4">
             <SidebarTrigger />
             <RzSeparator Orientation="Orientation.Vertical" class="mx-1 h-5" />

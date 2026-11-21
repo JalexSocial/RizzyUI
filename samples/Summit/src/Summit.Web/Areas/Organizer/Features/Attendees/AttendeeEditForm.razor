@@ -1,0 +1,79 @@
+@*
+    The form inside the editor sheet. It posts with hx-swap="none": a save changes the page out of band
+    (table, editor, toast); a 422 comes back as this form alone, retargeted onto itself by the server.
+    The table's state and the server filters go along (hx-include) so the rebuilt table keeps its place.
+*@
+<div id="attendee-edit-form">
+    <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
+              hx-post="@($"/organizer/attendees/{AttendeeId}")"
+              hx-swap="none"
+              hx-include="#attendee-filters, #attendee-table-state"
+              hx-disabled-elt="find button[type=submit]">
+        <RzModelStateProvider />
+        <FocusFirstError />
+
+        <Field>
+            <FieldLabel For="@(() => Model!.Name)" />
+            <RzInputText For="@(() => Model!.Name)" autocomplete="off" />
+            <FieldError><RzValidationMessageBase For="@(() => Model!.Name)" /></FieldError>
+        </Field>
+        <Field>
+            <FieldLabel For="@(() => Model!.Email)" />
+            <RzInputText For="@(() => Model!.Email)" Role="TextRole.Email" autocomplete="off" />
+            <FieldError><RzValidationMessageBase For="@(() => Model!.Email)" /></FieldError>
+        </Field>
+        <Field>
+            <FieldLabel For="@(() => Model!.Company)" />
+            <RzInputText For="@(() => Model!.Company)" autocomplete="off" />
+        </Field>
+        <div class="grid gap-5 sm:grid-cols-2">
+            <Field>
+                <FieldLabel For="@(() => Model!.TicketTypeId)" />
+                <RzNativeSelect For="@(() => Model!.TicketTypeId)">
+                    @foreach (var ticket in TicketTypes)
+                    {
+                        <option value="@ticket.Id">@ticket.Name</option>
+                    }
+                </RzNativeSelect>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.TicketTypeId)" /></FieldError>
+            </Field>
+            <Field>
+                <FieldLabel For="@(() => Model!.Status)" />
+                <RzNativeSelect For="@(() => Model!.Status)">
+                    <option value="@AttendeeStatus.Registered">Registered</option>
+                    <option value="@AttendeeStatus.CheckedIn">Checked in</option>
+                    <option value="@AttendeeStatus.Cancelled">Cancelled</option>
+                </RzNativeSelect>
+            </Field>
+        </div>
+        <Field>
+            <FieldLabel For="@(() => Model!.Tags)" />
+            <RzCombobox TItem="string" TValue="List<string>" For="@(() => Model!.Tags)" Name="Model.Tags" Multiple
+                        Items="AttendeeQuery.KnownTags" Placeholder="Add tags"
+                        Options="@(new ComboboxOptions { Create = true })" />
+            <FieldDescription>Pick a tag or type a new one.</FieldDescription>
+        </Field>
+        <Field>
+            <FieldLabel For="@(() => Model!.Notes)" />
+            <RzInputTextArea For="@(() => Model!.Notes)" rows="3" class="@SummitClasses.TextArea" />
+            <FieldError><RzValidationMessageBase For="@(() => Model!.Notes)" /></FieldError>
+        </Field>
+
+        <div class="flex gap-3">
+            <RzButton type="submit" Variant="ThemeVariant.Primary">Save changes</RzButton>
+            <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="close">Cancel</RzButton>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm(FormName = "Model")]
+    public AttendeeEditModel? Model { get; set; }
+
+    [Parameter, EditorRequired] public int AttendeeId { get; set; }
+    /// <summary>The values to start from on a GET (on a POST the form's values are used).</summary>
+    [Parameter] public AttendeeEditModel? Initial { get; set; }
+    [Parameter, EditorRequired] public IReadOnlyList<TicketType> TicketTypes { get; set; } = [];
+
+    protected override void OnInitialized() => Model ??= Initial ?? new AttendeeEditModel();
+}

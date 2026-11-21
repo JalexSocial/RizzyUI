@@ -19,12 +19,12 @@ a browser test.
 
 ## Matrix
 
-Status after phase 3 (public site and checkout). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 4a, attendees (public site, checkout, organizer attendees). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
-| RzDataTable | 0 | (attendees, phase 4) | | |
-| RzTable | 0 | (dashboard, check-in, settings) | | |
+| RzDataTable | 4 | organizer attendees (600 rows): sorting, search, column visibility, paging, rows per page, selection across pages, group header | organizer-attendees: S-03, S-04, filters | state carried through server rebuilds (SF-001); row actions via script (SF-048); SF-050, SF-053, SF-054, SF-056 |
+| RzTable | 4 | attendees (inside RzDataTable) | organizer-attendees | SF-049, SF-054 |
 | RzAvatar | 1 | speaker cards, session page, sidebar | axe | labels set by hand (SF-031) |
 | RzBadge | 1 | everywhere | axe (contrast) | |
 | RzChart | 0 | (dashboard) | | |
@@ -41,11 +41,11 @@ Status after phase 3 (public site and checkout). "Test" names the spec in `sampl
 | RzMarkdown | 4 | session abstracts, bios, FAQ | public: untrusted Markdown | safe default verified |
 | RzQuickReference | 3 | session, help | public: quick reference link | with RzHeading and RzArticle |
 | RzAlert | 4 | sign-in error, contact success, tickets | shell: sign-in 422; public: contact | live-region defaults (SF-022) |
-| RzAlertDialog | 0 | (attendees, schedule builder, settings) | | |
+| RzAlertDialog | 4 | attendees bulk actions | organizer-attendees: S-04 | opened by a window event, closed by `HX-Trigger` with its own close event (SF-003); Cancel returns focus |
 | RzDialog | 4 | search palette, quick actions | public: search palette; shell: quick actions | with RzCommand, opened by window events |
 | RzEmpty | 4 | speakers, schedule, errors | public: no speakers match | |
-| RzPopover | 1 | room details on session cards | axe | not opened by a test |
-| RzSheet | 4 | session details, mobile navigation | public: details sheet | swapped in open (SF-002); mobile nav not asserted |
+| RzPopover | 4 | room details on session cards; attendee column menu | organizer-attendees: S-03 | column toggles inside the popover drive the table |
+| RzSheet | 4 | session details, attendee editor, mobile navigation | public: details sheet; organizer-attendees: S-03 | swapped in open, removed out of band (SF-002); a 422 inside the teleported panel; mobile nav not asserted |
 | RzSkeleton | 4 | home stats | public: lazy numbers | replaced by an `intersect once` swap |
 | RzSpinner | 1 | schedule filters, speaker search (`hx-indicator`) | axe | |
 | RzToast | 4 | agenda, contact form, server errors | public: agenda toast, message sent | server toasts via `HX-Trigger` |
@@ -59,7 +59,7 @@ Status after phase 3 (public site and checkout). "Test" names the spec in `sampl
 | RzInputCheckbox | 4 | checkout code of conduct | checkout: 422 then checked | focus moves to it after the 422 |
 | RzColorPickerProvider | 0 | (schedule builder) | | |
 | RzColorSwatch | 1 | navigation menu tracks | axe | |
-| RzCombobox | 4 | checkout company (create) and country, per attendee in a list | checkout | values survive a 422 swap; fast Enter picks the wrong item (SF-046) |
+| RzCombobox | 4 | checkout company (create) and country, per attendee in a list; attendee tags (multiple, create) | checkout; organizer-attendees: S-03 | values survive a 422 swap; fast Enter picks the wrong item (SF-046); Tab out of a multiple combobox loses focus (SF-055) |
 | RzDateEdit | 0 | (schedule builder) | | |
 | RzFileInput | 4 | contact form | public: wrong file type, then valid | multipart 422 round trip |
 | RzFormSection | 3 | checkout attendee sections | checkout (rendered in the flow) | `Description` is a RenderFragment |
@@ -67,8 +67,8 @@ Status after phase 3 (public site and checkout). "Test" names the spec in `sampl
 | RzInputNumber | 4 | checkout quantity | checkout | feeds the live estimate |
 | RzInputOTP | 4 | checkout discount code | checkout: expired, then valid | alphanumeric, upper-cased; check-in desk planned |
 | RzInputText | 4 | sign-in, contact, speaker search | shell, public | |
-| RzInputTextArea | 4 | contact | public: contact | |
-| RzNativeSelect | 4 | contact topic | public: contact | |
+| RzInputTextArea | 4 | contact, checkout accessibility needs, attendee notes | public: contact | unstyled by default (SF-052) |
+| RzNativeSelect | 4 | contact topic, attendee ticket and status | public: contact; organizer-attendees | enum and int values bound |
 | RzRadioGroup | 4 | checkout ticket cards, payment method | checkout | disabled items; `id=""` on inputs (SF-047) |
 | RzSlider | 1 | schedule length filter | axe | range posts `Filter.Length[0/1]`; not changed by a test yet |
 | RzSwitch | 4 | agenda toggle (95 forms on a page), "only my agenda" | public: agenda | out-of-band header count |
@@ -91,7 +91,7 @@ Status after phase 3 (public site and checkout). "Test" names the spec in `sampl
 | RzNavigationMenu | 1 | public header mega menu | axe | not opened by a test |
 | RzPagination | 4 | speakers | public: pages with htmx | `hx-get` + pushed URL |
 | RzScrollArea | 1 | schedule day tabs | axe | |
-| RzSidebar | 1 | organizer layout | axe | collapse, mobile sheet and cookie not tested |
+| RzSidebar | 1 | organizer layout | axe | collapse, mobile sheet and cookie not tested; SF-049 |
 | RzTabs | 4 | schedule days | public: filter keeps the day | `rz:tabs-change` feeds the filter form |
 | RzShineBorder | 1 | home ticket, tickets page | axe | inline style (CSP report-only) |
 | RzAnimatedGradientText | 1 | home hero | axe | |
@@ -109,7 +109,9 @@ Status after phase 3 (public site and checkout). "Test" names the spec in `sampl
 
 ## Gaps to close in later phases
 
-- Overlays not yet driven by tests: popover, navigation menu, mobile navigation sheet, sidebar
-  collapse and mobile sheet.
+- Overlays not yet driven by tests: navigation menu, mobile navigation sheet, sidebar collapse and
+  mobile sheet.
+- S-03 in the plan opens the editor from a row menu (`RzDropdownMenu` in a row); Summit uses a row
+  button because of SF-048. A row menu with teleported content is still to be tried (S-09).
 - Copy actions (`RzClipboard`, `RzCodeViewer`) need a clipboard permission in Playwright.
 - The schedule length slider and the accordion are rendered but not operated by a test.

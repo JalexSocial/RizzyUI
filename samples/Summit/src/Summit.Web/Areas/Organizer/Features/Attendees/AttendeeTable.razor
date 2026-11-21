@@ -1,0 +1,180 @@
+@*
+    The attendees table. RzDataTable is headless: this markup is the table. Every expression is the
+    CSP-safe subset (method calls and property reads), so it runs on the standard and the CSP build.
+    The whole component is replaced (an out-of-band swap or hx-get) when server data changes; the state
+    it starts from comes from AttendeeTableState (SF-001).
+*@
+<div id="attendee-table">
+    <RzDataTable TItem="AttendeeRow" Id="attendees" Items="Model.Rows" Config="Config" RowIdSelector="x => x.Id">
+        <div class="flex flex-wrap items-end gap-3 pb-4">
+            <div class="flex min-w-60 flex-1 flex-col gap-1.5">
+                <label for="attendee-search" class="text-sm font-medium">Search attendees</label>
+                <input id="attendee-search" type="search" placeholder="Name, email, company or country" autocomplete="off"
+                       class="border-input bg-background focus-visible:ring-ring h-9 w-full rounded-md border px-3 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2"
+                       x-bind:value="filter.globalFilter"
+                       x-on:input="filter.setGlobalFilter($event.target.value)" />
+            </div>
+
+            <RzPopover>
+                <PopoverTrigger AsChild>
+                    <RzButton Variant="ThemeVariant.Secondary" Outline Size="Size.Small" class="h-9">
+                        <Blazicon Svg="Lucide.Columns3" class="size-4" /> Columns
+                    </RzButton>
+                </PopoverTrigger>
+                <PopoverContent class="w-56">
+                    <fieldset class="flex flex-col gap-2">
+                        <legend class="mb-1 text-sm font-medium">Visible columns</legend>
+                        <template x-for="column in columns.leaf" :key="column.id">
+                            <label class="flex items-center gap-2 text-sm" x-show="columns.getCanHide(column)">
+                                <input type="checkbox" class="rounded"
+                                       x-bind:data-column-toggle="column.id"
+                                       x-bind:checked="columns.getIsVisible(column)"
+                                       x-on:change="columns.toggleVisibility(column, $event.target.checked)" />
+                                <span x-text="column.columnDef.header"></span>
+                            </label>
+                        </template>
+                    </fieldset>
+                </PopoverContent>
+            </RzPopover>
+
+            <label class="flex flex-col gap-1.5 text-sm font-medium">
+                Rows per page
+                <select class="border-input bg-background h-9 rounded-md border px-2 text-sm"
+                        x-on:change="pagination.setPageSize($event.target.value)">
+                    @foreach (var size in new[] { 10, 25, 50 })
+                    {
+                        <option value="@size" selected="@(size == PageSize)">@size</option>
+                    }
+                </select>
+            </label>
+        </div>
+
+        @* RzTable's own container scrolls sideways; its class goes on that container, not the table (SF-049). *@
+        <div class="rounded-lg border">
+            <RzTable>
+                <TableCaption class="sr-only">Attendees</TableCaption>
+                <TableHeader>
+                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                        <TableRow>
+                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                <TableHeaderCell x-bind:colspan="header.colSpan"
+                                                 x-bind:data-column-id="header.column.id"
+                                                 x-bind:aria-sort="sort.can(header) ? sort.ariaSort(header) : null">
+                                    <template x-if="header.column.id === 'select' && !header.isPlaceholder">
+                                        <DataTableSelectAllCheckbox Scope="DataTableSelectionScope.Page" AriaLabel="Select all attendees on this page" />
+                                    </template>
+                                    <template x-if="sort.can(header) && !header.isPlaceholder">
+                                        @* SF-053: the toggle's own name ("Sort ascending") leaves out the column and hides
+                                           its visible text (WCAG 2.5.3). aria-labelledby names it after its label;
+                                           the header's aria-sort carries the direction. *@
+                                        <DataTableSortToggle HeaderExpr="header" x-bind:aria-labelledby="'attendees-sort-' + header.id">
+                                            <span x-bind:id="'attendees-sort-' + header.id" x-flexrender="_flex.header(header)"></span>
+                                        </DataTableSortToggle>
+                                    </template>
+                                    <template x-if="!sort.can(header) && header.column.id !== 'select' && !header.isPlaceholder">
+                                        <span x-flexrender="_flex.header(header)"></span>
+                                    </template>
+                                </TableHeaderCell>
+                            </template>
+                        </TableRow>
+                    </template>
+                </TableHeader>
+                <TableBody>
+                    <template x-if="isEmpty">
+                        <TableRow>
+                            <TableCell colspan="10">
+                                <RzEmpty class="py-10">
+                                    <EmptyHeader>
+                                        <EmptyMedia Variant="EmptyMediaVariant.Icon"><Blazicon Svg="Lucide.UserSearch" /></EmptyMedia>
+                                        <EmptyTitle>No attendees match</EmptyTitle>
+                                        <EmptyDescription>Clear the search or change the filters.</EmptyDescription>
+                                    </EmptyHeader>
+                                </RzEmpty>
+                            </TableCell>
+                        </TableRow>
+                    </template>
+                    <template x-for="row in rows" :key="row.id">
+                        <TableRow x-bind:data-row-id="row.id">
+                            <template x-for="cell in row.cells" :key="cell.id">
+                                <TableCell x-bind:data-column-id="cell.column.id">
+                                    <template x-if="cell.column.id === 'select'">
+                                        <DataTableRowSelectCheckbox RowExpr="row.row" />
+                                    </template>
+                                    <template x-if="cell.column.id === 'Name'">
+                                        <span class="font-medium" x-text="cell.getValue()"></span>
+                                    </template>
+                                    <template x-if="cell.column.id === 'Status'">
+                                        <span class="inline-flex items-center gap-1.5 text-sm">
+                                            <span class="size-2 rounded-full" aria-hidden="true"
+                                                  x-bind:class="cell.getValue() === 'CheckedIn' ? 'bg-success' : (cell.getValue() === 'Cancelled' ? 'bg-destructive' : 'bg-muted-foreground')"></span>
+                                            <span x-text="cell.getValue() === 'CheckedIn' ? 'Checked in' : cell.getValue()"></span>
+                                        </span>
+                                    </template>
+                                    <template x-if="cell.column.id === 'actions'">
+                                        @* hx-get cannot be used here: rows are rendered by Alpine after htmx processed the
+                                           page (SF-048), so the click goes through AttendeeTableState.edit(). *@
+                                        @* row is RizzyUI's row view ({ id, row, cells }); the TanStack row is row.row, and
+                                           its original is serialized in camelCase although column ids keep the C# names (SF-050). *@
+                                        <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small"
+                                                  x-bind:data-edit-id="row.id"
+                                                  x-bind:aria-label="'Edit ' + row.row.original.name"
+                                                  x-on:click="edit(row.id)">
+                                            Edit
+                                        </RzButton>
+                                    </template>
+                                    <template x-if="cell.column.id !== 'select' && cell.column.id !== 'Name' && cell.column.id !== 'Status' && cell.column.id !== 'actions'">
+                                        <span x-flexrender="_flex.cell(cell)"></span>
+                                    </template>
+                                </TableCell>
+                            </template>
+                        </TableRow>
+                    </template>
+                </TableBody>
+            </RzTable>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 text-sm">
+            <p class="text-muted-foreground">
+                Showing <span x-text="pagination.startRow"></span>–<span x-text="pagination.endRow"></span>
+                of <span data-total-rows x-text="pagination.totalRows"></span> · <span x-text="selectedRowCount"></span> selected
+            </p>
+            <nav aria-label="Attendee pages" class="flex items-center gap-1">
+                <RzButton Variant="ThemeVariant.Secondary" Outline Size="Size.Small" x-bind:disabled="!pagination.canPreviousPage" x-on:click="pagination.previousPage()">Previous</RzButton>
+                <span class="px-2 tabular-nums">Page <span x-text="pagination.pageIndex + 1"></span> of <span x-text="pagination.pageCount"></span></span>
+                <RzButton Variant="ThemeVariant.Secondary" Outline Size="Size.Small" x-bind:disabled="!pagination.canNextPage" x-on:click="pagination.nextPage()">Next</RzButton>
+            </nav>
+        </div>
+    </RzDataTable>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public AttendeeTableModel Model { get; set; } = null!;
+
+    private int PageSize => Model.State.Pagination?.PageSize ?? 10;
+
+    private RzDataTableConfig<AttendeeRow> Config => new()
+    {
+        Columns =
+        [
+            new RzDataTableColumn<AttendeeRow> { Id = "select", Header = "Select", EnableSorting = false, EnableHiding = false, EnableGlobalFilter = false },
+            new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Name, Header = "Name", EnableHiding = false },
+            new RzDataTableColumn<AttendeeRow>
+            {
+                Id = "contact", Header = "Contact",
+                Columns =
+                [
+                    new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Email, Header = "Email" },
+                    new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Company, Header = "Company" },
+                ],
+            },
+            new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Country, Header = "Country" },
+            new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Ticket, Header = "Ticket" },
+            new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Status, Header = "Status" },
+            new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Tags, Header = "Tags", EnableSorting = false },
+            new RzDataTableColumn<AttendeeRow> { Accessor = x => x.Registered, Header = "Registered" },
+            new RzDataTableColumn<AttendeeRow> { Id = "actions", Header = "Actions", EnableSorting = false, EnableHiding = false, EnableGlobalFilter = false },
+        ],
+        Features = new RzDataTableFeatures { EnableRowSelection = true },
+        InitialState = Model.State,
+    };
+}

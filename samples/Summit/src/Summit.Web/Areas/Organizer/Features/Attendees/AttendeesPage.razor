@@ -1,3 +1,73 @@
+@*
+    Organizer › Attendees. The table works in the browser (RzDataTable); the status and ticket filters
+    go to the server and rebuild it. AttendeeTableState keeps the table's state in hidden inputs that
+    every request includes, so the organizer keeps their sort, page and columns (SF-001).
+*@
 <RzPageTitle>Attendees · Summit organizer</RzPageTitle>
 
-<PageHeader Title="Attendees" Description="Find and manage everyone who bought a ticket." />
+<PageHeader Title="Attendees" Description="Everyone registered for Summit 2027. Edit a registration, or select rows for bulk actions." />
+
+<AttendeeTableState>
+    <form id="attendee-filters" class="flex flex-wrap items-end gap-3"
+          hx-get="/organizer/attendees/table" hx-trigger="change" hx-target="#attendee-table" hx-swap="outerHTML"
+          hx-include="#attendee-table-state">
+        <label class="flex flex-col gap-1.5 text-sm font-medium">
+            Status
+            <select name="Status" class="border-input bg-background h-9 min-w-40 rounded-md border px-2 text-sm">
+                <option value="" selected="@string.IsNullOrEmpty(Filter.Status)">All statuses</option>
+                <option value="Registered" selected="@(Filter.Status == "Registered")">Registered</option>
+                <option value="CheckedIn" selected="@(Filter.Status == "CheckedIn")">Checked in</option>
+                <option value="Cancelled" selected="@(Filter.Status == "Cancelled")">Cancelled</option>
+            </select>
+        </label>
+        <label class="flex flex-col gap-1.5 text-sm font-medium">
+            Ticket
+            <select name="Ticket" class="border-input bg-background h-9 min-w-40 rounded-md border px-2 text-sm">
+                <option value="" selected="@string.IsNullOrEmpty(Filter.Ticket)">All tickets</option>
+                @foreach (var ticket in TicketTypes)
+                {
+                    <option value="@ticket.Slug" selected="@(Filter.Ticket == ticket.Slug)">@ticket.Name</option>
+                }
+            </select>
+        </label>
+    </form>
+
+    <div class="bg-muted/50 flex flex-wrap items-center gap-3 rounded-lg border px-4 py-2" x-show="selectedCount > 0" x-cloak
+         role="region" aria-label="Bulk actions">
+        <span class="text-sm font-medium" x-text="selectionLabel"></span>
+        <div class="ms-auto flex flex-wrap gap-2">
+            <RzButton Size="Size.Small" Variant="ThemeVariant.Primary" x-on:click="confirmBulk('check-in')">Check in</RzButton>
+            <RzButton Size="Size.Small" Variant="ThemeVariant.Secondary" Outline x-on:click="confirmBulk('resend')">Resend tickets</RzButton>
+            <RzButton Size="Size.Small" Variant="ThemeVariant.Destructive" Outline x-on:click="confirmBulk('cancel')">Cancel registrations</RzButton>
+        </div>
+    </div>
+
+    <AttendeeTable Model="Table" />
+
+    @* Opened by confirmBulk() with a window event; closed by the server's HX-Trigger after the action
+       (a named close event, so it closes only this dialog: SF-003). *@
+    <RzAlertDialog EventTriggerName="attendees:bulk-confirm" CloseEventName="attendees:bulk-close" CloseOnEscape>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Confirm bulk action</AlertDialogTitle>
+                <AlertDialogDescription><span x-text="bulkSummary"></span></AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel>Go back</AlertDialogCancel>
+                <AlertDialogAction hx-post="/organizer/attendees/bulk" hx-swap="none"
+                                   hx-include="#attendee-filters, #attendee-table-state, #attendee-bulk-token">
+                    Apply
+                </AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </RzAlertDialog>
+    <div id="attendee-bulk-token" hidden><AntiforgeryToken /></div>
+</AttendeeTableState>
+
+<div id="attendee-editor"></div>
+
+@code {
+    [Parameter, EditorRequired] public AttendeeTableModel Table { get; set; } = null!;
+    [Parameter, EditorRequired] public AttendeeServerFilter Filter { get; set; } = null!;
+    [Parameter, EditorRequired] public IReadOnlyList<TicketType> TicketTypes { get; set; } = [];
+}

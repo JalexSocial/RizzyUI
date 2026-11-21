@@ -46,7 +46,7 @@
 
             <Field>
                 <FieldLabel For="@(() => Model!.Message)" />
-                <RzInputTextArea For="@(() => Model!.Message)" rows="5" placeholder="How can we help?" />
+                <RzInputTextArea For="@(() => Model!.Message)" rows="5" placeholder="How can we help?" class="@SummitClasses.TextArea" />
                 <FieldDescription>Up to 2,000 characters.</FieldDescription>
                 <FieldError><RzValidationMessageBase For="@(() => Model!.Message)" /></FieldError>
             </Field>

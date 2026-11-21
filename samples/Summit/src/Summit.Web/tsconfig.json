@@ -1,0 +1,20 @@
+{
+  // Editor and type-check support for the code-behind modules (*.razor.ts, *.razor.js). esbuild
+  // bundles them during the build (RizzyUICodeBehindBuild=esbuild); it does not type-check.
+  // Types for `rizzyui` come from the RizzyUI package, copied to obj/rizzyui/ on build.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": false,
+    "paths": {
+      "rizzyui": ["./obj/rizzyui/rizzyui.d.ts"]
+    }
+  },
+  "include": ["**/*.razor.ts", "**/*.razor.js", "Components/**/*.ts", "obj/rizzyui/rizzyui.d.ts"],
+  "exclude": ["node_modules", "bin", "wwwroot", ".test-build"]
+}
