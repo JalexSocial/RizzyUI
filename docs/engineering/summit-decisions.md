@@ -26,7 +26,7 @@ the source on 2026-11-21.
 
 | Id | Decision | Recommendation | Breaking? | Effort | Unblocks |
 |---|---|---|---|---|---|
-| R-1 | Attribute precedence for events and ids | Merge event handlers and keep consumer ids; warn in Development when a consumer attribute is dropped | Behavior only, mostly additive | M | W5, part of W4; removes 5 workarounds |
+| R-1 | Attribute precedence for events and ids | **Decided (D-24, D-25, D-26):** `x-data` reserved and enforced; handlers in code so caller `x-on:*` works; semantic events; `x-syncprop` for parent state; `AsChild` rules; consumer ids adopted | Yes (`x-data` throws; ids change) | L | W5, part of W4; removes 5 workarounds |
 | R-2 | Input `name` attributes | Every input posts the full model path, as Blazor's own inputs do | Yes, for 5 components | S–M | W4; removes explicit `Name=` everywhere |
 | R-3 | Default dialog close event | Scope it per instance; keep the global event as an explicit "close all" | Yes, for apps relying on the global default | S | W1 |
 | R-4 | `HtmxResponse` outside htmx requests | No-op with a Debug log | Behavior only, relaxes a throw | S | W10; removes `HtmxResponses.cs` |
@@ -89,6 +89,100 @@ helper once and converting components in batches, each batch green on both test 
 **Recommendation: option 3**, with the scope limited to `x-on:*` events and `id`. Everything else D-20
 decided stays (configuration `data-*`, ARIA state and `class` merging still go through parameters). It
 reverses D-20 only where D-20 produced silent failures. Record it as D-20a.
+
+### Decision (owner, 2026-11-21): recorded as D-24
+
+> RizzyUI reserves the `x-data` directive across all public RizzyUI components. Supplying `x-data`
+> through unmatched component attributes is an invalid configuration and results in a descriptive
+> exception. Consumers define application-specific Alpine state on an ancestor element. RizzyUI
+> attaches internal event handlers programmatically wherever practical, allowing consumers to use
+> `x-on:*` without collisions. Components expose documented semantic events for meaningful state
+> changes and enforce clear rules for other protected directives. Developers who want to sync a
+> component's internal state to a parent `x-data` object use RizzyUI's `x-syncprop` extension. The docs
+> get a page on parent property synchronization inside a RizzyUI component.
+
+What the code looked like when the decision was taken, and what implementing it involves:
+
+1. **`x-data` is reserved and enforced.** One check in the component base (`RzComponent`) throws when
+   `AdditionalAttributes` contains `x-data` (any casing), naming the component and pointing to the
+   ancestor pattern and the synchronization page. It applies to every public component, including the
+   ones without Alpine state, so the rule needs no per-component knowledge. Breaking (an attribute that
+   was silently overridden now throws), listed under CHANGELOG "Breaking".
+2. **Handlers move to code.** 50 components declare `x-data` in their own markup; the `x-on:*` bindings
+   they put on the element that also receives the caller's attributes move into each module's `init()`
+   as listeners (removed in `destroy()`). Caller `x-on:*` then simply works, under both builds (the CSP
+   build never has to evaluate a merged expression). Components that keep a markup handler on an
+   inner element are unaffected, because callers cannot reach that element.
+3. **Semantic events.** Each component that holds state dispatches `rz:<component>:<event>` (for example
+   `rz:toggle:change`, `rz:menubar:checked-change`, `rz:sheet:open` and `rz:sheet:close`) with a typed
+   `detail`, documented on its page and declared in `rizzyui.d.ts`. This also closes SF-015 and SF-067.
+4. **`x-syncprop` must reach the component's state.** In 27 of the 50 components the caller's attributes
+   land on a different element from the one carrying `x-data` (for example RzChart, RzCombobox,
+   RzInputOTP, RzSlider, RzTabs, RzCalendar, RzDataTable, RzDateEdit). A caller's `x-syncprop` would
+   then sit on an element without the component's state. Either those components move `x-data` to the
+   root element, or the base forwards `x-syncprop` (and only it) to the element that carries `x-data`.
+   Forwarding is the smaller change. **Accepted by the owner (2026-11-21).**
+5. **"Parent" must mean the consumer's state.** `x-syncprop` binds to the nearest ancestor `x-data`.
+   A RizzyUI component placed inside another one (an input in a dialog, a sheet or a sidebar) would bind
+   to the outer component's internal state, not the application's. The directive should skip ancestors
+   that are RizzyUI components (they carry `data-alpine-root`) or accept an explicit target (a
+   `.parent-{ref}` modifier or an id), and the new docs page should show the nested case. **Accepted by
+   the owner (2026-11-21).**
+6. **Other protected directives**, proposed rules for the owner to confirm (the decision asks for clear
+   ones):
+
+   | Directive on a component's attributes | Rule |
+   |---|---|
+   | `x-data` | Reserved; throws |
+   | `x-init`, `x-load` | Reserved; throw (they run in, or control, the component's own scope) |
+   | `x-on:*` | Allowed; runs alongside the component's handlers |
+   | `x-syncprop` | Allowed; forwarded to the element that carries the component's `x-data` |
+   | `x-bind:*` / `:attr` | Allowed for attributes the component does not compute; for computed ones the component wins (D-20) and a Development warning names the dropped binding |
+   | `x-show`, `x-cloak`, `x-transition` | Allowed on components that do not manage their own visibility; reserved (throw) on overlays and other components that do |
+   | `x-ref` | Allowed; the component's own ref names are reserved and documented |
+   | `x-model` | Allowed only on components that declare a model value (documented per component); otherwise throws |
+
+7. **Docs:** a new Interactivity page, "Parent property synchronization", covering the ancestor pattern,
+   `x-syncprop` on a component (including the nested case from point 5), and the semantic events as the
+   alternative when only notifications are needed; each component page lists its events and protected
+   directives.
+8. **Tests:** a bUnit test per rule (throws for `x-data`, `x-init`, `x-load`); browser tests that a caller
+   `x-on:click` runs on `RzToggle` and `MenubarItem` on both builds, and that `x-syncprop` syncs a value
+   through a component inside a dialog. Summit drops its `x-on:click.capture` trick and delegated click
+   handling when W5 lands.
+9. **`AsChild` needs its own rules** (analysis requested by the owner, 2026-11-21). `CloneFragment`
+   (`RzAsChildComponent.CloneFragment.cs`) merges the component's attributes into the consumer's child
+   with the **child's attributes winning** (`KeepExisting`, class merged), the opposite of the normal
+   case. 27 components support `AsChild`; 19 of them put Alpine directives on the child (16 triggers and
+   closers with `x-on:*`/`x-bind:*`/`x-ref`, and RzClipboard, RzBackToTop and RzAlpineComponent, which
+   put their own `x-data` and `x-load` on it). Consequences for D-24:
+
+   | Case | Today | Under D-24 as stated | Needed |
+   |---|---|---|---|
+   | `<RzClipboard AsChild><RzButton>` (child is a component) | The clipboard's `x-data` reaches RzButton's `AdditionalAttributes` and works | The base-class check in RzButton sees `x-data` in unmatched attributes and **throws on a valid composition** | Attributes forwarded by `CloneFragment` carry their provenance (an internal marker the check honors), or the check runs only on attributes the caller wrote |
+   | Child declares its own `x-data` (`<RzClipboard AsChild><div x-data="...">`, or any trigger's child) | The child's `x-data` wins: the component's state is dropped, or the trigger's `x-on:click="toggle"` evaluates in the child's scope; the component stops working, silently | Not covered (the child is not the component's attributes) | `CloneFragment` throws when the child declares `x-data`, on element, component and markup children: the same rule, "state on an ancestor" |
+   | Child declares `x-on:click` (`<PopoverTrigger AsChild><button x-on:click="track()">`) | The child's handler wins and the trigger's is dropped: the popover never opens | D-24 promises collision-free `x-on:*`; this would still collide | The triggers' handlers move to the parent component's module, which already finds its trigger through a marker (`rzPopover` looks for `[data-trigger]`); triggers emit markers, not `x-on:*` |
+   | Child declares a binding the component computes (`x-bind:aria-expanded`, `data-state`, `tabindex`, `disabled`) | The child's wins and the state attributes stop following the component | Not covered | Component-computed bindings win on `AsChild` children (D-20's rule), with the Development warning |
+   | Child has its own `id` (`<PopoverTrigger AsChild><button id="share">`) | The child's id wins; `PopoverContent`'s `aria-labelledby="{popover}-trigger"` then points at nothing | Not covered (consumer ids are open, point 10) | Decide with SF-033: either the component adopts the child's id and derives its references from it, or the component's id wins on `AsChild` children |
+   | Child component that binds its own handlers in markup (a trigger wrapping RzToggle) | One of the two `x-on:click`s is dropped | Fixed: D-24 moves component handlers to code | Nothing more |
+   | `x-syncprop` on an `AsChild` component | Lands on the child | Correct for RzClipboard, RzBackToTop and RzAlpineComponent (the child carries their state); on a trigger it would bind the parent component's internal state | Allowed on the three state-carrying components; reserved (throws) on triggers and closers |
+
+   None of this blocks D-24; it adds four requirements to W5: provenance for forwarded attributes,
+   `CloneFragment` enforcing the child rules, trigger handlers in the parent modules, and component-wins
+   for computed bindings on `AsChild` children.
+
+   **Decided by the owner (2026-11-21), each with the recommended option, recorded as D-25 and D-26:**
+
+   | Case | Decision | Rejected alternatives |
+   |---|---|---|
+   | Library `x-data` forwarded to a component child | Provenance marker: `CloneFragment` passes library-owned attributes through a channel the check skips | A Roslyn analyzer (misses attributes built in C#), an allow-list of `rz*` values (fuzzy), deferring |
+   | Child declares `x-data` | `CloneFragment` throws a descriptive exception (element, component and markup children) | A Development warning only, wrapping the child (adds a DOM node), deferring |
+   | Child declares `x-on:*` | Triggers render a marker; the parent module attaches their listeners | Merging expressions (fragile under the CSP build), trigger wins with a warning (contradicts D-24), deferring |
+   | Child declares a computed binding | Component wins, Development warning | Throwing, keeping child-wins, deferring |
+   | Child has its own `id` | Adopt the child's id and derive references from it (D-26, which also settles SF-033) | Component id wins, throwing on a child id, deferring with SF-033 | Tests: each row above as a bUnit or browser test, on
+   element, component and markup children. The docs scan (dangling `aria-labelledby`) guards the id row.
+10. **Consumer `id`s (SF-033): decided as D-26.** A consumer-supplied id is adopted, on components and on
+   `AsChild` children, and every internal reference derives from it.
 
 ---
 

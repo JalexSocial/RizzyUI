@@ -98,7 +98,8 @@ SF-009, SF-013, SF-028, SF-033, SF-045, SF-052, SF-064, SF-070.
 - **One naming rule:** every input posts the model path (`Model.Country`), group inputs included
   (SF-009, High). Decision R-2.
 - **Inputs without an `EditContext`:** a GET filter form works without cascading one by hand (SF-028).
-- **Consumer ids are kept** on inputs and labels follow them (SF-033; overlaps W5's attribute policy).
+- **Consumer ids are adopted** (decision D-26): inputs use a supplied `id` and derive `{id}-input` and
+  ARIA references from it, so a hand-written `<label for>` works (SF-033).
 - **Focus the first invalid field after a 422** as a form-level behavior (an attribute on `EditForm` or
   a component), so every app stops writing `FocusFirstError` (SF-045).
 - **RzInputTextArea styles** (SF-052), **RzInputOTP**: `InputAttributes` for the real input (SF-064) and
@@ -110,12 +111,21 @@ SF-009, SF-013, SF-028, SF-033, SF-045, SF-052, SF-064, SF-070.
 
 SF-015, SF-018, SF-030, SF-067, SF-069.
 
-- **The attribute policy (decision R-1):** components merge event handlers instead of replacing them,
-  keep consumer ids, and warn in Development when a consumer attribute is dropped (SF-030, SF-069;
-  pattern 1).
+- **The directive policy (decision R-1, decided as D-24):** `x-data` is reserved on every public
+  component and throws when passed as an attribute (one check in `RzComponent`); internal handlers
+  move from markup to the modules' `init()`, so caller `x-on:*` runs alongside them (SF-030, SF-069);
+  each stateful component dispatches documented `rz:<component>:<event>` events; the other protected
+  directives follow the rules in `summit-decisions.md` (R-1, point 6, to confirm); `x-syncprop` is
+  forwarded to the element carrying the component's `x-data` (27 components need it) and learns to skip
+  RizzyUI ancestors (both accepted). **`AsChild` (D-25):** provenance for attributes `CloneFragment`
+  forwards (so the `x-data` check does not throw on `<RzClipboard AsChild><RzButton>`), `CloneFragment`
+  throwing on `x-data` in the child, trigger and closer handlers attached by the parent components'
+  modules through a marker (16 components), and component-computed bindings winning on the child with a
+  Development warning. **Consumer ids (D-26):** adopted on components and `AsChild` children, with
+  internal references derived from them (W4 does the inputs, W5 the `AsChild` triggers).
 - **`AsChild` on RzButton** (SF-018, High; also fixes the starter template's 404 page in W10).
-- **Value-holding components emit change events and can post:** RzToggle (SF-015), menubar checkbox
-  and radio items (SF-067).
+- **Value-holding components emit semantic change events** (part of D-24) and can post: RzToggle
+  (SF-015), menubar checkbox and radio items (SF-067).
 - Removes: delegated click handling in `ScheduleBoard.razor.js`, `ScheduleBuilderPage.razor.js`,
   `x-on:click.capture` on the menubar item, `Element="a"` on buttons (optional).
 
@@ -141,8 +151,10 @@ SF-001, SF-048, SF-050, SF-053, SF-054, SF-056, SF-063.
   row templates, or per-row ids (SF-054).
 - **Sort buttons named after their column**, localized (SF-053). **RzTable's scroll container** is
   focusable with a name (SF-063).
-- **A default rendering** with per-column cell templates, so the headless markup is the escape hatch
-  (SF-056); document the row objects and casing (SF-050).
+- **Less markup without giving up the headless model** (SF-056): owner decision D-22 keeps RzDataTable
+  headless, with the developer authoring the structure, so the answer is not a default rendering but
+  composable helpers (a header row and a cell helper that cover sorting, selection and flex rendering)
+  and copyable recipes in the docs; document the row objects and casing (SF-050).
 - Removes: most of `AttendeeTableState` (about 85 lines), `aria-labelledby` on sort toggles, the
   `tabindex` on tables, the x-for annotation in `expectUniqueIds`, and most of `AttendeeTable.razor`.
 
@@ -215,6 +227,9 @@ SF-006, SF-008, SF-019, SF-027, SF-051, and from the docs scan SF-081, SF-082, S
   (SF-008), with the patterns Summit used.
 - Fix the navigation menu example's nested anchors (SF-019); add pages for RzEmbeddedPreview,
   RzFormSection, RzSearchButton, RzDarkModeToggle and RzIdScope (SF-027).
+- D-24: a new Interactivity page, "Parent property synchronization" (state on an ancestor, `x-syncprop`
+  on a RizzyUI component, the nested case, semantic events as the notification-only alternative), and
+  on every component page its events and protected directives. Written together with W5.
 - SF-051 was Summit's own bug, already fixed: mark it closed.
 - From the docs scan: the docs stylesheet's contrast (SF-081), example markup that teaches inaccessible
   patterns (SF-082), and examples that only work without a CSP (SF-083). Each fix removes entries from
@@ -227,7 +242,7 @@ The full analysis of each decision (current behavior, options, implications, ben
 
 | Id | Question | Recommendation | Blocks |
 |---|---|---|---|
-| R-1 | Attribute policy: replace (today), merge, or merge plus a Development warning? | Merge event handlers and keep consumer ids; warn in Development when a consumer attribute is dropped. Reverses decision D-20 for events and ids only. | W5, part of W4 |
+| R-1 | Attribute policy: replace (today), merge, or merge plus a Development warning? | **Decided 2026-11-21 (D-24, D-25, D-26):** `x-data` reserved and enforced, handlers in code, semantic events, `x-syncprop` for parent state, `AsChild` rules, consumer ids adopted. Open: the rules for the other protected directives (proposed in `summit-decisions.md`, R-1 point 6). | W5, part of W4 |
 | R-2 | Input names: always the model path (`Model.Country`), breaking the bare names group inputs post today? | Yes, before 1.0, with a CHANGELOG migration note. | W4 |
 | R-3 | Default dialog close event: keep the global `rz:dialog-close`, or scope it to the instance (`rz:dialog-close:{id}`)? | Scope it; keep the global event as an explicit "close all" that apps opt into. | W1 |
 | R-4 | `HtmxResponse` outside htmx requests: throw (today) or no-op? | No-op, with a Debug log. Throwing protects against a mistake that the no-op makes harmless. | W10 (Rizzy) |
@@ -274,7 +289,7 @@ RizzyUI.
 | Renaming inputs (R-2) breaks posted forms in existing apps | One release with a migration note; a Development warning when a bare name is posted |
 | Tom Select and flatpickr fixes depend on third-party behavior | Fix in RizzyUI's integration code (render hooks, options), not by patching the libraries; pin versions |
 | Removing a workaround hides a partial fix | The workaround goes only when Summit's suite passes without it, in both builds and on the phone project |
-| Scope creep in W7 (a default table rendering is a feature) | Ship the state transport, row processing and ids first; the default rendering is its own pull request |
+| Scope creep in W7 | Ship the state transport, row processing and ids first; the helpers for SF-056 are their own pull request, within D-22's headless model |
 
 ## Appendix: every finding and its workstream
 

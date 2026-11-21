@@ -172,7 +172,8 @@ finding) and listed in the ledger, so removing them after a library fix is mecha
 9. One form model: consistent names, inputs without a required `EditContext`, focus to the first error
    after a 422, a model-bound slider (pattern 2).
 10. DataTable: a state transport (SF-001), `htmx.process` after rendering rows (SF-048), per-row ids
-    (SF-054), a default rendering (SF-056), documented row objects (SF-050).
+    (SF-054), composable helpers within the headless model of owner decision D-22 (SF-056), documented row
+    objects (SF-050).
 11. Menubar events (SF-067), RzInputOTP input attributes (SF-064), a built-in server-error toast (SF-041).
 
 **Later**
@@ -228,7 +229,7 @@ any of its 175 browser tests stops the release.
 |---|---|---|
 | Before 1.0 | Section 6, items 1 to 7; the regression tests above; axe over the docs | About 250 lines of compensating code (`DashboardFilters` almost entirely, `SheetFocus`, `IndexedModelStateProvider`, `SummitClasses`, theme placement, status pages) |
 | 1.1 | Attribute policy, form model, overlay events | About 150 lines (`FocusFirstError`, explicit names, `HtmxResponses`, capture handlers) |
-| 1.2 | DataTable state transport, row processing, default rendering | About 100 lines (`AttendeeTableState` mostly) and 100 lines of table markup |
+| 1.2 | DataTable state transport, row processing, markup helpers (headless, D-22) | About 100 lines (`AttendeeTableState` mostly) and 100 lines of table markup |
 | Ongoing | Keep Summit current with each release; add a scenario for every new component | n/a |
 
 ## 10. Adoption readiness by area

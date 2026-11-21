@@ -73,10 +73,10 @@ tracks how much application code exists only to compensate.
 | SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
 | SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works (workaround) | Open | e2e: schedule filters, speaker search (workflow) |
 | SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
-| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works (workaround) | Open | e2e: level toggles (workflow) |
+| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works (workaround) | Open (decided: D-24 (handlers in code)) | e2e: level toggles (workflow) |
 | SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
 | SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
-| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open | axe label checks (defect) |
+| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open (decided: D-26 (consumer ids adopted)) | axe label checks (defect) |
 | SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works (workaround) | Open | axe color-contrast on every page (defect) |
 | SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
 | SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect); docs scan (known-defect list) |
@@ -112,7 +112,7 @@ tracks how much application code exists only to compensate.
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Affected (no workaround) | Open | e2e: locator by name documents it |
-| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open | e2e: schedule builder publish all |
+| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open (decided: D-24 (handlers in code)) | e2e: schedule builder publish all |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
@@ -924,8 +924,9 @@ finding on its own.
   expressions may contain, and components inside the templates bring their own problems (SF-048,
   SF-053, SF-054).
 - **Summit:** writes the markup by hand, following the docs example.
-- **Library suggestion:** a default body (for example `RenderDefault="true"`) with per-column cell
-  templates, so the headless form is the escape hatch rather than the only way.
+- **Library suggestion:** owner decision D-22 (2026-11-18) keeps RzDataTable headless, with the developer
+  authoring the structure, so the answer is not a default rendering but composable helpers (a header row
+  and a cell helper that handle sorting, selection and flex rendering) and copyable recipes in the docs.
 
 ### SF-057 A calendar in a popover is disconnected from its provider
 
