@@ -57,8 +57,11 @@ SF-002, SF-003, SF-004, SF-010, SF-011, SF-032, SF-049, SF-074.
 - **RzSheet:** activate the focus scope after the panel is visible, as the `DefaultOpen` path already
   does (SF-074, High); add `EventTriggerName` and `CloseEventName` like RzDialog (SF-002); an
   `InitialFocus` selector for sheets and dialogs (SF-032).
-- **Dialog close events:** scope the default close event to the instance (decision R-3) (SF-003); fix
-  the docs' event and constant names (SF-004).
+- **Dialog close events** (decision D-29) (SF-003): `rz:dialog-close` stays the one event name; a dialog
+  closes when the event has no target id or when `detail.id` matches its id, so
+  `HX-Trigger: {"rz:dialog-close": {"id": "..."}}` closes one dialog and a bare trigger still closes all.
+  No per-instance event names. The same model for RzSheet's new close event. Fix the JS fallback
+  `rz:modal-close` and the docs' event and constant names (SF-004).
 - **RzSidebar:** read the collapse cookie on the server (SF-010); `min-w-0` on `SidebarInset` (SF-049);
   document that `ChildContent` renders twice (SF-011).
 - Removes: `SheetFocus.razor(.js)`, the open-by-swap pattern in the attendee editor and session details
@@ -81,8 +84,9 @@ SF-014, SF-057, SF-058, SF-068, SF-073.
 
 - **RzCalendar finds its provider through Alpine scope or a `ProviderId`, not DOM bubbling** (SF-057,
   High; the docs' "Range Popover" example is broken today).
-- **Provider as a form participant:** `StartName`/`EndName` (or `Name`) rendering synced hidden inputs,
-  and a bubbling `change` when a range completes (SF-058). Decision R-6 settles the names.
+- **Provider as a form participant** (decision D-32) (SF-058): `Name` for single and multiple selection
+  (multiple posts repeated values), `StartName`/`EndName` for ranges, rendering synced hidden inputs, and
+  a bubbling `change` when the value is complete. The provider's existing events stay.
 - **Culture:** both date components default to the request culture; flatpickr locale files join the
   default assets, keyed by language, and load on demand (SF-073).
 - **RzDateEdit label:** no hard-coded `aria-label` when the input has a label; an `AriaLabel`
@@ -95,8 +99,10 @@ SF-014, SF-057, SF-058, SF-068, SF-073.
 
 SF-009, SF-013, SF-028, SF-033, SF-045, SF-052, SF-064, SF-070.
 
-- **One naming rule:** every input posts the model path (`Model.Country`), group inputs included
-  (SF-009, High). Decision R-2.
+- **One naming rule** (decision D-28): every input posts the model path (`Model.Country`), group inputs
+  included (SF-009, High); `RzCheckboxGroup`, `RzRadioGroup`, `RzCombobox`, `RzFileInput` and
+  `RzInputOTP` change their default; `Name` keeps a bare name; CHANGELOG "Breaking" entry with the
+  binding table from `summit-decisions.md`.
 - **Inputs without an `EditContext`:** a GET filter form works without cascading one by hand (SF-028).
 - **Consumer ids are adopted** (decision D-26): inputs use a supplied `id` and derive `{id}-input` and
   ARIA references from it, so a hand-written `<label for>` works (SF-033).
@@ -115,7 +121,9 @@ SF-015, SF-018, SF-030, SF-067, SF-069.
   component and throws when passed as an attribute (one check in `RzComponent`); internal handlers
   move from markup to the modules' `init()`, so caller `x-on:*` runs alongside them (SF-030, SF-069);
   each stateful component dispatches documented `rz:<component>:<event>` events; the other protected
-  directives follow the rules in `summit-decisions.md` (R-1, point 6, to confirm); `x-syncprop` is
+  directives follow the confirmed rules (D-27: `x-init`/`x-load` throw, computed `x-bind` loses with a
+  Development warning, visibility directives reserved on overlays, reserved ref names, `x-model` only
+  where documented); `x-syncprop` is
   forwarded to the element carrying the component's `x-data` (27 components need it) and learns to skip
   RizzyUI ancestors (both accepted). **`AsChild` (D-25):** provenance for attributes `CloneFragment`
   forwards (so the `x-data` check does not throw on `<RzClipboard AsChild><RzButton>`), `CloneFragment`
@@ -145,8 +153,9 @@ SF-007, SF-016, SF-025, SF-040, SF-046, SF-055.
 
 SF-001, SF-048, SF-050, SF-053, SF-054, SF-056, SF-063.
 
-- **State transport** (SF-001, High): a `StateInputName` that renders one JSON input kept in sync, and
-  a model binder to `RzDataTableInitialState`. Decision R-5.
+- **State transport** (decision D-31) (SF-001, High): a parameter naming one hidden input that holds
+  versioned JSON kept in sync (sorting, pagination, column filters, column visibility; selection opt-in),
+  and a model binder to a typed state. `TableRequestModel` is deprecated in 1.0 and removed after.
 - **htmx in rows:** `htmx.process` after each render (SF-048). **Ids in rows:** no generated ids in
   row templates, or per-row ids (SF-054).
 - **Sort buttons named after their column**, localized (SF-053). **RzTable's scroll container** is
@@ -201,7 +210,8 @@ Rizzy repository (`../Rizzy`):
   `Components/Form/RzModelStateProvider.cs` returns early on `[`).
 - `RzInputRadioBase` renders no `id=""` (SF-047; `Components/Form/RzInputRadioBase.cs` defaults `Id` to
   empty and always adds it).
-- `HtmxResponse` setters become no-ops outside htmx requests (decision R-4) (SF-043).
+- `HtmxResponse` setters become no-ops outside htmx requests, logging the skipped header at Debug level;
+  `ValidationFailed()` keeps the 422 on any request (decision D-30) (SF-043).
 - An absolute default `ClientScriptUrl` (SF-017; `Configuration/RizzyConfig.cs`).
 - A built-in server-error toast for `rz:server-error`, shared with RizzyUI (SF-041).
 - Docs: `lang` and other `<html>` attributes after boosted navigation (SF-024).
@@ -235,20 +245,21 @@ SF-006, SF-008, SF-019, SF-027, SF-051, and from the docs scan SF-081, SF-082, S
   patterns (SF-082), and examples that only work without a CSP (SF-083). Each fix removes entries from
   `docs-scan-known.ts`.
 
-## 3. Decisions needed before the dependent work starts
+## 3. Decisions
 
-The full analysis of each decision (current behavior, options, implications, benefits, risks) is in
-[summit-decisions.md](summit-decisions.md).
+All seven were decided by the owner on 2026-11-21. The full analysis of each (current behavior,
+options, implications, benefits, risks) is in [summit-decisions.md](summit-decisions.md); the rules are
+in the audit's `DECISIONS.md`, D-24 to D-32.
 
-| Id | Question | Recommendation | Blocks |
+| Id | Question | Decision | Blocks |
 |---|---|---|---|
-| R-1 | Attribute policy: replace (today), merge, or merge plus a Development warning? | **Decided 2026-11-21 (D-24, D-25, D-26):** `x-data` reserved and enforced, handlers in code, semantic events, `x-syncprop` for parent state, `AsChild` rules, consumer ids adopted. Open: the rules for the other protected directives (proposed in `summit-decisions.md`, R-1 point 6). | W5, part of W4 |
-| R-2 | Input names: always the model path (`Model.Country`), breaking the bare names group inputs post today? | Yes, before 1.0, with a CHANGELOG migration note. | W4 |
-| R-3 | Default dialog close event: keep the global `rz:dialog-close`, or scope it to the instance (`rz:dialog-close:{id}`)? | Scope it; keep the global event as an explicit "close all" that apps opt into. | W1 |
-| R-4 | `HtmxResponse` outside htmx requests: throw (today) or no-op? | No-op, with a Debug log. Throwing protects against a mistake that the no-op makes harmless. | W10 (Rizzy) |
-| R-5 | DataTable state transport: one JSON input or one input per field? | One JSON input plus a model binder: one name to include, no prefix collisions (SF-051). | W7 |
-| R-6 | Calendar provider form names: `Name` with a separator, or `StartName`/`EndName`? | `StartName`/`EndName`: they bind to two typed properties without parsing. | W3 |
-| R-7 | Release vehicle: fix the High findings in preview.4, or cut a dedicated preview? | preview.4 carries W0 and the High findings (section 4, M1); later milestones ship as they finish. | Section 4 |
+| R-1 | Attribute policy: replace (today), merge, or merge plus a Development warning? | **Decided 2026-11-21 (D-24, D-25, D-26):** `x-data` reserved and enforced, handlers in code, semantic events, `x-syncprop` for parent state, `AsChild` rules, consumer ids adopted. The other protected directives' rules confirmed as proposed (D-27). | W5, part of W4 |
+| R-2 | Input names: always the model path (`Model.Country`), breaking the bare names group inputs post today? | **Decided (D-28):** model path everywhere before 1.0; `Name` opts out; CHANGELOG migration note. | W4 |
+| R-3 | Default dialog close event: keep the global `rz:dialog-close`, or scope it to the instance (`rz:dialog-close:{id}`)? | **Decided (D-29):** one event name, `rz:dialog-close`, with an optional target id in `detail`; no id still closes all; no per-instance names. | W1 |
+| R-4 | `HtmxResponse` outside htmx requests: throw (today) or no-op? | **Decided (D-30):** no-op with a Debug log; `ValidationFailed()` keeps the 422. | W10 (Rizzy) |
+| R-5 | DataTable state transport: one JSON input or one input per field? | **Decided (D-31):** one versioned JSON input plus a model binder; selection opt-in; `TableRequestModel` deprecated. | W7 |
+| R-6 | Calendar provider form names: `Name` with a separator, or `StartName`/`EndName`? | **Decided (D-32):** `Name` for single and multiple, `StartName`/`EndName` for ranges, bubbling `change`. | W3 |
+| R-7 | Release vehicle: fix the High findings in preview.4, or cut a dedicated preview? | **Decided:** preview.4 carries M0 and M1 with a cut-off (section 4); later milestones ship as they finish. | Section 4 |
 
 ## 4. Milestones
 
@@ -260,6 +271,9 @@ The full analysis of each decision (current behavior, options, implications, ben
 | **M2, consistency** (1.0) | The rest of W1, W3, W4, W5, W6, W8, W9 | Decisions R-1 to R-6 implemented; W0's known-defect list empty |
 | **M3, data table** (1.0 or 1.1) | W7 | Summit's attendee page without `AttendeeTableState` state glue |
 | **M4, docs** | W11 | Every component has a docs page and its findings link to it |
+
+Release cut-off (decision R-7): preview.4 ships when M1 is ready; an M1 item not merged by then moves to
+preview.5 rather than holding the release. Each M1 item is its own pull request.
 
 Dependencies: W0 first, since it is how M1 and M2 prove their accessibility fixes. W5's attribute
 policy (R-1) before W4's consumer-id work. W10's Rizzy part can run in parallel with everything in
@@ -285,8 +299,8 @@ RizzyUI.
 
 | Risk | Mitigation |
 |---|---|
-| The attribute policy (R-1) changes behavior apps rely on | Ship it with the Development warning first and a CHANGELOG entry; Summit and the docs fixtures cover the common cases |
-| Renaming inputs (R-2) breaks posted forms in existing apps | One release with a migration note; a Development warning when a bare name is posted |
+| The attribute policy (D-24 to D-27) changes behavior apps rely on | Descriptive exceptions name the component and the fix; CHANGELOG "Breaking" entries; Summit and the docs fixtures cover the common cases |
+| Renaming inputs (D-28) breaks posted forms in existing apps | One release with a migration note and the binding table; `Name` keeps a bare name (a component cannot detect at render time how the action binds) |
 | Tom Select and flatpickr fixes depend on third-party behavior | Fix in RizzyUI's integration code (render hooks, options), not by patching the libraries; pin versions |
 | Removing a workaround hides a partial fix | The workaround goes only when Summit's suite passes without it, in both builds and on the phone project |
 | Scope creep in W7 | Ship the state transport, row processing and ids first; the helpers for SF-056 are their own pull request, within D-22's headless model |

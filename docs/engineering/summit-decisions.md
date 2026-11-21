@@ -6,6 +6,9 @@ the options, what each option implies for the libraries and for applications, th
 and how to contain them, and a recommendation. Everything stated about current behavior was checked in
 the source on 2026-11-21.
 
+**Status: all seven decided by the owner on 2026-11-21** (each section ends with the decision; the
+rules are in `docs/audits/2026-11-15-rizzyui-initial-audit/DECISIONS.md`, D-24 to D-32).
+
 ## Context that applies to all seven
 
 - **Pre-1.0 previews.** RizzyUI is at `1.0.0-preview.4-dev` (Rizzy at `6.0.0-preview.4-dev`), with
@@ -27,12 +30,12 @@ the source on 2026-11-21.
 | Id | Decision | Recommendation | Breaking? | Effort | Unblocks |
 |---|---|---|---|---|---|
 | R-1 | Attribute precedence for events and ids | **Decided (D-24, D-25, D-26):** `x-data` reserved and enforced; handlers in code so caller `x-on:*` works; semantic events; `x-syncprop` for parent state; `AsChild` rules; consumer ids adopted | Yes (`x-data` throws; ids change) | L | W5, part of W4; removes 5 workarounds |
-| R-2 | Input `name` attributes | Every input posts the full model path, as Blazor's own inputs do | Yes, for 5 components | S–M | W4; removes explicit `Name=` everywhere |
-| R-3 | Default dialog close event | Scope it per instance; keep the global event as an explicit "close all" | Yes, for apps relying on the global default | S | W1 |
-| R-4 | `HtmxResponse` outside htmx requests | No-op with a Debug log | Behavior only, relaxes a throw | S | W10; removes `HtmxResponses.cs` |
-| R-5 | DataTable state transport | One JSON input plus a model binder | Additive | M | W7 |
-| R-6 | Calendar provider form names | `StartName` and `EndName` | Additive | S | W3 |
-| R-7 | Release vehicle for the High findings | preview.4 carries M0 and M1; later work ships as it finishes | n/a | n/a | Scheduling |
+| R-2 | Input `name` attributes | **Decided (D-28):** every input posts the full model path, as Blazor's own inputs do; `Name` keeps a bare name | Yes, for 5 components | S–M | W4; removes explicit `Name=` everywhere |
+| R-3 | Default dialog close event | **Decided (D-29):** one event name, `rz:dialog-close`, with an optional target id in `detail`; no id closes all; no per-instance names | No | S | W1 |
+| R-4 | `HtmxResponse` outside htmx requests | **Decided (D-30):** no-op with a Debug log; `ValidationFailed()` keeps the 422 | Behavior only, relaxes a throw | S | W10; removes `HtmxResponses.cs` |
+| R-5 | DataTable state transport | **Decided (D-31):** one versioned JSON input plus a model binder; selection opt-in; `TableRequestModel` deprecated | Additive | M | W7 |
+| R-6 | Calendar provider form names | **Decided (D-32):** `Name` for single and multiple, `StartName`/`EndName` for ranges, bubbling `change` | Additive | S | W3 |
+| R-7 | Release vehicle for the High findings | **Decided:** preview.4 carries M0 and M1 with a cut-off; whatever of M1 is not merged moves to preview.5 | n/a | n/a | Scheduling |
 
 Suggested order of deciding: R-7 first (it sets the schedule), then R-2 and R-1 (the two that change
 behavior applications see), then R-3 and R-4, then R-5 and R-6 (additive, low risk).
@@ -128,8 +131,8 @@ What the code looked like when the decision was taken, and what implementing it 
    that are RizzyUI components (they carry `data-alpine-root`) or accept an explicit target (a
    `.parent-{ref}` modifier or an id), and the new docs page should show the nested case. **Accepted by
    the owner (2026-11-21).**
-6. **Other protected directives**, proposed rules for the owner to confirm (the decision asks for clear
-   ones):
+6. **Other protected directives.** Proposed rules, **confirmed by the owner as proposed (2026-11-21),
+   recorded as D-27**:
 
    | Directive on a component's attributes | Rule |
    |---|---|
@@ -237,6 +240,12 @@ not catch it, because no signature changes.
 **Recommendation: option 2, before 1.0**, with `Name` as the documented escape hatch for applications
 that bind by bare name.
 
+### Decision (owner, 2026-11-21): option 2, recorded as D-28
+
+Every input posts the full model path. The five components change their default `name` before 1.0;
+`Name="Country"` keeps today's output. CHANGELOG "Breaking" entry with the binding table above.
+Implemented in W4.
+
 ---
 
 ## R-3. Default dialog close event: global or per instance?
@@ -279,6 +288,26 @@ request).
 default, keep `rz:dialog-close` with no detail as "close all", fix the JS fallback and the docs. Apply
 the same to `RzSheet` when its events land.
 
+### Decision (owner, 2026-11-21): option 2, recorded as D-29
+
+Option 2 in its non-breaking form, **with one event name and an optional target id, not a different
+event name per instance**:
+
+- `rz:dialog-close` stays the default `CloseEventName`. Every dialog listens to it.
+- A dialog closes when the event carries no target id, or when `detail.id` matches the dialog's id;
+  other dialogs ignore it. `HX-Trigger: rz:dialog-close` closes every open dialog (today's behavior);
+  `HX-Trigger: {"rz:dialog-close": {"id": "edit-session"}}` closes that one.
+- `rz:dialog-close:{id}` and other generated per-instance names are rejected: one name to document,
+  to put in `HX-Trigger` and to listen for.
+- A custom `CloseEventName` follows the same `detail.id` rule.
+- A dialog the server closes needs a stable `Id` (D-26 adopts a consumer id).
+- `RzSheet` follows the same model when its events land: one close event name, optional `detail.id`.
+  Notifications (`rz:sheet:open`, `rz:sheet:close`, D-24 point 3) stay separate from this request event.
+- The JS fallback `rz:modal-close` and the docs (SF-004) are fixed in the same pull request. Rizzy may
+  add a helper that writes the trigger with the id (W10), but none is required.
+
+Implemented in W1.
+
 ---
 
 ## R-4. `HtmxResponse` outside htmx requests: throw or no-op?
@@ -315,6 +344,12 @@ change in a Rizzy preview needs a Rizzy release and a RizzyUI package bump (W10 
 
 **Recommendation: option 2**, with `ValidationFailed()` keeping its status code outside htmx and a
 Debug log for skipped headers.
+
+### Decision (owner, 2026-11-21): option 2, recorded as D-30
+
+Setters do nothing outside htmx requests and log the skipped header at Debug level; `ValidationFailed()`
+sets 422 on any request. Rizzy change, shipped in a Rizzy preview and picked up by RizzyUI afterwards.
+Implemented in W10.
 
 ---
 
@@ -356,6 +391,13 @@ evolution of the JSON (version it with a property).
 **Recommendation: option 2**, versioned JSON, selection opt-in, `TableRequestModel` deprecated in favor
 of the new state.
 
+### Decision (owner, 2026-11-21): option 2, recorded as D-31
+
+One hidden input named by a new parameter holds versioned JSON (sorting, pagination, column filters,
+column visibility; selection opt-in); a model binder turns it into a typed state. `TableRequestModel` is
+deprecated in 1.0 and removed after. Within D-22 and D-23, the application decides what to do with the
+state. Implemented in W7.
+
 ---
 
 ## R-6. Calendar provider form names: `Name` with a separator, or `StartName`/`EndName`?
@@ -386,6 +428,12 @@ listen to them.
 
 **Recommendation: option 3** (`Name` for single and multiple, `StartName`/`EndName` for ranges, plus the
 `change` event).
+
+### Decision (owner, 2026-11-21): option 3, recorded as D-32
+
+`Name` for single and multiple selection (multiple posts repeated values), `StartName` and `EndName` for
+ranges, and a bubbling `change` when the value is complete. The provider's existing events stay.
+Implemented in W3.
 
 ---
 
@@ -421,14 +469,23 @@ requests; if one slips, it moves to preview.5 rather than holding the release.
 **Recommendation: option 1**, with a cut-off: whatever of M1 is merged when the rest is ready ships in
 preview.4, and the remainder in preview.5.
 
+### Decision (owner, 2026-11-21): option 1 with the cut-off
+
+preview.4 carries M0 and M1. An M1 item that is not merged when the rest is ready moves to preview.5
+instead of holding the release. Later milestones ship in the following previews. Recorded in the
+remediation plan (milestone M1); not a `DECISIONS.md` entry, because it is scheduling, not a rule.
+
 ---
 
-## What the recommendations add up to
+## What the decisions add up to
+
+All seven were decided on 2026-11-21, each with its recommended option (R-3 with one event name and an
+optional target id). The list below was written for the recommendations and holds for the decisions.
 
 - **Breaking for applications:** R-2 (five components' default `name`) and, mildly, R-1 (handlers that
   were silently dropped now run). Both before 1.0, both with CHANGELOG migration notes, both covered
   by Summit and the docs scan.
 - **Additive:** R-3 (non-breaking form), R-5, R-6.
 - **Relaxing:** R-4 (a throw becomes a no-op).
-- **Decisions to record:** D-20a (R-1), and an entry each for R-2 to R-6 in the audit's `DECISIONS.md`,
-  so the next contributor finds the rule and the reason in one place.
+- **Recorded** in the audit's `DECISIONS.md` as D-24 to D-32 (R-1: D-24 to D-27; R-2: D-28; R-3: D-29;
+  R-4: D-30; R-5: D-31; R-6: D-32), so the next contributor finds the rule and the reason in one place.
