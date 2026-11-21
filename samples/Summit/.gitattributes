@@ -1,0 +1,2 @@
+# Third-party files are served with SRI hashes: keep their bytes exactly as downloaded (no CRLF on Windows).
+src/Summit.Web/wwwroot/lib/** -text
