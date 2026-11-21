@@ -1,0 +1,61 @@
+@*
+    Settings › Appearance. The theme is a cookie read by the layout (RzThemeProvider), so saving it
+    answers with HX-Refresh and the page renders again in the new theme. Dark mode is per browser
+    (RzDarkModeToggle). The email preview renders a component inside an iframe (RzEmbeddedPreview).
+*@
+<div id="settings-appearance" class="flex flex-col gap-6">
+    <RzCard>
+        <CardHeader>
+            <CardTitle>Theme</CardTitle>
+            <CardDescription>Colors and radius for the whole site. Summit's own theme is loaded from JSON.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <EditForm Model="Model" FormName="Appearance" novalidate class="flex flex-col gap-4"
+                      hx-post="/organizer/settings/appearance" hx-swap="none">
+                <RzRadioGroup For="@(() => Model.Theme)" Name="Appearance.Theme" DisplayName="Theme" class="grid gap-3 sm:grid-cols-3">
+                    @foreach (var theme in Themes)
+                    {
+                        <RadioGroupItem TValue="string" Value="@theme.ThemeCode">
+                            <span class="text-sm font-medium">@theme.Name</span>
+                        </RadioGroupItem>
+                    }
+                </RzRadioGroup>
+                <div><RzButton type="submit" Variant="ThemeVariant.Primary">Apply theme</RzButton></div>
+            </EditForm>
+        </CardContent>
+    </RzCard>
+
+    <RzCard>
+        <CardHeader>
+            <CardTitle>Dark mode</CardTitle>
+            <CardDescription>Remembered in this browser only.</CardDescription>
+        </CardHeader>
+        <CardContent class="flex items-center gap-3">
+            <RzDarkModeToggle />
+            <span class="text-muted-foreground text-sm">Switch between light and dark.</span>
+        </CardContent>
+    </RzCard>
+
+    <RzCard>
+        <CardHeader>
+            <CardTitle>Ticket email preview</CardTitle>
+            <CardDescription>What a buyer receives after checkout.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <RzEmbeddedPreview IFrameTitle="Preview of the ticket confirmation email" class="rounded-lg border">
+                <TicketEmail />
+            </RzEmbeddedPreview>
+        </CardContent>
+    </RzCard>
+</div>
+
+@code {
+    private sealed class AppearanceModel { public string? Theme { get; set; } }
+
+    private AppearanceModel Model = new();
+
+    protected override void OnParametersSet() => Model.Theme = Current;
+
+    [Parameter, EditorRequired] public string Current { get; set; } = "";
+    [Parameter, EditorRequired] public IReadOnlyList<RzTheme> Themes { get; set; } = [];
+}

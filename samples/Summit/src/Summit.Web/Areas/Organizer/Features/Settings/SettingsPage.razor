@@ -1,3 +1,33 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    Organizer › Settings. Vertical tabs; each panel loads the first time it becomes visible
+    (hx-trigger="intersect once" on a placeholder) so the page itself is cheap. The code-behind keeps
+    the URL on the open tab (application behavior: a reload or a shared link opens the same tab).
+*@
 <RzPageTitle>Settings · Summit organizer</RzPageTitle>
 
-<PageHeader Title="Settings" Description="Event switches, appearance, API keys and the audit log." />
+<PageHeader Title="Settings" Description="Event switches, appearance, API keys, the audit log and developer tools." />
+
+<RzAlpineComponent For="this" Props="@(new { Base = "/organizer/settings" })">
+    <RzTabs DefaultValue="@Section" class="flex flex-col gap-6 md:flex-row">
+        <TabsList Orientation="Orientation.Vertical" AriaLabel="Settings sections" class="h-auto w-full flex-row flex-wrap items-stretch md:w-48 md:flex-col">
+            @foreach (var (slug, title) in SettingsSections.All)
+            {
+                <TabsTrigger Value="@slug" class="justify-start px-3 py-2">@title</TabsTrigger>
+            }
+        </TabsList>
+        @foreach (var (slug, title) in SettingsSections.All)
+        {
+            <TabsContent Value="@slug" class="min-w-0 flex-1">
+                <div id="@($"settings-{slug}")" hx-get="@($"/organizer/settings/{slug}/panel")" hx-trigger="intersect once" hx-swap="outerHTML"
+                     aria-busy="true" aria-label="@($"{title} loading")">
+                    <RzSkeleton class="h-64 rounded-xl" />
+                </div>
+            </TabsContent>
+        }
+    </RzTabs>
+</RzAlpineComponent>
+
+@code {
+    [Parameter, EditorRequired] public string Section { get; set; } = SettingsSections.General;
+}

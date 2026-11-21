@@ -1,0 +1,72 @@
+@*
+    The create-key dialog's body (inside teleported dialog content; htmx reaches it through RizzyUI's
+    teleport bridge). The form posts and the server replaces this body: with the form again (422), or
+    with the new secret, shown once, a copy button and a curl example.
+
+    The secret is a plain read-only input inside RzInputGroup: InputGroupInput wraps RzInputText and so
+    needs an EditForm and a model property (SF-028), which a value to copy does not have.
+*@
+<div id="create-key-body">
+    @if (Secret is not null)
+    {
+        <div class="flex flex-col gap-4" role="status">
+            <p class="text-sm">The key <strong>@CreatedName</strong> was created. Copy the secret now: it is not shown again.</p>
+            <RzInputGroup>
+                <input id="new-key-secret" readonly value="@Secret" aria-label="New API key secret"
+                       class="flex-1 rounded-none border-0 bg-transparent px-3 font-mono text-sm shadow-none outline-none" />
+                <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                    @* size-8: RzClipboard is as small as its content (14 px), under the 24 px target size (SF-071). *@
+                    <RzClipboard TargetSelector="#new-key-secret" AriaLabel="Copy the API key secret" class="hover:bg-accent size-8 rounded-md">
+                        <Blazicon Svg="Lucide.Copy" class="size-4" />
+                    </RzClipboard>
+                </InputGroupAddon>
+            </RzInputGroup>
+            <RzCodeViewer Language="@CodeLanguage.Bash" ViewerTitle="Try it" Source="@Curl" />
+            <div class="flex justify-end">
+                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('settings:create-key-close')">Done</RzButton>
+            </div>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="Key" FormName="Key" novalidate class="flex flex-col gap-5"
+                  hx-post="/organizer/settings/api-keys" hx-target="#create-key-body" hx-swap="outerHTML"
+                  hx-disabled-elt="find button[type=submit]">
+            <RzModelStateProvider />
+            <FocusFirstError />
+            <Field>
+                <FieldLabel For="@(() => Key!.Name)" />
+                <RzInputText For="@(() => Key!.Name)" placeholder="Badge printer" autocomplete="off" />
+                <FieldError><RzValidationMessageBase For="@(() => Key!.Name)" /></FieldError>
+            </Field>
+            <Field>
+                <FieldLabel For="@(() => Key!.Scopes)" />
+                <RzCheckboxGroup For="@(() => Key!.Scopes)" Name="Key.Scopes" DisplayName="Scopes" class="flex flex-col gap-2">
+                    @foreach (var (value, description) in CreateKeyModel.KnownScopes)
+                    {
+                        <RzCheckboxGroupItem TValue="string" Value="@value">
+                            <span class="flex flex-col"><span class="font-mono text-sm">@value</span><span class="text-muted-foreground text-sm">@description</span></span>
+                        </RzCheckboxGroupItem>
+                    }
+                </RzCheckboxGroup>
+                <FieldError><RzValidationMessageBase For="@(() => Key!.Scopes)" /></FieldError>
+            </Field>
+            <div class="flex justify-end gap-3">
+                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('settings:create-key-close')">Cancel</RzButton>
+                <RzButton type="submit" Variant="ThemeVariant.Primary">Create key</RzButton>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [SupplyParameterFromForm(FormName = "Key")]
+    public CreateKeyModel? Key { get; set; }
+
+    [Parameter] public string? CreatedName { get; set; }
+    [Parameter] public string? Secret { get; set; }
+
+    private string Curl => $"curl https://summit.test/api/v1/sessions \\\n  -H \"Authorization: Bearer {Secret}\"";
+
+    protected override void OnInitialized() => Key ??= new CreateKeyModel();
+}

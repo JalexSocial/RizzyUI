@@ -1,0 +1,35 @@
+@*
+    Settings › Developer: a "webhook console". The button posts with htmx; the response carries the event
+    in HX-Trigger with a payload, htmx dispatches it as summit:webhook, and RzEventViewer logs it.
+*@
+<div id="settings-developer" class="flex flex-col gap-4">
+    <RzCard>
+        <CardHeader>
+            <CardTitle>Webhook console</CardTitle>
+            <CardDescription>Events Summit would send to your endpoint, as they happen in this browser.</CardDescription>
+            <CardAction>
+                <form hx-post="/organizer/settings/developer/ping" hx-swap="none">
+                    <AntiforgeryToken />
+                    <RzButton type="submit" Variant="ThemeVariant.Primary" Size="Size.Small">Send test event</RzButton>
+                </form>
+            </CardAction>
+        </CardHeader>
+        <CardContent>
+            <RzEventViewer EventName="summit:webhook" ViewerTitle="summit:webhook" MaxEntries="20" class="h-72" />
+        </CardContent>
+    </RzCard>
+
+    <RzCard>
+        <CardHeader>
+            <CardTitle>Keyboard shortcuts</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <dl class="grid gap-3 text-sm sm:grid-cols-2">
+                <div class="flex items-center justify-between gap-4"><dt>Quick actions</dt><dd><RzKbdGroup><RzKbd>Ctrl</RzKbd><RzKbd>J</RzKbd></RzKbdGroup></dd></div>
+                <div class="flex items-center justify-between gap-4"><dt>Search the site</dt><dd><RzKbdGroup><RzKbd>Ctrl</RzKbd><RzKbd>K</RzKbd></RzKbdGroup></dd></div>
+                <div class="flex items-center justify-between gap-4"><dt>Next settings section</dt><dd><RzKbd>↓</RzKbd></dd></div>
+                <div class="flex items-center justify-between gap-4"><dt>Close a dialog</dt><dd><RzKbd>Esc</RzKbd></dd></div>
+            </dl>
+        </CardContent>
+    </RzCard>
+</div>

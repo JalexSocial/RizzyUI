@@ -111,6 +111,8 @@ tracks how much application code exists only to compensate.
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Affected (no workaround) | Open | e2e: locator by name documents it |
 | SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open | e2e: schedule builder publish all |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
+| SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
+| SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
 
 ## Integration code ledger
 
@@ -150,6 +152,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `text-foreground` in alerts, `role="img"` on indicators | 1 per use | SF-065, SF-066 | Correct defaults |
 | `ScheduleBuilder/ScheduleBuilderPage.razor.js` (menubar view options) | ~20 JS | SF-067 | Change events from menubar checkbox and radio items |
 | `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
+| Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
 
 ### Application-specific code (would exist anyway)
 
@@ -160,6 +163,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Features/Checkout/TicketEstimate.razor.js` | ~35 JS | Live price estimate while the ticket form changes |
 | `AttendeeTableState.razor.ts`: bulk-action bar label and confirmation text; `Components/Shared/text.ts` | ~20 TS | Bulk actions on the selected attendees |
 | `DashboardFilters.razor.ts`: quick ranges (`last7`, `last30`, `wholeSale`), closing the popover | ~20 TS | Preset date ranges |
+| `Settings/SettingsPage.razor.js` (URL follows the open tab) | ~10 JS | Shareable settings URLs |
 
 Running total after phase 3: about 340 lines of compensating code (C# and JavaScript), about 110
 lines of application-specific client code. After the attendees page (phase 4a): about 445 lines of
@@ -167,7 +171,9 @@ compensating code, about 130 lines of application-specific client code. The atte
 about 105 compensating lines against 20 application lines: the DataTable is the component that needs the
 most glue so far. After the dashboard: about 535 lines of compensating code, about 150
 lines of application-specific client code. The dashboard's code-behind is 80% compensation: forwarding
-calendar events, making a range part of a form, and keeping Chart.js alive across swaps and theme changes.
+calendar events, making a range part of a form, and keeping Chart.js alive across swaps and theme changes. After phase 4 (the whole organizer area): about 570 lines of
+compensating code and about 160 lines of application-specific client code. The check-in desk and the
+settings page needed almost none; the schedule builder about 25 lines.
 
 ## Recurring patterns
 
@@ -1089,3 +1095,36 @@ finding on its own.
 - **Summit workaround:** the three parameters above and `AriaLabelledBy` pointing at a plain label.
 - **Library fix:** an `RzInputSlider` (or `For`/`Value` overloads for a single `double`/`int`) built on
   `InputBase`, like the other inputs.
+
+### SF-071 The copy button is too small to hit
+
+- **Tag:** Bug, Low (owner: RizzyUI; accessibility)
+- **What:** With only an icon inside (the usual case next to an input), `RzClipboard`'s button measured
+  14 × 14 px in the API-key dialog; axe reports `target-size` (WCAG 2.5.8, AA in 2.2). shadcn's input
+  group uses `InputGroupButton` (at least 24 px) for this.
+- **Summit workaround:** `class="size-8 rounded-md hover:bg-accent"` on the clipboard button.
+- **Library fix:** a minimum size in RzClipboard's base slot, or an `InputGroupButton`-based variant for
+  use inside input groups.
+- **Observed working (settings page):** lazy tab panels with `hx-trigger="intersect once"` (one request
+  per panel, none for hidden tabs); vertical tabs with arrow keys; `HX-Refresh` after the theme cookie;
+  a dialog whose teleported body is replaced by a form post (422, then the secret); per-row alert
+  dialogs closed by a named event; `RzCollapsible` with `RzCodeViewer`; `HX-Trigger` with a JSON detail
+  logged by `RzEventViewer` (which also shows a "listening" system entry); `RzEmbeddedPreview` with a
+  component; `RzRadioGroup`, `RzCheckboxGroup`, `RzSwitch` and `RzFormSection` in htmx forms. The
+  read-only secret could not use `InputGroupInput`, which wraps `RzInputText` and needs a model
+  property (SF-028).
+
+### SF-072 The testing entry point triggers a Node module-type warning
+
+- **Tag:** DX, Low (owner: RizzyUI npm package)
+- **What:** `packages/rizzyui/package.json` exports `./testing` as `./testing/index.js`, which uses
+  `import`/`export`, but the package does not declare `"type": "module"` (and the file is not `.mjs`).
+  Node first tries CommonJS, fails, reparses as ESM, and prints a multi-line warning on every run of
+  Summit's code-behind tests (`MODULE_TYPELESS_PACKAGE_JSON`). Harmless, but it is the first thing a
+  developer sees when they adopt the testing helper.
+- **Summit workaround:** none needed.
+- **Library fix:** rename the file to `index.mjs` (and the export), or add `"type": "module"` after
+  checking the package's other CommonJS files.
+- **Observed working:** `mountCodeBehind` tests a TypeScript module bundled by esbuild, its window and
+  bubbling events, and a module whose markup lives outside the component (teleported menu items).
+  Summit's first three code-behind tests (`tests/codebehind/organizer.test.mjs`) run in CI.

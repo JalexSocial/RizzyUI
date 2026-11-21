@@ -19,7 +19,7 @@ a browser test.
 
 ## Matrix
 
-Status after phase 4b, schedule builder (public site, checkout, organizer attendees, dashboard, check-in, schedule builder). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 4 (public site, checkout and the whole organizer area). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
@@ -35,41 +35,41 @@ Status after phase 4b, schedule builder (public site, checkout, organizer attend
 | RzSeparator | 1 | layouts | axe | |
 | RzArticle | 1 | session, help | axe | side column hidden on phones |
 | RzBrowser | 4 | session page slides | public: slide preview | iframe content asserted |
-| RzCodeViewer | 1 | session page | axe | copy button not exercised |
-| RzEmbeddedPreview | 4 | via RzBrowser | public: slide preview | direct use planned (settings email preview) |
-| RzEventViewer | 0 | (settings) | | |
+| RzCodeViewer | 3 | session page, API key curl example, audit log JSON (inside a collapsible) | organizer-settings: API keys, audit log | copy button not exercised |
+| RzEmbeddedPreview | 4 | via RzBrowser; direct use for the ticket email preview | public: slide preview; organizer-settings: theme (iframe content asserted) | |
+| RzEventViewer | 4 | settings webhook console | organizer-settings: test webhook | fed by `HX-Trigger` with a JSON detail |
 | RzMarkdown | 4 | session abstracts, bios, FAQ | public: untrusted Markdown | safe default verified |
 | RzQuickReference | 3 | session, help | public: quick reference link | with RzHeading and RzArticle |
 | RzAlert | 4 | sign-in error, contact success, tickets, check-in result (status vs alert by outcome) | shell: sign-in 422; public: contact; organizer-checkin: S-05 | live-region defaults (SF-022); colored variants' base text (SF-065) |
 | RzAlertDialog | 4 | attendees bulk actions | organizer-attendees: S-04 | opened by a window event, closed by `HX-Trigger` with its own close event (SF-003); Cancel returns focus |
-| RzDialog | 4 | search palette, quick actions | public: search palette; shell: quick actions | with RzCommand, opened by window events |
+| RzDialog | 4 | search palette, quick actions, create API key | public: search palette; shell: quick actions; organizer-settings: API keys | teleported body replaced by a form post (422, then the secret) |
 | RzEmpty | 4 | speakers, schedule, errors, attendees, dashboard | public: no speakers match; organizer-dashboard: empty range | |
 | RzPopover | 4 | room details on session cards; attendee column menu; dashboard date range | organizer-attendees: S-03; organizer-dashboard: calendar range | column toggles drive the table; closed from code when a range is complete |
 | RzSheet | 4 | session details, attendee editor, mobile navigation | public: details sheet; organizer-attendees: S-03 | swapped in open, removed out of band (SF-002); a 422 inside the teleported panel; mobile nav not asserted |
 | RzSkeleton | 4 | home stats, dashboard placeholders | public: lazy numbers; organizer-dashboard: failed request keeps them | replaced by `intersect once` and `load` swaps |
 | RzSpinner | 1 | schedule filters, speaker search, check-in (`hx-indicator`) | axe | visibility during a request not asserted |
 | RzToast | 4 | agenda, contact form, server errors | public: agenda toast, message sent | server toasts via `HX-Trigger` |
-| RzTooltip | 1 | organizer sidebar (collapsed) | axe | |
+| RzTooltip | 1 | organizer sidebar (collapsed), API key revoke buttons | axe | hover not driven by a test |
 | Field family | 4 | sign-in, contact, checkout (list-bound fields) | shell, public, checkout | 422 round trips; list items need SF-044 |
 | InputGroup | 4 | speaker search | public: speakers | |
 | RzButton | 4 | everywhere | many | as links via `Element="a"` (SF-018) |
 | RzButtonGroup | 4 | dashboard quick ranges | organizer-dashboard: quick ranges | `aria-label` on the group |
 | RzCalendar | 4 | dashboard range (two months, `MaxDate`) in a popover, with `RzCalendarProvider` | organizer-dashboard: calendar range | SF-057 (teleport), SF-058 (form) worked around |
-| RzCheckboxGroup | 4 | schedule track filter, checkout add-ons | public: track filter; checkout | GET form with a cascaded `EditContext` (SF-028) |
+| RzCheckboxGroup | 4 | schedule track filter, checkout add-ons, API key scopes | public: track filter; checkout; organizer-settings | GET form with a cascaded `EditContext` (SF-028); `MinLength` validation |
 | RzInputCheckbox | 4 | checkout code of conduct | checkout: 422 then checked | focus moves to it after the 422 |
 | RzColorPickerProvider | 0 | (schedule builder) | | |
 | RzColorSwatch | 4 | navigation menu tracks, schedule builder list | organizer-schedule-builder: track color | labelled with the hex value; follows a saved color |
 | RzCombobox | 4 | checkout company (create) and country, per attendee in a list; attendee tags (multiple, create) | checkout; organizer-attendees: S-03 | values survive a 422 swap; fast Enter picks the wrong item (SF-046); Tab out of a multiple combobox loses focus (SF-055) |
 | RzDateEdit | 4 | session start (date and time, typed input) | organizer-schedule-builder: 422 keeps the value | input named "Select date" (SF-068); de-DE locale not tested yet |
 | RzFileInput | 4 | contact form | public: wrong file type, then valid | multipart 422 round trip |
-| RzFormSection | 3 | checkout attendee sections | checkout (rendered in the flow) | `Description` is a RenderFragment |
+| RzFormSection | 3 | checkout attendee sections, general settings | checkout; organizer-settings (rendered in the flow) | `Description` is a RenderFragment |
 | RzInputColor | 4 | track color with swatches | organizer-schedule-builder: track color | typed value posted; picker popup not opened by a test |
 | RzInputNumber | 4 | checkout quantity, session capacity | checkout; organizer-schedule-builder: 422 | feeds the live estimate |
 | RzInputOTP | 4 | checkout discount code, check-in badge (posted on completion) | checkout: expired, then valid; organizer-checkin: S-05, 422, mobile | `rz:inputotp:onchange` as an `hx-trigger`; focus by script (SF-064) |
 | RzInputText | 4 | sign-in, contact, speaker search | shell, public | |
 | RzInputTextArea | 4 | contact, checkout accessibility needs, attendee notes | public: contact | unstyled by default (SF-052) |
 | RzNativeSelect | 4 | contact topic, attendee ticket and status, session room and track | public: contact; organizer-attendees; organizer-schedule-builder | enum and int values bound |
-| RzRadioGroup | 4 | checkout ticket cards, payment method | checkout | disabled items; `id=""` on inputs (SF-047) |
+| RzRadioGroup | 4 | checkout ticket cards, payment method, site theme | checkout; organizer-settings: theme | disabled items; `id=""` on inputs (SF-047) |
 | RzSlider | 4 | schedule length filter (range), session length (single, keyboard) | organizer-schedule-builder: slider | not an EditForm input (SF-070); public range slider still not changed by a test |
 | RzSwitch | 4 | agenda toggle (95 forms on a page), "only my agenda", session published | public: agenda; organizer-schedule-builder | out-of-band header count; label click toggles |
 | RzToggle | 4 | schedule level filter | public: level toggles | delegated listener (SF-030) |
@@ -78,7 +78,7 @@ Status after phase 4b, schedule builder (public site, checkout, organizer attend
 | RzAspectRatio | 1 | home, session | axe | |
 | RzCard | 1 | everywhere | axe | |
 | RzCarousel | 4 | home featured speakers | public: carousel buttons | autoplay off under reduced motion |
-| RzCollapsible | 1 | help | axe | |
+| RzCollapsible | 4 | help, audit log entry data | organizer-settings: audit log | opened by a test |
 | RzItem | 3 | session speakers, details sheet, check-in result | axe; organizer-checkin | `role="listitem"` added by hand (SF-038) |
 | RzSearchButton | 2 | header | | opens the palette; the test uses Ctrl+K instead |
 | RzSteps | 4 | checkout step indicator | checkout: `aria-current="step"` | re-rendered out of band each step |
@@ -92,7 +92,7 @@ Status after phase 4b, schedule builder (public site, checkout, organizer attend
 | RzPagination | 4 | speakers, dashboard orders | public: pages with htmx; organizer-dashboard: orders page | `hx-get` + pushed URL; in-card paging without URL |
 | RzScrollArea | 3 | schedule day tabs, schedule builder session list | axe; organizer-schedule-builder | content replaced out of band inside it |
 | RzSidebar | 1 | organizer layout | axe | collapse, mobile sheet and cookie not tested; SF-049 |
-| RzTabs | 4 | schedule days | public: filter keeps the day | `rz:tabs-change` feeds the filter form |
+| RzTabs | 4 | schedule days; settings (vertical, lazy panels) | public: filter keeps the day; organizer-settings: panels | `rz:tabs-change` feeds the filter form and the URL; arrow keys in vertical mode |
 | RzShineBorder | 1 | home ticket, tickets page | axe | inline style (CSP report-only) |
 | RzAnimatedGradientText | 1 | home hero | axe | |
 | RzAuroraText | 1 | home hero | axe | SF-035 |
@@ -100,11 +100,11 @@ Status after phase 4b, schedule builder (public site, checkout, organizer attend
 | RzNumberTicker | 4 | home stats, dashboard key figures | public: lazy numbers; organizer-dashboard | final value under reduced motion; decimals broken under de-DE (SF-060) |
 | RzTypingAnimation | 1 | home hero | axe | |
 | RzDarkModeToggle | 4 | all layouts | shell: dark mode | |
-| RzThemeProvider | 4 | app shell (custom theme from JSON) | axe contrast (detects SF-034) | |
+| RzThemeProvider | 4 | app shell (custom theme from JSON, Arctic, Vercel by cookie) | axe contrast (detects SF-034); organizer-settings: theme | switched with `HX-Refresh` |
 | RzHeading / RzParagraph | 1 | session, help | axe | |
 | RzKbd | 1 | header, quick actions, menubar shortcuts | axe | |
 | RzBackToTop | 1 | public layout | axe | |
-| RzClipboard | 1 | session copy link, confirmation badge codes | public: button present | copy not exercised |
+| RzClipboard | 1 | session copy link, confirmation badge codes, API key secret | public: button present; organizer-settings: button present | copy not exercised; too small by default (SF-071) |
 | RzIdScope | 0 | (self-re-rendering fragments) | | |
 
 ## Gaps to close in later phases

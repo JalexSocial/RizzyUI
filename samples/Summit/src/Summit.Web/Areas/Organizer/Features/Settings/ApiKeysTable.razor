@@ -1,0 +1,72 @@
+@using System.Globalization
+@* The key table (replaced out of band after a create or a revoke). Each active key has a revoke
+   confirmation of its own, closed by the server with a named event (SF-003). *@
+<div id="api-keys-table">
+    <RzTable tabindex="0" role="region" aria-label="API keys table">
+        <TableCaption class="sr-only">API keys</TableCaption>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>Name</TableHeaderCell>
+                <TableHeaderCell>Key</TableHeaderCell>
+                <TableHeaderCell class="hidden md:table-cell">Scopes</TableHeaderCell>
+                <TableHeaderCell class="hidden sm:table-cell">Last used</TableHeaderCell>
+                <TableHeaderCell><span class="sr-only">Actions</span></TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach (var key in Keys)
+            {
+                <TableRow data-key-id="@key.Id" class="@(key.RevokedAt is not null ? "text-muted-foreground" : null)">
+                    <TableCell class="font-medium">
+                        @key.Name
+                        @if (key.RevokedAt is not null)
+                        {
+                            <RzBadge Variant="ThemeVariant.Secondary" Soft class="ms-1">Revoked</RzBadge>
+                        }
+                    </TableCell>
+                    <TableCell class="font-mono text-xs">@key.Prefix…</TableCell>
+                    <TableCell class="hidden md:table-cell">
+                        <div class="flex flex-wrap gap-1">
+                            @foreach (var scope in key.Scopes)
+                            {
+                                <RzBadge Variant="ThemeVariant.Secondary" Soft class="font-mono">@scope</RzBadge>
+                            }
+                        </div>
+                    </TableCell>
+                    <TableCell class="hidden sm:table-cell">@(key.LastUsedAt?.AtVenue().ToString("d MMM, HH:mm", CultureInfo.CurrentCulture) ?? "Never")</TableCell>
+                    <TableCell class="text-right">
+                        @if (key.RevokedAt is null)
+                        {
+                            <RzTooltip>
+                                <TooltipTrigger AsChild>
+                                    <RzButton type="button" Variant="ThemeVariant.Ghost" Size="Size.Small" class="size-8 p-0"
+                                              aria-label="@($"Revoke {key.Name}")" x-on:click="@($"$dispatch('settings:revoke-{key.Id}')")">
+                                        <Blazicon Svg="Lucide.KeyRound" class="size-4" />
+                                    </RzButton>
+                                </TooltipTrigger>
+                                <TooltipContent>Revoke this key</TooltipContent>
+                            </RzTooltip>
+                            <RzAlertDialog EventTriggerName="@($"settings:revoke-{key.Id}")" CloseEventName="settings:revoke-close" CloseOnEscape>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Revoke &ldquo;@key.Name&rdquo;?</AlertDialogTitle>
+                                        <AlertDialogDescription>Requests with this key fail from now on. This cannot be undone.</AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Keep the key</AlertDialogCancel>
+                                        <AlertDialogAction Variant="ThemeVariant.Destructive" hx-post="@($"/organizer/settings/api-keys/{key.Id}/revoke")"
+                                                           hx-swap="none" hx-include="#settings-keys-token">Revoke</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </RzAlertDialog>
+                        }
+                    </TableCell>
+                </TableRow>
+            }
+        </TableBody>
+    </RzTable>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<ApiKeyRow> Keys { get; set; } = [];
+}

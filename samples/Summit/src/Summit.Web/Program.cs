@@ -45,6 +45,7 @@ builder.Services.AddRizzyUI(config =>
 {
     config.DefaultTheme = summitTheme;
     config.AvailableThemes.Add(RzTheme.ArcticTheme);
+    config.AvailableThemes.Add(RzTheme.VercelTheme);
 });
 // Widget libraries from wwwroot/lib instead of the CDN (runs after RizzyUI fills in its defaults).
 builder.Services.AddSingleton<IPostConfigureOptions<RizzyUIConfig>, SelfHostedAssets>();

@@ -24,6 +24,7 @@ public static class SummitFeatures
         services.AddScoped<Areas.Organizer.Features.Dashboard.DashboardQuery>();
         services.AddScoped<Areas.Organizer.Features.CheckIn.CheckInDesk>();
         services.AddScoped<Areas.Organizer.Features.ScheduleBuilder.ScheduleBuilder>();
+        services.AddScoped<Areas.Organizer.Features.Settings.SettingsStore>();
         return services;
     }
 
