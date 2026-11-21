@@ -59,6 +59,8 @@ test('the language menu switches to German and back', async ({ page }) => {
   await page.getByRole('button', { name: /^Language/ }).first().click();
   await page.getByRole('menuitem', { name: 'Deutsch' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  // A language switch is a full page load (hx-boost="false"); wait for the new page's components.
+  await waitForRuntime(page);
 
   await page.getByRole('button', { name: /^Language/ }).first().click();
   await page.getByRole('menuitem', { name: 'English' }).click();

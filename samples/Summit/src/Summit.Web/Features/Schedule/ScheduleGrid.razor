@@ -1,0 +1,66 @@
+@* The filtered sessions, one tab per day. Swapped as a whole when a server filter changes. *@
+<div id="schedule-grid" class="flex flex-col gap-4">
+    @if (Result.Count == 0)
+    {
+        <RzEmpty class="rounded-xl border border-dashed py-16">
+            <EmptyHeader>
+                <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                    <Blazicon Svg="@(Result.Filter.Mine ? Lucide.BookmarkX : Lucide.SearchX)" />
+                </EmptyMedia>
+                <EmptyTitle>@(Result.Filter.Mine ? "Your agenda is empty" : "No sessions match these filters")</EmptyTitle>
+                <EmptyDescription>
+                    @(Result.Filter.Mine
+                        ? "Use “Add to my agenda” on any session to plan your days."
+                        : "Try more tracks or a wider length range.")
+                </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+                <RzButton Element="a" href="/schedule" Variant="ThemeVariant.Secondary" Outline>Show all sessions</RzButton>
+            </EmptyContent>
+        </RzEmpty>
+    }
+    else
+    {
+        <RzTabs DefaultValue="@($"day-{Result.Filter.Day}")">
+            <RzScrollArea Orientation="Orientation.Horizontal" Type="ScrollAreaType.Auto" class="w-full">
+                <TabsList AriaLabel="Conference days" class="h-auto">
+                    @foreach (var day in Result.Days)
+                    {
+                        <TabsTrigger Value="@($"day-{day.Day.Number}")" class="flex-col gap-0.5 px-4 py-2">
+                            <span class="font-semibold">Day @day.Day.Number · @day.Day.Theme</span>
+                            <span class="text-muted-foreground text-xs font-normal">@day.Day.Date.ToString("ddd, MMM d", CultureInfo.CurrentCulture) · @day.Count sessions</span>
+                        </TabsTrigger>
+                    }
+                </TabsList>
+            </RzScrollArea>
+
+            @foreach (var day in Result.Days)
+            {
+                <TabsContent Value="@($"day-{day.Day.Number}")" class="mt-6">
+                    @if (day.Slots.Count == 0)
+                    {
+                        <p class="text-muted-foreground py-10 text-center">Nothing on day @day.Day.Number matches these filters.</p>
+                    }
+                    <div class="flex flex-col gap-8">
+                        @foreach (var slot in day.Slots)
+                        {
+                            <section class="grid gap-3 md:grid-cols-[6rem_1fr]" data-schedule-slot aria-label="@slot.StartsAt.ToString("t", CultureInfo.CurrentCulture)">
+                                <p class="text-muted-foreground pt-4 text-sm font-semibold tabular-nums">@slot.StartsAt.ToString("t", CultureInfo.CurrentCulture)</p>
+                                <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                                    @foreach (var session in slot.Sessions)
+                                    {
+                                        <SessionCard Session="session" Saved="Result.Saved.Contains(session.Id)" />
+                                    }
+                                </div>
+                            </section>
+                        }
+                    </div>
+                </TabsContent>
+            }
+        </RzTabs>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public ScheduleResult Result { get; set; } = null!;
+}

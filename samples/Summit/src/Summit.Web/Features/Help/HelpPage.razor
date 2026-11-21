@@ -1,5 +1,52 @@
-<RzPageTitle>Help & FAQ · Summit</RzPageTitle>
+<RzPageTitle>Help & FAQ Â· Summit</RzPageTitle>
 
-<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-    <PageHeader Title="Help & FAQ" Eyebrow="Attend" Description="Venue, travel, accessibility and contact." />
+<div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+    <PageHeader Title="Help & FAQ" Eyebrow="Attend" Class="mb-10"
+                Description="Answers about tickets, the venue, the program and accessibility. Can't find yours? Write to us below." />
+
+    <RzQuickReferenceContainer>
+        <RzArticle ProseWidth="ProseWidth.Wide" IsSideSticky="true">
+            <SideContent>
+                <RzQuickReference Title="Topics" AriaLabel="Help topics" />
+            </SideContent>
+            <MainContent>
+                @foreach (var category in Faqs.GroupBy(f => f.Category))
+                {
+                    <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="@category.Key" class="mt-10 scroll-mt-24 first:mt-0">@category.Key</RzHeading>
+                    <RzAccordion Type="AccordionType.Single" class="not-prose">
+                        @foreach (var faq in category)
+                        {
+                            <AccordionItem Title="@faq.Question">
+                                <AccordionContent><RzMarkdown Content="@faq.AnswerMarkdown" class="text-muted-foreground" /></AccordionContent>
+                            </AccordionItem>
+                        }
+                    </RzAccordion>
+                }
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Contact us" class="mt-14 scroll-mt-24">Contact us</RzHeading>
+                <div class="not-prose flex flex-col gap-6">
+                    <RzCollapsible>
+                        <CollapsibleTrigger AsChild>
+                            <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="w-fit gap-2 px-2">
+                                <Blazicon Svg="Lucide.Info" class="size-4" /> Before you write: response times and urgent help
+                            </RzButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                            <div class="text-muted-foreground mt-2 flex flex-col gap-2 rounded-lg border p-4 text-sm">
+                                <p>We answer within one working day. During the conference, the registration desk on the ground floor answers in person.</p>
+                                <p>For anything urgent on site, find a staff member in an indigo T-shirt or write to <RzLink Href="@($"mailto:{SupportEmail}")">@SupportEmail</RzLink>.</p>
+                            </div>
+                        </CollapsibleContent>
+                    </RzCollapsible>
+
+                    <ContactForm />
+                </div>
+            </MainContent>
+        </RzArticle>
+    </RzQuickReferenceContainer>
 </div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<FaqEntry> Faqs { get; set; } = [];
+    [Parameter] public string SupportEmail { get; set; } = "";
+}

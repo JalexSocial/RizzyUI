@@ -20,8 +20,9 @@ public sealed class CspTests(CspSummitFactory factory) : IClassFixture<CspSummit
 
         Assert.Matches("rizzyui-csp\\.min\\.[a-z0-9]+\\.js", html);
 
-        // Every script element carries this request's nonce.
-        var scripts = Regex.Matches(html, "<script\\b[^>]*>");
+        // Every executable script element carries this request's nonce. JSON data blocks
+        // (type="application/json", component configuration) are not scripts as far as CSP is concerned.
+        var scripts = Regex.Matches(html, "<script\\b[^>]*>").Where(s => !s.Value.Contains("type=\"application/json\"")).ToList();
         Assert.NotEmpty(scripts);
         Assert.All(scripts, script => Assert.Contains($"nonce=\"{nonce}\"", script.Value));
 

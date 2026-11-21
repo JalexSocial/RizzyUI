@@ -1,0 +1,122 @@
+<RzPageTitle>@Session.Title · Summit</RzPageTitle>
+
+<div class="@($"track-{Session.Track.Slug} mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12")">
+    <RzBreadcrumb AriaLabel="Breadcrumb" class="mb-8">
+        <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink Href="/schedule">Schedule</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbLink Href="@($"/schedule?day={Session.Day.Number}")">Day @Session.Day.Number · @Session.Day.Theme</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage class="line-clamp-1">@Session.Title</BreadcrumbPage></BreadcrumbItem>
+        </BreadcrumbList>
+    </RzBreadcrumb>
+
+    <header class="mb-10 flex flex-col gap-5">
+        <p class="flex items-center gap-2 text-sm font-semibold">
+            <span class="size-2.5 rounded-full bg-[var(--track)]" aria-hidden="true"></span>
+            @Session.Track.Name
+        </p>
+        <h1 class="max-w-4xl text-3xl font-semibold tracking-tight sm:text-5xl">@Session.Title</h1>
+        <p class="text-muted-foreground max-w-3xl text-lg">@Session.Summary</p>
+        <div class="text-muted-foreground flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+            <span class="inline-flex items-center gap-1.5"><Blazicon Svg="Lucide.CalendarDays" class="size-4" />@Session.Day.Date.ToString("dddd, MMMM d", CultureInfo.CurrentCulture)</span>
+            <span class="inline-flex items-center gap-1.5"><Blazicon Svg="Lucide.Clock" class="size-4" />@Session.StartsAt.ToString("t", CultureInfo.CurrentCulture)–@Session.EndsAt.ToString("t", CultureInfo.CurrentCulture)</span>
+            <span class="inline-flex items-center gap-1.5"><Blazicon Svg="Lucide.MapPin" class="size-4" />@Session.Room.Name, @Session.Room.Floor</span>
+            <RzBadge Variant="SessionCard.LevelVariant(Session.Level)" Soft>@Session.Level</RzBadge>
+            <RzBadge Variant="ThemeVariant.Secondary" Soft>@Session.Format</RzBadge>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="w-72"><AgendaToggle SessionId="Session.Id" SessionTitle="@Session.Title" Saved="Saved" /></div>
+            <RzClipboard Value="@PageUrl" AsChild AriaLabel="Copy link to this session">
+                <RzButton Variant="ThemeVariant.Secondary" Outline Size="Size.Small">
+                    <ClipboardTrigger><span class="inline-flex items-center gap-2"><Blazicon Svg="Lucide.Link" class="size-4" />Copy link</span></ClipboardTrigger>
+                    <ClipboardFeedback><span class="text-success inline-flex items-center gap-2"><Blazicon Svg="Lucide.Check" class="size-4" />Link copied</span></ClipboardFeedback>
+                </RzButton>
+            </RzClipboard>
+        </div>
+    </header>
+
+    <RzQuickReferenceContainer>
+        <RzArticle ProseWidth="ProseWidth.Wide" IsSideSticky="true">
+            <SideContent>
+                <RzQuickReference Title="On this page" AriaLabel="On this page" />
+            </SideContent>
+            <MainContent>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Abstract" class="scroll-mt-24">Abstract</RzHeading>
+                @* RzMarkdown is safe by default: raw HTML and javascript: links in the abstract are not rendered. *@
+                <RzMarkdown Content="@Session.AbstractMarkdown" />
+
+                @if (Session.CodeSample is not null)
+                {
+                    <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Code" class="mt-12 scroll-mt-24">Code from the talk</RzHeading>
+                    <RzCodeViewer Source="@Session.CodeSample" Language="@(Session.CodeLanguage ?? CodeLanguage.Plaintext)" ViewerTitle="@CodeTitle" class="not-prose" />
+                }
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Slides" class="mt-12 scroll-mt-24">Slides</RzHeading>
+                <p>A preview of the title slide. Use the toolbar to see it at desktop, tablet and phone widths.</p>
+                <div class="not-prose">
+                    <RzBrowser Layout="typeof(SlidePreviewLayout)" PreviewIFrameTitle="@($"Title slide: {Session.Title}")">
+                        <TitleSlide Session="Session" />
+                    </RzBrowser>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Recording" class="mt-12 scroll-mt-24">Recording</RzHeading>
+                <div class="not-prose">
+                    <RzAspectRatio Ratio="@(16d / 9)" class="relative overflow-hidden rounded-xl border">
+                        <img src="/images/scenes/keynote.webp" alt="" class="h-full w-full object-cover opacity-60" loading="lazy" />
+                        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/40 text-center text-white">
+                            <Blazicon Svg="Lucide.CirclePlay" class="size-14" />
+                            <p class="font-medium">The recording is published within a week of the talk.</p>
+                        </div>
+                    </RzAspectRatio>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Speakers" class="mt-12 scroll-mt-24">@(Session.Speakers.Count == 1 ? "Speaker" : "Speakers")</RzHeading>
+                <RzItemGroup class="not-prose">
+                    @foreach (var speaker in Session.Speakers.OrderBy(s => s.Order).Select(s => s.Speaker))
+                    {
+                        <RzItem role="listitem" Variant="ItemVariant.Outline" class="items-start">
+                            <ItemMedia><SpeakerAvatar Speaker="speaker" Size="Size.Large" /></ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>@speaker.Name</ItemTitle>
+                                <ItemDescription>@speaker.Title, @speaker.Company · @speaker.Country</ItemDescription>
+                                <RzMarkdown Content="@speaker.BioMarkdown" class="text-muted-foreground mt-2 text-sm" />
+                            </ItemContent>
+                        </RzItem>
+                    }
+                </RzItemGroup>
+
+                @if (Related.Count > 0)
+                {
+                    <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="More in this track" class="mt-12 scroll-mt-24">More in @Session.Track.Name</RzHeading>
+                    <ul class="not-prose grid gap-3 sm:grid-cols-2">
+                        @foreach (var other in Related)
+                        {
+                            <li>
+                                <a href="/sessions/@other.Slug" class="bg-card hover:border-primary/40 flex h-full flex-col gap-1 rounded-lg border p-4">
+                                    <span class="font-medium">@other.Title</span>
+                                    <span class="text-muted-foreground text-xs">@other.StartsAt.ToString("ddd HH:mm", CultureInfo.CurrentCulture) · @other.Room.Name</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </MainContent>
+        </RzArticle>
+    </RzQuickReferenceContainer>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Session Session { get; set; } = null!;
+    [Parameter] public IReadOnlyList<Session> Related { get; set; } = [];
+    [Parameter] public bool Saved { get; set; }
+    [Parameter] public string PageUrl { get; set; } = "";
+
+    private string CodeTitle => Session.CodeLanguage switch
+    {
+        "csharp" => "Program.cs",
+        "yaml" => ".github/workflows/ci.yml",
+        "css" => "styles.css",
+        _ => "Sample",
+    };
+}

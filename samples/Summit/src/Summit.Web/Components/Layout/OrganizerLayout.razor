@@ -1,5 +1,6 @@
 @inherits LayoutComponentBase
 
+
 @* DefaultOpen comes from the sidebar's own cookie, which RzSidebarProvider does not read on the
    server (summit-findings.md SF-010). Without it a collapsed sidebar flashes open on every load. *@
 <RzSidebarProvider DefaultOpen="SidebarState.IsOpen(HttpContext)" Collapsible="SidebarCollapsible.Icon">

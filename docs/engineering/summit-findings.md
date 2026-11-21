@@ -22,36 +22,129 @@ Entries from the planning pass (before any code) are marked **(planning)**.
 Severity: **High** (blocks a common use case or ships broken behavior), **Medium** (needs a
 workaround a typical developer would not find quickly), **Low** (annoyance).
 
+## How each finding is tracked
+
+Every finding has an **owner** (Rizzy, RizzyUI, the starter template, a third-party dependency, or
+Summit itself) and three independent statuses:
+
+| Column | Values |
+|---|---|
+| **Application** | *Works (workaround)*: Summit's workflow works because of application code that compensates. *Works (designed around)*: Summit avoids the pattern. *Affected*: users can still hit the problem. *Not reached yet*: the workflow is not built yet (planning finding). *n/a*: documentation only. |
+| **Library** | *Open* until the defect is fixed in the library and the workaround removed. A working application never makes a library defect resolved. |
+| **Regression test** | Which automated test would fail if the problem came back. *(defect)*: the test detects the library problem itself. *(workflow)*: the test covers the affected user workflow (with the workaround in place). *None*: not covered. |
+
+Every workaround in Summit's code carries a comment with its SF id, so `grep SF-0` lists them all and
+each can be deleted when its library fix ships. The [integration code ledger](#integration-code-ledger)
+tracks how much application code exists only to compensate.
+
 ## Index
 
-| Id | Area | Tag | Severity | Summary | Status |
-|---|---|---|---|---|---|
-| SF-001 | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Worked around in Summit |
-| SF-002 | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Worked around in Summit |
-| SF-003 | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Worked around in Summit |
-| SF-004 | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | Open |
-| SF-005 | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Open |
-| SF-006 | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Designed around in Summit |
-| SF-007 | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Worked around in Summit |
-| SF-008 | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Accepted |
-| SF-009 | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Worked around in Summit |
-| SF-010 | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Worked around in Summit |
-| SF-011 | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Worked around in Summit |
-| SF-012 | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Worked around in Summit |
-| SF-013 | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Open |
-| SF-014 | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Worked around in Summit |
-| SF-015 | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Designed around in Summit |
-| SF-016 | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Worked around in Summit |
-| SF-017 | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Worked around in Summit |
-| SF-018 | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Open |
-| SF-020 | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Worked around in Summit |
-| SF-021 | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Worked around in Summit |
-| SF-022 | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Worked around in Summit |
-| SF-023 | Icons | Bug | Medium | Material Design icons render `id="mdi-…"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, …) emit duplicate ids | Open (Summit's id check skips `mdi-*`) |
-| SF-024 | htmx boost | DX | Low | Boosted navigation swaps only `<body>`: `<html lang>` (and anything else on `<html>`) keeps the old value after a language switch | Worked around in Summit |
-| SF-025 | RzCommand | Bug | Medium | Typing then pressing Enter quickly runs the item highlighted before the 50 ms search debounce, not the match | Open |
-| SF-026 | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Open |
-| SF-019 | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Open |
+| Id | Owner | Area | Tag | Severity | Summary | Application | Library | Regression test |
+|---|---|---|---|---|---|---|---|---|
+| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Not reached yet (attendees page) | Open | None yet |
+| SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet (workflow) |
+| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Not reached yet | Open | None yet |
+| SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open | n/a |
+| SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Not reached yet (dashboard) | Open | None yet |
+| SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
+| SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works (workaround) | Open | e2e: search palette (workflow) |
+| SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
+| SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works (workaround) | Open | e2e: contact upload, schedule filters (workflow) |
+| SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works (workaround) | Open | None |
+| SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works (designed around) | Open | e2e: unique-id check (defect) |
+| SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
+| SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Reported, not enforced | Open | CSP report-only annotations |
+| SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Not reached yet (dashboard) | Open | None yet |
+| SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works (workaround) | Open | e2e: level toggles (workflow) |
+| SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works (workaround) | Open | e2e: quick actions, search palette (workflow) |
+| SF-017 | Rizzy, template | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Works (workaround) | Open | Summit.Tests: absolute asset URLs (defect) |
+| SF-018 | RizzyUI, template | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Works (workaround) | Open | axe nested-interactive (defect) |
+| SF-019 | RizzyUI docs | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Works (workaround) | Open | e2e: unique-id check (defect) |
+| SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works (workaround) | Open | Summit.Tests: htmx redirect, antiforgery 400 (defect) |
+| SF-021 | Template | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Works (fixed in Summit) | Open | e2e: boosted navigation keeps window (defect) |
+| SF-022 | RizzyUI | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Works (workaround) | Open | None |
+| SF-023 | RizzyUI, Blazicons | Icons | Bug | Medium | Material Design icons render `id="mdi-â€¦"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, â€¦) emit duplicate ids | Affected (no workaround) | Open | None (id check skips mdi-*) |
+| SF-024 | htmx, Rizzy docs | htmx boost | DX | Low | Boosted navigation swaps only `<body>`: `<html lang>` (and anything else on `<html>`) keeps the old value after a language switch | Works (workaround) | Open | e2e: language switch (workflow) |
+| SF-025 | RizzyUI | RzCommand | Bug | Medium | Typing then pressing Enter quickly runs the item highlighted before the 50 ms search debounce, not the match | Affected (users who type fast) | Open | None (test waits for the match) |
+| SF-026 | RizzyUI | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Affected (accepted) | Open | None |
+| SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
+| SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works (workaround) | Open | e2e: schedule filters, speaker search (workflow) |
+| SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
+| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works (workaround) | Open | e2e: level toggles (workflow) |
+| SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
+| SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
+| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open | axe label checks (defect) |
+| SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works (workaround) | Open | axe color-contrast on every page (defect) |
+| SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect) |
+| SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect) |
+| SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works (workaround) | Open | axe label-content-name-mismatch (defect) |
+| SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works (workaround) | Open | axe aria-required-children (defect) |
+| SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Affected (early keypresses) | Open | None (tests wait for components) |
+| SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works (workaround) | Open | e2e: search palette (workflow) |
+| SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works (workaround) | Open | None yet |
+| SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works (workaround) | Open | CI: summit job builds from a clean checkout (defect) |
+
+## Integration code ledger
+
+Application code that exists only because a library does not (yet) do something. Each item names the
+findings it compensates for; when those are fixed, the code should be deleted. Application-specific
+behavior (code a real product would write anyway) is listed separately, so the two can be compared.
+
+### Compensating code (should disappear)
+
+| Code | Lines | Compensates for | What a library fix replaces it with |
+|---|---|---|---|
+| `Infrastructure/StatusPages.cs` | ~35 C# | SF-020 | Rizzy disabling status pages for htmx redirects and partial requests |
+| `Infrastructure/SelfHostedAssets.cs`, `vendor.json`, `scripts/fetch-vendor.mjs` | ~90 C#/JS/JSON | SF-012 | A RizzyUI option to serve its widget libraries locally |
+| `Program.cs`: absolute `ClientScriptUrl`; `AppLayout`: `"/@Assets[...]"` | 3 | SF-017 | Absolute default URLs |
+| `Infrastructure/Theming.cs`: `SidebarState` + `OrganizerLayout` `DefaultOpen` | ~10 C# | SF-010 | `RzSidebarProvider` reading its own cookie |
+| `Components/Shared/CommandNavigation.razor(.js)` | ~30 JS | SF-016 | `CommandItem.Href` |
+| `Components/Shared/SearchPalette.razor.js` | ~20 JS | SF-040 (and composition for SF-007) | A fixed `RzCommand` template id; `RzCommandDialog` with remote items |
+| `Components/Shared/AppNotifications.razor(.js)` | ~25 JS | SF-041 | A built-in server-error toast |
+| `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
+| `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
+| Explicit `Name="Model.X"` on group inputs, `aria-label` instead of `<label for>` | 1 per field | SF-009, SF-033 | Consistent field naming and consumer ids |
+| `Components/Shared/TrackStyles.razor` placed in `<head>` (not `HeadContent`) | ~20 Razor | SF-034 | A theme style component that does not use `HeadContent` |
+| `SessionDetails` sheet opened by swap with `DefaultOpen` | pattern | SF-002 | Sheet open/close events |
+| a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
+
+### Application-specific code (would exist anyway)
+
+| Code | Lines | Purpose |
+|---|---|---|
+| `Features/Home/ConferenceCountdown.razor.js` | ~30 JS | Countdown from the server's clock |
+| `Features/Schedule/ScheduleBoard.razor.js` (level filter, day memory) | ~45 JS | Client-side filtering of rendered cards; keeping the active tab in the filter form |
+
+Running total so far: about 230 lines of compensating code, about 75 lines of application-specific
+client code.
+
+## Recurring patterns
+
+Several findings share a root cause. Fixing the pattern removes more workarounds than fixing each
+finding on its own.
+
+1. **Component-computed attributes silently override the developer's** (SF-030 `x-on:click`, SF-033
+   `id`, SF-040 `data-template-id`, and in spirit SF-018 `AsChild`). Decision D-20 made computed values
+   win, which protects component behavior, but nothing tells the developer their attribute was dropped.
+   A consistent policy (merge event handlers and ids, warn in Development when a consumer attribute is
+   replaced) would remove a whole class of silent failures.
+2. **Form inputs choose their own names and require an `EditContext`** (SF-009, SF-028, SF-033). Group
+   inputs use bare property names, Rizzy inputs use model paths, ids cannot be set, and GET forms need a
+   hand-made `EditContext`. One naming and binding model across RizzyUI and Rizzy inputs is needed.
+3. **The server cannot drive overlays consistently** (SF-002, SF-003, SF-032). Dialogs have open/close
+   events (global by default), sheets have none, focus targets are fixed. Per-instance open/close events
+   on every overlay, and an initial-focus option, would give one pattern for server-driven UI.
+4. **Lazy loading leaks into application behavior** (SF-039, and SF-025's debounce). Events and
+   keypresses that arrive before a component's chunk has loaded are lost. A readiness signal and event
+   buffering in the runtime would fix it once.
+5. **Accessibility defaults** (SF-022, SF-023, SF-026, SF-029, SF-031, SF-035 to SF-038). Generic default
+   labels ("Avatar", "File input"), roles without required children, live regions on static content and
+   low-contrast status colors. Axe and a unique-id check over the docs pages would have found most of them.
+6. **htmx 4 behavior the template and Rizzy do not account for** (SF-017, SF-020, SF-021, SF-024). The
+   template test checks pages with curl; one browser test of boosted navigation, an expired session and
+   a nested URL would have caught all four.
+7. **Who owns the `<head>`** (SF-012, SF-017, SF-034). Theme styles, asset URLs and third-party scripts
+   all assume things about the head that apps break by doing normal things.
 
 ## Entries
 
@@ -221,12 +314,12 @@ workaround a typical developer would not find quickly), **Low** (annoyance).
 ### SF-018 RzButton has no AsChild
 
 - **Tag:** Bug, High
-- **What:** `RzButton` inherits `RzComponent`, not `RzAsChildComponent`. `<RzButton AsChild><a href>…</a></RzButton>`
-  compiles (unknown parameters become attributes), renders `<button aschild><a href>…</a></button>`:
+- **What:** `RzButton` inherits `RzComponent`, not `RzAsChildComponent`. `<RzButton AsChild><a href>â€¦</a></RzButton>`
+  compiles (unknown parameters become attributes), renders `<button aschild><a href>â€¦</a></button>`:
   invalid nesting, two tab stops, and the button swallows the link's click target. Developers expect
   `AsChild` because every trigger component has it. The starter template's
   `Features/Errors/NotFoundPage.razor` and the Popover docs page use it.
-- **Summit workaround:** `<RzButton Element="a" href="…">`.
+- **Summit workaround:** `<RzButton Element="a" href="â€¦">`.
 - **Library fix:** support `AsChild` on `RzButton` (merge classes into the child, as triggers do), or
   fail loudly when an unknown `AsChild` attribute is passed; fix the template and docs.
 
@@ -236,7 +329,7 @@ workaround a typical developer would not find quickly), **Low** (annoyance).
 - **What:** `NavigationMenuInfo.razor`'s `ListItem` helper renders `<NavigationMenuLink><RzLink Href>`.
   `NavigationMenuLink` renders an `<a>` itself, so the output is an empty `<a>` followed by the real
   link (the HTML parser splits nested anchors). Keyboard users get an extra, empty tab stop.
-- **Summit workaround:** `<NavigationMenuLink Href="…" class="…">` with the content directly inside.
+- **Summit workaround:** `<NavigationMenuLink Href="â€¦" class="â€¦">` with the content directly inside.
 - **Library fix:** correct the example (or use `AsChild`, as the "Docs" item in the same example does).
 
 ### SF-020 Status code pages break htmx redirects and mislabel every 4xx
@@ -288,13 +381,13 @@ workaround a typical developer would not find quickly), **Low** (annoyance).
 ### SF-023 Material Design icons produce duplicate ids
 
 - **Tag:** Bug, Medium (found by Summit's unique-id check)
-- **What:** Blazicons' Material Design icon SVGs carry a fixed `id` (`<svg id="mdi-chevron-down" …>`).
+- **What:** Blazicons' Material Design icon SVGs carry a fixed `id` (`<svg id="mdi-chevron-down" â€¦>`).
   Fourteen RizzyUI components render MDI icons internally: `NavigationMenuTrigger`,
   `BreadcrumbSeparator`, `PaginationPrevious`/`Next`/`Ellipsis`, `CheckboxGroupItemIndicator`,
   `InputOTPSeparator`, `RzSearchButton`, `CommandInput`, `CommandEmpty`, `DropdownMenuSubTrigger`,
   `MenubarCheckboxItem`, `MenubarRadioItem` and `MenubarSubTrigger`. Two of any of them on a page give
   duplicate ids: the public header alone has two navigation menu triggers. Duplicate ids are invalid
-  HTML and can make `getElementById`, `aria-*` references and `hx-target="#…"` pick the wrong element.
+  HTML and can make `getElementById`, `aria-*` references and `hx-target="#â€¦"` pick the wrong element.
 - **Summit workaround:** none possible from the outside; the browser tests' unique-id check skips
   `svg[id^="mdi-"]`.
 - **Library fix:** render those icons without the id (Blazicons attribute override, or switch the
@@ -330,3 +423,199 @@ workaround a typical developer would not find quickly), **Low** (annoyance).
   one empty alert region per field. Tests that look for "the alert" in a form find all of them.
 - **Library fix:** render the element (or the role) only when there are errors, or use a single
   polite summary region for the form.
+
+### SF-027 Components without documentation
+
+- **Tag:** Docs, Medium
+- **What:** `AGENTS.md` requires a docs page for every component, but `RzEmbeddedPreview`,
+  `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle` and `RzIdScope` have no page and no example on
+  any page. Summit had to read their source to use them. (`RzIdScope` in particular solves a real htmx
+  problem, stable ids in re-rendered fragments, and nobody will find it.)
+- **Library fix:** add the pages, or at least an example on a related page.
+
+### SF-028 Inputs require an EditContext, even in GET forms
+
+- **Tag:** DX, Medium
+- **What:** every RizzyUI input (`InputBase`) throws without a cascading `EditContext`, and so do
+  `RzCheckboxGroup` and `RzSwitch`. A search or filter form should be a GET form, but `EditForm` renders
+  a POST form with an antiforgery token and a `_handler` field, which end up in the query string and the
+  pushed URL. The workaround is a plain `<form method="get">` with `<CascadingValue Value="new EditContext(model)">`,
+  which nobody would guess.
+- **Summit workaround:** exactly that (`Features/Schedule/ScheduleFilters.razor`).
+- **Library fix:** let inputs work without an `EditContext` when given `Name` and `Value`, or ship an
+  `RzFilterForm`/`RzGetForm` that provides one without the POST-only parts.
+
+### SF-029 RzCheckboxGroup is a nameless group by default
+
+- **Tag:** A11y, Medium
+- **What:** `RzCheckboxGroup` renders `<fieldset role="group" aria-labelledby="â€¦-legend">` with a
+  visually hidden `<legend>` filled from `DisplayName` only. Without `DisplayName` the legend is empty, so
+  the group has no accessible name, and it does not fall back to the model's `[Display(Name)]` the way
+  `FieldLabel` does. Putting the group inside an `RzFieldSet` with a `FieldLegend` (the natural markup)
+  nests two fieldsets. The legend is always visually hidden, so a visible label must be added
+  separately and hidden from assistive technology.
+- **Summit workaround:** `DisplayName` plus an `aria-hidden` visible label.
+- **Library fix:** fall back to `[Display(Name)]`/the property name; offer a visible legend option.
+
+### SF-030 Your x-on:click is silently dropped
+
+- **Tag:** DX, Medium
+- **What:** `<RzToggle x-on:click="applyLevels()">` renders `x-on:click="toggle"`: the component's
+  computed attribute wins over the consumer's (decision D-20 in the audit) and nothing warns. The
+  handler simply never runs. `RzToggle` also dispatches no event when its state changes, so there is no
+  supported way to react to a toggle.
+- **Summit workaround:** a delegated `click` listener on an ancestor (code-behind) that reads
+  `aria-pressed` on the next tick.
+- **Library fix:** dispatch `rz:toggle:change` with `{ pressed }` from `rzToggle`; for event attributes,
+  merge rather than replace (Alpine allows several `x-on:click` handlers through different modifiers,
+  or the component can call a consumer-supplied handler), or at least log a development-time warning
+  when a consumer attribute is overwritten.
+
+### SF-031 Every avatar is announced as "Avatar"
+
+- **Tag:** A11y, Medium
+- **What:** `RzAvatar` renders `role="img" aria-label="Avatar"` (a localized default) on the wrapper.
+  Children of `role="img"` are presentational, so `AvatarImage`'s `AlternateText` ("Amara Okafor") is
+  never read: a list of speakers is announced as "Avatar, Avatar, Avatar". There is also no way to make
+  an avatar decorative when the name is printed next to it, which is the common case.
+- **Summit workaround:** `AriaLabel="@speaker.Name"` on every avatar.
+- **Library fix:** derive the label from `AvatarImage.AlternateText` (or the fallback initials' title);
+  add a `Decorative` option that renders `aria-hidden="true"` and no role.
+
+### SF-032 A sheet with long content opens scrolled to the bottom
+
+- **Tag:** A11y, Low
+- **What:** `RzSheet` moves focus to its first focusable element when it opens. In a details sheet whose
+  only controls are footer buttons, that is the last element, so the panel scrolls to the bottom and the
+  title and first paragraphs are out of view for sighted keyboard and mouse users alike.
+- **Summit workaround:** put a control at the top of the content.
+- **Library fix:** focus the panel itself (with `tabindex="-1"`) or the title when there is no focusable
+  element before the footer, or add an `InitialFocus` selector parameter as Radix (`onOpenAutoFocus`) does.
+
+### SF-033 You cannot choose an input's id
+
+- **Tag:** DX, Low
+- **What:** `InputGroupInput id="speaker-query"` renders `id="QvogGwJLp2DI"`: the id reserved for the
+  field (`GetOrReserveFieldId`) replaces the consumer's. A hand-written `<label for="speaker-query">`
+  (needed when the label is not a `FieldLabel`, such as a visually hidden search label) then labels
+  nothing. Oddly, a consumer `name` is kept, so the two attributes behave differently.
+- **Summit workaround:** `aria-label` on the input.
+- **Library fix:** let a consumer `id` win (and register it as the field's id so `FieldLabel` still
+  matches), consistent with how `name` behaves.
+
+### SF-034 Any other HeadContent removes the theme
+
+- **Tag:** Bug, High (found by axe: every page suddenly had RizzyUI's default blue instead of Summit's theme)
+- **What:** `RzThemeProvider` writes its `<style>` with the theme's CSS variables (and the dark-mode
+  script) through Blazor's `<HeadContent>`. Blazor shows the content of only one `HeadContent` (the last
+  one rendered): when Summit added a second `HeadContent` for per-track colors, the theme variables
+  vanished from every page and the app fell back to the default palette from the CSS plugin. No error,
+  no warning; it looks like a styling bug. Pages that add their own meta tags or styles with
+  `HeadContent`, which is the standard Blazor way, hit this immediately.
+- **Summit workaround:** the track styles render a `<style>` directly in the layout's `<head>`.
+- **Library fix:** render the theme `<style>` from a component placed in `<head>` (for example inside
+  `RzHeadOutlet`, or a dedicated `<RzThemeStyles />`) instead of through `HeadContent`; document the
+  conflict until then.
+
+### SF-035 RzAuroraText's AriaLabel is prohibited ARIA
+
+- **Tag:** A11y, Low (found by axe)
+- **What:** with `AriaLabel` set, `RzAuroraText` renders `<span aria-label="â€¦">`. `aria-label` is
+  prohibited on a `span` without a role, so assistive technology may ignore it and axe reports a serious
+  violation. Without `AriaLabel` the component already renders visually hidden text, which works. Its
+  gradient colors also come from an inline `style` attribute, which a strict `style-src` blocks.
+- **Summit workaround:** no `AriaLabel`.
+- **Library fix:** render the label as visually hidden text (or `role="img"` with `aria-label`); move the
+  colors to CSS custom properties set from a class or a nonced style.
+
+### SF-036 Status colors fail contrast; the theme keys that fix them are undocumented
+
+- **Tag:** A11y, Medium (found by axe)
+- **What:** soft `RzBadge` (`Soft` with `Success`, `Information`, `Warning`) and `RzAlert`
+  (`Information`) draw text in `var(--success)`/`--info`/`--warning` on a tint of the same color. With
+  the defaults (green-600, sky-600, amber-500) the contrast is 2.9:1, 3.5:1 and 1.9:1; WCAG AA needs
+  4.5:1 for that text size. (D-16 fixed the same problem for toasts by using the foreground color.)
+  `RzThemeProvider` writes these variables into the page from the theme, so overriding them in the
+  app's CSS does not work (the inline theme style comes later and wins). The theme JSON does accept
+  `success`, `info`, `warning` and their `-foreground` keys (`RzThemeConverter`), but nothing
+  documents them and the shadcn theme format they are based on has no such keys, so a developer finds
+  them only by reading the converter. Summit first concluded that themes could not set them at all.
+- **Summit workaround:** AA-safe `success`, `info` and `warning` values in `Themes/summit.json`.
+- **Library fix:** AA-safe defaults (or the foreground color for soft text, as toasts do); document the
+  extra theme keys on the theming page.
+
+### SF-037 The file dropzone's name does not match its text
+
+- **Tag:** A11y, Medium (found by axe: label-content-name-mismatch)
+- **What:** `RzFileInput Variant="Dropzone"` renders `<div role="button" aria-label="File input">` with
+  the visible text "Drag and drop files here or click to upload". Speech-input users say what they see
+  and nothing matches; screen reader users hear a generic "File input" with no hint of the field it
+  belongs to (the `FieldLabel` points at the hidden native input, not the dropzone).
+- **Summit workaround:** `AriaLabel="Drag and drop files here or click to upload an attachment"`.
+- **Library fix:** name the dropzone from its visible text plus the field label
+  (`aria-labelledby="label-id trigger-content-id"`).
+
+### SF-038 RzItemGroup is a list without list items
+
+- **Tag:** A11y, Medium (found by axe: aria-required-children, critical)
+- **What:** `RzItemGroup` renders `role="list"`; `RzItem` renders a plain `div` with no role, so the list
+  "contains" generic elements and whatever they contain (here an avatar's `role="img"`). Screen readers
+  report an empty or broken list.
+- **Summit workaround:** `role="listitem"` on each `RzItem` inside a group.
+- **Library fix:** `RzItem` renders `role="listitem"` when it is inside an `RzItemGroup` (a cascading
+  value), or `RzItemGroup` drops the list role.
+
+### SF-039 Events sent before a component loads are lost
+
+- **Tag:** DX, Low (found by the Summit browser tests)
+- **What:** RizzyUI loads component behavior asynchronously (`x-load`, a chunk per runtime). An
+  `RzDialog` listens for its `EventTriggerName` only once its chunk has loaded and `init()` has run. A
+  window event dispatched before that (pressing Ctrl+K as soon as the page appears, an `HX-Trigger`
+  arriving with the first response) does nothing, and nothing reports it. Browser tests that press keys
+  right after `page.goto` fail intermittently for the same reason.
+- **Summit workaround:** the test helper waits until every eager `x-data` element has initialized.
+- **Library fix:** register `EventTriggerName` listeners from a tiny eager shim that opens the dialog
+  once the chunk is ready (or queues the event), and expose a "components ready" promise or event
+  (`rz:ready`) that tests and apps can wait for.
+
+### SF-040 RzCommand's data-driven items never render
+
+- **Tag:** Bug, High (found by the Summit browser tests)
+- **What:** `CommandItemTemplate` sets `ParentCommand.DataItemTemplateId` in its `OnInitialized`, but
+  `RzCommand` has already built its root element (including `data-template-id="@DataItemTemplateId"`)
+  by then, and nothing re-renders it during static SSR. The attribute is therefore always missing.
+  `rzCommand.js` reads it at init, finds nothing, and with `ItemsUrl` shows "Failed to load items.
+  Configuration error: No data template found." (and logs a console error); with `Items` the same check
+  applies. A consumer `data-template-id` attribute does not help: the component's own null value is
+  applied after the splatted attributes and removes it. No browser test in the repository covers
+  `Items`/`ItemsUrl` with a template.
+- **Summit workaround:** a code-behind sets the attribute on the command inside the dialog's teleport
+  template before it initializes (the template id is predictable: `{command id}-data-item-template`).
+- **Library fix:** compute the template id from the command's id in `RzCommand` itself (it is
+  deterministic), instead of waiting for the child to report it; add an integration test for
+  `ItemsUrl` and `Items`.
+
+### SF-041 Every app needs the same server-error listener
+
+- **Tag:** Gap, Low (owner: Rizzy and RizzyUI)
+- **What:** Rizzy's `UseHtmxErrorHandling` stops a 5xx from being swapped and raises `rz:server-error`
+  instead. That is the right default, but the user then sees nothing at all: the click did nothing. Both
+  libraries have the pieces (the event, `Rizzy.toast`), yet each application must write a code-behind
+  that listens for `rz:server-error` (and htmx 4's `htmx:error` for network failures) and shows a toast.
+- **Summit workaround:** `Components/Shared/AppNotifications.razor(.js)`, about 20 lines.
+- **Library fix:** an opt-in `<RzServerErrorToasts />` (or a `RzToastProvider` option) that shows a
+  localized error toast for `rz:server-error` and network errors, with the messages configurable.
+
+### SF-042 TypeScript code-behind breaks a clean build with the template's npm hook
+
+- **Tag:** DX, Medium (found by CI: the first Summit CI run failed; locally `node_modules` already existed)
+- **What:** `RizzyUI.targets` bundles code-behind modules with esbuild before
+  `ResolveJSModuleStaticWebAssets`, inside `CoreBuild`, and fails with RZUI1003 when
+  `node_modules/esbuild` is missing. The starter template installs npm packages in a target with
+  `BeforeTargets="Build"`, which MSBuild runs only after `CoreBuild`. So a project created from the
+  template that turns on TypeScript code-behind (`dotnet new rizzyui-codebehind --typescript` tells you
+  to) fails its first build on every clean clone and CI runner, and succeeds on the second build, because
+  the failed build ran `npm install` after the error.
+- **Summit workaround:** the npm and Tailwind targets run `BeforeTargets="BeforeBuild"`.
+- **Library fix:** use `BeforeBuild` in the starter template; have RZUI1003's message say where the npm
+  step must run; or let `RizzyUI.targets` run `npm ci` itself when `RizzyUICodeBehindBuild=esbuild`.

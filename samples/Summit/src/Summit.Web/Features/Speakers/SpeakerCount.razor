@@ -1,0 +1,20 @@
+@* The result count is a polite live region that stays in the page; searches update it out of band, so
+   screen readers hear "12 speakers match “ann”" without the results being read out. *@
+<p id="speaker-count" class="text-muted-foreground text-sm" role="status">
+    @if (Result.Query.Length == 0)
+    {
+        @($"{Result.Total} speakers")
+    }
+    else if (Result.Total == 1)
+    {
+        @($"1 speaker matches “{Result.Query}”")
+    }
+    else
+    {
+        @($"{Result.Total} speakers match “{Result.Query}”")
+    }
+</p>
+
+@code {
+    [Parameter, EditorRequired] public SpeakerSearch Result { get; set; } = null!;
+}

@@ -72,14 +72,18 @@ public sealed class SeedingTests(SummitFactory factory) : IClassFixture<SummitFa
         Assert.Equal(Snapshot.Orders, orders);
         Assert.Equal(Snapshot.GeneratedSpeakers, firstSpeakers);
         Assert.Equal(Snapshot.Revenue, revenue);
+        // Attendees come from many countries and buy every kind of ticket (a regression guard for the
+        // weighted random choices: Bogus needs weights that sum to 1).
+        Assert.Equal(20, await db.Attendees.Select(a => a.Country).Distinct().CountAsync());
+        Assert.Equal(4, await db.Attendees.Select(a => a.TicketTypeId).Distinct().CountAsync());
     }
 
     /// <summary>Recorded from a known-good run.</summary>
     private static class Snapshot
     {
-        public const int Attendees = 660;
-        public const int Orders = 435;
+        public const int Attendees = 600;
+        public const int Orders = 375;
         public static readonly string[] GeneratedSpeakers = ["Marisol Mayer", "Moses Nolan", "Katelynn Daugherty"];
-        public const decimal Revenue = 384706.60m;
+        public const decimal Revenue = 334785.20m;
     }
 }

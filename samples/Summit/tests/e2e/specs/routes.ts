@@ -8,6 +8,9 @@ export const publicRoutes: RouteEntry[] = [
   { path: '/speakers', heading: 'Speakers' },
   { path: '/tickets', heading: 'Tickets' },
   { path: '/help', heading: 'Help & FAQ' },
+  { path: '/sessions/rendering-untrusted-markdown-safely', heading: 'Rendering untrusted Markdown safely' },
+  { path: '/speakers?q=zzzz', heading: 'Speakers' },
+  { path: '/schedule?mine=true', heading: 'Schedule' },
   { path: '/account/sign-in', heading: 'Organizer sign-in' },
   { path: '/does-not-exist', heading: 'Page not found' },
 ];

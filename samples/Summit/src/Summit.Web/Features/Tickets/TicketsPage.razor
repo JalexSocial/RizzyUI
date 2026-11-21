@@ -1,5 +1,93 @@
-<RzPageTitle>Tickets · Summit</RzPageTitle>
+<RzPageTitle>Tickets Â· Summit</RzPageTitle>
 
-<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-    <PageHeader Title="Tickets" Eyebrow="Attend" Description="Passes, workshops and student tickets." />
+<div class="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-10 sm:px-6 sm:py-14">
+    <PageHeader Title="Tickets" Eyebrow="Attend"
+                Description="Every in-person pass includes lunch, coffee and the recordings. Prices include VAT." />
+
+    <ul class="grid gap-6 md:grid-cols-2 xl:grid-cols-3" aria-label="Ticket types">
+        @foreach (var offer in Tickets.Where(t => t.Ticket.Slug != "supporter"))
+        {
+            var featured = offer.Ticket.Slug == "conference";
+            <li class="@($"bg-card relative flex flex-col gap-6 overflow-hidden rounded-2xl border p-6 {(featured ? "border-primary/50 shadow-lg" : "")}")">
+                @if (featured)
+                {
+                    <RzShineBorder ShineColors="@(["#6d5efc", "#a855f7", "#14b8a6"])" BorderWidth="2" />
+                }
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-xl font-semibold">@offer.Ticket.Name</h2>
+                        <p class="text-muted-foreground text-sm">@offer.Ticket.Description</p>
+                    </div>
+                    @if (featured)
+                    {
+                        <RzBadge Variant="ThemeVariant.Primary">Most popular</RzBadge>
+                    }
+                    else if (offer.SoldOut)
+                    {
+                        <RzBadge Variant="ThemeVariant.Destructive" Soft>Sold out</RzBadge>
+                    }
+                </div>
+
+                <p class="text-4xl font-semibold tracking-tight tabular-nums">@offer.Ticket.Price.Euros()</p>
+
+                <ul class="flex flex-col gap-2 text-sm">
+                    @foreach (var perk in offer.Ticket.PerkList)
+                    {
+                        <li class="flex items-start gap-2"><Blazicon Svg="Lucide.Check" class="text-primary mt-0.5 size-4 shrink-0" />@perk</li>
+                    }
+                </ul>
+
+                <div class="mt-auto flex flex-col gap-3">
+                    @if (offer.Remaining <= 50 && !offer.SoldOut)
+                    {
+                        <RzProgress Value="offer.PercentSold" AriaLabel="@($"{offer.Ticket.Name} tickets sold")" ValueText="@($"{offer.Remaining} left")" Variant="StatusColor.Warning">
+                            <ProgressLabel class="text-sm">Only @offer.Remaining left</ProgressLabel>
+                        </RzProgress>
+                    }
+                    @if (offer.Available)
+                    {
+                        <RzButton Element="a" href="@($"/tickets/checkout?ticket={offer.Ticket.Slug}")" Variant="@(featured ? ThemeVariant.Primary : ThemeVariant.Secondary)" class="w-full">
+                            Choose @offer.Ticket.Name
+                        </RzButton>
+                    }
+                    else
+                    {
+                        <RzButton Variant="ThemeVariant.Secondary" class="w-full" disabled>@(offer.SoldOut ? "Sold out" : "Not on sale")</RzButton>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+
+    @{ var supporter = Tickets.SingleOrDefault(t => t.Ticket.Slug == "supporter"); }
+    @if (supporter is not null)
+    {
+        <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.Status">
+            <AlertTitle>@supporter.Ticket.Name tickets go on sale @supporter.Ticket.SalesStart.ToString("MMMM d", CultureInfo.CurrentCulture)</AlertTitle>
+            <AlertDescription>
+                @supporter.Ticket.Description Each one funds a scholarship ticket for someone who could not otherwise attend
+                (@supporter.Ticket.Price.Euros()).
+            </AlertDescription>
+        </RzAlert>
+    }
+
+    <section class="grid gap-8 lg:grid-cols-[1fr_2fr]" aria-labelledby="ticket-faq-title">
+        <div class="flex flex-col gap-3">
+            <h2 id="ticket-faq-title" class="text-2xl font-semibold tracking-tight">Ticket questions</h2>
+            <p class="text-muted-foreground">Transfers, refunds, invoices and group discounts. More answers on the <RzLink Href="/help">help page</RzLink>.</p>
+        </div>
+        <RzAccordion Type="AccordionType.Single">
+            @foreach (var faq in Faqs)
+            {
+                <AccordionItem Title="@faq.Question">
+                    <AccordionContent><RzMarkdown Content="@faq.AnswerMarkdown" class="text-muted-foreground" /></AccordionContent>
+                </AccordionItem>
+            }
+        </RzAccordion>
+    </section>
 </div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<TicketOffer> Tickets { get; set; } = [];
+    [Parameter] public IReadOnlyList<FaqEntry> Faqs { get; set; } = [];
+}

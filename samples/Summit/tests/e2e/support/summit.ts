@@ -93,9 +93,19 @@ export async function resetDatabase(baseURL: string) {
   if (!response.ok) throw new Error(`Database reset failed: HTTP ${response.status}`);
 }
 
-/** Waits until RizzyUI's runtime has started (Alpine and the Rizzy client). */
+/**
+ * Waits until RizzyUI's runtime has started (Alpine and the Rizzy client) and every eagerly loaded
+ * component on the page has initialized. RizzyUI loads component chunks asynchronously (x-load), so
+ * a component's listeners (for example a dialog's open event) exist only after its chunk has loaded.
+ */
 export async function waitForRuntime(page: Page) {
-  await expect.poll(() => page.evaluate(() => typeof (window as any).Alpine?.version === 'string' && typeof (window as any).Rizzy?.toast === 'object')).toBe(true);
+  await expect.poll(() => page.evaluate(() => {
+    const w = window as any;
+    if (typeof w.Alpine?.version !== 'string' || typeof w.Rizzy?.toast !== 'object') return 'runtime';
+    const pending = [...document.querySelectorAll('[x-data]')].filter(el =>
+      !el.closest('template') && (el.getAttribute('x-load') ?? 'eager') === 'eager' && !(el as any)._x_dataStack);
+    return pending.length === 0 ? 'ready' : `${pending.length} components`;
+  }), { message: 'RizzyUI components initialized' }).toBe('ready');
 }
 
 // The release gate is WCAG 2.x A/AA, the tags the RizzyUI docs suite uses. Best-practice rules are

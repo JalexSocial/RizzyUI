@@ -38,12 +38,14 @@
     <None Include="scripts/**" />
   </ItemGroup>
 
-  <Target Name="SummitNpmInstall" BeforeTargets="Build" Condition="'$(SkipNpm)' != 'true'"
+  <!-- BeforeBuild, not Build: RizzyUI's esbuild step for the code-behind modules runs during CoreBuild,
+       which comes before anything hooked BeforeTargets="Build" (summit-findings.md SF-042). -->
+  <Target Name="SummitNpmInstall" BeforeTargets="BeforeBuild" Condition="'$(SkipNpm)' != 'true'"
           Inputs="package-lock.json" Outputs="node_modules/.package-lock.json">
     <Exec Command="npm ci --no-audit --no-fund" />
   </Target>
 
-  <Target Name="SummitTailwind" BeforeTargets="Build" AfterTargets="SummitNpmInstall" Condition="'$(SkipNpm)' != 'true'">
+  <Target Name="SummitTailwind" BeforeTargets="BeforeBuild" AfterTargets="SummitNpmInstall" Condition="'$(SkipNpm)' != 'true'">
     <Exec Command="npm run build:css" />
   </Target>
 

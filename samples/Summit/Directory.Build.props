@@ -17,6 +17,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
+    <!-- RZ10012: a component tag Razor cannot resolve (a missing @using) silently renders as an HTML
+         element. Make it an error. -->
+    <WarningsAsErrors>$(WarningsAsErrors);RZ10012</WarningsAsErrors>
   </PropertyGroup>
 
 </Project>

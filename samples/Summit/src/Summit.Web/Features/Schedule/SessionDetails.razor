@@ -1,0 +1,58 @@
+@*
+    Session details in a side sheet, loaded with hx-get into #session-sheet and opened by rendering the
+    sheet with DefaultOpen. RzSheet has no event to open it from code or from the server (SF-002).
+*@
+<RzSheet DefaultOpen="true">
+    <SheetContent Side="SheetSide.Right" class="@($"track-{Session.Track.Slug} w-full overflow-y-auto sm:max-w-lg")">
+        <SheetHeader>
+            <p class="flex items-center gap-2 text-sm font-medium">
+                <span class="size-2.5 rounded-full bg-[var(--track)]" aria-hidden="true"></span>
+                @Session.Track.Name
+            </p>
+            <SheetTitle>@Session.Title</SheetTitle>
+            <SheetDescription>
+                @Session.Day.Date.ToString("dddd, MMMM d", CultureInfo.CurrentCulture) ·
+                @Session.StartsAt.ToString("t", CultureInfo.CurrentCulture)–@Session.EndsAt.ToString("t", CultureInfo.CurrentCulture) ·
+                @Session.Room.Name
+            </SheetDescription>
+        </SheetHeader>
+
+        <div class="flex flex-col gap-6 px-6 pb-6">
+            @* First focusable element: RzSheet focuses it on open, so it must be at the top (SF-032). *@
+            <RzButton Element="a" href="@($"/sessions/{Session.Slug}")" Variant="ThemeVariant.Primary" Size="Size.Small" class="w-fit">
+                Open the session page
+            </RzButton>
+            <div class="flex flex-wrap gap-1.5">
+                <RzBadge Variant="SessionCard.LevelVariant(Session.Level)" Soft>@Session.Level</RzBadge>
+                <RzBadge Variant="ThemeVariant.Secondary" Soft>@Session.Format</RzBadge>
+                <RzBadge Variant="ThemeVariant.Secondary" Soft>@Session.LengthMinutes min</RzBadge>
+            </div>
+
+            <RzMarkdown Content="@Session.AbstractMarkdown" class="prose-sm" />
+
+            <div class="flex flex-col gap-3">
+                <h3 class="text-sm font-semibold">@(Session.Speakers.Count == 1 ? "Speaker" : "Speakers")</h3>
+                <RzItemGroup>
+                    @foreach (var speaker in Session.Speakers.OrderBy(s => s.Order).Select(s => s.Speaker))
+                    {
+                        <RzItem role="listitem" Variant="ItemVariant.Outline" Size="Size.Small">
+                            <ItemMedia><SpeakerAvatar Speaker="speaker" Size="Size.Medium" /></ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>@speaker.Name</ItemTitle>
+                                <ItemDescription>@speaker.Title, @speaker.Company</ItemDescription>
+                            </ItemContent>
+                        </RzItem>
+                    }
+                </RzItemGroup>
+            </div>
+        </div>
+
+        <SheetFooter>
+            <SheetClose AsChild><RzButton Variant="ThemeVariant.Secondary" Outline>Close</RzButton></SheetClose>
+        </SheetFooter>
+    </SheetContent>
+</RzSheet>
+
+@code {
+    [Parameter, EditorRequired] public Session Session { get; set; } = null!;
+}

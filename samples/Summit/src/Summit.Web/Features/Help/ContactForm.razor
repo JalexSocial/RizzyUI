@@ -1,0 +1,90 @@
+@*
+    The contact form: posted with htmx as multipart/form-data. While the request runs, an indeterminate
+    RzProgress is shown (htmx 4 sends with fetch, which reports no upload progress; SF-008). A 422 swaps
+    the form back with errors and the typed values.
+*@
+<RzCard id="contact-form">
+    <CardContent class="pt-6">
+        @if (Sent)
+        {
+            <RzAlert Variant="ThemeVariant.Success" LiveRegionMode="RzAlertLiveRegionMode.Status" Dismissable="true" class="mb-6">
+                <AlertTitle>Thanks, your message is on its way</AlertTitle>
+                <AlertDescription>We'll answer at @SentTo, usually within one working day.</AlertDescription>
+            </RzAlert>
+        }
+
+        <EditForm Model="Model" FormName="Model" novalidate enctype="multipart/form-data" class="flex flex-col gap-5"
+                  hx-post="/help/contact" hx-encoding="multipart/form-data" hx-target="#contact-form" hx-swap="outerHTML"
+                  hx-indicator="#contact-progress" hx-disabled-elt="find button[type=submit]">
+            <RzModelStateProvider />
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <Field>
+                    <FieldLabel For="@(() => Model!.Name)" />
+                    <RzInputText For="@(() => Model!.Name)" autocomplete="name" />
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.Name)" /></FieldError>
+                </Field>
+                <Field>
+                    <FieldLabel For="@(() => Model!.Email)" />
+                    <RzInputText For="@(() => Model!.Email)" Role="TextRole.Email" autocomplete="email" />
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.Email)" /></FieldError>
+                </Field>
+            </div>
+
+            <Field>
+                <FieldLabel For="@(() => Model!.Topic)" />
+                <RzNativeSelect For="@(() => Model!.Topic)">
+                    <option value="">Choose a topic</option>
+                    @foreach (var topic in ContactModel.Topics)
+                    {
+                        <option value="@topic">@topic</option>
+                    }
+                </RzNativeSelect>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Topic)" /></FieldError>
+            </Field>
+
+            <Field>
+                <FieldLabel For="@(() => Model!.Message)" />
+                <RzInputTextArea For="@(() => Model!.Message)" rows="5" placeholder="How can we help?" />
+                <FieldDescription>Up to 2,000 characters.</FieldDescription>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Message)" /></FieldError>
+            </Field>
+
+            <Field>
+                <FieldLabel For="@(() => Model!.Attachment)">Attachment (optional)</FieldLabel>
+                @* Name set explicitly: RzFileInput defaults to the bare property name (SF-009). The dropzone's
+                   default name ("File input") does not match its visible text (SF-037). *@
+                <RzFileInput For="@(() => Model!.Attachment)" Name="Model.Attachment" Variant="FileInputVariant.Dropzone" Accept=".png,.jpg,.jpeg,.pdf"
+                             AriaLabel="Drag and drop files here or click to upload an attachment" />
+                <FieldDescription>A screenshot or a PDF, up to 2 MB.</FieldDescription>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Attachment)" /></FieldError>
+            </Field>
+
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <RzButton type="submit" Variant="ThemeVariant.Primary">Send message</RzButton>
+                <div id="contact-progress" class="htmx-indicator flex-1">
+                    <RzProgress AriaLabel="Sending your message">
+                        <ProgressLabel class="text-muted-foreground text-xs">Sending…</ProgressLabel>
+                    </RzProgress>
+                </div>
+            </div>
+        </EditForm>
+    </CardContent>
+</RzCard>
+
+@code {
+    // No initializer: a property initializer on a [SupplyParameterFromForm] property can be overwritten
+    // with null during form posts (BL0008).
+    [SupplyParameterFromForm(FormName = "Model")]
+    public ContactModel? Model { get; set; }
+
+    [Parameter] public bool Sent { get; set; }
+    [Parameter] public string? SentTo { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new ContactModel();
+        // After a successful send, show an empty form.
+        if (Sent) Model = new ContactModel();
+    }
+}

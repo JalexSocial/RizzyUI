@@ -1,5 +1,40 @@
-<RzPageTitle>Speakers · Summit</RzPageTitle>
+<RzPageTitle>Speakers Â· Summit</RzPageTitle>
 
-<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-    <PageHeader Title="Speakers" Eyebrow="Program" Description="Sixty-four people who build things for a living." />
+<div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-14">
+    <PageHeader Title="Speakers" Eyebrow="Program"
+                Description="Engineers, designers, researchers and maintainers. Search by name, company or role." />
+
+    @* A GET form: the search box and pager fetch only the results. Without JavaScript it still works. *@
+    <form action="/speakers" method="get" role="search" class="max-w-xl">
+        @* The input's id is generated and cannot be set (SF-033), so it is named with aria-label. *@
+        <CascadingValue Value="_editContext" IsFixed="true">
+            <RzInputGroup>
+                <InputGroupAddon><Blazicon Svg="Lucide.Search" class="size-4" /></InputGroupAddon>
+                <InputGroupInput For="@(() => _search.Q)" name="q" type="search" aria-label="Search speakers" placeholder="Search by name, company or role" autocomplete="off"
+                                 hx-get="/speakers" hx-trigger="input changed delay:300ms, search" hx-target="#speaker-results" hx-swap="outerHTML"
+                                 hx-indicator="#speaker-loading" />
+                <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                    <RzSpinner Id="speaker-loading" Size="Size.Small" AriaLabel="Searching" class="htmx-indicator" />
+                </InputGroupAddon>
+            </RzInputGroup>
+        </CascadingValue>
+    </form>
+
+    <SpeakerCount Result="Result" />
+    <SpeakerResults Result="Result" />
 </div>
+
+@code {
+    [Parameter, EditorRequired] public SpeakerSearch Result { get; set; } = null!;
+
+    private sealed class SearchModel { public string Q { get; set; } = ""; }
+
+    private SearchModel _search = new();
+    private EditContext _editContext = null!;
+
+    protected override void OnParametersSet()
+    {
+        _search = new SearchModel { Q = Result.Query };
+        _editContext = new EditContext(_search);
+    }
+}

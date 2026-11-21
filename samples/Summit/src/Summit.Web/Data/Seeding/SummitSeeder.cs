@@ -338,7 +338,14 @@ internal sealed class SummitSeeder(SummitDbContext db, TimeProvider clock, Summi
         _random.WeightedRandom([SessionLevel.Beginner, SessionLevel.Intermediate, SessionLevel.Advanced], [0.3f, 0.45f, 0.25f]);
 
     private string WeightedCountry() =>
-        _random.WeightedRandom(Countries.Select(c => c.Name).ToArray(), Countries.Select(c => (float)c.Weight).ToArray());
+        Weighted(Countries.Select(c => c.Name).ToArray(), Countries.Select(c => (float)c.Weight).ToArray());
+
+    /// <summary>Bogus' WeightedRandom needs weights that sum to 1; this takes any relative weights.</summary>
+    private T Weighted<T>(T[] items, float[] weights)
+    {
+        var total = weights.Sum();
+        return _random.WeightedRandom(items, weights.Select(w => w / total).ToArray());
+    }
 
     private List<TicketType> CreateTicketTypes(DateOnly startsOn)
     {
@@ -387,7 +394,7 @@ internal sealed class SummitSeeder(SummitDbContext db, TimeProvider clock, Summi
                 break;
 
             var size = _random.WeightedRandom([1, 2, 3, 4, 5], [0.7f, 0.15f, 0.07f, 0.05f, 0.03f]);
-            var ticket = _random.WeightedRandom(sellable.ToArray(), weights);
+            var ticket = Weighted(sellable.ToArray(), weights);
             if (sold[ticket.Slug] + size > ticket.Capacity)
                 ticket = sellable.Single(t => t.Slug == SeedFixtures.ConferencePassSlug);
 
