@@ -44,19 +44,19 @@ tracks how much application code exists only to compensate.
 
 | Id | Owner | Area | Tag | Severity | Summary | Application | Library | Regression test |
 |---|---|---|---|---|---|---|---|---|
-| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Works (workaround: `AttendeeTableState`) | Open | e2e: attendees S-03, filters (workflow) |
+| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Works (workaround: `AttendeeTableState`) | Open (decided: D-31) | e2e: attendees S-03, filters (workflow) |
 | SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet, attendees S-03 (workflow) |
-| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works (own `CloseEventName`) | Open | e2e: attendees S-04 (workflow) |
-| SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open | n/a |
+| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works (own `CloseEventName`) | Open (decided: D-29) | e2e: attendees S-04 (workflow) |
+| SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open (decided: D-29) | n/a |
 | SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Works (workaround: charts reloaded on theme change) | Open | e2e: dashboard dark mode (workflow) |
 | SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
 | SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
-| SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works (workaround) | Open | e2e: contact upload, schedule filters (workflow) |
+| SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works (workaround) | Open (decided: D-28) | e2e: contact upload, schedule filters (workflow) |
 | SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works (workaround) | Open | None |
 | SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works (designed around) | Open | e2e: unique-id check (defect) |
 | SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
-| SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Reported, not enforced | Open | CSP report-only annotations |
+| SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Reported, not enforced | Open | CSP report-only annotations; docs scan (known-defect list) |
 | SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works (designed around: the dashboard range uses RzCalendar, SF-057/SF-058) | Open | n/a |
 | SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works (workaround) | Open | e2e: level toggles (workflow) |
 | SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works (workaround) | Open | e2e: quick actions, search palette (workflow) |
@@ -66,58 +66,68 @@ tracks how much application code exists only to compensate.
 | SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works (workaround) | Open | Summit.Tests: htmx redirect, antiforgery 400 (defect) |
 | SF-021 | Template | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Works (fixed in Summit) | Open | e2e: boosted navigation keeps window (defect) |
 | SF-022 | RizzyUI | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Works (workaround) | Open | None |
-| SF-023 | RizzyUI, Blazicons | Icons | Bug | Medium | Material Design icons render `id="mdi-…"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, …) emit duplicate ids | Affected (no workaround) | Open | None (id check skips mdi-*) |
+| SF-023 | RizzyUI, Blazicons | Icons | Bug | Medium | Material Design icons render `id="mdi-…"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, …) emit duplicate ids | Affected (no workaround) | Open | None (id check skips mdi-*); docs scan (known-defect list) |
 | SF-024 | htmx, Rizzy docs | htmx boost | DX | Low | Boosted navigation swaps only `<body>`: `<html lang>` (and anything else on `<html>`) keeps the old value after a language switch | Works (workaround) | Open | e2e: language switch (workflow) |
 | SF-025 | RizzyUI | RzCommand | Bug | Medium | Typing then pressing Enter quickly runs the item highlighted before the 50 ms search debounce, not the match | Affected (users who type fast) | Open | None (test waits for the match) |
 | SF-026 | RizzyUI | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Affected (accepted) | Open | None |
 | SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
 | SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works (workaround) | Open | e2e: schedule filters, speaker search (workflow) |
 | SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
-| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works (workaround) | Open | e2e: level toggles (workflow) |
+| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works (workaround) | Open (decided: D-24 (handlers in code)) | e2e: level toggles (workflow) |
 | SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
 | SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
-| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open | axe label checks (defect) |
+| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open (decided: D-26 (consumer ids adopted)) | axe label checks (defect) |
 | SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works (workaround) | Open | axe color-contrast on every page (defect) |
-| SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect) |
-| SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect) |
+| SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
+| SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect); docs scan (known-defect list) |
 | SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works (workaround) | Open | axe label-content-name-mismatch (defect) |
 | SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works (workaround) | Open | axe aria-required-children (defect) |
 | SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Affected (early keypresses) | Open | None (tests wait for components) |
 | SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works (workaround) | Open | e2e: dashboard failed request (toast) |
 | SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works (workaround) | Open | CI: summit job builds from a clean checkout (defect) |
-| SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works (workaround) | Open | e2e: checkout entry link (workflow) |
+| SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works (workaround) | Open (decided: D-30) | e2e: checkout entry link (workflow) |
 | SF-044 | Rizzy | RzModelStateProvider | Bug | High | Server validation errors for collection items (`Model.Attendees[0].Name`) are never shown: keys containing `[` map to a non-existent root field, so a 422 for a list form displays no errors at all | Works (workaround) | Open | e2e: checkout attendees 422 (defect) |
 | SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works (workaround) | Open | e2e: checkout attendees 422 focus (workflow) |
 | SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Affected (fast typists); test waits | Open | None (test waits for the match) |
-| SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect) |
+| SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
 | SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works (workaround: `edit()` calls `htmx.ajax`) | Open | e2e: attendees S-03 (workflow) |
 | SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works (workaround: `min-w-0`) | Open | Manual (page width checked in the browser) |
 | SF-050 | RizzyUI | RzDataTable | DX | Low | In row templates, `row` is RizzyUI's view object (`{ id, row, cells }`), and the row data is camelCase while column ids keep the C# names | Works (uses `row.id`, `row.row.original.name`) | Open | e2e: attendees S-03 |
 | SF-051 | Summit | Attendees | Bug | Low | A hidden input named `Filter` matched the action parameter `filter`, so MVC bound `AttendeeServerFilter` with the prefix `filter.` and lost Status and Ticket | Fixed (renamed to `Search`) | n/a | e2e: attendees server filters |
 | SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works (workaround: `SummitClasses.TextArea`) | Open | None (visual; checked in the browser) |
 | SF-053 | RizzyUI | RzDataTable | Bug | Medium | `DataTableSortToggle` is named "Sort ascending" / "Clear sort" with no column, hiding its visible text (WCAG 2.5.3, axe `label-content-name-mismatch`); the strings are English-only | Works (workaround: `aria-labelledby`) | Open | e2e: attendees S-03 (axe) |
-| SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect) |
+| SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
 | SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` sends focus to `<body>`: the `checkbox_options` plugin RizzyUI adds puts a tabbable checkbox in every option, and Tom Select hides the list on blur | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
 | SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works (workaround: event forwarding) | Open | e2e: dashboard calendar range (workflow) |
-| SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open | e2e: dashboard calendar range, quick ranges |
+| SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open (decided: D-32) | e2e: dashboard calendar range, quick ranges |
 | SF-059 | RizzyUI | RzChart | Bug | Medium | The chart config has no top-level `type` (only per-dataset types), so Chart.js uses no chart-type defaults: a doughnut's legend shows the dataset label instead of one entry per slice | Works (workaround: HTML legend) | Open | e2e: dashboard panels (legend items not asserted) |
 | SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works (workaround: whole numbers) | Open | e2e: culture S-12 (German grouping, whole euros) |
 | SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works (workaround: `class="h-full"`, parents of at least 300 px) | Open | Manual (sizes checked in the browser) |
 | SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works (workaround: destroy the raw instance, reload on theme change) | Open | e2e: dashboard dark mode, quick ranges (no page errors) |
-| SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe |
+| SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe; docs scan (known-defect list) |
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works (workaround: `text-foreground` on the content) | Open | e2e: check-in S-05 (axe) |
-| SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe) |
+| SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Affected (no workaround) | Open | e2e: locator by name documents it |
-| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open | e2e: schedule builder publish all |
+| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open (decided: D-24 (handlers in code)) | e2e: schedule builder publish all |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
 | SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works (workaround: culture passed by hand; flatpickr `de` registered as an asset key) | Open | e2e: culture S-12 |
 | SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: sheet focus trap, both builds (defect); e2e: mobile S-16 (focus stays in the navigation sheet) |
+| SF-075 | RizzyUI | RzSidebar | Bug | Medium | `SidebarGroup` always renders `aria-labelledby` pointing at its label's id, also when the group has no `SidebarGroupLabel`: a reference to an element that does not exist (20 groups on every docs page) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-076 | RizzyUI | RzPopover | Bug | Low | `RzPopover`'s `AriaLabel` lands on its wrapper `div`, which has no role (axe `aria-prohibited-attr`), instead of the trigger or the content | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-077 | RizzyUI | RzCalendar | A11y | Medium | Calendar weekend column headers and some day buttons fail WCAG AA contrast in RizzyUI's calendar styles | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-078 | RizzyUI | Default theme | A11y | Medium | In the docs theme, `text-primary` links, primary and outline buttons, the Steps labels, command shortcuts and event-viewer entries measure below 4.5:1 | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-079 | RizzyUI | RzCommand | A11y | Low | An `RzCommand` list with no matching items is still a `listbox` with no `option` children (axe `aria-required-children`) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-080 | RizzyUI docs | RzSidebar preview | A11y | Low | In the sidebar docs preview, menu items are not inside a list (`listitem`, `aria-required-children`) and the rail buttons are under 24 px; to triage between the example and the components | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a (docs site) | Open | docs scan (known-defect list) |
+| SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a (docs site) | Open | docs scan (known-defect list) |
+| SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a (docs site) | Open | docs scan (known-defect list) |
+| SF-084 | RizzyUI | Markdown code blocks | A11y | Low | RizzyUI's Markdig extension renders fenced code blocks as `<pre class="border-muted border">` without `tabindex`, so a block wide enough to scroll cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 
 ## Integration code ledger
 
@@ -913,8 +923,9 @@ finding on its own.
   expressions may contain, and components inside the templates bring their own problems (SF-048,
   SF-053, SF-054).
 - **Summit:** writes the markup by hand, following the docs example.
-- **Library suggestion:** a default body (for example `RenderDefault="true"`) with per-column cell
-  templates, so the headless form is the escape hatch rather than the only way.
+- **Library suggestion:** owner decision D-22 (2026-11-18) keeps RzDataTable headless, with the developer
+  authoring the structure, so the answer is not a default rendering but composable helpers (a header row
+  and a cell helper that handle sorting, selection and flex rendering) and copyable recipes in the docs.
 
 ### SF-057 A calendar in a popover is disconnected from its provider
 
@@ -1183,3 +1194,104 @@ finding on its own.
 - **Fixed in 1.0.0-preview.4:** `rzSheet.js` activates the focus scope in `$nextTick`, after x-show has
   displayed the panel. The sheet test in `real-components.a11y.ts` now checks focus and the Tab trap on
   both builds; Summit's `SheetFocus` is deleted.
+
+### SF-075 Sidebar groups reference a label that may not exist
+
+- **Tag:** Bug, Medium (owner: RizzyUI; accessibility; found by the docs scan, M0)
+- **What:** `SidebarGroup.razor` renders `role="group" aria-labelledby="@LabelId"` unconditionally;
+  `SidebarGroupLabel` renders the element with that id. A group without a label (the docs sidebar has
+  twenty) points at nothing, so the group is unnamed and the reference dangles on every docs page.
+  Summit's sidebar groups all have labels, which is why Summit never saw it.
+- **Library fix:** render `aria-labelledby` only when a `SidebarGroupLabel` registered itself (the label
+  already receives the id from its parent group), or accept an `AriaLabel` for unlabeled groups.
+- **Regression test (library):** the docs scan, once its known-defect entry is removed.
+
+### SF-076 A popover's label goes on a role-less wrapper
+
+- **Tag:** Bug, Low (owner: RizzyUI; accessibility; found by the docs scan, M0)
+- **What:** `RzPopover.razor` renders `aria-label="@EffectiveAriaLabel"` on its root `div`, which has no
+  role, so the label is ignored and axe reports `aria-prohibited-attr` (five docs pages). The same shape
+  as SF-066 (RzIndicator) and SF-035 (RzAuroraText).
+- **Library fix:** put the label on `PopoverContent` (the dialog) and let the trigger keep its own name.
+
+### SF-077 Calendar weekend headers and muted days lack contrast
+
+- **Tag:** A11y, Medium (owner: RizzyUI; found by the docs scan, M0)
+- **What:** On the calendar pages axe reports `color-contrast` for the weekend column headers
+  (`b.vc-week__day[data-vc-week-day-off]`) and for day buttons outside the current month. The colors come
+  from the class map RizzyUI applies to vanilla-calendar-pro. Summit's dashboard calendar opens in a
+  popover, where axe did not scan it.
+- **Library fix:** use `text-muted-foreground` only where it meets 4.5:1 on the calendar surface, and a
+  stronger color for weekends; check both themes in dark mode.
+
+### SF-078 Primary and muted text colors fail contrast in the default theme
+
+- **Tag:** A11y, Medium (owner: RizzyUI; found by the docs scan, M0)
+- **What:** Across 30 docs pages axe reports `color-contrast` on RizzyUI components that color text with
+  the theme: `RzLink` and breadcrumb links (`text-primary`), primary buttons (white on `--primary`),
+  outline and ghost triggers (dialog, sheet, popover, dropdown, tooltip), the Steps labels, command
+  shortcuts and event-viewer entries (`text-muted-foreground`). Summit uses its own theme with checked
+  contrast (and SF-036 for the status colors), so it did not see this. The root cause is the token
+  values, not the components: W8 measures each foreground/background pair of the built-in themes.
+- **Library fix:** adjust `--primary`, `--primary-foreground` and `--muted-foreground` in the built-in
+  themes until every documented pairing meets 4.5:1 (3:1 for large text), and add a theme-contrast unit
+  test over the token pairs.
+
+### SF-079 An empty command list is an empty listbox
+
+- **Tag:** A11y, Low (owner: RizzyUI; found by the docs scan, M0)
+- **What:** When nothing matches (or the items load later), `CommandList` keeps `role="listbox"` with no
+  options; axe reports `aria-required-children` on the command docs page.
+- **Library fix:** drop the role (or set `aria-busy`) while the list is empty, and let `CommandEmpty`
+  carry the message.
+
+### SF-080 The sidebar docs preview fails list semantics and target size
+
+- **Tag:** A11y, Low (owner: RizzyUI docs or RizzyUI, to triage in W8; found by the docs scan, M0)
+- **What:** Inside the `/components/sidebar` preview, axe reports `SidebarMenuItem` elements outside a
+  list, a `SidebarMenu` without list items, and 16 px targets. Summit's organizer sidebar, built from the
+  same components, passes axe, so the example markup is the first suspect.
+- **Fix:** triage; then fix the example, or the components if the example is a supported pattern.
+
+### SF-081 The docs site's own text colors fail contrast
+
+- **Tag:** A11y, Medium (owner: RizzyUI docs; found by the docs scan, M0)
+- **What:** About a thousand `color-contrast` results on 44 pages come from the docs site, not the
+  components: the API tables' parameter names (`font-mono text-sky-600`), prose links in the chart and
+  getting-started pages, and inline `code`.
+- **Fix (W11):** darker colors in the docs stylesheet for those three elements; the scan then drops the
+  entry.
+
+### SF-082 Docs examples contain accessibility mistakes
+
+- **Tag:** A11y, Medium (owner: RizzyUI docs; found by the docs scan, M0)
+- **What:** Developers copy examples. The scan found, in the examples themselves: icon-only buttons with
+  no accessible name (button group, item, sidebar, input group, calendar popovers, home page),
+  form controls without labels (input OTP, native select, a textarea on the state page), `arialabel`
+  instead of `AriaLabel` on a button, `BreadcrumbItem` given `href`/`label` attributes it does not have,
+  and small targets on the home page.
+- **Fix (W11):** correct each example; examples should pass the same scan as components.
+
+### SF-083 Docs examples break under the strict CSP
+
+- **Tag:** Bug, Low (owner: RizzyUI docs; found by the docs scan, M0)
+- **What:** Running every page under the docs site's CSP mode shows examples that only work without a
+  policy: inline `onclick` handlers (confetti, sidebar, lazy-loading examples), an inline `<script>` on the
+  line chart page, avatars and logos from github.com and simpleicons.org (empty, item, marquee),
+  `RzConfetti UseWorker` creating a `blob:` worker, and the Alpine fundamentals page's examples
+  (object-literal `x-bind:class`, undefined variables) that the CSP build cannot evaluate.
+- **Fix (W11):** rewrite the examples in the CSP-safe subset, self-host the images, and document that
+  `UseWorker` needs `worker-src blob:` (or turn it off) under a strict policy.
+
+### SF-084 Scrolling Markdown code blocks are not keyboard accessible
+
+- **Tag:** A11y, Low (owner: RizzyUI; WCAG 2.1.1; found by the docs scan, M0, on CI)
+- **What:** `Extensions/MarkdigExtensions.cs` writes every fenced code block as
+  `<pre class="border-muted border"><code ...>`. When a line is wider than the block, the `pre` scrolls
+  sideways but has no `tabindex`, so keyboard users cannot reach the hidden part. Which blocks overflow
+  depends on the fonts: one chart page on Windows, four on the Linux CI runner (which is how the first
+  CI run of the scan found it). Same family as SF-063 (RzTable's scroll container).
+- **Library fix:** render `tabindex="0"` on the `pre` (a focusable, readable region; `role="region"` and
+  a name are optional for a code block), or wrap long lines.
+- **Regression test (library):** a Markdown rendering test that the `pre` has `tabindex="0"`, and the
+  docs scan once its entry is removed.
