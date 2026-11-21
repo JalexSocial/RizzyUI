@@ -163,7 +163,7 @@ jobs:
   summit:
     name: Summit demo app (HTTP and browser tests)
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
 
@@ -206,13 +206,24 @@ jobs:
       - name: HTTP tests
         run: dotnet test samples/Summit/Summit.slnx -c Debug --no-build --logger "trx;LogFilePrefix=summit" --results-directory ./artifacts/summit-test-results
 
-      - name: Code-behind unit tests
-        working-directory: samples/Summit/src/Summit.Web
-        run: npm test
+      # The HTTP tests above use the repository projects (Project mode). The browser tests run against
+      # the packed packages, as a consumer installs them (Package mode), so both modes compile on every
+      # run and the browser sees exactly what ships.
+      - name: Pack RizzyUI (NuGet and npm)
+        id: pack
+        run: |
+          base=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
+          version="${base}-ci.${{ github.run_number }}.${{ github.run_attempt }}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          dotnet build src/RizzyUI/RizzyUI.csproj -c Release -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -p:Version="$version" -o ./artifacts/nupkgs
+          mkdir -p ./artifacts/npm
+          (cd packages/rizzyui && npm pkg set version="$version" && npm pack --pack-destination ../../artifacts/npm && git checkout -- package.json)
 
-      - name: Browser tests (standard, CSP, mobile)
-        working-directory: samples/Summit/tests/e2e
-        run: npx playwright test
+      # Code-behind unit tests against the tarball, publish in Package mode, check the publish output,
+      # start two published servers (Production, standard and strict CSP), run Playwright.
+      - name: Publish Summit against the packages and run the browser tests (standard, CSP, mobile)
+        run: bash eng/summit-test.sh ./artifacts/nupkgs "${{ steps.pack.outputs.version }}" ./artifacts/npm/*.tgz
 
       - name: Check the build and tests left the working tree clean
         run: |

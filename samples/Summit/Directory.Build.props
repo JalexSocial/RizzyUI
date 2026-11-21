@@ -13,6 +13,13 @@
                  app is tested against exactly what consumers install.
     -->
     <SummitRizzyUISource Condition="'$(SummitRizzyUISource)' == ''">Project</SummitRizzyUISource>
+    <!-- Package builds restore a different RizzyUI; keep their obj/ and bin/ apart so switching modes
+         never mixes the two restores. -->
+    <BaseIntermediateOutputPath Condition="'$(SummitRizzyUISource)' == 'Package'">obj-package\</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(SummitRizzyUISource)' == 'Package'">bin-package\</BaseOutputPath>
+    <!-- Each mode only excludes its own output folders by default; the other mode's generated .cs files
+         would otherwise be compiled. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**;obj-package/**;bin-package/**</DefaultItemExcludes>
 
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

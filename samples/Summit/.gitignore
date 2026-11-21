@@ -1,5 +1,7 @@
 bin/
 obj/
+bin-package/
+obj-package/
 node_modules/
 *.user
 .vs/

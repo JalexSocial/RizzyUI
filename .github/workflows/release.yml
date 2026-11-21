@@ -129,6 +129,13 @@ jobs:
           (cd src/RizzyUI.Docs && npx playwright install --with-deps chromium)
           bash eng/consumer-smoke-test.sh ./artifacts/nupkgs ${{ steps.version.outputs.version }} ./artifacts/npm/*.tgz
 
+      # Release gate: the Summit demo app, published against these exact packages, passes its whole
+      # browser suite (standard, strict CSP, phone). Nothing is pushed if it fails.
+      - name: Summit end-to-end tests
+        run: |
+          (cd samples/Summit/tests/e2e && npm ci && npx playwright install --with-deps chromium)
+          bash eng/summit-test.sh ./artifacts/nupkgs ${{ steps.version.outputs.version }} ./artifacts/npm/*.tgz
+
       # The generated app builds outside the repository with the newest SDK, so add .NET 11 for net11.0.
       - name: Setup .NET 11 for the template test
         uses: actions/setup-dotnet@v6

@@ -55,8 +55,20 @@ The SQLite database in `src/Summit.Web/App_Data` is rebuilt from a deterministic
 `SummitRizzyUISource` (in `Directory.Build.props`) picks the source:
 
 - `Project` (default): `src/RizzyUI` from this repository, and the npm package from `packages/rizzyui`.
-- `Package`: the `RizzyUI` NuGet package at `$(RizzyUIVersion)`. CI uses this with freshly packed
-  packages (`eng/summit-test.sh`).
+- `Package`: the `RizzyUI` NuGet package at `$(RizzyUIVersion)` and the packed npm tarball. CI and
+  the release workflow use this with freshly packed packages: `eng/summit-test.sh` publishes Summit in
+  `Release`, checks the publish output (bundled code-behind modules, compressed assets, no npm files),
+  starts two published servers in `Production` with the test hooks on, and runs the browser suite
+  against them. Package builds use `obj-package/` and `bin-package/`, so switching modes never mixes
+  restores.
+
+To run it locally (Git Bash), pack first, then pass the folder, the version and the tarball:
+
+```bash
+bash eng/summit-test.sh ./artifacts/nupkgs 1.0.0-preview.4-dev-ci.local.1 ./artifacts/npm/jalexsocial-rizzyui-1.0.0-preview.4-dev-ci.local.1.tgz
+```
+
+The CI job's "Pack RizzyUI" step shows the pack commands.
 
 ## Tests
 
@@ -87,8 +99,17 @@ Projects: `standard`, `csp` and `mobile` (specs tagged `@mobile`, at Pixel 7 siz
 npm --prefix samples/Summit/tests/e2e test -- --project=csp
 ```
 
-The suite never retries. A test that fails intermittently is a bug to fix, or to mark `test.fixme`
-with an issue link while it is investigated.
+The suite never retries. A test that fails intermittently is a bug to fix. The quarantine process:
+
+1. Reproduce it locally with `--repeat-each=10` on the failing project; most "flakes" so far were a
+   real race (typing before a lazily loaded component had focus, a locator that matched another
+   component's list) and were fixed in the test or recorded as a finding.
+2. If it cannot be fixed the same day, mark it `test.fixme(true, 'quarantined: <issue link>')`. It stays
+   in the report as skipped, with the reason, instead of hiding behind a retry.
+3. Fix it or delete it within a week; a quarantined test does not count toward the coverage matrix.
+
+Known library defects are not skipped: a test either works around them in the app (and says so with
+the finding id) or reports them as annotations (`expectUniqueIds`).
 
 Unit tests for the Alpine code-behind modules:
 
