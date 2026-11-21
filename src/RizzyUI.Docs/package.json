@@ -11,7 +11,8 @@
     "test:a11y": "node ./tests/accessibility/scripts/run-playwright.mjs",
     "prebuild:css": "node ./scripts/ensure-npm-deps.mjs ../../packages/rizzyui",
     "copy:vendor": "node ./scripts/copy-vendor-assets.mjs",
-    "test:integration": "playwright test -c playwright.integration.config.ts"
+    "test:integration": "playwright test -c playwright.integration.config.ts",
+    "test:docs-scan": "playwright test -c playwright.docs-scan.config.ts"
   },
   "keywords": [],
   "author": "",
