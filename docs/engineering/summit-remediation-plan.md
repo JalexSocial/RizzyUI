@@ -2,7 +2,7 @@
 
 Summit ([summit-findings.md](summit-findings.md), [summit-assessment.md](summit-assessment.md)) left 74
 findings, all open in the libraries, with a workaround in the app for most of them; the docs scan (W0)
-added nine more (SF-075 to SF-083). This plan turns
+added ten more (SF-075 to SF-084). This plan turns
 them into library fixes: which repository each lands in, in what order, with which test, and what
 Summit code each fix deletes.
 
@@ -46,7 +46,7 @@ Outcome: a baseline report. Everything after W0 shrinks that list.
 docs' `@page` directives (118 pages) on the standard build (axe, ids, ARIA references, errors) and the
 CSP build (errors, CSP violations). The first run recorded 4,501 problems; each one is classified in
 `docs-scan-known.ts` against a finding, and nothing unclassified passes. Nine of the clusters were new
-(SF-075 to SF-083): five library defects for W8 (a dangling `aria-labelledby` on every sidebar group,
+(SF-075 to SF-083, and SF-084 from its first CI run): six library defects for W8 (a dangling `aria-labelledby` on every sidebar group,
 popover labels, calendar and theme contrast, an empty command listbox), one to triage, and three
 docs-site findings for W11. The consolidated known-defect list is the W8 and W11 work queue.
 
@@ -146,10 +146,10 @@ SF-001, SF-048, SF-050, SF-053, SF-054, SF-056, SF-063.
 - Removes: most of `AttendeeTableState` (about 85 lines), `aria-labelledby` on sort toggles, the
   `tabindex` on tables, the x-for annotation in `expectUniqueIds`, and most of `AttendeeTable.razor`.
 
-### W8. Accessibility defaults (RizzyUI, 0/11/7, M)
+### W8. Accessibility defaults (RizzyUI, 0/11/8, M)
 
 SF-022, SF-023, SF-026, SF-029, SF-031, SF-035, SF-036, SF-037, SF-038, SF-065, SF-066, SF-071, and from
-the docs scan SF-075, SF-076, SF-077, SF-078, SF-079, SF-080.
+the docs scan SF-075, SF-076, SF-077, SF-078, SF-079, SF-080, SF-084.
 
 Mostly one-line default changes, each proven by W0's axe run turning green for that component:
 alert live regions only when asked (SF-022), icons without fixed ids (SF-023, with Blazicons),
@@ -159,7 +159,8 @@ the dropzone's name (SF-037), `listitem` on items (SF-038), alert text colors (S
 role (SF-066), a minimum target size for RzClipboard (SF-071); from the docs scan, sidebar groups that
 reference a missing label (SF-075, on every docs page), popover labels on a role-less wrapper (SF-076),
 calendar contrast (SF-077), the built-in themes' primary and muted text contrast (SF-078, with a unit
-test over the token pairs), an empty command listbox (SF-079), and the sidebar preview to triage (SF-080).
+test over the token pairs), an empty command listbox (SF-079), the sidebar preview to triage (SF-080), and Markdown code blocks that
+scroll but cannot take focus (SF-084).
 
 - Removes: the per-use `AriaLabel`, `role` and class fixes in Summit, the status colors in
   `summit.json`, the mdi and empty-id annotations in `expectUniqueIds`.
@@ -362,3 +363,4 @@ RizzyUI.
 | SF-081 | Medium | Docs site styling | RizzyUI docs | W11 |
 | SF-082 | Medium | Docs examples | RizzyUI docs | W11 |
 | SF-083 | Low | Docs examples (CSP) | RizzyUI docs | W11 |
+| SF-084 | Low | Markdown code blocks | RizzyUI | W8 |

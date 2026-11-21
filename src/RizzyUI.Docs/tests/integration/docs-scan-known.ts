@@ -47,6 +47,9 @@ export const knownDefects: KnownDefect[] = [
   { finding: 'SF-080', kind: 'axe', rule: 'aria-required-children', target: /data-slot="sidebar-menu"/, pages: ['/components/sidebar'] },
   { finding: 'SF-080', kind: 'axe', rule: 'listitem', target: /data-slot="sidebar-menu-item"/, pages: ['/components/sidebar'] },
   { finding: 'SF-080', kind: 'axe', rule: 'target-size', target: /text-sidebar-foreground|text-sidebar-foregro/, pages: ['/components/sidebar'] },
+  // Whether a code block overflows depends on the fonts (one page on Windows, four on the Linux
+  // runner), so this entry matches the element rather than a page list.
+  { finding: 'SF-084', kind: 'axe', rule: 'scrollable-region-focusable', target: /<pre class="border-muted border">/ },
 
   // Docs-site defects (styling and example content), fixed in W11.
   { finding: 'SF-081', kind: 'axe', rule: 'color-contrast', target: /text-sky-600|<a href="|<code>|<span x-show=|<span class="inline-flex w-28/ },
@@ -54,7 +57,7 @@ export const knownDefects: KnownDefect[] = [
   { finding: 'SF-082', kind: 'axe', rule: 'label', pages: ['/components/input-otp', '/docs/interactivity/state-reactivity'] },
   { finding: 'SF-082', kind: 'axe', rule: 'select-name', pages: ['/components/button-group', '/components/native-select'] },
   { finding: 'SF-082', kind: 'axe', rule: 'listitem', target: /data-slot="breadcrumb-item"/, pages: ['/command-demo'] },
-  { finding: 'SF-082', kind: 'axe', rule: 'scrollable-region-focusable', target: /<pre /, pages: ['/components/chart-line'] },
+
   { finding: 'SF-082', kind: 'axe', rule: 'target-size', pages: ['/'] },
   {
     finding: 'SF-083', kind: 'error', rule: 'console.error', target: /violates the following Content Security Policy/,

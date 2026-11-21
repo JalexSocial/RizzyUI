@@ -127,6 +127,7 @@ tracks how much application code exists only to compensate.
 | SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a (docs site) | Open | docs scan (known-defect list) |
 | SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a (docs site) | Open | docs scan (known-defect list) |
 | SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a (docs site) | Open | docs scan (known-defect list) |
+| SF-084 | RizzyUI | Markdown code blocks | A11y | Low | RizzyUI's Markdig extension renders fenced code blocks as `<pre class="border-muted border">` without `tabindex`, so a block wide enough to scroll cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 
 ## Integration code ledger
 
@@ -1265,7 +1266,7 @@ finding on its own.
   no accessible name (button group, item, sidebar, input group, calendar popovers, home page),
   form controls without labels (input OTP, native select, a textarea on the state page), `arialabel`
   instead of `AriaLabel` on a button, `BreadcrumbItem` given `href`/`label` attributes it does not have,
-  a scrolling `pre` that cannot take focus, and small targets on the home page.
+  and small targets on the home page.
 - **Fix (W11):** correct each example; examples should pass the same scan as components.
 
 ### SF-083 Docs examples break under the strict CSP
@@ -1278,3 +1279,16 @@ finding on its own.
   (object-literal `x-bind:class`, undefined variables) that the CSP build cannot evaluate.
 - **Fix (W11):** rewrite the examples in the CSP-safe subset, self-host the images, and document that
   `UseWorker` needs `worker-src blob:` (or turn it off) under a strict policy.
+
+### SF-084 Scrolling Markdown code blocks are not keyboard accessible
+
+- **Tag:** A11y, Low (owner: RizzyUI; WCAG 2.1.1; found by the docs scan, M0, on CI)
+- **What:** `Extensions/MarkdigExtensions.cs` writes every fenced code block as
+  `<pre class="border-muted border"><code ...>`. When a line is wider than the block, the `pre` scrolls
+  sideways but has no `tabindex`, so keyboard users cannot reach the hidden part. Which blocks overflow
+  depends on the fonts: one chart page on Windows, four on the Linux CI runner (which is how the first
+  CI run of the scan found it). Same family as SF-063 (RzTable's scroll container).
+- **Library fix:** render `tabindex="0"` on the `pre` (a focusable, readable region; `role="region"` and
+  a name are optional for a code block), or wrap long lines.
+- **Regression test (library):** a Markdown rendering test that the `pre` has `tabindex="0"`, and the
+  docs scan once its entry is removed.
