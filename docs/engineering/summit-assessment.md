@@ -142,7 +142,7 @@ affects users of Summit (no workaround possible or reasonable):
 | SF-023 | Medium | Material Design icons repeat fixed ids on most pages (invalid HTML) |
 | SF-025, SF-046 | Medium | Fast typing then Enter picks the previously highlighted item (command palette, combobox) |
 | SF-054 | Medium | Components in DataTable row templates repeat their ids in every row |
-| SF-055 | Medium | Tab out of a multiple combobox drops focus to `<body>` |
+| SF-055 | Medium | Tab out of a multiple combobox drops focus to `<body>` (tabbable checkboxes in the options) |
 | SF-068 | Medium | Date inputs are announced as "Select date", not their label |
 | SF-026, SF-039, SF-047 | Low | Empty alert regions per field; very early keypresses lost; `id=""` on radios |
 
@@ -217,6 +217,7 @@ existing RizzyUI browser fixtures or bUnit tests.
 | `RzInputTextArea` output contains the shared input classes | SF-052 |
 | Starter template: boosted navigation, an expired session on an htmx request, a nested URL, all in a browser | SF-017, SF-020, SF-021 |
 | A clean `dotnet build` of the template with esbuild code-behind | SF-042 |
+| Tab from an open multiple combobox reaches the next field | SF-055 |
 
 Summit itself is the broadest regression test: it now gates releases, so a library change that breaks
 any of its 175 browser tests stops the release.

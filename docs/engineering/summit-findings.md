@@ -98,7 +98,7 @@ tracks how much application code exists only to compensate.
 | SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works (workaround: `SummitClasses.TextArea`) | Open | None (visual; checked in the browser) |
 | SF-053 | RizzyUI | RzDataTable | Bug | Medium | `DataTableSortToggle` is named "Sort ascending" / "Clear sort" with no column, hiding its visible text (WCAG 2.5.3, axe `label-content-name-mismatch`); the strings are English-only | Works (workaround: `aria-labelledby`) | Open | e2e: attendees S-03 (axe) |
 | SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect) |
-| SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` (with Create) sends focus to `<body>` instead of the next field | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
+| SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` sends focus to `<body>`: the `checkbox_options` plugin RizzyUI adds puts a tabbable checkbox in every option, and Tom Select hides the list on blur | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
 | SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works (workaround: event forwarding) | Open | e2e: dashboard calendar range (workflow) |
 | SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open | e2e: dashboard calendar range, quick ranges |
@@ -885,16 +885,24 @@ finding on its own.
 
 ### SF-055 Tab out of a multiple combobox loses focus
 
-- **Tag:** Bug, Medium (owner: RizzyUI or Tom Select; root cause not yet established)
+- **Tag:** Bug, Medium (owner: RizzyUI; Tom Select's plugin)
 - **What:** In the attendee editor, Tags is `RzCombobox Multiple` with `Create = true`. With focus in its
-  input (list open), Tab fires `focusout` on the input and no `focusin` anywhere: focus ends on `<body>`,
-  although the Notes text area follows in tab order. A keyboard user is thrown out of the form.
-- **Established:** not caused by the sheet's focus trap (the same happens with the trap deactivated);
-  nothing prevents the keydown; the next tabbable element exists and is visible. A likely cause is Tom
-  Select closing its dropdown on blur while the browser moves focus into it (Chrome treats a scrollable
-  dropdown as focusable). Not yet reproduced outside a sheet or with a single-value combobox.
+  input and the list open, Tab ends on `<body>`, although the Notes text area follows in tab order. A
+  keyboard user is thrown out of the form.
+- **Root cause (established in phase 5):** for `Multiple`, `RzCombobox` adds Tom Select's
+  `remove_button` and `checkbox_options` plugins (`RzCombobox.razor.cs`, `AddPlugin`). The
+  `checkbox_options` plugin renders `<input type="checkbox" class="tomselect-checkbox">` in every option,
+  with no `tabindex="-1"`, inside a `listbox` that is meant to be operated with `aria-activedescendant`.
+  Tab therefore moves focus to the first option's checkbox (the `focusout` event's `relatedTarget` is
+  `input.tomselect-checkbox`); Tom Select treats that as a blur and closes the dropdown, which hides
+  the element that just received focus, and the browser drops focus to `<body>`. With the list closed,
+  Tab stays on the input. Not caused by the sheet's focus trap (the same happens with it deactivated).
 - **Summit workaround:** none in the app; the browser test closes the list with a click elsewhere.
-- **Library fix:** to be determined after a reduced reproduction (a multiple combobox on a plain page).
+- **Library fix:** give the option checkboxes `tabindex="-1"` and `aria-hidden="true"` (they are visual
+  only; the option carries `aria-selected`), in a `render.option` hook or a plugin option; or make
+  `checkbox_options` opt-in.
+- **Regression test (library):** a multiple combobox followed by a text input; open the list, press Tab,
+  and assert the text input has focus.
 
 ### SF-056 A DataTable needs a lot of headless markup
 
