@@ -42,12 +42,16 @@ test('buys two workshop tickets with a discount, recovering from every validatio
   for (const [i, person] of [['Robin Example', 'Germany'], ['Sam Example', 'France']].entries()) {
     await names.nth(i).fill(person[0]);
     await emails.nth(i).fill('robin@example.com');
-    await countries.nth(i).click();
-    await page.keyboard.type(person[1]);
+    const country = countries.nth(i);
+    await country.click();
+    // fill, not keyboard.type: on a slow runner the keystrokes could arrive before the input had focus.
+    await country.fill(person[1]);
     // Tom Select (behind RzCombobox) filters asynchronously: Enter before the list has caught up picks
-    // the option that was highlighted before typing (SF-046). Wait for the match to be active.
-    await expect(page.locator('.ts-dropdown .option.active').filter({ visible: true })).toHaveText(person[1]);
-    await page.keyboard.press('Enter');
+    // the option that was highlighted before typing (SF-046). Wait for the match to be active, in this
+    // combobox's own list.
+    const list = page.locator(`#${await country.getAttribute('aria-controls')}`);
+    await expect(list.locator('.option.active')).toHaveText(person[1]);
+    await country.press('Enter');
     await workshops.nth(i).selectOption({ index: 1 });
   }
   await page.getByRole('button', { name: 'Continue to payment' }).click();

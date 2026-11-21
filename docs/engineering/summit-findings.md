@@ -751,6 +751,10 @@ finding on its own.
   the test).
 - **Library fix:** set `refreshThrottle: 0` for local items (the list is in memory, there is nothing to
   throttle), or expose the option; consider flushing the pending refresh on Enter, as for SF-025.
+- **CI (phase 4b):** the test still failed once on a GitHub runner: the typed country never reached
+  the search input, and the visible-dropdown locator matched another combobox's list. The test now
+  fills the input and waits for the active option in that combobox's own list (`aria-controls`);
+  23 repeated runs passed locally. Not a retry or a delay.
 
 ### SF-047 Radio inputs render an empty id
 
