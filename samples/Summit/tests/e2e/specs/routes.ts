@@ -11,6 +11,7 @@ export const publicRoutes: RouteEntry[] = [
   { path: '/sessions/rendering-untrusted-markdown-safely', heading: 'Rendering untrusted Markdown safely' },
   { path: '/speakers?q=zzzz', heading: 'Speakers' },
   { path: '/schedule?mine=true', heading: 'Schedule' },
+  { path: '/tickets/checkout/tickets', heading: 'Get your Summit tickets' },
   { path: '/account/sign-in', heading: 'Organizer sign-in' },
   { path: '/does-not-exist', heading: 'Page not found' },
 ];

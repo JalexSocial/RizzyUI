@@ -1,0 +1,52 @@
+@* The priced order. Updated out of band after each step and after a discount code is applied. *@
+<RzCard id="order-summary">
+    <CardHeader>
+        <CardTitle>Order summary</CardTitle>
+        <CardDescription>Prices include VAT.</CardDescription>
+    </CardHeader>
+    <CardContent>
+        @if (Quote.Ticket is null)
+        {
+            <p class="text-muted-foreground text-sm">Choose a ticket to see your total.</p>
+        }
+        else
+        {
+            <RzTable class="text-sm">
+                <TableCaption class="sr-only">Order summary</TableCaption>
+                <TableHeader class="sr-only">
+                    <TableRow><TableHeaderCell>Item</TableHeaderCell><TableHeaderCell>Price</TableHeaderCell></TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow>
+                        <TableCell class="px-0">@Quote.Quantity × @Quote.Ticket.Name</TableCell>
+                        <TableCell class="px-0 text-right tabular-nums">@((Quote.Ticket.Price * Quote.Quantity).Euros())</TableCell>
+                    </TableRow>
+                    @foreach (var (addOn, amount) in Quote.AddOns)
+                    {
+                        <TableRow>
+                            <TableCell class="px-0">@addOn.Name</TableCell>
+                            <TableCell class="px-0 text-right tabular-nums">@amount.Euros()</TableCell>
+                        </TableRow>
+                    }
+                    @if (Quote.Discount > 0)
+                    {
+                        <TableRow>
+                            <TableCell class="text-success px-0">Discount @Quote.DiscountCode (@Quote.DiscountPercent%)</TableCell>
+                            <TableCell class="text-success px-0 text-right tabular-nums">−@Quote.Discount.Euros(cents: true)</TableCell>
+                        </TableRow>
+                    }
+                </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell class="px-0 text-base font-semibold">Total</TableCell>
+                        <TableCell class="px-0 text-right text-base font-semibold tabular-nums" data-order-total>@Quote.Total.Euros(cents: true)</TableCell>
+                    </TableRow>
+                </TableFooter>
+            </RzTable>
+        }
+    </CardContent>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired] public CheckoutQuote Quote { get; set; } = null!;
+}

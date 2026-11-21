@@ -19,6 +19,7 @@ public static class SummitFeatures
         services.AddScoped<AgendaService>();
         services.AddScoped<ScheduleQuery>();
         services.AddScoped<SearchIndex>();
+        services.AddScoped<Checkout.CheckoutService>();
         return services;
     }
 

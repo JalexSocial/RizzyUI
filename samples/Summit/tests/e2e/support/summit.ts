@@ -142,16 +142,24 @@ export async function expectNoDanglingAriaReferences(page: Page) {
 
 /**
  * No duplicate ids on the page (invalid HTML, and it breaks aria references and htmx targets).
- * Ignores the fixed ids of Material Design icons inside RizzyUI components (summit-findings.md SF-023).
+ * Two known library defects are reported as annotations instead of failures, so the check still
+ * catches everything else: the fixed ids of Material Design icons (summit-findings.md SF-023) and the
+ * empty id="" Rizzy's radio inputs render (SF-047).
  */
 export async function expectUniqueIds(page: Page) {
-  const duplicates = await page.evaluate(() => {
+  const { duplicates, mdiIcons, emptyIds } = await page.evaluate(() => {
     const seen = new Map<string, number>();
+    let mdiIcons = 0;
+    let emptyIds = 0;
     for (const element of document.querySelectorAll('[id]')) {
-      if (element.id.startsWith('mdi-') && element.tagName.toLowerCase() === 'svg') continue;
+      if (element.id === '') { emptyIds++; continue; }
+      if (element.id.startsWith('mdi-') && element.tagName.toLowerCase() === 'svg') { mdiIcons++; continue; }
       seen.set(element.id, (seen.get(element.id) ?? 0) + 1);
     }
-    return [...seen].filter(([, count]) => count > 1).map(([id, count]) => `${id} ×${count}`);
+    return { duplicates: [...seen].filter(([, count]) => count > 1).map(([id, count]) => `${id} ×${count}`), mdiIcons, emptyIds };
   });
+  const info = test.info();
+  if (emptyIds > 0) info.annotations.push({ type: 'known-defect', description: `SF-047: ${emptyIds} elements with id=""` });
+  if (mdiIcons > 1) info.annotations.push({ type: 'known-defect', description: `SF-023: ${mdiIcons} Material Design icons with fixed ids` });
   expect(duplicates).toEqual([]);
 }

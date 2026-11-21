@@ -44,6 +44,11 @@ public sealed class Order
     public decimal Discount { get; set; }
     public decimal Total { get; set; }
     public string? DiscountCode { get; set; }
+    /// <summary>Add-ons as comma-separated ids (see CheckoutCatalog).</summary>
+    public string? AddOns { get; set; }
+    public string? PaymentMethod { get; set; }
+    /// <summary>The visitor who placed the order online; only they can open its confirmation page.</summary>
+    public string? VisitorId { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public List<Attendee> Attendees { get; set; } = [];
 }

@@ -1,0 +1,32 @@
+@layout HtmxLayout<CheckoutLayout>
+
+<RzPageTitle>@View.Step.Title() · Checkout · Summit</RzPageTitle>
+
+<div id="checkout" class="flex flex-col gap-8">
+    <div class="flex flex-col gap-6">
+        <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Get your Summit tickets</h1>
+        <CheckoutStepIndicator Current="View.Step" />
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start">
+        @switch (View.Step)
+        {
+            case CheckoutStep.Tickets:
+                <TicketsStep View="View" />
+                break;
+            case CheckoutStep.Attendees:
+                <AttendeesStep View="View" />
+                break;
+            default:
+                <PaymentStep View="View" />
+                break;
+        }
+        <aside class="lg:sticky lg:top-6" aria-label="Order summary">
+            <OrderSummary Quote="View.Quote" />
+        </aside>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public CheckoutView View { get; set; } = null!;
+}

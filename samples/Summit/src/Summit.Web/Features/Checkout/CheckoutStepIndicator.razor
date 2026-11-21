@@ -1,0 +1,26 @@
+@* The step indicator. Re-rendered out of band whenever the step changes (RzSteps has no client API). *@
+<div id="checkout-steps">
+    <RzSteps AriaLabel="Checkout progress" ActiveColor="StatusColor.Primary">
+        @foreach (var step in Enum.GetValues<CheckoutStep>())
+        {
+            <RzStep Label="@step.Title()" Status="StatusOf(step)" Caption="@Caption(step)" />
+        }
+    </RzSteps>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public CheckoutStep Current { get; set; }
+
+    private StepStatus StatusOf(CheckoutStep step) =>
+        step < Current || Current == CheckoutStep.Done ? StepStatus.Completed
+        : step == Current ? StepStatus.Current
+        : StepStatus.Upcoming;
+
+    private static string Caption(CheckoutStep step) => step switch
+    {
+        CheckoutStep.Tickets => "Choose passes",
+        CheckoutStep.Attendees => "Who is coming",
+        CheckoutStep.Payment => "Pay and confirm",
+        _ => "Your tickets",
+    };
+}

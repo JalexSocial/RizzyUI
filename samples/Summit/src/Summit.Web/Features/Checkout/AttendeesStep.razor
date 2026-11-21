@@ -1,0 +1,114 @@
+@* Step 2: one set of fields per ticket, bound to a list (Model.Attendees[i].Name, ...). *@
+<section id="checkout-step" aria-labelledby="step-title" class="flex flex-col gap-6">
+    <h2 id="step-title" class="text-xl font-semibold" tabindex="-1" autofocus="@Fresh">2. Who is coming?</h2>
+
+    @if (FormError is not null)
+    {
+        <RzAlert Variant="ThemeVariant.Destructive"><AlertDescription>@FormError</AlertDescription></RzAlert>
+    }
+
+    <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-6"
+              hx-post="/tickets/checkout/attendees" hx-target="#checkout-step" hx-swap="outerHTML">
+        <RzModelStateProvider />
+        <FocusFirstError />
+        @* Errors for list items (Model.Attendees[i].Name) need this too (SF-044). *@
+        <IndexedModelStateProvider />
+
+        @for (var index = 0; index < Model!.Attendees.Count; index++)
+        {
+            var i = index;
+            <RzCard>
+                <CardContent class="pt-6">
+                    <RzFormSection Title="@(i == 0 ? "Ticket 1 (you)" : $"Ticket {i + 1}")" Layout="SectionLayout.TwoColumn">
+                        <Description>@(i == 0 ? "The tickets and invoice go to this address." : "Each ticket is personal and has its own badge.")</Description>
+                        <Content>
+                            <div class="grid gap-5 sm:grid-cols-2">
+                                <Field>
+                                    <FieldLabel For="@(() => Model!.Attendees[i].Name)" />
+                                    <RzInputText For="@(() => Model!.Attendees[i].Name)" autocomplete="@(i == 0 ? "name" : "off")" />
+                                    <FieldError><RzValidationMessageBase For="@(() => Model!.Attendees[i].Name)" /></FieldError>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => Model!.Attendees[i].Email)" />
+                                    <RzInputText For="@(() => Model!.Attendees[i].Email)" Role="TextRole.Email" autocomplete="@(i == 0 ? "email" : "off")" />
+                                    <FieldError><RzValidationMessageBase For="@(() => Model!.Attendees[i].Email)" /></FieldError>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => Model!.Attendees[i].Company)">Company (optional)</FieldLabel>
+                                    @* Comboboxes post the bare property name unless Name is set (SF-009). *@
+                                    <RzCombobox TItem="string" TValue="string" For="@(() => Model!.Attendees[i].Company)" Name="@($"Model.Attendees[{i}].Company")"
+                                                Items="Companies" Placeholder="Search or type a company"
+                                                Options="@(new ComboboxOptions { Create = true, MaxItems = 1 })" />
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => Model!.Attendees[i].Country)" />
+                                    <RzCombobox TItem="string" TValue="string" For="@(() => Model!.Attendees[i].Country)" Name="@($"Model.Attendees[{i}].Country")"
+                                                Items="CheckoutCatalog.Countries" Placeholder="Search for a country" />
+                                    <FieldError><RzValidationMessageBase For="@(() => Model!.Attendees[i].Country)" /></FieldError>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => Model!.Attendees[i].TShirt)" />
+                                    <RzNativeSelect For="@(() => Model!.Attendees[i].TShirt)">
+                                        @foreach (var size in Enum.GetValues<TShirtSize>())
+                                        {
+                                            <option value="@size">@size</option>
+                                        }
+                                    </RzNativeSelect>
+                                </Field>
+                                @if (View.Quote.Ticket?.IncludesWorkshop == true)
+                                {
+                                    <Field>
+                                        <FieldLabel For="@(() => Model!.Attendees[i].WorkshopSessionId)" />
+                                        <RzNativeSelect For="@(() => Model!.Attendees[i].WorkshopSessionId)">
+                                            <option value="">Choose a workshop</option>
+                                            @foreach (var workshop in View.Workshops)
+                                            {
+                                                var left = View.WorkshopSeatsLeft(workshop.Id);
+                                                <option value="@workshop.Id" disabled="@(left <= 0)">
+                                                    @workshop.Title (day @workshop.Day.Number, @(left <= 0 ? "full" : $"{left} seats left"))
+                                                </option>
+                                            }
+                                        </RzNativeSelect>
+                                        <FieldError><RzValidationMessageBase For="@(() => Model!.Attendees[i].WorkshopSessionId)" /></FieldError>
+                                    </Field>
+                                }
+                                <Field class="sm:col-span-2">
+                                    <FieldLabel For="@(() => Model!.Attendees[i].AccessibilityNeeds)">Accessibility needs (optional)</FieldLabel>
+                                    <RzInputTextArea For="@(() => Model!.Attendees[i].AccessibilityNeeds)" rows="2" placeholder="Step-free routes, captions, a quiet room, dietary needs…" />
+                                </Field>
+                            </div>
+                        </Content>
+                    </RzFormSection>
+                </CardContent>
+            </RzCard>
+        }
+
+        <div class="flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+            <RzButton Element="a" href="/tickets/checkout/tickets" Variant="ThemeVariant.Ghost">Back to tickets</RzButton>
+            <RzButton type="submit" Variant="ThemeVariant.Primary" Size="Size.Large">Continue to payment</RzButton>
+        </div>
+    </EditForm>
+</section>
+
+@code {
+    private static readonly string[] Companies = Data.Seeding.SeedContent.Companies;
+
+    [Parameter, EditorRequired] public CheckoutView View { get; set; } = null!;
+    [Parameter] public string? FormError { get; set; }
+    [Parameter] public bool Fresh { get; set; }
+
+    [SupplyParameterFromForm(FormName = "Model")]
+    public AttendeesStepModel? Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new AttendeesStepModel { Attendees = View.Data.Attendees.Select(Copy).ToList() };
+        while (Model.Attendees.Count < View.Data.Quantity) Model.Attendees.Add(new AttendeeInput());
+    }
+
+    private static AttendeeInput Copy(AttendeeInput a) => new()
+    {
+        Name = a.Name, Email = a.Email, Company = a.Company, Country = a.Country, TShirt = a.TShirt,
+        WorkshopSessionId = a.WorkshopSessionId, AccessibilityNeeds = a.AccessibilityNeeds,
+    };
+}

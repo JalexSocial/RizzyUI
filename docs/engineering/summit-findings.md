@@ -83,6 +83,11 @@ tracks how much application code exists only to compensate.
 | SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works (workaround) | Open | None yet |
 | SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works (workaround) | Open | CI: summit job builds from a clean checkout (defect) |
+| SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works (workaround) | Open | e2e: checkout entry link (workflow) |
+| SF-044 | Rizzy | RzModelStateProvider | Bug | High | Server validation errors for collection items (`Model.Attendees[0].Name`) are never shown: keys containing `[` map to a non-existent root field, so a 422 for a list form displays no errors at all | Works (workaround) | Open | e2e: checkout attendees 422 (defect) |
+| SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works (workaround) | Open | e2e: checkout attendees 422 focus (workflow) |
+| SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Affected (fast typists); test waits | Open | None (test waits for the match) |
+| SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect) |
 
 ## Integration code ledger
 
@@ -106,6 +111,9 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | Explicit `Name="Model.X"` on group inputs, `aria-label` instead of `<label for>` | 1 per field | SF-009, SF-033 | Consistent field naming and consumer ids |
 | `Components/Shared/TrackStyles.razor` placed in `<head>` (not `HeadContent`) | ~20 Razor | SF-034 | A theme style component that does not use `HeadContent` |
 | `SessionDetails` sheet opened by swap with `DefaultOpen` | pattern | SF-002 | Sheet open/close events |
+| `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
+| `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
+| `Components/Shared/FocusFirstError.razor(.js)`, one line per form | ~25 JS | SF-045 | A form-level "focus the first invalid field" behavior |
 | a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
 
 ### Application-specific code (would exist anyway)
@@ -114,9 +122,10 @@ behavior (code a real product would write anyway) is listed separately, so the t
 |---|---|---|
 | `Features/Home/ConferenceCountdown.razor.js` | ~30 JS | Countdown from the server's clock |
 | `Features/Schedule/ScheduleBoard.razor.js` (level filter, day memory) | ~45 JS | Client-side filtering of rendered cards; keeping the active tab in the filter form |
+| `Features/Checkout/TicketEstimate.razor.js` | ~35 JS | Live price estimate while the ticket form changes |
 
-Running total so far: about 230 lines of compensating code, about 75 lines of application-specific
-client code.
+Running total after phase 3: about 340 lines of compensating code (C# and JavaScript), about 110
+lines of application-specific client code.
 
 ## Recurring patterns
 
@@ -619,3 +628,76 @@ finding on its own.
 - **Summit workaround:** the npm and Tailwind targets run `BeforeTargets="BeforeBuild"`.
 - **Library fix:** use `BeforeBuild` in the starter template; have RZUI1003's message say where the npm
   step must run; or let `RizzyUI.targets` run `npm ci` itself when `RizzyUICodeBehindBuild=esbuild`.
+
+### SF-043 Setting an htmx header on a normal request throws
+
+- **Tag:** DX, Medium (owner: Rizzy; found by opening `/tickets/checkout?ticket=…` directly)
+- **What:** `HtmxResponse.PushUrl`, `Location`, `Retarget`, `ValidationFailed` and the other setters
+  call `AssertIsHtmxRequest()`, which throws `InvalidOperationException: The active request is not an
+  htmx request`. The same action is commonly reached both ways: a link opened in a new tab or a bookmark
+  (normal request) and boosted navigation (htmx). Each header then needs an `if (Request.IsHtmx())`, and
+  forgetting one turns a working page into a 500 for the normal case only, which development rarely
+  exercises. It also means a form that works without JavaScript cannot use `ValidationFailed()` for its
+  422. Response headers that the client will ignore are harmless, so throwing protects nothing.
+- **Summit workaround:** `Infrastructure/HtmxResponses.cs`: `Response.HtmxIfRequested(...)` and
+  `ValidationFailedForAnyRequest()`.
+- **Library fix:** make the setters no-ops for non-htmx requests (`ValidationFailed` should still set
+  422), optionally logging at Debug; or offer `Response.HtmxIfRequested(...)` in Rizzy.
+
+### SF-044 Errors for list items never reach their fields
+
+- **Tag:** Bug, High (owner: Rizzy; found while building the checkout's attendee step)
+- **What:** `RzModelStateProvider.ResolveField` returns `editContext.Field(key)` for any key containing
+  `[`, i.e. a field named `Model.Attendees[0].Name` on the root model. The inputs for that field are
+  identified by the attendee object and `Name`, so nothing matches: the 422 comes back with every input
+  marked valid and every message empty. The user sees the form "do nothing". Any form that edits a list
+  (attendees, line items, addresses) is affected, and MVC model binding of such lists works fine, so the
+  failure is only visible in the UI.
+- **Summit workaround:** `Components/Shared/IndexedModelStateProvider.cs` (about 60 lines) walks the
+  indexed path from the form model and adds the messages; it sits next to `RzModelStateProvider` in the
+  attendees form.
+- **Library fix:** resolve indexers in `ResolveField` (walk `List[2]` through `IList`), with a test for
+  a nested collection.
+
+### SF-045 No focus management after a server validation error
+
+- **Tag:** Gap, Medium (owner: RizzyUI)
+- **What:** after a 422 swap, focus stays where it was (or on whatever element htmx restores by id). A
+  keyboard or screen reader user who pressed "Continue" hears nothing and has to search for the error.
+  The server knows which fields are invalid, and RizzyUI's inputs render `aria-invalid="true"`, but no
+  component acts on it. Controls that hide their native element (Tom Select comboboxes, visually hidden
+  checkboxes and switches) make a generic script harder to write correctly.
+- **Summit workaround:** `Components/Shared/FocusFirstError.razor(.js)` (about 25 lines), placed in every
+  form.
+- **Library fix:** an opt-in behavior on the form level (for example an `RzForm` wrapper or a
+  `FocusFirstInvalid` component) that focuses the first invalid control after a swap, aware of RizzyUI's
+  composite controls.
+
+### SF-046 A fast Enter in a combobox picks the wrong option
+
+- **Tag:** Bug, Medium (owner: RizzyUI, through its Tom Select integration; found by the checkout test)
+- **What:** in `RzCombobox` (Tom Select), typing "France" and pressing Enter right away selected
+  "Afghanistan": the first option, highlighted when the dropdown opened. Tom Select 2.3 and later
+  throttle refreshing the option list (`refreshThrottle`, 300 ms by default), so for that long the list
+  and the active option still reflect the previous query. Users who type quickly, paste and press Enter,
+  or use barcode scanners hit it; Playwright's keyboard always does. Waiting until the active option
+  matches the query before Enter made the test pass, which confirms the cause. `ComboboxOptions` exposes
+  only `Create`, `Delimiter`, `MaxItems`, `OpenOnFocus`, `Persist` and `Placeholder`, so the setting
+  cannot be changed from Razor. This is the same class of problem as SF-025 (`RzCommand`'s debounce).
+- **Summit workaround:** none in the application; the browser test waits for the match (documented in
+  the test).
+- **Library fix:** set `refreshThrottle: 0` for local items (the list is in memory, there is nothing to
+  throttle), or expose the option; consider flushing the pending refresh on Enter, as for SF-025.
+
+### SF-047 Radio inputs render an empty id
+
+- **Tag:** Bug, Low (owner: Rizzy and RizzyUI; found by Summit's unique-id check)
+- **What:** `RzInputRadioBase.Id` defaults to `string.Empty` and `OnParametersSet` adds `id` to the
+  attributes unconditionally, so the input renders `id=""`. `RadioGroupItem` does not pass an id. Every
+  radio group therefore has several elements with an empty id, which is invalid HTML; it also means no
+  radio can be the target of a `<label for>` or an `aria-*` reference. (The item's `<label>` wraps the
+  input, so the radio is still labelled.)
+- **Summit workaround:** none possible; the browser tests report empty ids as an annotation instead of
+  failing.
+- **Library fix:** in Rizzy, only add `id` when it is not empty; in RizzyUI, give each item's input an
+  id derived from the group's.

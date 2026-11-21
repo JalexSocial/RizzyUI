@@ -19,7 +19,7 @@ a browser test.
 
 ## Matrix
 
-Status after phase 2 (public site). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 3 (public site and checkout). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
@@ -28,7 +28,7 @@ Status after phase 2 (public site). "Test" names the spec in `samples/Summit/tes
 | RzAvatar | 1 | speaker cards, session page, sidebar | axe | labels set by hand (SF-031) |
 | RzBadge | 1 | everywhere | axe (contrast) | |
 | RzChart | 0 | (dashboard) | | |
-| RzConfetti | 0 | (checkout) | | |
+| RzConfetti | 2 | checkout confirmation (`Trigger=Load`) | | not visible under reduced motion; an HX-Trigger event would be missed (SF-039) |
 | RzIndicator | 0 | (check-in) | | |
 | RzMarquee | 1 | home sponsors | axe | decorative; names in an sr-only list |
 | RzProgress | 2 | contact form (indeterminate, `hx-indicator`), tickets (low stock) | | visibility during upload not asserted |
@@ -50,38 +50,38 @@ Status after phase 2 (public site). "Test" names the spec in `samples/Summit/tes
 | RzSpinner | 1 | schedule filters, speaker search (`hx-indicator`) | axe | |
 | RzToast | 4 | agenda, contact form, server errors | public: agenda toast, message sent | server toasts via `HX-Trigger` |
 | RzTooltip | 1 | organizer sidebar (collapsed) | axe | |
-| Field family | 4 | sign-in, contact | shell: sign-in; public: contact | 422 round trips |
+| Field family | 4 | sign-in, contact, checkout (list-bound fields) | shell, public, checkout | 422 round trips; list items need SF-044 |
 | InputGroup | 4 | speaker search | public: speakers | |
 | RzButton | 4 | everywhere | many | as links via `Element="a"` (SF-018) |
 | RzButtonGroup | 0 | (dashboard, schedule builder) | | |
 | RzCalendar | 0 | (dashboard) | | |
-| RzCheckboxGroup | 4 | schedule track filter | public: track filter | GET form with a cascaded `EditContext` (SF-028) |
-| RzInputCheckbox | 0 | (checkout) | | |
+| RzCheckboxGroup | 4 | schedule track filter, checkout add-ons | public: track filter; checkout | GET form with a cascaded `EditContext` (SF-028) |
+| RzInputCheckbox | 4 | checkout code of conduct | checkout: 422 then checked | focus moves to it after the 422 |
 | RzColorPickerProvider | 0 | (schedule builder) | | |
 | RzColorSwatch | 1 | navigation menu tracks | axe | |
-| RzCombobox | 0 | (checkout, attendees) | | |
+| RzCombobox | 4 | checkout company (create) and country, per attendee in a list | checkout | values survive a 422 swap; fast Enter picks the wrong item (SF-046) |
 | RzDateEdit | 0 | (schedule builder) | | |
 | RzFileInput | 4 | contact form | public: wrong file type, then valid | multipart 422 round trip |
-| RzFormSection | 0 | (checkout, settings) | | |
+| RzFormSection | 3 | checkout attendee sections | checkout (rendered in the flow) | `Description` is a RenderFragment |
 | RzInputColor | 0 | (schedule builder) | | |
-| RzInputNumber | 0 | (checkout) | | |
-| RzInputOTP | 0 | (checkout, check-in) | | |
+| RzInputNumber | 4 | checkout quantity | checkout | feeds the live estimate |
+| RzInputOTP | 4 | checkout discount code | checkout: expired, then valid | alphanumeric, upper-cased; check-in desk planned |
 | RzInputText | 4 | sign-in, contact, speaker search | shell, public | |
 | RzInputTextArea | 4 | contact | public: contact | |
 | RzNativeSelect | 4 | contact topic | public: contact | |
-| RzRadioGroup | 0 | (checkout, settings) | | |
+| RzRadioGroup | 4 | checkout ticket cards, payment method | checkout | disabled items; `id=""` on inputs (SF-047) |
 | RzSlider | 1 | schedule length filter | axe | range posts `Filter.Length[0/1]`; not changed by a test yet |
 | RzSwitch | 4 | agenda toggle (95 forms on a page), "only my agenda" | public: agenda | out-of-band header count |
 | RzToggle | 4 | schedule level filter | public: level toggles | delegated listener (SF-030) |
 | RzAlpineComponent | 4 | 6 code-behind components | public, shell | one TypeScript module planned (attendees) |
-| RzAccordion | 1 | FAQ on help and tickets | axe | expand/collapse not asserted |
+| RzAccordion | 1 | FAQ on help and tickets, ticket perks in checkout | axe | expand/collapse not asserted |
 | RzAspectRatio | 1 | home, session | axe | |
 | RzCard | 1 | everywhere | axe | |
 | RzCarousel | 4 | home featured speakers | public: carousel buttons | autoplay off under reduced motion |
 | RzCollapsible | 1 | help | axe | |
 | RzItem | 1 | session speakers, details sheet | axe | `role="listitem"` added by hand (SF-038) |
 | RzSearchButton | 2 | header | | opens the palette; the test uses Ctrl+K instead |
-| RzSteps | 0 | (checkout) | | |
+| RzSteps | 4 | checkout step indicator | checkout: `aria-current="step"` | re-rendered out of band each step |
 | RzBreadcrumb | 1 | session page, organizer header | axe | |
 | RzCommand | 4 | search palette (remote, server filtering) | public: search palette | needed SF-040 workaround |
 | RzCommandDialog | 4 | organizer quick actions (static items) | shell: quick actions | |
@@ -104,7 +104,7 @@ Status after phase 2 (public site). "Test" names the spec in `samples/Summit/tes
 | RzHeading / RzParagraph | 1 | session, help | axe | |
 | RzKbd | 1 | header, quick actions | axe | |
 | RzBackToTop | 1 | public layout | axe | |
-| RzClipboard | 1 | session copy link | public: button present | copy not exercised |
+| RzClipboard | 1 | session copy link, confirmation badge codes | public: button present | copy not exercised |
 | RzIdScope | 0 | (self-re-rendering fragments) | | |
 
 ## Gaps to close in later phases
