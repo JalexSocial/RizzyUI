@@ -1,9 +1,0 @@
-@attribute [RzAlpineCodeBehind]
-@*
-    SF-074: a sheet opened from its trigger keeps focus on the trigger. rzSheet activates its focus
-    scope while the panel is still hidden (x-show has not run yet), so nothing inside can take focus,
-    and the scope's Tab handler, which listens on the panel, never sees a key. This puts focus on the
-    first focusable element of a sheet panel when it opens; the scope then keeps it there.
-    Remove when RzSheet focuses its panel after it becomes visible.
-*@
-<RzAlpineComponent For="this" class="hidden" />

@@ -117,7 +117,7 @@ tracks how much application code exists only to compensate.
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
 | SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works (workaround: culture passed by hand; flatpickr `de` registered as an asset key) | Open | e2e: culture S-12 |
-| SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works (workaround: `SheetFocus` moves focus in) | Open | e2e: mobile S-16 (focus stays in the navigation sheet) |
+| SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: sheet focus trap, both builds (defect); e2e: mobile S-16 (focus stays in the navigation sheet) |
 
 ## Integration code ledger
 
@@ -159,7 +159,6 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
 | Calendar `Locale` from the culture; `FlatpickrDe` asset key and `ComponentAssetKeys` on German pages | ~6 | SF-073 | Date components that follow the request culture |
-| `Components/Shared/SheetFocus.razor(.js)` (focus into trigger-opened sheets) | ~25 JS | SF-074 | RzSheet activating its focus scope after the panel is visible |
 
 ### Application-specific code (would exist anyway)
 
@@ -1181,3 +1180,6 @@ finding on its own.
   modal scope is active.
 - **Regression test (library):** open a sheet with its trigger and assert that focus is inside the
   panel and that Tab cannot leave it.
+- **Fixed in 1.0.0-preview.4:** `rzSheet.js` activates the focus scope in `$nextTick`, after x-show has
+  displayed the panel. The sheet test in `real-components.a11y.ts` now checks focus and the Tab trap on
+  both builds; Summit's `SheetFocus` is deleted.
