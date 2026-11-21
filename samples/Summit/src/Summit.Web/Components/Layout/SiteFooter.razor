@@ -1,0 +1,56 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> L
+<footer class="bg-muted/40 mt-24 border-t">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div class="flex flex-col gap-3">
+            <SummitLogo />
+            <p class="text-muted-foreground max-w-xs text-sm">
+                @Conference?.Tagline
+            </p>
+            <p class="text-muted-foreground text-sm">
+                @Conference?.Venue, @Conference?.City
+            </p>
+        </div>
+
+        <nav aria-label="@L["Program"]" class="flex flex-col gap-2 text-sm">
+            <h2 class="font-semibold">@L["Program"]</h2>
+            <RzLink Href="/schedule" Color="SemanticColor.MutedForeground" Underline="false">@L["Schedule"]</RzLink>
+            <RzLink Href="/speakers" Color="SemanticColor.MutedForeground" Underline="false">@L["Speakers"]</RzLink>
+            <RzLink Href="/schedule?format=workshop" Color="SemanticColor.MutedForeground" Underline="false">@L["Workshops"]</RzLink>
+        </nav>
+
+        <nav aria-label="@L["Attend"]" class="flex flex-col gap-2 text-sm">
+            <h2 class="font-semibold">@L["Attend"]</h2>
+            <RzLink Href="/tickets" Color="SemanticColor.MutedForeground" Underline="false">@L["Tickets"]</RzLink>
+            <RzLink Href="/help" Color="SemanticColor.MutedForeground" Underline="false">@L["Help & FAQ"]</RzLink>
+            <RzLink Href="/account/sign-in" Color="SemanticColor.MutedForeground" Underline="false">@L["Organizer sign-in"]</RzLink>
+        </nav>
+
+        <div class="flex flex-col gap-2 text-sm">
+            <h2 class="font-semibold">@L["Sponsors"]</h2>
+            <ul class="text-muted-foreground flex flex-col gap-1">
+                @foreach (var sponsor in Sponsors.Take(6))
+                {
+                    <li>@sponsor.Name</li>
+                }
+            </ul>
+        </div>
+    </div>
+    <RzSeparator />
+    <div class="text-muted-foreground mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <p>@L["Summit is a fictional conference: a demo application for RizzyUI, Rizzy and htmx."]</p>
+        <p>@L["Every person, company and image on this site is made up."]</p>
+    </div>
+</footer>
+
+@code {
+    [Inject] private Summit.Web.Features.ConferenceInfo Info { get; set; } = null!;
+
+    private Conference? Conference { get; set; }
+    private IReadOnlyList<Sponsor> Sponsors { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Conference = await Info.GetConferenceAsync();
+        Sponsors = await Info.GetSponsorsAsync();
+    }
+}

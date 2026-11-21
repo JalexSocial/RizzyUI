@@ -1,0 +1,47 @@
+@using System.Globalization
+@*
+    The session list (replaced out of band after a save or "publish all"). Each item is a link: without
+    JavaScript it opens the session's page; with htmx it loads only the editor and pushes the URL.
+    The View menu's options are attributes on the surrounding #builder-view, so they survive a swap of
+    this list: published items hide when "drafts only" is on, and the density changes the padding.
+*@
+<div id="session-list" class="min-h-0">
+    <RzScrollArea class="h-[34rem] rounded-xl border" aria-label="Sessions">
+        <ul class="flex flex-col p-2">
+            @foreach (var group in Items.GroupBy(i => DateOnly.FromDateTime(i.StartsAt)))
+            {
+                <li class="text-muted-foreground px-2 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide" aria-hidden="true">
+                    @group.Key.ToString("dddd d MMMM", CultureInfo.CurrentCulture)
+                </li>
+                @foreach (var item in group)
+                {
+                    var selected = item.Id == SelectedId;
+                    <li id="@($"session-item-{item.Id}")" data-published="@(item.Published ? "true" : "false")"
+                        class="group-data-[drafts-only=true]/builder:data-[published=true]:hidden">
+                        <a href="@($"/organizer/schedule-builder/sessions/{item.Id}")"
+                           hx-get="@($"/organizer/schedule-builder/sessions/{item.Id}")" hx-target="#session-editor" hx-swap="outerHTML"
+                           aria-current="@(selected ? "page" : null)"
+                           class="hover:bg-accent aria-[current=page]:bg-accent flex items-center gap-3 rounded-lg px-2 py-2 text-sm group-data-[density=compact]/builder:py-1">
+                            <RzColorSwatch Value="@item.TrackColor" Size="ColorSwatchSize.Small" AriaLabel="@($"{item.Track} track color {item.TrackColor}")" />
+                            <span class="flex min-w-0 flex-1 flex-col">
+                                <span class="truncate font-medium">@item.Title</span>
+                                <span class="text-muted-foreground truncate text-xs group-data-[density=compact]/builder:hidden" data-item-details>
+                                    @item.StartsAt.ToString("HH:mm", CultureInfo.CurrentCulture)–@item.StartsAt.AddMinutes(item.LengthMinutes).ToString("HH:mm", CultureInfo.CurrentCulture) · @item.Room · @item.Track
+                                </span>
+                            </span>
+                            @if (!item.Published)
+                            {
+                                <RzBadge Variant="ThemeVariant.Warning" Soft>Draft</RzBadge>
+                            }
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </RzScrollArea>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<BuilderItem> Items { get; set; } = [];
+    [Parameter] public int? SelectedId { get; set; }
+}

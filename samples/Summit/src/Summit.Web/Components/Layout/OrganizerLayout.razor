@@ -1,0 +1,30 @@
+@inherits LayoutComponentBase
+
+
+@* DefaultOpen comes from the sidebar's own cookie, which RzSidebarProvider does not read on the
+   server (summit-findings.md SF-010). Without it a collapsed sidebar flashes open on every load. *@
+<RzSidebarProvider DefaultOpen="SidebarState.IsOpen(HttpContext)" Collapsible="SidebarCollapsible.Icon">
+    <OrganizerSidebar />
+
+    @* min-w-0: without it the inset grows to the width of a wide table instead of letting it scroll (SF-049). *@
+    <SidebarInset class="min-w-0">
+        <header class="bg-background/80 sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b px-3 backdrop-blur sm:px-4">
+            <SidebarTrigger />
+            <RzSeparator Orientation="Orientation.Vertical" class="mx-1 h-5" />
+            <OrganizerBreadcrumb />
+            <div class="ml-auto flex items-center gap-1.5">
+                <OrganizerQuickActions />
+                <CultureSwitch />
+                <RzDarkModeToggle />
+            </div>
+        </header>
+
+        <main id="content" tabindex="-1" class="flex flex-1 flex-col gap-6 p-4 outline-none md:p-6">
+            @Body
+        </main>
+    </SidebarInset>
+</RzSidebarProvider>
+
+@code {
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+}

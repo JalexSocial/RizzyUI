@@ -1,0 +1,17 @@
+{
+  "name": "summit.e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:standard": "playwright test --project=standard",
+    "test:csp": "playwright test --project=csp",
+    "test:mobile": "playwright test --project=mobile",
+    "report": "playwright show-report playwright-report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "1.60.0",
+    "@types/node": "^22.0.0"
+  }
+}

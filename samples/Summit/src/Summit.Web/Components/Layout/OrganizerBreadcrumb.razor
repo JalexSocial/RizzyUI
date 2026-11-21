@@ -1,0 +1,44 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> L
+@* The breadcrumb follows the URL: Organizer › Section. *@
+<RzBreadcrumb AriaLabel="@L["Breadcrumb"]" class="hidden sm:block">
+    <BreadcrumbList>
+        <BreadcrumbItem>
+            @if (Section is null)
+            {
+                <BreadcrumbPage>@L["Dashboard"]</BreadcrumbPage>
+            }
+            else
+            {
+                <BreadcrumbLink Href="/organizer">@L["Organizer"]</BreadcrumbLink>
+            }
+        </BreadcrumbItem>
+        @if (Section is not null)
+        {
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>@L[Section]</BreadcrumbPage>
+            </BreadcrumbItem>
+        }
+    </BreadcrumbList>
+</RzBreadcrumb>
+
+@code {
+    private static readonly Dictionary<string, string> Sections = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["attendees"] = "Attendees",
+        ["check-in"] = "Check-in desk",
+        ["schedule-builder"] = "Schedule builder",
+        ["settings"] = "Settings",
+    };
+
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    private string? Section
+    {
+        get
+        {
+            var segments = (HttpContext?.Request.Path.Value ?? "").Split('/', StringSplitOptions.RemoveEmptyEntries);
+            return segments.Length > 1 && Sections.TryGetValue(segments[1], out var title) ? title : null;
+        }
+    }
+}

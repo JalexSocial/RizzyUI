@@ -1,0 +1,21 @@
+@* The talk's title slide, as the speaker will show it, inside the RzBrowser preview. Pure CSS. *@
+<div class="@($"track-{Session.Track.Slug} relative flex min-h-80 flex-col justify-between overflow-hidden bg-[oklch(0.16_0.04_283)] p-8 text-white sm:p-12")">
+    <div class="absolute -right-24 -top-24 size-80 rounded-full bg-[var(--track)] opacity-40 blur-3xl" aria-hidden="true"></div>
+    <div class="absolute -bottom-32 -left-16 size-72 rounded-full bg-[#5eead4] opacity-20 blur-3xl" aria-hidden="true"></div>
+    <div class="relative flex items-center gap-2 text-sm text-white/80">
+        <SummitLogo IconOnly Class="scale-75" />
+        <span>@Session.Track.Name · Summit</span>
+    </div>
+    <div class="relative flex flex-col gap-4">
+        <p class="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">@Session.Title</p>
+        <p class="text-white/80">@string.Join(" · ", Session.Speakers.OrderBy(s => s.Order).Select(s => s.Speaker.Name))</p>
+    </div>
+    <div class="relative flex items-center justify-between text-xs text-white/60">
+        <span>@Session.Room.Name</span>
+        <span>@Session.StartsAt.ToString("dddd HH:mm", CultureInfo.CurrentCulture)</span>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Session Session { get; set; } = null!;
+}

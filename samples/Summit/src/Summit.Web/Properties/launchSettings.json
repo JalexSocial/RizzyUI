@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5260",
+      "environmentVariables": { "ASPNETCORE_ENVIRONMENT": "Development" }
+    },
+    "csp": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5261",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Summit__Csp__Enabled": "true",
+        "Summit__Database__Path": "App_Data/summit-csp.db"
+      }
+    }
+  }
+}

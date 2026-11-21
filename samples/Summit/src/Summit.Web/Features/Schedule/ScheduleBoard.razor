@@ -1,0 +1,15 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    Coordinates the schedule's filter bar and grid in the browser (ScheduleBoard.razor.js):
+    - level toggles hide and show the rendered session cards, and the result is announced;
+    - the active day tab is copied into the filter form, so a server filter keeps the selected day;
+    - both survive the grid being replaced by htmx.
+*@
+<RzAlpineComponent For="this" class="flex flex-col gap-6" x-on:rz:tabs-change="rememberDay($event)">
+    @ChildContent
+    <p class="sr-only" aria-live="polite" x-text="announcement"></p>
+</RzAlpineComponent>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

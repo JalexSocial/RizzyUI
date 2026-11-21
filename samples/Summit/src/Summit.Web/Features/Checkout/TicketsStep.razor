@@ -1,0 +1,107 @@
+@* Step 1: ticket type, quantity and add-ons. TicketEstimate shows the total while the form changes. *@
+<section id="checkout-step" aria-labelledby="step-title" class="flex flex-col gap-6">
+    <h2 id="step-title" class="text-xl font-semibold" tabindex="-1" autofocus="@Fresh">1. Choose your tickets</h2>
+
+    @if (FormError is not null)
+    {
+        <RzAlert Variant="ThemeVariant.Destructive"><AlertDescription>@FormError</AlertDescription></RzAlert>
+    }
+
+    <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-8"
+              hx-post="/tickets/checkout/tickets" hx-target="#checkout-step" hx-swap="outerHTML">
+        <RzModelStateProvider />
+        <FocusFirstError />
+        <TicketEstimate Culture="@CultureInfo.CurrentCulture.Name">
+            <Field>
+                @* Name set explicitly: group inputs default to the bare property name (SF-009). *@
+                <RzRadioGroup For="@(() => Model!.Ticket)" Name="Model.Ticket" DisplayName="Ticket" ShowIndicators="false" class="grid gap-3 sm:grid-cols-2">
+                    @foreach (var offer in View.Offers)
+                    {
+                        <RadioGroupItem TValue="string" Value="@offer.Ticket.Slug" Disabled="!offer.Available">
+                            <span class="group-has-[.peer:checked]:border-primary group-has-[.peer:checked]:bg-primary/5 group-has-[.peer:focus-visible]:ring-ring flex h-full w-full flex-col gap-1 rounded-xl border p-4 group-has-[.peer:disabled]:opacity-60 group-has-[.peer:focus-visible]:ring-2"
+                                  data-price="@offer.Ticket.Price.ToString(CultureInfo.InvariantCulture)">
+                                <span class="flex items-center justify-between gap-2">
+                                    <span class="font-semibold">@offer.Ticket.Name</span>
+                                    <span class="font-semibold tabular-nums">@offer.Ticket.Price.Euros()</span>
+                                </span>
+                                <span class="text-muted-foreground text-sm">@offer.Ticket.Description</span>
+                                @if (offer.SoldOut)
+                                {
+                                    <RzBadge Variant="ThemeVariant.Destructive" Soft class="mt-1 w-fit">Sold out</RzBadge>
+                                }
+                                else if (offer.NotOnSaleYet)
+                                {
+                                    <RzBadge Variant="ThemeVariant.Secondary" Soft class="mt-1 w-fit">On sale @offer.Ticket.SalesStart.ToString("MMM d", CultureInfo.CurrentCulture)</RzBadge>
+                                }
+                                else if (offer.Remaining <= 50)
+                                {
+                                    <RzBadge Variant="ThemeVariant.Warning" Soft class="mt-1 w-fit">@offer.Remaining left</RzBadge>
+                                }
+                            </span>
+                        </RadioGroupItem>
+                    }
+                </RzRadioGroup>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Ticket)" /></FieldError>
+            </Field>
+
+            <RzAccordion Type="AccordionType.Single" class="rounded-xl border px-4">
+                <AccordionItem Title="What's included in each ticket">
+                    <AccordionContent>
+                        <dl class="grid gap-4 py-2 text-sm sm:grid-cols-2">
+                            @foreach (var offer in View.Offers)
+                            {
+                                <div>
+                                    <dt class="font-medium">@offer.Ticket.Name</dt>
+                                    <dd class="text-muted-foreground">@string.Join(" · ", offer.Ticket.PerkList)</dd>
+                                </div>
+                            }
+                        </dl>
+                    </AccordionContent>
+                </AccordionItem>
+            </RzAccordion>
+
+            <Field class="max-w-48">
+                <FieldLabel For="@(() => Model!.Quantity)" />
+                <RzInputNumber For="@(() => Model!.Quantity)" min="1" max="@CheckoutCatalog.MaxTicketsPerOrder" data-quantity />
+                <FieldDescription>Up to @CheckoutCatalog.MaxTicketsPerOrder per order.</FieldDescription>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Quantity)" /></FieldError>
+            </Field>
+
+            <div class="flex flex-col gap-2">
+                <span class="text-sm font-medium" aria-hidden="true">Add-ons</span>
+                <RzCheckboxGroup For="@(() => Model!.AddOns)" Name="Model.AddOns" DisplayName="Add-ons" class="flex flex-col gap-3">
+                    @foreach (var addOn in CheckoutCatalog.AddOns)
+                    {
+                        <RzCheckboxGroupItem TValue="string" Value="@addOn.Id">
+                            <span class="flex flex-col" data-price="@addOn.Price.ToString(CultureInfo.InvariantCulture)" data-per-ticket="@(addOn.PerTicket ? "true" : "false")">
+                                <span class="text-sm font-medium">@addOn.Name · @addOn.Price.Euros()@(addOn.PerTicket ? " per ticket" : "")</span>
+                                <span class="text-muted-foreground text-sm">@addOn.Description</span>
+                            </span>
+                        </RzCheckboxGroupItem>
+                    }
+                </RzCheckboxGroup>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.AddOns)" /></FieldError>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+                <p class="text-sm" aria-live="polite">Estimated total: <strong class="tabular-nums" x-text="formatted">@View.Quote.Subtotal.Euros()</strong></p>
+                <RzButton type="submit" Variant="ThemeVariant.Primary" Size="Size.Large">Continue to attendees</RzButton>
+            </div>
+        </TicketEstimate>
+    </EditForm>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public CheckoutView View { get; set; } = null!;
+    [Parameter] public string? FormError { get; set; }
+    /// <summary>True when the step arrives after the previous one: focus moves to its heading.</summary>
+    [Parameter] public bool Fresh { get; set; }
+
+    // No initializer: a property initializer on a [SupplyParameterFromForm] property can be overwritten
+    // with null during form posts (BL0008).
+    [SupplyParameterFromForm(FormName = "Model")]
+    public TicketsStepModel? Model { get; set; }
+
+    protected override void OnInitialized() =>
+        Model ??= new TicketsStepModel { Ticket = View.Data.Ticket, Quantity = View.Data.Quantity, AddOns = View.Data.AddOns.ToList() };
+}

@@ -1,0 +1,67 @@
+@using System.Globalization
+@using System.Text.Json
+@*
+    Settings › Audit log: newest first, paged on the server (the pager replaces this panel). An entry
+    with data shows it as JSON in a collapsible code viewer.
+*@
+<RzCard id="settings-audit-log">
+    <CardHeader>
+        <CardTitle>Audit log</CardTitle>
+        <CardDescription>Who changed what, newest first. Page @Log.Page of @Log.Pages.</CardDescription>
+    </CardHeader>
+    <CardContent class="flex flex-col gap-4">
+        <ol class="flex flex-col divide-y">
+            @foreach (var entry in Log.Rows)
+            {
+                <li class="flex flex-col gap-1 py-3" data-audit-id="@entry.Id">
+                    <div class="flex flex-wrap items-baseline justify-between gap-2">
+                        <span class="text-sm font-medium">@entry.Summary</span>
+                        <span class="text-muted-foreground text-xs tabular-nums">@entry.At.AtVenue().ToString("d MMM yyyy, HH:mm", CultureInfo.CurrentCulture)</span>
+                    </div>
+                    <div class="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
+                        <span>@entry.Actor</span>
+                        <RzBadge Variant="ThemeVariant.Secondary" Soft class="font-mono">@entry.Action</RzBadge>
+                    </div>
+                    @if (entry.DataJson is not null)
+                    {
+                        <RzCollapsible>
+                            <CollapsibleTrigger AsChild>
+                                <RzButton type="button" Variant="ThemeVariant.Ghost" Size="Size.Small" class="w-fit px-2 text-xs">
+                                    <Blazicon Svg="Lucide.Braces" class="size-3.5" /> Details
+                                </RzButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                                <RzCodeViewer Language="@CodeLanguage.Json" ViewerTitle="Event data" Source="@Pretty(entry.DataJson)" class="mt-2" />
+                            </CollapsibleContent>
+                        </RzCollapsible>
+                    }
+                </li>
+            }
+        </ol>
+
+        <RzPagination AriaLabel="Audit log pages">
+            <PaginationList>
+                <PaginationItem>
+                    <PaginationPrevious Href="@Url(Math.Max(1, Log.Page - 1))" aria-disabled="@(Log.Page == 1 ? "true" : null)"
+                                        hx-get="@Url(Math.Max(1, Log.Page - 1))" hx-target="#settings-audit-log" hx-swap="outerHTML" />
+                </PaginationItem>
+                <PaginationItem>
+                    <span class="px-3 text-sm tabular-nums" aria-current="page">Page @Log.Page of @Log.Pages</span>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationNext Href="@Url(Math.Min(Log.Pages, Log.Page + 1))" aria-disabled="@(Log.Page == Log.Pages ? "true" : null)"
+                                    hx-get="@Url(Math.Min(Log.Pages, Log.Page + 1))" hx-target="#settings-audit-log" hx-swap="outerHTML" />
+                </PaginationItem>
+            </PaginationList>
+        </RzPagination>
+    </CardContent>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired] public AuditPage Log { get; set; } = null!;
+
+    private static string Url(int page) => $"/organizer/settings/audit-log/panel?page={page}";
+
+    private static string Pretty(string json) =>
+        JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(json), new JsonSerializerOptions { WriteIndented = true });
+}

@@ -1,0 +1,11 @@
+@using System.Globalization
+<TableRow data-checkin-id="@Row.Id">
+    <TableCell class="font-medium">@Row.Name</TableCell>
+    <TableCell>@Row.Ticket</TableCell>
+    <TableCell class="font-mono text-xs">@Row.Code</TableCell>
+    <TableCell class="tabular-nums">@Row.At.AtVenue().ToString("t", CultureInfo.CurrentCulture)</TableCell>
+</TableRow>
+
+@code {
+    [Parameter, EditorRequired] public RecentCheckIn Row { get; set; } = null!;
+}

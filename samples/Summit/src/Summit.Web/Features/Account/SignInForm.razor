@@ -1,0 +1,58 @@
+@* Posted with htmx; a failed sign-in comes back as 422 with this form and its errors. *@
+<RzCard id="sign-in-form">
+    <CardContent class="flex flex-col gap-5 pt-6">
+        @if (DemoAccount is { Email.Length: > 0 })
+        {
+            <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.Status">
+                <AlertTitle>Demo account</AlertTitle>
+                <AlertDescription>
+                    Sign in as <code class="font-mono">@DemoAccount.Email</code> with password
+                    <code class="font-mono">@DemoAccount.Password</code>.
+                </AlertDescription>
+            </RzAlert>
+        }
+
+        <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
+                  hx-post="/account/sign-in" hx-target="#sign-in-form" hx-swap="outerHTML">
+            <RzModelStateProvider />
+            <FocusFirstError />
+            @if (Error is not null)
+            {
+                <RzAlert Variant="ThemeVariant.Destructive" LiveRegionMode="RzAlertLiveRegionMode.Alert">
+                    <AlertDescription>@Error</AlertDescription>
+                </RzAlert>
+            }
+            <input type="hidden" name="Model.ReturnUrl" value="@Model?.ReturnUrl" />
+
+            <Field>
+                <FieldLabel For="@(() => Model!.Email)" />
+                <RzInputText For="@(() => Model!.Email)" Role="TextRole.Email" autocomplete="username" />
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Email)" /></FieldError>
+            </Field>
+
+            <Field>
+                <FieldLabel For="@(() => Model!.Password)" />
+                <RzInputText For="@(() => Model!.Password)" Role="TextRole.Password" autocomplete="current-password" />
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Password)" /></FieldError>
+            </Field>
+
+            <RzButton type="submit" Variant="ThemeVariant.Primary" class="w-full">Sign in</RzButton>
+        </EditForm>
+    </CardContent>
+</RzCard>
+
+@code {
+    // No initializer: a property initializer on a [SupplyParameterFromForm] property can be overwritten
+    // with null during form posts (BL0008).
+    [SupplyParameterFromForm(FormName = "Model")]
+    public SignInModel? Model { get; set; }
+
+    [Parameter] public string? ReturnUrl { get; set; }
+
+    /// <summary>A form-level error (wrong email or password).</summary>
+    [Parameter] public string? Error { get; set; }
+
+    [Parameter] public SummitOptions.DemoOrganizerOptions? DemoAccount { get; set; }
+
+    protected override void OnInitialized() => Model ??= new SignInModel { ReturnUrl = ReturnUrl };
+}

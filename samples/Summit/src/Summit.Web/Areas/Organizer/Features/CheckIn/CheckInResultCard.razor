@@ -1,0 +1,47 @@
+@using System.Globalization
+@*
+    The result of the last code. Success is a status (announced politely); an already used or cancelled
+    badge is an alert (announced at once), because the person at the door must react. The item sets
+    text-foreground: RzAlert's colored variants give their content the variant's *-foreground color,
+    made for a solid fill, on a 10% tint, which is unreadable (SF-065).
+*@
+<RzAlert Variant="Variant" LiveRegionMode="@(Result.Outcome == CheckInOutcome.CheckedIn ? RzAlertLiveRegionMode.Status : RzAlertLiveRegionMode.Alert)"
+         data-checkin-result="@Result.Outcome">
+    <AlertTitle>@Title</AlertTitle>
+    <AlertDescription>
+        <RzItem Size="Size.Small" class="text-foreground mt-2 px-0 py-0">
+            <ItemMedia>
+                <RzAvatar Size="Size.Medium" AriaLabel="@Result.Name"><AvatarFallback>@Result.Initials</AvatarFallback></RzAvatar>
+            </ItemMedia>
+            <ItemContent>
+                <ItemTitle>@Result.Name</ItemTitle>
+                <ItemDescription>@(Result.Company ?? "No company")</ItemDescription>
+            </ItemContent>
+            <ItemActions class="flex flex-wrap gap-1">
+                <RzBadge Variant="ThemeVariant.Secondary" Soft>@Result.Ticket</RzBadge>
+                @foreach (var tag in (Result.Tags ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    <RzBadge Variant="ThemeVariant.Primary" Soft>@tag</RzBadge>
+                }
+            </ItemActions>
+        </RzItem>
+    </AlertDescription>
+</RzAlert>
+
+@code {
+    [Parameter, EditorRequired] public CheckInResult Result { get; set; } = null!;
+
+    private ThemeVariant Variant => Result.Outcome switch
+    {
+        CheckInOutcome.CheckedIn => ThemeVariant.Success,
+        CheckInOutcome.AlreadyCheckedIn => ThemeVariant.Warning,
+        _ => ThemeVariant.Destructive,
+    };
+
+    private string Title => Result.Outcome switch
+    {
+        CheckInOutcome.CheckedIn => "Checked in. Welcome to Summit!",
+        CheckInOutcome.AlreadyCheckedIn => $"Already checked in at {Result.CheckedInAt?.AtVenue().ToString("t", CultureInfo.CurrentCulture)}",
+        _ => "This registration was cancelled",
+    };
+}

@@ -1,0 +1,99 @@
+@* The speaker grid and its pager. Replaced as a whole by searches and page links. *@
+<div id="speaker-results" class="flex flex-col gap-8">
+    @if (Result.Items.Count == 0)
+    {
+        <RzEmpty class="rounded-xl border border-dashed py-16">
+            <EmptyHeader>
+                <EmptyMedia Variant="EmptyMediaVariant.Icon"><Blazicon Svg="Lucide.UserSearch" /></EmptyMedia>
+                <EmptyTitle>No speakers match “@Result.Query”</EmptyTitle>
+                <EmptyDescription>Check the spelling, or search for a company or a role such as “architect”.</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+                <RzButton Element="a" href="/speakers" Variant="ThemeVariant.Secondary" Outline>Show all speakers</RzButton>
+            </EmptyContent>
+        </RzEmpty>
+    }
+    else
+    {
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            @foreach (var item in Result.Items)
+            {
+                var speaker = item.Speaker;
+                <li class="bg-card flex flex-col gap-4 rounded-2xl border p-5">
+                    <div class="flex items-center gap-3">
+                        <SpeakerAvatar Speaker="speaker" Size="Size.Large" />
+                        <div class="min-w-0">
+                            <h2 class="truncate font-semibold">@Highlighted(speaker.Name)</h2>
+                            <p class="text-muted-foreground truncate text-sm">@speaker.Title</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <RzBadge Variant="ThemeVariant.Secondary" Soft>@Highlighted(speaker.Company)</RzBadge>
+                        <RzBadge Variant="ThemeVariant.Secondary" Soft>@speaker.Country</RzBadge>
+                        @if (speaker.Featured)
+                        {
+                            <RzBadge Variant="ThemeVariant.Primary" Soft>Featured</RzBadge>
+                        }
+                    </div>
+                    @if (item.Sessions.Count > 0)
+                    {
+                        <ul class="mt-auto flex flex-col gap-1 border-t pt-3 text-sm">
+                            @foreach (var session in item.Sessions)
+                            {
+                                <li><a href="/sessions/@session.Slug" class="hover:underline">@session.Title</a></li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+
+        @if (Result.Pages > 1)
+        {
+            <RzPagination AriaLabel="Speaker pages">
+                <PaginationList>
+                    <PaginationItem>
+                        <PaginationPrevious Href="@Result.PageUrl(Math.Max(1, Result.Page - 1))" aria-disabled="@(Result.Page == 1 ? "true" : null)"
+                                            hx-get="@Result.PageUrl(Math.Max(1, Result.Page - 1))" hx-target="#speaker-results" hx-swap="outerHTML show:window:top" />
+                    </PaginationItem>
+                    @for (var pageNumber = 1; pageNumber <= Result.Pages; pageNumber++)
+                    {
+                        var page = pageNumber;
+                        <PaginationItem>
+                            <PaginationLink Href="@Result.PageUrl(page)" IsActive="page == Result.Page"
+                                            hx-get="@Result.PageUrl(page)" hx-target="#speaker-results" hx-swap="outerHTML show:window:top">@(page)</PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationNext Href="@Result.PageUrl(Math.Min(Result.Pages, Result.Page + 1))" aria-disabled="@(Result.Page == Result.Pages ? "true" : null)"
+                                        hx-get="@Result.PageUrl(Math.Min(Result.Pages, Result.Page + 1))" hx-target="#speaker-results" hx-swap="outerHTML show:window:top" />
+                    </PaginationItem>
+                </PaginationList>
+            </RzPagination>
+        }
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public SpeakerSearch Result { get; set; } = null!;
+
+    // The part of the text that matches the search, marked with RzHighlighter (an animated, decorative
+    // marker; the text itself is unchanged for assistive technology).
+    private RenderFragment Highlighted(string text) => builder =>
+    {
+        var index = Result.Query.Length == 0 ? -1 : text.IndexOf(Result.Query, StringComparison.OrdinalIgnoreCase);
+        if (index < 0)
+        {
+            builder.AddContent(0, text);
+            return;
+        }
+
+        builder.AddContent(1, text[..index]);
+        builder.OpenComponent<RzHighlighter>(2);
+        builder.AddComponentParameter(3, nameof(RzHighlighter.Action), HighlighterAction.Highlight);
+        builder.AddComponentParameter(4, nameof(RzHighlighter.Color), "rgba(167, 139, 250, 0.45)");
+        builder.AddComponentParameter(5, nameof(RzHighlighter.ChildContent), (RenderFragment)(b => b.AddContent(0, text.Substring(index, Result.Query.Length))));
+        builder.CloseComponent();
+        builder.AddContent(6, text[(index + Result.Query.Length)..]);
+    };
+}

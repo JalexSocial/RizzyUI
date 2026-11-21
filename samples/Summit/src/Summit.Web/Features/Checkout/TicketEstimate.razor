@@ -1,0 +1,15 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    A live estimate while the visitor changes ticket, quantity and add-ons (TicketEstimate.razor.js).
+    Application behavior, not a workaround: the server-side order summary stays the source of truth and
+    is updated when the step is submitted. Prices come from data-price attributes on the options.
+*@
+<RzAlpineComponent For="this" Props="@(new { Culture })" class="flex flex-col gap-8"
+                   x-on:change="recalculate()" x-on:input="recalculate()">
+    @ChildContent
+</RzAlpineComponent>
+
+@code {
+    [Parameter, EditorRequired] public string Culture { get; set; } = "en-US";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

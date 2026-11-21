@@ -1,0 +1,24 @@
+@inherits LayoutComponentBase
+
+@* A focused layout for buying tickets: no main navigation to wander off into. *@
+<a href="#content" class="bg-primary text-primary-foreground sr-only z-[60] rounded-md px-4 py-2 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+    Skip to content
+</a>
+
+<header class="border-b">
+    <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <a href="/" aria-label="Summit home"><SummitLogo /></a>
+        <div class="text-muted-foreground flex items-center gap-2 text-sm">
+            <Blazicon Svg="Lucide.LockKeyhole" class="size-4" />
+            <span>Secure checkout</span>
+        </div>
+        <div class="flex items-center gap-1">
+            <CultureSwitch />
+            <RzDarkModeToggle />
+        </div>
+    </div>
+</header>
+
+<main id="content" tabindex="-1" class="mx-auto w-full max-w-6xl px-4 py-8 outline-none sm:px-6 sm:py-12">
+    @Body
+</main>

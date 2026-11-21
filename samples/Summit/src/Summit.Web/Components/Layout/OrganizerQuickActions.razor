@@ -1,0 +1,49 @@
+@* Organizer quick actions: RzCommandDialog with static items, opened by the button or Ctrl+J.
+   Item values are paths; CommandNavigation follows them. *@
+<RzButton Variant="ThemeVariant.Secondary" Outline Size="Size.Small" class="hidden gap-2 sm:inline-flex"
+          x-data x-on:click="$dispatch('summit:quick-actions')"
+          x-on:keydown.ctrl.j.window.prevent="$dispatch('summit:quick-actions')">
+    <Blazicon Svg="Lucide.Zap" class="size-4" />
+    Quick actions
+    <RzKbdGroup class="ml-1"><RzKbd>Ctrl</RzKbd><RzKbd>J</RzKbd></RzKbdGroup>
+</RzButton>
+
+<RzCommandDialog EventTriggerName="summit:quick-actions" Title="Quick actions" Description="Jump to a page or start a task.">
+    <CommandInput Placeholder="Type a command…" />
+    <CommandList>
+        <CommandEmpty>No matching action.</CommandEmpty>
+        <CommandGroup Heading="Go to">
+            @foreach (var action in GoTo)
+            {
+                <CommandItem Value="@action.Href" Name="@action.Title" Keywords="@action.Keywords">
+                    <Blazicon Svg="action.Icon" class="mr-2 size-4" />
+                    <span>@action.Title</span>
+                </CommandItem>
+            }
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup Heading="Tasks">
+            <CommandItem Value="/organizer/check-in?focus=1" Name="Check in an attendee" Keywords="@(["scan", "badge"])">
+                <Blazicon Svg="Lucide.ScanLine" class="mr-2 size-4" />
+                <span>Check in an attendee</span>
+            </CommandItem>
+            <CommandItem Value="/organizer/schedule-builder?new=1" Name="New session" Keywords="@(["talk", "add"])">
+                <Blazicon Svg="Lucide.CalendarPlus" class="mr-2 size-4" />
+                <span>New session</span>
+            </CommandItem>
+        </CommandGroup>
+    </CommandList>
+</RzCommandDialog>
+
+@code {
+    private sealed record Action(string Title, string Href, SvgIcon Icon, string[] Keywords);
+
+    private static readonly Action[] GoTo =
+    [
+        new("Dashboard", "/organizer", Lucide.LayoutDashboard, ["home", "stats"]),
+        new("Attendees", "/organizer/attendees", Lucide.Users, ["people", "tickets"]),
+        new("Check-in desk", "/organizer/check-in", Lucide.ScanLine, ["badge"]),
+        new("Schedule builder", "/organizer/schedule-builder", Lucide.CalendarCog, ["sessions", "talks"]),
+        new("Settings", "/organizer/settings", Lucide.Settings, ["api", "theme"]),
+    ];
+}

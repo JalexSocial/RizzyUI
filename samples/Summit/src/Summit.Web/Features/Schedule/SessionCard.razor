@@ -1,0 +1,73 @@
+@* One session in the schedule grid. Rendered by the schedule page and, unchanged, by a minimal API
+   fragment (/fragments/sessions/{id}/card): both render paths must produce the same markup. *@
+<article class="@($"track-{Session.Track.Slug} group bg-card relative flex flex-col gap-3 overflow-hidden rounded-xl border p-4 pl-5 summit-card-hover")"
+         data-session-card data-level="@Session.Level" aria-labelledby="@TitleId">
+    <span class="absolute inset-y-0 left-0 w-1 bg-[var(--track)]" aria-hidden="true"></span>
+
+    <div class="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+        <span class="inline-flex items-center gap-1.5">
+            <Blazicon Svg="Lucide.Clock" class="size-3.5" />
+            <time datetime="@Session.StartsAt.ToString("s", CultureInfo.InvariantCulture)">@Session.StartsAt.ToString("t", CultureInfo.CurrentCulture)–@Session.EndsAt.ToString("t", CultureInfo.CurrentCulture)</time>
+        </span>
+        <RzPopover>
+            <PopoverTrigger AsChild>
+                <button type="button" class="hover:text-foreground inline-flex items-center gap-1.5 rounded underline-offset-2 hover:underline" aria-label="@($"Room: {Session.Room.Name}")">
+                    <Blazicon Svg="Lucide.MapPin" class="size-3.5" />
+                    @Session.Room.Name
+                </button>
+            </PopoverTrigger>
+            <PopoverContent class="w-64">
+                <div class="flex flex-col gap-1 text-sm">
+                    <p class="font-medium">@Session.Room.Name</p>
+                    <p class="text-muted-foreground">@Session.Room.Floor · @Session.Room.Capacity seats · step-free access</p>
+                </div>
+            </PopoverContent>
+        </RzPopover>
+        <span class="inline-flex items-center gap-1.5">
+            <span class="size-2 rounded-full bg-[var(--track)]" aria-hidden="true"></span>
+            @Session.Track.Name
+        </span>
+    </div>
+
+    <h3 id="@TitleId" class="text-base font-semibold leading-snug">
+        <a href="/sessions/@Session.Slug" class="hover:underline focus-visible:underline">@Session.Title</a>
+    </h3>
+
+    <p class="text-muted-foreground line-clamp-2 text-sm">@Session.Summary</p>
+
+    <div class="flex flex-wrap items-center gap-1.5">
+        <RzBadge Variant="LevelVariant(Session.Level)" Soft>@Session.Level</RzBadge>
+        @if (Session.Format != SessionFormat.Talk)
+        {
+            <RzBadge Variant="ThemeVariant.Secondary" Soft>@Session.Format</RzBadge>
+        }
+        <span class="text-muted-foreground text-xs">@Session.LengthMinutes min</span>
+    </div>
+
+    <div class="mt-auto flex items-end justify-between gap-3 pt-1">
+        <div class="flex min-w-0 items-center gap-2">
+            <SpeakerAvatars Speakers="Session.Speakers.OrderBy(s => s.Order).Select(s => s.Speaker).ToList()" />
+        </div>
+        <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="shrink-0"
+                  hx-get="@($"/fragments/sessions/{Session.Id}/details")" hx-target="#session-sheet" hx-swap="innerHTML"
+                  aria-label="@($"Details: {Session.Title}")">
+            Details
+        </RzButton>
+    </div>
+
+    <AgendaToggle SessionId="Session.Id" SessionTitle="@Session.Title" Saved="Saved" />
+</article>
+
+@code {
+    [Parameter, EditorRequired] public Session Session { get; set; } = null!;
+    [Parameter] public bool Saved { get; set; }
+
+    private string TitleId => $"session-{Session.Id}-title";
+
+    internal static ThemeVariant LevelVariant(SessionLevel level) => level switch
+    {
+        SessionLevel.Beginner => ThemeVariant.Success,
+        SessionLevel.Intermediate => ThemeVariant.Information,
+        _ => ThemeVariant.Warning,
+    };
+}

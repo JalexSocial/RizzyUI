@@ -1,0 +1,56 @@
+@*
+    Settings › API keys: the key table, a "create key" dialog whose body is replaced by the server (the
+    form, a 422, or the new secret shown once), and a revoke confirmation per key.
+*@
+<div id="settings-api-keys" class="flex flex-col gap-4">
+    <RzCard>
+        <CardHeader>
+            <CardTitle class="flex items-center gap-2">
+                API keys
+                <RzPopover>
+                    <PopoverTrigger AsChild>
+                        <RzButton type="button" Variant="ThemeVariant.Ghost" Size="Size.Small" class="size-7 p-0" aria-label="About scopes">
+                            <Blazicon Svg="Lucide.CircleQuestionMark" class="size-4" />
+                        </RzButton>
+                    </PopoverTrigger>
+                    <PopoverContent class="w-80">
+                        <p class="mb-2 text-sm font-medium">Scopes</p>
+                        <dl class="flex flex-col gap-1 text-sm">
+                            @foreach (var (value, description) in CreateKeyModel.KnownScopes)
+                            {
+                                <div><dt class="font-mono text-xs">@value</dt><dd class="text-muted-foreground">@description</dd></div>
+                            }
+                        </dl>
+                    </PopoverContent>
+                </RzPopover>
+            </CardTitle>
+            <CardDescription>Keys for the badge printer, the website feed and other integrations.</CardDescription>
+            <CardAction>
+                <RzButton type="button" Variant="ThemeVariant.Primary" Size="Size.Small" x-on:click="$dispatch('settings:create-key')">
+                    <Blazicon Svg="Lucide.Plus" class="size-4" /> Create key
+                </RzButton>
+            </CardAction>
+        </CardHeader>
+        <CardContent>
+            <ApiKeysTable Keys="Keys" />
+        </CardContent>
+    </RzCard>
+
+    @* Opened by a window event; its body is a form the server replaces. A new dialog body starts from
+       the empty form each time the panel loads. *@
+    <RzDialog EventTriggerName="settings:create-key" CloseEventName="settings:create-key-close">
+        <DialogContent class="sm:max-w-lg">
+            <DialogHeader>
+                <DialogTitle>Create an API key</DialogTitle>
+                <DialogDescription>The secret is shown once, right after the key is created.</DialogDescription>
+            </DialogHeader>
+            <CreateKeyBody />
+        </DialogContent>
+    </RzDialog>
+
+    <div id="settings-keys-token" hidden><AntiforgeryToken /></div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<ApiKeyRow> Keys { get; set; } = [];
+}

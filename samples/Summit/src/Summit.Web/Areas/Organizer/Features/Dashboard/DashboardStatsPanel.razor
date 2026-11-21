@@ -1,0 +1,34 @@
+@using System.Globalization
+@*
+    Key figures for the filter (out of band with the panels request). The tickers animate, so the
+    numbers are announced once through a status line instead of frame by frame. Money is shown in whole
+    euros: RzNumberTicker writes a decimal value with the current culture (96356,2 in German), which its
+    script cannot parse (SF-060).
+*@
+<section id="dashboard-stats" aria-labelledby="dashboard-stats-title">
+    <h2 id="dashboard-stats-title" class="sr-only">Key figures</h2>
+    <p role="status" class="sr-only">@Announcement</p>
+    <dl class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        @Stat("Revenue", Math.Round(Panels.Stats.Revenue), 0, "€", Lucide.Euro)
+        @Stat("Tickets sold", Panels.Stats.Tickets, 0, null, Lucide.Ticket)
+        @Stat("Checked in", Panels.Stats.CheckedIn, 0, null, Lucide.UserCheck)
+        @Stat("Average order", Math.Round(Panels.Stats.AverageOrder), 0, "€", Lucide.ShoppingCart)
+    </dl>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public DashboardPanels Panels { get; set; } = null!;
+
+    private string Announcement =>
+        $"{Panels.Filter.From:d} to {Panels.Filter.To:d}: revenue {Panels.Stats.Revenue.Euros()}, {Panels.Stats.Tickets} tickets sold, {Panels.Stats.CheckedIn} checked in.";
+
+    private static RenderFragment Stat(string label, decimal value, int decimals, string? prefix, SvgIcon icon) =>
+        @* Card styling on a plain div: a <dl> may only contain dt/dd groups in divs, and RzCard's markup
+           is not such a group. *@
+        @<div class="bg-card text-card-foreground flex flex-col gap-1 rounded-xl border px-4 py-4 shadow-sm">
+            <dt class="text-muted-foreground flex items-center gap-2 text-sm"><Blazicon Svg="icon" class="size-4" aria-hidden="true" />@label</dt>
+            <dd class="text-2xl font-semibold tabular-nums" data-stat="@label">
+                @prefix<RzNumberTicker Value="value" DecimalPlaces="decimals" Culture="@CultureInfo.CurrentCulture.Name" TriggerOnView="false" aria-hidden="true" />
+            </dd>
+        </div>;
+}

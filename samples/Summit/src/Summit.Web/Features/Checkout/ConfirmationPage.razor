@@ -1,0 +1,9 @@
+@layout HtmxLayout<CheckoutLayout>
+
+<RzPageTitle>Order @Order.Number · Summit</RzPageTitle>
+
+<CheckoutConfirmation Order="Order" />
+
+@code {
+    [Parameter, EditorRequired] public Order Order { get; set; } = null!;
+}

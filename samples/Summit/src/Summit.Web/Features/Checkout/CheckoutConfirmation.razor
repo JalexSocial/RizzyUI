@@ -1,0 +1,67 @@
+@*
+    The confirmation: replaces the whole checkout after the order is placed (HX-Retarget #checkout), and
+    is also the body of /tickets/confirmation/{number}. Confetti plays when the order was just placed.
+*@
+<div id="checkout" class="flex flex-col gap-10">
+    @if (JustPlaced)
+    {
+        @* Trigger=Load rather than an HX-Trigger event: the confetti component arrives in this very
+           response and loads asynchronously, so an event sent with the response would be missed (SF-039). *@
+        <RzConfetti Trigger="ConfettiTrigger.Load" Preset="ConfettiPreset.Victory" BurstCount="2" aria-hidden="true" />
+    }
+
+    <div class="flex flex-col items-center gap-4 text-center">
+        <span class="bg-success/15 text-success flex size-14 items-center justify-center rounded-full"><Blazicon Svg="Lucide.PartyPopper" class="size-7" /></span>
+        <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl" tabindex="-1" autofocus="@JustPlaced">You're going to Summit!</h1>
+        <p class="text-muted-foreground max-w-xl">
+            Order <strong class="text-foreground font-mono">@Order.Number</strong> is confirmed.
+            @(Order.Status == OrderStatus.Invoiced ? "An invoice is on its way" : "Your receipt is on its way") to @Order.BuyerEmail.
+        </p>
+    </div>
+
+    <ul class="grid gap-6 md:grid-cols-2" aria-label="Your tickets">
+        @foreach (var attendee in Order.Attendees)
+        {
+            <li class="relative overflow-hidden rounded-2xl border bg-[oklch(0.16_0.04_283)] text-white">
+                <img src="/images/scenes/ticket-bg.webp" alt="" class="absolute inset-0 h-full w-full object-cover opacity-60" />
+                <RzShineBorder ShineColors="@(["#a78bfa", "#5eead4", "#fb923c"])" BorderWidth="2" />
+                <div class="relative flex flex-col gap-5 p-6">
+                    <div class="flex items-center justify-between">
+                        <SummitLogo Class="text-white" />
+                        <span class="text-sm text-white/80">@attendee.TicketType.Name</span>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-semibold">@attendee.Name</p>
+                        <p class="text-sm text-white/75">@attendee.Email</p>
+                        @if (attendee.WorkshopSession is not null)
+                        {
+                            <p class="mt-1 text-sm text-white/75">Workshop: @attendee.WorkshopSession.Title</p>
+                        }
+                    </div>
+                    <div class="flex items-end justify-between gap-3 border-t border-white/20 pt-4">
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-white/70">Badge code</p>
+                            <p class="font-mono text-2xl font-semibold tracking-[0.25em]" data-badge-code>@attendee.BadgeCode</p>
+                        </div>
+                        <RzClipboard Value="@attendee.BadgeCode" AsChild AriaLabel="@($"Copy badge code for {attendee.Name}")">
+                            <RzButton Variant="ThemeVariant.Secondary" Size="Size.Small">
+                                <ClipboardTrigger><span class="inline-flex items-center gap-1.5"><Blazicon Svg="Lucide.Copy" class="size-4" />Copy</span></ClipboardTrigger>
+                                <ClipboardFeedback><span class="inline-flex items-center gap-1.5"><Blazicon Svg="Lucide.Check" class="size-4" />Copied</span></ClipboardFeedback>
+                            </RzButton>
+                        </RzClipboard>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <div class="flex flex-wrap justify-center gap-3">
+        <RzButton Element="a" href="/schedule" Variant="ThemeVariant.Primary">Plan your agenda</RzButton>
+        <RzButton Element="a" href="/" Variant="ThemeVariant.Secondary" Outline>Back to the home page</RzButton>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Order Order { get; set; } = null!;
+    [Parameter] public bool JustPlaced { get; set; }
+}

@@ -1,0 +1,85 @@
+@*
+    The filter bar. A plain GET form, not an EditForm: an EditForm would add an antiforgery token and a
+    _handler field to every query string. RzCheckboxGroup and RzSwitch still need an EditContext, so one
+    is cascaded by hand (summit-findings.md SF-028).
+
+    Server filters (tracks, length, my agenda) re-render the grid with hx-get. Level toggles filter the
+    rendered cards in the browser (ScheduleBoard), because RzToggle posts nothing.
+*@
+<RzCard class="p-4 sm:p-5">
+    <form id="schedule-filters" action="/schedule" method="get" class="flex flex-col gap-5"
+          hx-get="/schedule/grid" hx-trigger="change, submit" hx-target="#schedule-grid" hx-swap="outerHTML"
+          hx-indicator="#schedule-loading">
+        <CascadingValue Value="_editContext" IsFixed="true">
+            <input type="hidden" name="Filter.Day" value="@Filter.Day" data-schedule-day />
+            @if (Filter.Format is not null)
+            {
+                <input type="hidden" name="Filter.Format" value="@Filter.Format" />
+            }
+
+            <div class="grid gap-5 lg:grid-cols-[1fr_auto]">
+                <div class="flex flex-col gap-2">
+                    @* The group's own legend is visually hidden; this is its visible twin. *@
+                    <span class="text-sm font-medium" aria-hidden="true">Tracks</span>
+                    <RzCheckboxGroup For="@(() => Filter.Tracks)" Name="Filter.Tracks" DisplayName="Tracks" ShowIndicators="false"
+                                     Orientation="Orientation.Horizontal" class="flex flex-wrap gap-2 space-x-0">
+                        @foreach (var track in Tracks)
+                        {
+                            <RzCheckboxGroupItem TValue="string" Value="@track.Slug">
+                                <span class="@($"track-{track.Slug} group-has-[.peer:checked]:border-[var(--track)] group-has-[.peer:checked]:bg-[var(--track)]/15 group-has-[.peer:focus-visible]:ring-ring flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm group-has-[.peer:focus-visible]:ring-2")">
+                                    <span class="size-2.5 rounded-full bg-[var(--track)]" aria-hidden="true"></span>
+                                    @track.Name
+                                    <Blazicon Svg="Lucide.Check" class="hidden size-3.5 group-has-[.peer:checked]:block" aria-hidden="true" />
+                                </span>
+                            </RzCheckboxGroupItem>
+                        }
+                    </RzCheckboxGroup>
+                </div>
+
+                <div class="flex flex-col gap-2 lg:w-72">
+                    <span class="text-sm font-medium" id="length-label">Length (minutes)</span>
+                    <RzSlider Name="Filter.Length" Min="ScheduleFilter.ShortestSession" Max="ScheduleFilter.LongestSession" Step="15"
+                              DefaultValue="@(new double[] { Filter.MinLength, Filter.MaxLength })" MinStepsBetweenThumbs="1"
+                              AriaLabels="@(["Shortest session", "Longest session"])" />
+                    <div class="text-muted-foreground flex justify-between text-xs" aria-hidden="true">
+                        <span>@ScheduleFilter.ShortestSession</span><span>@ScheduleFilter.LongestSession</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-3 border-t pt-4">
+                <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Level">
+                    <span class="text-sm font-medium">Level</span>
+                    @foreach (var level in Enum.GetValues<SessionLevel>())
+                    {
+                        <RzToggle Variant="ToggleVariant.Outline" Size="ToggleSize.Small" data-level-toggle="@level">
+                            @level
+                        </RzToggle>
+                    }
+                </div>
+
+                <Field Orientation="FieldOrientation.Horizontal" class="w-auto items-center">
+                    <RzSwitch For="@(() => Filter.Mine)" />
+                    <FieldLabel For="@(() => Filter.Mine)" class="text-sm font-normal">Only my agenda</FieldLabel>
+                </Field>
+
+                <div class="ml-auto flex items-center gap-3">
+                    <RzSpinner Id="schedule-loading" Size="Size.Small" AriaLabel="Updating the schedule" class="htmx-indicator" />
+                    @if (Filter.IsFiltered)
+                    {
+                        <RzButton Element="a" href="@($"/schedule?day={Filter.Day}")" Variant="ThemeVariant.Ghost" Size="Size.Small">Clear filters</RzButton>
+                    }
+                </div>
+            </div>
+        </CascadingValue>
+    </form>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired] public ScheduleFilter Filter { get; set; } = null!;
+    [Parameter, EditorRequired] public IReadOnlyList<Track> Tracks { get; set; } = [];
+
+    private EditContext _editContext = null!;
+
+    protected override void OnParametersSet() => _editContext = new EditContext(Filter);
+}

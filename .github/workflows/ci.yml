@@ -158,6 +158,91 @@ jobs:
           path: artifacts/
           if-no-files-found: warn
 
+  # Summit (samples/Summit): a real MVC application built on RizzyUI, tested end to end in a browser
+  # under the standard and the strict-CSP build. See docs/engineering/summit-demo-plan.md.
+  summit:
+    name: Summit demo app (HTTP and browser tests)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            packages/rizzyui/package-lock.json
+            samples/Summit/src/Summit.Web/package-lock.json
+            samples/Summit/tests/e2e/package-lock.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-summit-${{ hashFiles('**/*.csproj', 'src/Directory.Build.props', 'samples/Summit/Directory.Build.props', 'global.json') }}
+          restore-keys: ${{ runner.os }}-nuget-
+
+      # Summit.Web links @jalexsocial/rizzyui from packages/rizzyui (file: dependency).
+      - name: Install npm packages and Playwright
+        run: |
+          (cd packages/rizzyui && npm ci)
+          cd samples/Summit/tests/e2e
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Build
+        run: |
+          bash eng/pack-tasks.sh ./artifacts/nupkgs
+          dotnet restore samples/Summit/Summit.slnx -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build samples/Summit/Summit.slnx -c Debug --no-restore
+
+      - name: HTTP tests
+        run: dotnet test samples/Summit/Summit.slnx -c Debug --no-build --logger "trx;LogFilePrefix=summit" --results-directory ./artifacts/summit-test-results
+
+      # The HTTP tests above use the repository projects (Project mode). The browser tests run against
+      # the packed packages, as a consumer installs them (Package mode), so both modes compile on every
+      # run and the browser sees exactly what ships.
+      - name: Pack RizzyUI (NuGet and npm)
+        id: pack
+        run: |
+          base=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
+          version="${base}-ci.${{ github.run_number }}.${{ github.run_attempt }}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          dotnet build src/RizzyUI/RizzyUI.csproj -c Release -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -p:Version="$version" -o ./artifacts/nupkgs
+          mkdir -p ./artifacts/npm
+          (cd packages/rizzyui && npm pkg set version="$version" && npm pack --pack-destination ../../artifacts/npm && git checkout -- package.json)
+
+      # Code-behind unit tests against the tarball, publish in Package mode, check the publish output,
+      # start two published servers (Production, standard and strict CSP), run Playwright.
+      - name: Publish Summit against the packages and run the browser tests (standard, CSP, mobile)
+        run: bash eng/summit-test.sh ./artifacts/nupkgs "${{ steps.pack.outputs.version }}" ./artifacts/npm/*.tgz
+
+      - name: Check the build and tests left the working tree clean
+        run: |
+          git add -N .
+          if ! git diff --exit-code --stat; then
+            echo "::error::Building or testing Summit changed tracked files (see the list above)."
+            exit 1
+          fi
+
+      - name: Upload Playwright output
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: summit-playwright-output
+          path: |
+            samples/Summit/tests/e2e/playwright-report/
+            samples/Summit/tests/e2e/test-results/
+          if-no-files-found: ignore
+
   browser:
     name: Browser tests (accessibility fixtures and docs integration)
     runs-on: ubuntu-24.04

@@ -1,0 +1,20 @@
+bin/
+obj/
+bin-package/
+obj-package/
+node_modules/
+*.user
+.vs/
+.idea/
+
+# Built by Tailwind from Styles/app.css on every build.
+src/Summit.Web/wwwroot/css/app.css
+# The SQLite database is rebuilt from the seed.
+src/Summit.Web/App_Data/
+# Bundled code-behind modules for the unit tests.
+src/Summit.Web/.test-build/
+
+# Playwright output.
+tests/e2e/test-results*/
+tests/e2e/playwright-report*/
+tests/e2e/.auth/

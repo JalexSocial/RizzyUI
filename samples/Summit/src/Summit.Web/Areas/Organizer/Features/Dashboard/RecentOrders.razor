@@ -1,0 +1,85 @@
+@using System.Globalization
+@*
+    Orders in the range, newest first, paged on the server (RzTable with RzPagination). Out of band with
+    the panels request; the pager links replace only this card.
+*@
+<RzCard id="recent-orders">
+    <CardHeader>
+        <CardTitle>Recent orders</CardTitle>
+        <CardDescription>@Orders.Total.ToString("N0", CultureInfo.CurrentCulture) orders in the range</CardDescription>
+    </CardHeader>
+    <CardContent>
+        @if (Orders.Rows.Count == 0)
+        {
+            <RzEmpty class="py-6">
+                <EmptyHeader>
+                    <EmptyTitle>No orders</EmptyTitle>
+                    <EmptyDescription>Nothing was ordered in this range.</EmptyDescription>
+                </EmptyHeader>
+            </RzEmpty>
+        }
+        else
+        {
+            @* RzTable's container scrolls sideways on narrow cards but cannot take focus, so keyboard users
+               could not scroll it (axe scrollable-region-focusable, SF-063). *@
+            <RzTable tabindex="0" role="region" aria-label="Recent orders table">
+                <TableCaption class="sr-only">Recent orders, page @Orders.Page of @Orders.Pages</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>Order</TableHeaderCell>
+                        <TableHeaderCell>Buyer</TableHeaderCell>
+                        <TableHeaderCell class="hidden md:table-cell">Ticket</TableHeaderCell>
+                        <TableHeaderCell class="text-right">Total</TableHeaderCell>
+                        <TableHeaderCell class="hidden sm:table-cell">Placed</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var order in Orders.Rows)
+                    {
+                        <TableRow data-order="@order.Number">
+                            <TableCell class="font-mono text-xs">@order.Number</TableCell>
+                            <TableCell>
+                                <div class="font-medium">@order.Buyer</div>
+                                <div class="text-muted-foreground text-xs">@order.Country · @order.Tickets @(order.Tickets == 1 ? "ticket" : "tickets")</div>
+                            </TableCell>
+                            <TableCell class="hidden md:table-cell">@order.Ticket</TableCell>
+                            <TableCell class="text-right tabular-nums">
+                                @order.Total.Euros(cents: true)
+                                @if (order.Status == OrderStatus.Invoiced)
+                                {
+                                    <RzBadge Variant="ThemeVariant.Secondary" Soft class="ms-1">Invoiced</RzBadge>
+                                }
+                            </TableCell>
+                            <TableCell class="hidden sm:table-cell">@order.CreatedAt.AtVenue().ToString("d MMM, HH:mm", CultureInfo.CurrentCulture)</TableCell>
+                        </TableRow>
+                    }
+                </TableBody>
+            </RzTable>
+
+            @if (Orders.Pages > 1)
+            {
+                <RzPagination AriaLabel="Order pages" class="mt-4">
+                    <PaginationList>
+                        <PaginationItem>
+                            <PaginationPrevious Href="@Url(Math.Max(1, Orders.Page - 1))" aria-disabled="@(Orders.Page == 1 ? "true" : null)"
+                                                hx-get="@Url(Math.Max(1, Orders.Page - 1))" hx-target="#recent-orders" hx-swap="outerHTML" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <span class="px-3 text-sm tabular-nums" aria-current="page">Page @Orders.Page of @Orders.Pages</span>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext Href="@Url(Math.Min(Orders.Pages, Orders.Page + 1))" aria-disabled="@(Orders.Page == Orders.Pages ? "true" : null)"
+                                            hx-get="@Url(Math.Min(Orders.Pages, Orders.Page + 1))" hx-target="#recent-orders" hx-swap="outerHTML" />
+                        </PaginationItem>
+                    </PaginationList>
+                </RzPagination>
+            }
+        }
+    </CardContent>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired] public OrderPage Orders { get; set; } = null!;
+
+    private string Url(int page) => $"/organizer/dashboard/orders?{Orders.Filter.Query()}&page={page}";
+}

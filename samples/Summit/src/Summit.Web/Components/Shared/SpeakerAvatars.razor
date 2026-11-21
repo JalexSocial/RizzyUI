@@ -1,0 +1,32 @@
+@* Stacked speaker avatars with names: portraits for featured speakers, initials for everyone else. *@
+@if (Speakers.Count == 1)
+{
+    var speaker = Speakers[0];
+    <div class="flex min-w-0 items-center gap-2">
+        <SpeakerAvatar Speaker="speaker" />
+        <div class="min-w-0 leading-tight">
+            <p class="truncate text-sm font-medium">@speaker.Name</p>
+            <p class="text-muted-foreground truncate text-xs">@speaker.Company</p>
+        </div>
+    </div>
+}
+else if (Speakers.Count > 1)
+{
+    <div class="flex min-w-0 items-center gap-2">
+        <AvatarGroup>
+            @foreach (var speaker in Speakers.Take(3))
+            {
+                <SpeakerAvatar Speaker="speaker" />
+            }
+            @if (Speakers.Count > 3)
+            {
+                <AvatarGroupCount>+@(Speakers.Count - 3)</AvatarGroupCount>
+            }
+        </AvatarGroup>
+        <p class="text-muted-foreground truncate text-xs">@string.Join(", ", Speakers.Select(s => s.Name.Split(' ')[0]))</p>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<Speaker> Speakers { get; set; } = [];
+}

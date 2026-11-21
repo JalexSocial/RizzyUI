@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* RizzyUI's theme tokens, dark mode variant, and the classes its components use (via a safelist). */
+@import "@jalexsocial/rizzyui/dist/css/rizzyui-plugin.css";
+
+@plugin "@tailwindcss/forms";
+
+/* Summit's brand surfaces. Colors come from the theme, so they follow light/dark and theme changes. */
+@layer components {
+    /* A soft aurora wash behind hero sections and the sign-in card. */
+    .summit-aurora {
+        background:
+            radial-gradient(60% 50% at 15% 10%, color-mix(in oklch, var(--chart-1) 35%, transparent), transparent 70%),
+            radial-gradient(50% 45% at 85% 15%, color-mix(in oklch, var(--chart-2) 30%, transparent), transparent 70%),
+            radial-gradient(55% 50% at 50% 100%, color-mix(in oklch, var(--chart-5) 25%, transparent), transparent 70%);
+    }
+
+    /* Dark scrim over hero photography so white text keeps 4.5:1 contrast. */
+    .summit-hero-scrim {
+        background: linear-gradient(90deg, oklch(0.12 0.03 283 / 0.92) 0%, oklch(0.12 0.03 283 / 0.72) 45%, oklch(0.12 0.03 283 / 0.25) 100%);
+    }
+
+    .summit-card-hover {
+        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .summit-card-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: color-mix(in oklch, var(--primary) 35%, var(--border));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .summit-card-hover,
+        .summit-card-hover:hover {
+            transition: none;
+            transform: none;
+        }
+    }
+}
+
+/* Long words in user content wrap on phones instead of widening the page. */
+#content :where(p, li, dd, h1, h2, h3) {
+    overflow-wrap: anywhere;
+}

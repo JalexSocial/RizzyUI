@@ -1,0 +1,49 @@
+@*
+    The discount code: six letters and digits in RzInputOTP. Its own small form (forms cannot nest), posted
+    with htmx; an invalid code returns 422 with the reason, a valid one updates the order summary out of band.
+*@
+<div id="discount-field" class="rounded-xl border p-4">
+    @if (Applied is not null)
+    {
+        <div class="flex items-center gap-3" role="status">
+            <Blazicon Svg="Lucide.TicketPercent" class="text-success size-5" />
+            <p class="text-sm">Code <strong class="font-mono">@Applied</strong> applied: @Percent% off your order.</p>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="Discount" FormName="Discount" novalidate class="flex flex-col gap-3"
+                  hx-post="/tickets/checkout/discount" hx-target="#discount-field" hx-swap="outerHTML">
+            <RzModelStateProvider />
+            <FocusFirstError />
+            <Field>
+                <FieldLabel For="@(() => Discount!.Code)">Discount code (optional)</FieldLabel>
+                <div class="flex flex-wrap items-center gap-3">
+                    @* Name set explicitly: RzInputOTP defaults to the bare property name (SF-009). *@
+                    <RzInputOTP For="@(() => Discount!.Code)" Name="Discount.Code" Length="6"
+                                OtpType="InputOtpType.Alphanumeric" TextTransform="InputOtpTextTransform.ToUpper">
+                        <InputOTPGroup>
+                            <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+                        </InputOTPGroup>
+                        <InputOTPSeparator />
+                        <InputOTPGroup>
+                            <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+                        </InputOTPGroup>
+                    </RzInputOTP>
+                    <RzButton type="submit" Variant="ThemeVariant.Secondary" Outline>Apply</RzButton>
+                </div>
+                <FieldError><RzValidationMessageBase For="@(() => Discount!.Code)" /></FieldError>
+            </Field>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Applied { get; set; }
+    [Parameter] public int Percent { get; set; }
+
+    [SupplyParameterFromForm(FormName = "Discount")]
+    public DiscountModel? Discount { get; set; }
+
+    protected override void OnInitialized() => Discount ??= new DiscountModel();
+}

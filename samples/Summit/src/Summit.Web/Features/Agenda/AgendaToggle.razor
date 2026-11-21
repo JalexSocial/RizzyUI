@@ -1,0 +1,30 @@
+@*
+    "Add to my agenda" for one session. Each card has its own small form: changing the switch posts it
+    (hx-trigger="change") and the response replaces this form, updates the header count out of band and
+    shows a toast. RzSwitch needs an EditContext, hence the EditForm.
+*@
+<EditForm Model="Agenda" FormName="@($"agenda-{SessionId}")" id="@($"agenda-{SessionId}")"
+          class="border-t pt-3"
+          hx-post="@($"/agenda/{SessionId}")" hx-trigger="change" hx-swap="outerHTML">
+    <Field Orientation="FieldOrientation.Horizontal" class="items-center">
+        <RzSwitch For="@(() => Agenda.Saved)" />
+        <FieldLabel For="@(() => Agenda.Saved)" class="text-sm font-normal">
+            @(Agenda.Saved ? "In my agenda" : "Add to my agenda")<span class="sr-only">: @SessionTitle</span>
+        </FieldLabel>
+    </Field>
+</EditForm>
+
+@code {
+    [Parameter, EditorRequired] public int SessionId { get; set; }
+    [Parameter] public string SessionTitle { get; set; } = "";
+    [Parameter] public bool Saved { get; set; }
+
+    private AgendaModel Agenda { get; set; } = new();
+
+    protected override void OnParametersSet() => Agenda = new AgendaModel { Saved = Saved };
+
+    public sealed class AgendaModel
+    {
+        public bool Saved { get; set; }
+    }
+}

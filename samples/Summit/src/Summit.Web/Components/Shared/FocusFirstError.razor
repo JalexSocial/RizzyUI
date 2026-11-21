@@ -1,0 +1,7 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    Put inside a form that comes back from the server with validation errors (a 422 swap): moves focus to
+    the first invalid field, so keyboard and screen reader users land on the problem instead of wherever
+    focus was. RizzyUI's form components have no such behavior (summit-findings.md SF-045).
+*@
+<RzAlpineComponent For="this" class="hidden" />

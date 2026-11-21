@@ -1,0 +1,66 @@
+@* Step 3: discount code (its own form), payment method, code of conduct, and placing the order. *@
+<section id="checkout-step" aria-labelledby="step-title" class="flex flex-col gap-6">
+    <h2 id="step-title" class="text-xl font-semibold" tabindex="-1" autofocus="@Fresh">3. Payment</h2>
+
+    <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.Status">
+        <AlertTitle>This is a demo</AlertTitle>
+        <AlertDescription>No payment is taken and no card details are collected. Orders are kept in the demo database only.</AlertDescription>
+    </RzAlert>
+
+    <DiscountField Applied="@View.Data.DiscountCode" Percent="View.Quote.DiscountPercent" />
+
+    @if (FormError is not null)
+    {
+        <RzAlert Variant="ThemeVariant.Destructive" id="payment-error"><AlertTitle>We couldn't place your order</AlertTitle><AlertDescription>@FormError</AlertDescription></RzAlert>
+    }
+
+    <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-6"
+              hx-post="/tickets/checkout/payment" hx-target="#checkout-step" hx-swap="outerHTML"
+              hx-disabled-elt="find button[type=submit]">
+        <RzModelStateProvider />
+        <FocusFirstError />
+
+        <Field>
+            <span class="text-sm font-medium" aria-hidden="true">Payment method</span>
+            <RzRadioGroup For="@(() => Model!.PaymentMethod)" Name="Model.PaymentMethod" DisplayName="Payment method" class="grid gap-3 sm:grid-cols-2">
+                <RadioGroupItem TValue="string" Value="@("demo")">
+                    <span class="flex flex-col"><span class="text-sm font-medium">Demo payment</span><span class="text-muted-foreground text-sm">Marked as paid immediately.</span></span>
+                </RadioGroupItem>
+                <RadioGroupItem TValue="string" Value="@("invoice")">
+                    <span class="flex flex-col"><span class="text-sm font-medium">Invoice</span><span class="text-muted-foreground text-sm">Due within 30 days.</span></span>
+                </RadioGroupItem>
+            </RzRadioGroup>
+            <FieldError><RzValidationMessageBase For="@(() => Model!.PaymentMethod)" /></FieldError>
+        </Field>
+
+        <Field Orientation="FieldOrientation.Horizontal" class="items-start">
+            <RzInputCheckbox For="@(() => Model!.AcceptCodeOfConduct)" />
+            <FieldContent>
+                <FieldLabel For="@(() => Model!.AcceptCodeOfConduct)" class="font-normal" />
+                <FieldDescription>It applies to everyone at Summit. <RzLink Href="/help">Read it on the help page</RzLink>.</FieldDescription>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.AcceptCodeOfConduct)" /></FieldError>
+            </FieldContent>
+        </Field>
+
+        <Field Orientation="FieldOrientation.Horizontal" class="items-center">
+            <RzSwitch For="@(() => Model!.Newsletter)" />
+            <FieldLabel For="@(() => Model!.Newsletter)" class="font-normal" />
+        </Field>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+            <RzButton Element="a" href="/tickets/checkout/attendees" Variant="ThemeVariant.Ghost">Back to attendees</RzButton>
+            <RzButton type="submit" Variant="ThemeVariant.Primary" Size="Size.Large">Place order · @View.Quote.Total.Euros(cents: true)</RzButton>
+        </div>
+    </EditForm>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public CheckoutView View { get; set; } = null!;
+    [Parameter] public string? FormError { get; set; }
+    [Parameter] public bool Fresh { get; set; }
+
+    [SupplyParameterFromForm(FormName = "Model")]
+    public PaymentStepModel? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new PaymentStepModel();
+}

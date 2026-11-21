@@ -1,0 +1,32 @@
+<Project>
+
+  <!-- RizzyUITasksVersion, the single source for the RizzyUI.Tasks version, lives with the library. -->
+  <Import Project="$(MSBuildThisFileDirectory)..\..\src\Directory.Build.props" />
+
+  <PropertyGroup>
+    <SummitRepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\'))</SummitRepoRoot>
+
+    <!--
+      How Summit references RizzyUI:
+        Project (default): the library source in src/RizzyUI, for local development.
+        Package: the RizzyUI NuGet package at $(RizzyUIVersion), for CI (eng/summit-test.sh), so the
+                 app is tested against exactly what consumers install.
+    -->
+    <SummitRizzyUISource Condition="'$(SummitRizzyUISource)' == ''">Project</SummitRizzyUISource>
+    <!-- Package builds restore a different RizzyUI; keep their obj/ and bin/ apart so switching modes
+         never mixes the two restores. -->
+    <BaseIntermediateOutputPath Condition="'$(SummitRizzyUISource)' == 'Package'">obj-package\</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(SummitRizzyUISource)' == 'Package'">bin-package\</BaseOutputPath>
+    <!-- Each mode only excludes its own output folders by default; the other mode's generated .cs files
+         would otherwise be compiled. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**;obj-package/**;bin-package/**</DefaultItemExcludes>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <!-- RZ10012: a component tag Razor cannot resolve (a missing @using) silently renders as an HTML
+         element. Make it an error. -->
+    <WarningsAsErrors>$(WarningsAsErrors);RZ10012</WarningsAsErrors>
+  </PropertyGroup>
+
+</Project>

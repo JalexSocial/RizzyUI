@@ -1,0 +1,136 @@
+@using System.Globalization
+@*
+    The session editor (target of the list links, "New session" and the save). A save posts the form
+    with htmx: 422 with field errors, or the editor again with the list refreshed out of band. Delete
+    asks first in an RzAlertDialog.
+*@
+<RzCard id="session-editor">
+    <CardHeader>
+        <CardTitle>@(Context.SessionId is null ? "New session" : Model!.Title)</CardTitle>
+        <CardDescription>@(Context.SessionId is null ? "Saved as a draft unless you publish it." : "Changes are visible on the public schedule when the session is published.")</CardDescription>
+    </CardHeader>
+    <CardContent>
+        <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
+                  hx-post="@(Context.SessionId is { } id ? $"/organizer/schedule-builder/sessions/{id}" : "/organizer/schedule-builder/sessions")"
+                  hx-target="#session-editor" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]">
+            <RzModelStateProvider />
+            <FocusFirstError />
+
+            <Field>
+                <FieldLabel For="@(() => Model!.Title)" />
+                <RzInputText For="@(() => Model!.Title)" autocomplete="off" />
+                <FieldError><RzValidationMessageBase For="@(() => Model!.Title)" /></FieldError>
+            </Field>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <Field>
+                    <FieldLabel For="@(() => Model!.StartsAt)" />
+                    @* German month and day names need flatpickr's l10n file, which RizzyUI neither ships nor
+                       loads; Summit registers it as an asset key (vendor.json) and asks for it (SF-073). *@
+                    <RzDateEdit For="@(() => Model!.StartsAt)" Name="Model.StartsAt" ComponentAssetKeys="@DateAssets"
+                                Options="@(new FlatpickrOptions { EnableTime = true, Time24Hr = true, AllowInput = true, DateFormat = "Y-m-d H:i", Locale = FlatpickrLocale, MinuteIncrement = 15 })" />
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.StartsAt)" /></FieldError>
+                </Field>
+                <Field>
+                    <FieldLabel For="@(() => Model!.Capacity)" />
+                    <RzInputNumber TValue="int" For="@(() => Model!.Capacity)" />
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.Capacity)" /></FieldError>
+                </Field>
+            </div>
+
+            <Field>
+                <span id="session-length-label" class="text-sm font-medium">Length</span>
+                @* RzSlider is not an EditForm input: it takes a value array and a name, not For (SF-070). *@
+                <RzSlider Name="Model.LengthMinutes" UseIndexedNames="false" Value="@([Model!.LengthMinutes])" Min="15" Max="240" Step="15"
+                          AriaLabelledBy="session-length-label" ValueFormat="{0} min" />
+                <FieldDescription>@Model.LengthMinutes minutes now; 15 to 240 in steps of 15.</FieldDescription>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.LengthMinutes)" /></FieldError>
+            </Field>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <Field>
+                    <FieldLabel For="@(() => Model!.RoomId)" />
+                    <RzNativeSelect For="@(() => Model!.RoomId)">
+                        @foreach (var room in Context.Rooms)
+                        {
+                            <option value="@room.Id">@room.Name (@room.Capacity seats)</option>
+                        }
+                    </RzNativeSelect>
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.RoomId)" /></FieldError>
+                </Field>
+                <Field>
+                    <FieldLabel For="@(() => Model!.TrackId)" />
+                    <RzNativeSelect For="@(() => Model!.TrackId)">
+                        @foreach (var track in Context.Tracks)
+                        {
+                            <option value="@track.Id">@track.Name</option>
+                        }
+                    </RzNativeSelect>
+                    <FieldError><RzValidationMessageBase For="@(() => Model!.TrackId)" /></FieldError>
+                </Field>
+            </div>
+
+            <Field>
+                <FieldLabel For="@(() => Model!.TrackColor)" />
+                <RzInputColor For="@(() => Model!.TrackColor)" Swatches="@Context.Tracks.Select(t => t.Color).Distinct().ToArray()" />
+                <FieldDescription>Changes the color of every session in the track.</FieldDescription>
+                <FieldError><RzValidationMessageBase For="@(() => Model!.TrackColor)" /></FieldError>
+            </Field>
+
+            <Field Orientation="FieldOrientation.Horizontal">
+                <RzSwitch For="@(() => Model!.Published)" />
+                <FieldLabel For="@(() => Model!.Published)">Published on the public schedule</FieldLabel>
+            </Field>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <RzButton type="submit" Variant="ThemeVariant.Primary">@(Context.SessionId is null ? "Create session" : "Save changes")</RzButton>
+                @if (Context.SessionId is not null)
+                {
+                    <RzButton type="button" Variant="ThemeVariant.Destructive" Outline x-on:click="$dispatch('builder:delete-confirm')">Delete session</RzButton>
+                }
+            </div>
+        </EditForm>
+
+        @if (Context.SessionId is { } sessionId)
+        {
+            <RzAlertDialog EventTriggerName="builder:delete-confirm" CloseEventName="builder:delete-close" CloseOnEscape>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Delete this session?</AlertDialogTitle>
+                        <AlertDialogDescription>&ldquo;@Model!.Title&rdquo; is removed from the schedule and from every attendee&rsquo;s agenda. This cannot be undone.</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Keep it</AlertDialogCancel>
+                        <AlertDialogAction Variant="ThemeVariant.Destructive"
+                                           hx-post="@($"/organizer/schedule-builder/sessions/{sessionId}/delete")"
+                                           hx-target="#session-editor" hx-swap="outerHTML" hx-include="#session-delete-token">
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </RzAlertDialog>
+            <div id="session-delete-token" hidden><AntiforgeryToken /></div>
+        }
+    </CardContent>
+</RzCard>
+
+@code {
+    [SupplyParameterFromForm(FormName = "Model")]
+    public SessionEditModel? Model { get; set; }
+
+    [Parameter] public SessionEditModel? Initial { get; set; }
+    [Parameter, EditorRequired] public EditorContext Context { get; set; } = null!;
+    /// <summary>Rendered after a successful save: show the saved values, not the posted ones.</summary>
+    [Parameter] public bool Saved { get; set; }
+
+    // Flatpickr's locale names are two-letter codes; "en" is built in, others need their l10n file.
+    private static string FlatpickrLocale => CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+    private static string[] DateAssets => FlatpickrLocale == "de" ? ["FlatpickrCore", "FlatpickrDe"] : ["FlatpickrCore"];
+
+    protected override void OnInitialized()
+    {
+        Model ??= Initial ?? new SessionEditModel();
+        if (Saved && Initial is not null) Model = Initial;
+    }
+}

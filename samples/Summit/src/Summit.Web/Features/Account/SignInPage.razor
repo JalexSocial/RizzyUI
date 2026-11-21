@@ -1,0 +1,18 @@
+<RzPageTitle>Organizer sign-in · Summit</RzPageTitle>
+
+<div class="relative isolate overflow-hidden">
+    <div class="summit-aurora absolute inset-0 -z-10 opacity-60" aria-hidden="true"></div>
+    <div class="mx-auto flex max-w-md flex-col gap-6 px-4 py-16 sm:py-24">
+        <div class="flex flex-col items-center gap-3 text-center">
+            <SummitLogo IconOnly />
+            <h1 class="text-2xl font-semibold tracking-tight">Organizer sign-in</h1>
+            <p class="text-muted-foreground text-sm">Manage attendees, the schedule and the check-in desk.</p>
+        </div>
+        <SignInForm ReturnUrl="@ReturnUrl" DemoAccount="DemoAccount" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? ReturnUrl { get; set; }
+    [Parameter] public SummitOptions.DemoOrganizerOptions? DemoAccount { get; set; }
+}

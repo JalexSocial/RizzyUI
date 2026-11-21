@@ -1,0 +1,38 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    The site-wide search palette (Ctrl+K / Cmd+K, or the search button in the header).
+
+    Composed from RzDialog and RzCommand because RzCommandDialog does not pass ItemsUrl or
+    ServerFiltering through (summit-findings.md SF-007). Items come from /api/search as JSON; each
+    item's value is a URL, which CommandNavigation follows. The keyboard shortcut is a window listener
+    on this wrapper, since RzCommand has none built in.
+
+    The code-behind (SearchPalette.razor.js) works around SF-040: RzCommand never renders the id of its
+    CommandItemTemplate, so data-driven items would not render at all.
+*@
+<RzAlpineComponent For="this" Props="@(new { CommandId })"
+                   x-on:keydown.window.ctrl.k.prevent="$dispatch('summit:open-search')"
+                   x-on:keydown.window.meta.k.prevent="$dispatch('summit:open-search')">
+    <RzDialog EventTriggerName="summit:open-search" CloseEventName="summit:close-search">
+        <DialogContent Size="ModalSize.Large" ShowCloseButton="false" class="overflow-hidden p-0" AriaLabel="Search Summit">
+            <RzCommand Id="@CommandId" ItemsUrl="/api/search" ServerFiltering="true" FetchTrigger="FetchTrigger.OnOpen" ShouldFilter="false"
+                       AriaLabel="Search sessions, speakers and pages" class="rounded-none border-0">
+                <CommandInput Placeholder="Search sessions, speakers and pages…" />
+                <CommandList class="max-h-[60vh]">
+                    <CommandEmpty>No results. Try a track, a speaker's name or a topic like “htmx”.</CommandEmpty>
+                    <CommandItemTemplate>
+                        <span class="flex min-w-0 flex-col gap-0.5">
+                            <span class="truncate text-sm font-medium" x-text="item.name"></span>
+                            <span class="text-muted-foreground truncate text-xs" x-text="item.description"></span>
+                        </span>
+                        <span class="text-muted-foreground ml-auto shrink-0 pl-3 text-xs" x-text="item.group"></span>
+                    </CommandItemTemplate>
+                </CommandList>
+            </RzCommand>
+        </DialogContent>
+    </RzDialog>
+</RzAlpineComponent>
+
+@code {
+    private const string CommandId = "site-search";
+}

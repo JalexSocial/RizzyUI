@@ -1,0 +1,64 @@
+name: Summit nightly (CDN assets)
+
+# Decision D-5 in docs/engineering/summit-demo-plan.md: CI serves RizzyUI's widget libraries from
+# Summit's own wwwroot/lib so it never depends on a CDN. This nightly run uses RizzyUI's CDN defaults
+# instead (jsDelivr, with RizzyUI's SRI hashes), so a broken pin or a changed hash is found within a day.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  summit-cdn:
+    name: Summit browser tests with CDN assets
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            packages/rizzyui/package-lock.json
+            samples/Summit/src/Summit.Web/package-lock.json
+            samples/Summit/tests/e2e/package-lock.json
+
+      - name: Install npm packages and Playwright
+        run: |
+          (cd packages/rizzyui && npm ci)
+          cd samples/Summit/tests/e2e
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Build
+        run: |
+          bash eng/pack-tasks.sh ./artifacts/nupkgs
+          dotnet restore samples/Summit/Summit.slnx -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build samples/Summit/Summit.slnx -c Debug --no-restore
+
+      - name: Browser tests with SUMMIT_CDN=1
+        working-directory: samples/Summit/tests/e2e
+        env:
+          SUMMIT_CDN: "1"
+        run: npx playwright test
+
+      - name: Upload Playwright output
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: summit-cdn-playwright-output
+          path: |
+            samples/Summit/tests/e2e/playwright-report/
+            samples/Summit/tests/e2e/test-results/
+          if-no-files-found: ignore

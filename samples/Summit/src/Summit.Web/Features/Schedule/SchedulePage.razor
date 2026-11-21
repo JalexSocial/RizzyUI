@@ -1,0 +1,28 @@
+<RzPageTitle>Schedule · Summit</RzPageTitle>
+
+<div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-14">
+    <PageHeader Title="Schedule" Eyebrow="@DateRange"
+                Description="Five tracks across three days. Filter by track, length and level, save talks to your agenda, and open any session for the details." />
+
+    <ScheduleBoard>
+        <ScheduleFilters Filter="Result.Filter" Tracks="Result.Tracks" />
+        <ScheduleGrid Result="Result" />
+    </ScheduleBoard>
+</div>
+
+@* Session details are loaded into this container as an open RzSheet (see SessionDetails). *@
+<div id="session-sheet"></div>
+
+@code {
+    [Parameter, EditorRequired] public ScheduleResult Result { get; set; } = null!;
+
+    private string DateRange
+    {
+        get
+        {
+            var first = Result.Days[0].Day.Date;
+            var last = Result.Days[^1].Day.Date;
+            return $"{first.ToString("MMMM d", CultureInfo.CurrentCulture)} – {last.ToString("MMMM d, yyyy", CultureInfo.CurrentCulture)}";
+        }
+    }
+}

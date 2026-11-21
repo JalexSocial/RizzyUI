@@ -1,0 +1,27 @@
+@inject IRizzyNonceProvider NonceProvider
+@*
+    Track colors are data (organizers edit them in the schedule builder), so they cannot be Tailwind
+    classes, and inline style attributes are blocked by a strict style-src. Instead each track gets a
+    class with a CSS variable, in a nonced <style>: .track-web { --track: #6d5efc }.
+
+    Rendered directly in the layout's <head>, not through <HeadContent>: Blazor renders only the last
+    HeadContent, and RzThemeProvider uses one for the theme variables (summit-findings.md SF-034).
+*@
+<style nonce="@NonceProvider.GetNonce()">
+    @foreach (var track in Tracks)
+    {
+        @($".track-{track.Slug}{{--track:{SafeColor(track.Color)}}}")
+    }
+</style>
+
+@code {
+    [Inject] private Summit.Web.Features.ConferenceInfo Info { get; set; } = null!;
+
+    private IReadOnlyList<Track> Tracks { get; set; } = [];
+
+    protected override async Task OnInitializedAsync() => Tracks = await Info.GetTracksAsync();
+
+    // Colors come from the database; only #rgb/#rrggbb ever reach the stylesheet.
+    private static string SafeColor(string color) =>
+        System.Text.RegularExpressions.Regex.IsMatch(color, "^#(?:[0-9a-fA-F]{3}){1,2}$") ? color : "#888888";
+}

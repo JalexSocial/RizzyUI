@@ -1,0 +1,206 @@
+<RzPageTitle>@Model.Conference.Name · @Model.Conference.City</RzPageTitle>
+
+@* Hero: generated photography under a scrim that keeps white text at 4.5:1 or better. *@
+<section class="relative isolate overflow-hidden bg-[oklch(0.14_0.03_283)] text-white" aria-labelledby="hero-title">
+    <img src="/images/scenes/hero.webp" alt="" class="absolute inset-0 -z-20 h-full w-full object-cover object-right" fetchpriority="high" />
+    <div class="summit-hero-scrim absolute inset-0 -z-10" aria-hidden="true"></div>
+
+    <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24 lg:pt-32">
+        <RzAnimatedGradientText ColorFrom="#c4b5fd" ColorTo="#5eead4" class="w-fit rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium backdrop-blur">
+            @Model.Conference.StartsOn.ToString("MMMM d", CultureInfo.CurrentCulture)–@Model.Conference.EndsOn.ToString("d, yyyy", CultureInfo.CurrentCulture) · @Model.Conference.Venue, @Model.Conference.City
+        </RzAnimatedGradientText>
+
+        <h1 id="hero-title" class="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl">
+            <RzAuroraText Colors="@(["#a78bfa", "#5eead4", "#fb923c", "#c084fc"])">@Model.Conference.Name</RzAuroraText>
+            <span class="mt-2 block text-3xl font-medium text-white/90 sm:text-5xl">
+                Three days to
+                <RzTypingAnimation Words="@(["build", "scale", "ship", "learn", "meet your people"])" Loop="true" TypeSpeed="70" DeleteSpeed="40" PauseDelay="1600" class="text-[#c4b5fd]" />
+            </span>
+        </h1>
+
+        <p class="max-w-2xl text-lg text-white/85 sm:text-xl">
+            @Model.Conference.Tagline Ninety talks, six hands-on workshops, five tracks, and the hallway track you remember for years.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3">
+            <RzButton Element="a" href="/tickets" Variant="ThemeVariant.Primary" Size="Size.Large">Get your ticket</RzButton>
+            <RzButton Element="a" href="/schedule" Variant="ThemeVariant.Secondary" Outline Size="Size.Large" class="border-white/40 bg-white/5 text-white hover:bg-white/15 hover:text-white">See the schedule</RzButton>
+        </div>
+
+        <div class="flex flex-col gap-3">
+            <p class="text-sm font-medium uppercase tracking-wide text-white/75">Doors open in</p>
+            <ConferenceCountdown OpensAt="Model.OpensAt" Now="Model.Now" />
+        </div>
+    </div>
+</section>
+
+@* Numbers, loaded when they scroll into view. *@
+<section class="border-b" aria-label="Summit in numbers">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+        <div hx-get="/fragments/home/stats" hx-trigger="intersect once" hx-swap="outerHTML">
+            <div class="grid grid-cols-2 gap-6 sm:grid-cols-4" role="status" aria-busy="true" aria-label="Loading the numbers">
+                @for (var i = 0; i < 4; i++)
+                {
+                    <div class="flex flex-col items-center gap-2">
+                        <RzSkeleton class="h-12 w-24" />
+                        <RzSkeleton class="h-4 w-20" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@* Tracks. *@
+<section class="mx-auto max-w-7xl px-4 py-20 sm:px-6" aria-labelledby="tracks-title">
+    <div class="mb-10 flex max-w-2xl flex-col gap-3">
+        <p class="text-primary text-sm font-semibold uppercase tracking-wide">Five tracks</p>
+        <h2 id="tracks-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">Pick a lane, or <RzHighlighter Action="HighlighterAction.Underline" Color="#a855f7" StrokeWidth="2">wander between them</RzHighlighter></h2>
+        <p class="text-muted-foreground text-lg">Talks are 45 minutes with time to switch rooms. Every track runs all three days.</p>
+    </div>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        @foreach (var track in Model.Tracks)
+        {
+            <a href="@($"/schedule?tracks={track.Slug}")" class="@($"track-{track.Slug} group bg-card flex flex-col overflow-hidden rounded-2xl border summit-card-hover")">
+                <RzAspectRatio Ratio="1" class="bg-muted overflow-hidden">
+                    <img src="@track.Image" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none" />
+                </RzAspectRatio>
+                <div class="flex flex-1 flex-col gap-2 p-4">
+                    <span class="h-1 w-10 rounded-full bg-[var(--track)]" aria-hidden="true"></span>
+                    <h3 class="font-semibold">@track.Name</h3>
+                    <p class="text-muted-foreground text-sm">@track.Description</p>
+                </div>
+            </a>
+        }
+    </div>
+</section>
+
+@* Featured speakers. *@
+<section class="bg-muted/40 border-y py-20" aria-labelledby="speakers-title">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="flex max-w-2xl flex-col gap-3">
+                <p class="text-primary text-sm font-semibold uppercase tracking-wide">Featured speakers</p>
+                <h2 id="speakers-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">People who build things for a living</h2>
+            </div>
+            <RzButton Element="a" href="/speakers" Variant="ThemeVariant.Secondary" Outline>All 64 speakers</RzButton>
+        </div>
+
+        <RzCarousel AriaLabel="Featured speakers" class="px-12"
+                    Options="@(new CarouselOptions { Align = "start", Loop = true })"
+                    Plugins="@(new[] { new AutoplayPlugin(new AutoplayPluginOptions { Delay = 5000, StopOnInteraction = true }) })">
+            <CarouselContent>
+                @foreach (var speaker in Model.FeaturedSpeakers)
+                {
+                    var session = speaker.Sessions.Select(s => s.Session).OrderBy(s => s.StartsAt).FirstOrDefault();
+                    <CarouselItem class="basis-full sm:basis-1/2 lg:basis-1/3">
+                        <RzCard class="h-full overflow-hidden">
+                            <img src="@speaker.Portrait" alt="@($"Portrait of {speaker.Name}")" loading="lazy" class="aspect-square w-full object-cover" />
+                            <CardHeader>
+                                <CardTitle>@speaker.Name</CardTitle>
+                                <CardDescription>@speaker.Title, @speaker.Company</CardDescription>
+                            </CardHeader>
+                            @if (session is not null)
+                            {
+                                <CardContent>
+                                    <a href="/sessions/@session.Slug" class="text-sm font-medium hover:underline">@session.Title</a>
+                                </CardContent>
+                            }
+                        </RzCard>
+                    </CarouselItem>
+                }
+            </CarouselContent>
+            <CarouselPrevious AriaLabel="Previous speakers" />
+            <CarouselNext AriaLabel="Next speakers" />
+        </RzCarousel>
+    </div>
+</section>
+
+@* The venue and the experience. *@
+<section class="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center" aria-labelledby="venue-title">
+    <div class="grid grid-cols-2 gap-4">
+        <RzAspectRatio Ratio="@(4d / 3)" class="col-span-2 overflow-hidden rounded-2xl">
+            <img src="/images/scenes/venue.webp" alt="Harbor Hall on the waterfront at dusk" loading="lazy" class="h-full w-full object-cover" />
+        </RzAspectRatio>
+        <RzAspectRatio Ratio="@(4d / 3)" class="overflow-hidden rounded-2xl">
+            <img src="/images/scenes/workshop.webp" alt="Attendees coding together in a workshop" loading="lazy" class="h-full w-full object-cover" />
+        </RzAspectRatio>
+        <RzAspectRatio Ratio="@(4d / 3)" class="overflow-hidden rounded-2xl">
+            <img src="/images/scenes/networking.webp" alt="Developers talking over coffee in the hallway" loading="lazy" class="h-full w-full object-cover" />
+        </RzAspectRatio>
+    </div>
+    <div class="flex flex-col gap-5">
+        <p class="text-primary text-sm font-semibold uppercase tracking-wide">The venue</p>
+        <h2 id="venue-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">@Model.Conference.Venue, on the @Model.Conference.City waterfront</h2>
+        <p class="text-muted-foreground text-lg">
+            Six rooms, all step-free, five minutes from Central Station. Captions on the big screens, a quiet room
+            on every floor, and food that works for every diet.
+        </p>
+        <ul class="flex flex-col gap-3 text-sm">
+            @foreach (var feature in VenueFeatures)
+            {
+                <li class="flex items-start gap-3">
+                    <span class="bg-primary/10 text-primary flex size-7 shrink-0 items-center justify-center rounded-full"><Blazicon Svg="feature.Icon" class="size-4" /></span>
+                    <span class="pt-1">@feature.Text</span>
+                </li>
+            }
+        </ul>
+        <RzButton Element="a" href="/help" Variant="ThemeVariant.Secondary" Outline class="w-fit">Venue, travel and accessibility</RzButton>
+    </div>
+</section>
+
+@* Sponsors. *@
+<section class="border-y py-14" aria-labelledby="sponsors-title">
+    <h2 id="sponsors-title" class="text-muted-foreground mb-8 text-center text-sm font-semibold uppercase tracking-wide">Made possible by</h2>
+    <div class="relative">
+        <RzMarquee PauseOnHover Duration="40s" aria-hidden="true">
+            @foreach (var sponsor in Model.Sponsors)
+            {
+                <img src="@sponsor.Logo" alt="" class="mx-6 h-9 w-auto opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0 dark:invert" />
+            }
+        </RzMarquee>
+        <div class="from-background pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r" aria-hidden="true"></div>
+        <div class="from-background pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l" aria-hidden="true"></div>
+    </div>
+    <p class="sr-only">Sponsors: @string.Join(", ", Model.Sponsors.Select(s => s.Name)).</p>
+</section>
+
+@* The ticket. *@
+<section class="mx-auto max-w-5xl px-4 py-20 sm:px-6" aria-labelledby="ticket-title">
+    <div class="relative overflow-hidden rounded-3xl border bg-[oklch(0.16_0.04_283)] text-white">
+        <img src="/images/scenes/ticket-bg.webp" alt="" class="absolute inset-0 h-full w-full object-cover opacity-70" loading="lazy" />
+        <RzShineBorder ShineColors="@(["#a78bfa", "#5eead4", "#fb923c"])" BorderWidth="2" />
+        <div class="relative grid gap-8 p-8 sm:p-12 md:grid-cols-[1.4fr_1fr] md:items-center">
+            <div class="flex flex-col gap-4">
+                <p class="text-sm font-semibold uppercase tracking-wide text-white/75">Conference pass</p>
+                <h2 id="ticket-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">All three days, every talk, the party on day two.</h2>
+                <ul class="flex flex-col gap-1.5 text-white/85">
+                    @foreach (var perk in Model.ConferencePass.PerkList)
+                    {
+                        <li class="flex items-center gap-2"><Blazicon Svg="Lucide.Check" class="size-4 text-[#5eead4]" /> @perk</li>
+                    }
+                </ul>
+            </div>
+            <div class="flex flex-col gap-4 rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur">
+                <p class="text-4xl font-semibold tabular-nums">@Model.ConferencePass.Price.ToString("C0", Money)</p>
+                <p class="text-sm text-white/75">Prices include VAT. Group discounts for teams of five or more.</p>
+                <RzButton Element="a" href="/tickets" Variant="ThemeVariant.Primary" Size="Size.Large" class="w-full">Choose your ticket</RzButton>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public HomeModel Model { get; set; } = null!;
+
+    private static readonly (SvgIcon Icon, string Text)[] VenueFeatures =
+    [
+        (Lucide.Accessibility, "Step-free access to every room, with induction loops in the two largest halls."),
+        (Lucide.Captions, "Live captions on a second screen in the Main Hall and the Harbor Room."),
+        (Lucide.Utensils, "Vegetarian, vegan, halal and gluten-free options at every meal."),
+        (Lucide.TrainFront, "Five minutes on foot from Central Station; partner hotels nearby."),
+    ];
+
+    // Euro prices in the visitor's number format (1.234 € in German, €1,234 in English).
+    private static IFormatProvider Money => SummitMoney.Format;
+}

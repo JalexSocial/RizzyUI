@@ -1,0 +1,34 @@
+@attribute [RzAlpineCodeBehind]
+@*
+    Days, hours and minutes until the opening keynote (ConferenceCountdown.razor.js). "Now" comes from the
+    server clock, so the fixed clock of the test environment gives a stable countdown. The server renders
+    the same text first, so it reads correctly before the module loads and with JavaScript off.
+*@
+<RzAlpineComponent For="this" LoadStrategy="visible"
+                   Props="@(new { OpensAt = OpensAt.ToUnixTimeMilliseconds(), ServerNow = Now.ToUnixTimeMilliseconds() })"
+                   class="flex items-center gap-3" role="timer" aria-label="Time until the opening keynote">
+    @foreach (var (value, unit, key) in Parts)
+    {
+        <div class="flex min-w-16 flex-col items-center rounded-xl border border-white/15 bg-white/10 px-3 py-2 backdrop-blur">
+            <span class="text-2xl font-semibold tabular-nums text-white" x-text="@key">@value</span>
+            <span class="text-xs uppercase tracking-wide text-white/75">@unit</span>
+        </div>
+    }
+</RzAlpineComponent>
+
+@code {
+    [Parameter, EditorRequired] public DateTimeOffset OpensAt { get; set; }
+    [Parameter, EditorRequired] public DateTimeOffset Now { get; set; }
+
+    private IEnumerable<(string Value, string Unit, string Key)> Parts
+    {
+        get
+        {
+            var left = OpensAt - Now;
+            if (left < TimeSpan.Zero) left = TimeSpan.Zero;
+            yield return (((int)left.TotalDays).ToString(CultureInfo.CurrentCulture), "days", "days");
+            yield return (left.Hours.ToString("00", CultureInfo.CurrentCulture), "hours", "hours");
+            yield return (left.Minutes.ToString("00", CultureInfo.CurrentCulture), "minutes", "minutes");
+        }
+    }
+}

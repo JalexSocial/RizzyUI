@@ -1,0 +1,60 @@
+@* Settings › General: the support address and the event switches. 422 or a toast. *@
+<RzCard id="settings-general">
+    <CardContent class="pt-6">
+        <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-8"
+                  hx-post="/organizer/settings/general" hx-target="#settings-general" hx-swap="outerHTML"
+                  hx-disabled-elt="find button[type=submit]">
+            <RzModelStateProvider />
+            <FocusFirstError />
+
+            <RzFormSection Title="Contact" Layout="SectionLayout.TwoColumn">
+                <Description>Shown on tickets, confirmation emails and the help page.</Description>
+                <Content>
+                    <Field>
+                        <FieldLabel For="@(() => Model!.SupportEmail)" />
+                        <RzInputText For="@(() => Model!.SupportEmail)" Role="TextRole.Email" autocomplete="off" />
+                        <FieldError><RzValidationMessageBase For="@(() => Model!.SupportEmail)" /></FieldError>
+                    </Field>
+                </Content>
+            </RzFormSection>
+
+            <RzFormSection Title="Event switches" Layout="SectionLayout.TwoColumn">
+                <Description>Take effect immediately on the public site and at the desks.</Description>
+                <Content>
+                    <div class="flex flex-col gap-4">
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RzSwitch For="@(() => Model!.RegistrationOpen)" />
+                            <FieldLabel For="@(() => Model!.RegistrationOpen)" />
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RzSwitch For="@(() => Model!.CheckInOpen)" />
+                            <FieldLabel For="@(() => Model!.CheckInOpen)" />
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RzSwitch For="@(() => Model!.ShowRemainingTickets)" />
+                            <FieldLabel For="@(() => Model!.ShowRemainingTickets)" />
+                        </Field>
+                    </div>
+                </Content>
+            </RzFormSection>
+
+            <div class="flex justify-end border-t pt-6">
+                <RzButton type="submit" Variant="ThemeVariant.Primary">Save settings</RzButton>
+            </div>
+        </EditForm>
+    </CardContent>
+</RzCard>
+
+@code {
+    [SupplyParameterFromForm(FormName = "Model")]
+    public GeneralSettingsModel? Model { get; set; }
+
+    [Parameter] public GeneralSettingsModel? Initial { get; set; }
+    [Parameter] public bool Saved { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= Initial ?? new GeneralSettingsModel();
+        if (Saved && Initial is not null) Model = Initial;
+    }
+}

@@ -1,0 +1,46 @@
+@*
+    Organizer › Dashboard. The page renders the filters and placeholders; #dashboard-charts loads the
+    panels once the page is ready (hx-trigger="load"), and the same request updates the stats,
+    capacity and orders out of band. The filter form repeats it (DashboardFilters).
+*@
+<RzPageTitle>Dashboard · Summit organizer</RzPageTitle>
+
+<PageHeader Title="Dashboard" Description="Sales and attendance at a glance.">
+    <Actions>
+        <a href="/organizer/check-in" class="hover:bg-accent relative inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium">
+            <span class="relative inline-flex size-2.5">
+                <RzIndicator Color="Colors.Emerald.L500" Size="Size.Small" Position="IndicatorPosition.Center" class="animate-pulse" role="img" AriaLabel="Live" />
+            </span>
+            Check-in desk is open
+        </a>
+    </Actions>
+</PageHeader>
+
+<DashboardFilters Filter="Filter" Today="Today" TicketTypes="TicketTypes" />
+
+<section id="dashboard-stats" aria-label="Key figures loading" aria-busy="true">
+    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        @for (var i = 0; i < 4; i++)
+        {
+            <RzSkeleton class="h-[5.5rem] rounded-xl" />
+        }
+    </div>
+</section>
+
+<div id="dashboard-charts" class="grid grid-cols-1 gap-4 lg:grid-cols-3" aria-busy="true"
+     hx-get="/organizer/dashboard/panels" hx-trigger="load" hx-include="#dashboard-filters" hx-swap="outerHTML">
+    <RzSkeleton class="h-80 rounded-xl lg:col-span-2" />
+    <RzSkeleton class="h-80 rounded-xl" />
+    <RzSkeleton class="h-72 rounded-xl lg:col-span-3" />
+</div>
+
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div id="dashboard-capacity" aria-busy="true"><RzSkeleton class="h-72 rounded-xl" /></div>
+    <div id="recent-orders" class="lg:col-span-2" aria-busy="true"><RzSkeleton class="h-72 rounded-xl" /></div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public DashboardFilter Filter { get; set; } = null!;
+    [Parameter, EditorRequired] public DateOnly Today { get; set; }
+    [Parameter, EditorRequired] public IReadOnlyList<TicketType> TicketTypes { get; set; } = [];
+}

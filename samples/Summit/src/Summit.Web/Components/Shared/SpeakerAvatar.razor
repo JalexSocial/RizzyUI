@@ -1,0 +1,14 @@
+@* RzAvatar labels itself "Avatar" by default, which hides the image's alt text (SF-031). *@
+<RzAvatar Size="Size" class="@Class" AriaLabel="@Speaker.Name">
+    @if (Speaker.Portrait is not null)
+    {
+        <AvatarImage ImageSource="@Speaker.Portrait" AlternateText="@Speaker.Name" />
+    }
+    <AvatarFallback>@Speaker.Initials</AvatarFallback>
+</RzAvatar>
+
+@code {
+    [Parameter, EditorRequired] public Speaker Speaker { get; set; } = null!;
+    [Parameter] public Size Size { get; set; } = Size.Small;
+    [Parameter] public string? Class { get; set; }
+}
