@@ -19,7 +19,7 @@ a browser test.
 
 ## Matrix
 
-Status after phase 4 (public site, checkout and the whole organizer area). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
+Status after phase 5a (all pages, German and phone layouts). "Test" names the spec in `samples/Summit/tests/e2e/specs`.
 
 | Component | Level | Where | Test | Combined with / notes |
 |---|---|---|---|---|
@@ -45,7 +45,7 @@ Status after phase 4 (public site, checkout and the whole organizer area). "Test
 | RzDialog | 4 | search palette, quick actions, create API key | public: search palette; shell: quick actions; organizer-settings: API keys | teleported body replaced by a form post (422, then the secret) |
 | RzEmpty | 4 | speakers, schedule, errors, attendees, dashboard | public: no speakers match; organizer-dashboard: empty range | |
 | RzPopover | 4 | room details on session cards; attendee column menu; dashboard date range | organizer-attendees: S-03; organizer-dashboard: calendar range | column toggles drive the table; closed from code when a range is complete |
-| RzSheet | 4 | session details, attendee editor, mobile navigation | public: details sheet; organizer-attendees: S-03 | swapped in open, removed out of band (SF-002); a 422 inside the teleported panel; mobile nav not asserted |
+| RzSheet | 4 | session details, attendee editor, mobile navigation, organizer sidebar on phones | public: details sheet; organizer-attendees: S-03; mobile: navigation sheet (focus trap, Escape) | swapped in open, removed out of band (SF-002); a 422 inside the teleported panel; trigger-opened sheets need SF-074's workaround |
 | RzSkeleton | 4 | home stats, dashboard placeholders | public: lazy numbers; organizer-dashboard: failed request keeps them | replaced by `intersect once` and `load` swaps |
 | RzSpinner | 1 | schedule filters, speaker search, check-in (`hx-indicator`) | axe | visibility during a request not asserted |
 | RzToast | 4 | agenda, contact form, server errors | public: agenda toast, message sent | server toasts via `HX-Trigger` |
@@ -91,7 +91,7 @@ Status after phase 4 (public site, checkout and the whole organizer area). "Test
 | RzNavigationMenu | 1 | public header mega menu | axe | not opened by a test |
 | RzPagination | 4 | speakers, dashboard orders | public: pages with htmx; organizer-dashboard: orders page | `hx-get` + pushed URL; in-card paging without URL |
 | RzScrollArea | 3 | schedule day tabs, schedule builder session list | axe; organizer-schedule-builder | content replaced out of band inside it |
-| RzSidebar | 1 | organizer layout | axe | collapse, mobile sheet and cookie not tested; SF-049 |
+| RzSidebar | 4 | organizer layout | mobile: sidebar sheet navigates | collapse cookie not tested; SF-049 |
 | RzTabs | 4 | schedule days; settings (vertical, lazy panels) | public: filter keeps the day; organizer-settings: panels | `rz:tabs-change` feeds the filter form and the URL; arrow keys in vertical mode |
 | RzShineBorder | 1 | home ticket, tickets page | axe | inline style (CSP report-only) |
 | RzAnimatedGradientText | 1 | home hero | axe | |
@@ -109,8 +109,7 @@ Status after phase 4 (public site, checkout and the whole organizer area). "Test
 
 ## Gaps to close in later phases
 
-- Overlays not yet driven by tests: navigation menu, mobile navigation sheet, sidebar collapse and
-  mobile sheet.
+- Overlays not yet driven by tests: the desktop navigation menu and the sidebar's collapse cookie.
 - S-03 in the plan opens the editor from a row menu (`RzDropdownMenu` in a row); Summit uses a row
   button because of SF-048. A row menu with teleported content is still to be tried (S-09).
 - Copy actions (`RzClipboard`, `RzCodeViewer`) need a clipboard permission in Playwright.

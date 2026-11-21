@@ -1,6 +1,7 @@
 @attribute [RzAlpineCodeBehind]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> L
 @*
     Turns failures into toasts: rz:server-error (UseHtmxErrorHandling on the server) and htmx network
     errors. Without it a failed fragment request would leave the page silently unchanged.
 *@
-<RzAlpineComponent For="this" Props="@(new { ServerErrorTitle = "Something went wrong", ServerErrorText = "The server could not complete that request. Please try again.", OfflineText = "Could not reach the server. Check your connection." })" class="hidden" />
+<RzAlpineComponent For="this" Props="@(new { ServerErrorTitle = L["Something went wrong"].Value, ServerErrorText = L["The server could not complete that request. Please try again."].Value, OfflineText = L["Could not reach the server. Check your connection."].Value })" class="hidden" />

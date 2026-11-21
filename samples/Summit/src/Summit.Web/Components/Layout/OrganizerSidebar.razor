@@ -1,15 +1,16 @@
 @using System.Security.Claims
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> L
 @* No fixed ids in here: Sidebar renders its content twice, once for phones and once for desktop (SF-011). *@
-<Sidebar Collapsible="SidebarCollapsible.Icon" AriaLabel="Organizer">
+<Sidebar Collapsible="SidebarCollapsible.Icon" AriaLabel="@L["Organizer"]">
     <SidebarHeader>
         <SidebarMenu>
             <SidebarMenuItem>
-                <SidebarMenuButton Size="Size.Large" AsChild Tooltip="Dashboard">
+                <SidebarMenuButton Size="Size.Large" AsChild Tooltip="@L["Dashboard"]">
                     <a href="/organizer">
                         <SummitLogo IconOnly />
                         <span class="flex flex-col gap-0.5 leading-none">
                             <span class="font-semibold">Summit</span>
-                            <span class="text-muted-foreground text-xs">Organizer</span>
+                            <span class="text-muted-foreground text-xs">@L["Organizer"]</span>
                         </span>
                     </a>
                 </SidebarMenuButton>
@@ -48,17 +49,17 @@
     <SidebarFooter>
         <SidebarMenu>
             <SidebarMenuItem>
-                <SidebarMenuButton AsChild Tooltip="Public site">
+                <SidebarMenuButton AsChild Tooltip="@L["Public site"]">
                     <a href="/">
                         <Blazicon Svg="Lucide.Globe" />
-                        <span>View public site</span>
+                        <span>@L["View public site"]</span>
                     </a>
                 </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
                 <RzDropdownMenu Anchor="AnchorPoint.TopStart">
                     <DropdownMenuTrigger AsChild>
-                        <SidebarMenuButton Size="Size.Large" Tooltip="Account">
+                        <SidebarMenuButton Size="Size.Large" Tooltip="@L["Account"]">
                             <RzAvatar Size="Size.Small" class="rounded-lg">
                                 <AvatarFallback class="rounded-lg">@Initials</AvatarFallback>
                             </RzAvatar>
@@ -72,11 +73,11 @@
                     <DropdownMenuContent class="w-56">
                         <DropdownMenuLabel>@UserEmail</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem Element="a" href="/organizer/settings" Icon="Lucide.Settings">Settings</DropdownMenuItem>
-                        <DropdownMenuItem Element="a" href="/" Icon="Lucide.Globe">Public site</DropdownMenuItem>
+                        <DropdownMenuItem Element="a" href="/organizer/settings" Icon="Lucide.Settings">@L["Settings"]</DropdownMenuItem>
+                        <DropdownMenuItem Element="a" href="/" Icon="Lucide.Globe">@L["Public site"]</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem Icon="Lucide.LogOut" hx-post="/account/sign-out" hx-target="body" hx-push-url="/account/sign-in">
-                            Sign out
+                            @L["Sign out"]
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </RzDropdownMenu>
@@ -109,14 +110,14 @@
         var attendees = await Info.CountActiveAttendeesAsync();
         Groups =
         [
-            new("Overview", [new("Dashboard", "/organizer", Lucide.LayoutDashboard)]),
-            new("Event",
+            new(L["Overview"], [new(L["Dashboard"], "/organizer", Lucide.LayoutDashboard)]),
+            new(L["Event"],
             [
-                new("Attendees", "/organizer/attendees", Lucide.Users, attendees.ToString("N0", CultureInfo.CurrentCulture)),
-                new("Check-in desk", "/organizer/check-in", Lucide.ScanLine),
-                new("Schedule builder", "/organizer/schedule-builder", Lucide.CalendarCog),
+                new(L["Attendees"], "/organizer/attendees", Lucide.Users, attendees.ToString("N0", CultureInfo.CurrentCulture)),
+                new(L["Check-in desk"], "/organizer/check-in", Lucide.ScanLine),
+                new(L["Schedule builder"], "/organizer/schedule-builder", Lucide.CalendarCog),
             ]),
-            new("Admin", [new("Settings", "/organizer/settings", Lucide.Settings)]),
+            new(L["Admin"], [new(L["Settings"], "/organizer/settings", Lucide.Settings)]),
         ];
     }
 

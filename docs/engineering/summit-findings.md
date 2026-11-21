@@ -100,7 +100,7 @@ tracks how much application code exists only to compensate.
 | SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works (workaround: event forwarding) | Open | e2e: dashboard calendar range (workflow) |
 | SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open | e2e: dashboard calendar range, quick ranges |
 | SF-059 | RizzyUI | RzChart | Bug | Medium | The chart config has no top-level `type` (only per-dataset types), so Chart.js uses no chart-type defaults: a doughnut's legend shows the dataset label instead of one entry per slice | Works (workaround: HTML legend) | Open | e2e: dashboard panels (legend items not asserted) |
-| SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works (workaround: whole numbers) | Open | None (de-DE stats not asserted yet; phase 5) |
+| SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works (workaround: whole numbers) | Open | e2e: culture S-12 (German grouping, whole euros) |
 | SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works (workaround: `class="h-full"`, parents of at least 300 px) | Open | Manual (sizes checked in the browser) |
 | SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works (workaround: destroy the raw instance, reload on theme change) | Open | e2e: dashboard dark mode, quick ranges (no page errors) |
 | SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe |
@@ -113,6 +113,8 @@ tracks how much application code exists only to compensate.
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
+| SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works (workaround: culture passed by hand; flatpickr `de` registered as an asset key) | Open | e2e: culture S-12 |
+| SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works (workaround: `SheetFocus` moves focus in) | Open | e2e: mobile S-16 (focus stays in the navigation sheet) |
 
 ## Integration code ledger
 
@@ -153,6 +155,8 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `ScheduleBuilder/ScheduleBuilderPage.razor.js` (menubar view options) | ~20 JS | SF-067 | Change events from menubar checkbox and radio items |
 | `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
+| Calendar `Locale` from the culture; `FlatpickrDe` asset key and `ComponentAssetKeys` on German pages | ~6 | SF-073 | Date components that follow the request culture |
+| `Components/Shared/SheetFocus.razor(.js)` (focus into trigger-opened sheets) | ~25 JS | SF-074 | RzSheet activating its focus scope after the panel is visible |
 
 ### Application-specific code (would exist anyway)
 
@@ -1128,3 +1132,41 @@ finding on its own.
 - **Observed working:** `mountCodeBehind` tests a TypeScript module bundled by esbuild, its window and
   bubbling events, and a module whose markup lives outside the component (teleported menu items).
   Summit's first three code-behind tests (`tests/codebehind/organizer.test.mjs`) run in CI.
+
+### SF-073 Date pickers ignore the request culture
+
+- **Tag:** Gap, Medium (owner: RizzyUI)
+- **What:** On German pages the dashboard calendar showed "May 2027 / June 2027" and "SunMon…", and the
+  schedule builder's date picker English months, although everything else (formats, RizzyUI's own
+  strings such as "Benachrichtigungen") followed de-DE. `VanillaCalendarOptions.Locale` defaults to
+  `"en"` rather than `CultureInfo.CurrentUICulture`. `FlatpickrOptions.Locale = "de"` is accepted but
+  flatpickr only knows `en` unless its `l10n/de.js` is loaded, which RizzyUI does not ship, pin or load;
+  there is no warning.
+- **Summit workaround:** the calendar gets `Locale = CultureInfo.CurrentCulture.Name`; `vendor.json`
+  adds `FlatpickrDe` (flatpickr's `dist/l10n/de.js`, self-hosted), and the session editor passes
+  `ComponentAssetKeys = ["FlatpickrCore", "FlatpickrDe"]` on German pages. `ComponentAssetKeys` made
+  this possible without script, which is a good extension point.
+- **Library fix:** default both components to the current UI culture; add flatpickr locale files to
+  the default assets (keyed by language) and load the one the culture needs.
+- **Observed working:** with the locale loaded, German dates post as `yyyy-MM-dd HH:mm` and bind on a
+  de-DE request; capacity (an `int`) binds; the culture cookie survives navigation; RizzyUI's own
+  German strings are used.
+
+### SF-074 Sheets opened from a trigger do not take focus
+
+- **Tag:** Bug, High (owner: RizzyUI; accessibility, WCAG 2.4.3)
+- **What:** Opening the public site's navigation sheet on a phone left focus on the menu button; Tab
+  then walked the page behind the modal overlay (the test's trail never entered the panel). In
+  `rzSheet.js`, the `open` watcher calls `createFocusScope(panel).activate()` synchronously, before
+  `x-show` has displayed the panel, so no element inside is focusable and focusing the fallback panel
+  fails. The scope's Tab handler is a `keydown` listener on the panel, so with focus outside it never
+  runs. Sheets opened with `DefaultOpen` (the attendee editor, session details) work, because they
+  activate in `$nextTick` after the panel is visible.
+- **Summit workaround:** `Components/Shared/SheetFocus.razor(.js)` in the app layout: a
+  `MutationObserver` on panels' `aria-hidden` that focuses the first visible control on the next frame
+  (about 25 lines); the focus scope then keeps focus inside, and Escape returns it to the trigger.
+- **Library fix:** activate the focus scope after the panel is shown (`$nextTick`, or after the
+  transition), as the `DefaultOpen` path does; consider listening for Tab on the document while a
+  modal scope is active.
+- **Regression test (library):** open a sheet with its trigger and assert that focus is inside the
+  panel and that Tab cannot leave it.

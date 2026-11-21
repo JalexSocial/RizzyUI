@@ -17,6 +17,11 @@
       "path": "lib/flatpickr/flatpickr.min.js"
     },
     {
+      "key": "FlatpickrDe",
+      "url": "https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/de.js",
+      "path": "lib/flatpickr/l10n/de.js"
+    },
+    {
       "key": "VanillaCalendarPro",
       "url": "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.4.0/index.js",
       "path": "lib/vanilla-calendar-pro/index.js"

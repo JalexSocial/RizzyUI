@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German strings for Summit's chrome. Keys are the English text (IStringLocalizer falls back to the key). -->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Open navigation" xml:space="preserve"><value>Navigation öffnen</value></data>
+  <data name="Get tickets" xml:space="preserve"><value>Tickets kaufen</value></data>
+  <data name="Program" xml:space="preserve"><value>Programm</value></data>
+  <data name="Schedule" xml:space="preserve"><value>Zeitplan</value></data>
+  <data name="Speakers" xml:space="preserve"><value>Vortragende</value></data>
+  <data name="Workshops" xml:space="preserve"><value>Workshops</value></data>
+  <data name="Tracks" xml:space="preserve"><value>Tracks</value></data>
+  <data name="Attend" xml:space="preserve"><value>Teilnehmen</value></data>
+  <data name="Tickets" xml:space="preserve"><value>Tickets</value></data>
+  <data name="Help &amp; FAQ" xml:space="preserve"><value>Hilfe &amp; FAQ</value></data>
+  <data name="My agenda" xml:space="preserve"><value>Meine Agenda</value></data>
+  <data name="Home" xml:space="preserve"><value>Startseite</value></data>
+  <data name="Organizer sign-in" xml:space="preserve"><value>Anmeldung für Veranstalter</value></data>
+  <data name="Three days, five tracks, ninety talks." xml:space="preserve"><value>Drei Tage, fünf Tracks, neunzig Vorträge.</value></data>
+  <data name="Sixty-four people who build things for a living." xml:space="preserve"><value>Vierundsechzig Menschen, die beruflich Dinge bauen.</value></data>
+  <data name="Ninety minutes of hands-on work, forty seats each." xml:space="preserve"><value>Neunzig Minuten Praxis, je vierzig Plätze.</value></data>
+  <data name="Passes, workshops and student tickets." xml:space="preserve"><value>Konferenzpässe, Workshops und Studierendentickets.</value></data>
+  <data name="Venue, travel, accessibility and contact." xml:space="preserve"><value>Veranstaltungsort, Anreise, Barrierefreiheit und Kontakt.</value></data>
+  <data name="The talks you saved, in one list." xml:space="preserve"><value>Deine gespeicherten Vorträge in einer Liste.</value></data>
+  <data name="My agenda, {0} saved" xml:space="preserve"><value>Meine Agenda, {0} gespeichert</value></data>
+  <data name="{0} home" xml:space="preserve"><value>{0} Startseite</value></data>
+  <data name="Main" xml:space="preserve"><value>Hauptnavigation</value></data>
+  <data name="Mobile" xml:space="preserve"><value>Mobil</value></data>
+  <data name="Sponsors" xml:space="preserve"><value>Sponsoren</value></data>
+  <data name="Summit is a fictional conference: a demo application for RizzyUI, Rizzy and htmx." xml:space="preserve"><value>Summit ist eine erfundene Konferenz: eine Demo-Anwendung für RizzyUI, Rizzy und htmx.</value></data>
+  <data name="Every person, company and image on this site is made up." xml:space="preserve"><value>Alle Personen, Firmen und Bilder auf dieser Website sind erfunden.</value></data>
+  <data name="Language" xml:space="preserve"><value>Sprache</value></data>
+  <data name="Language," xml:space="preserve"><value>Sprache,</value></data>
+  <data name="Search" xml:space="preserve"><value>Suchen</value></data>
+  <data name="Something went wrong" xml:space="preserve"><value>Etwas ist schiefgelaufen</value></data>
+  <data name="The server could not complete that request. Please try again." xml:space="preserve"><value>Der Server konnte die Anfrage nicht ausführen. Bitte versuche es noch einmal.</value></data>
+  <data name="Could not reach the server. Check your connection." xml:space="preserve"><value>Der Server ist nicht erreichbar. Prüfe deine Verbindung.</value></data>
+  <data name="Organizer" xml:space="preserve"><value>Veranstalter</value></data>
+  <data name="Overview" xml:space="preserve"><value>Überblick</value></data>
+  <data name="Event" xml:space="preserve"><value>Veranstaltung</value></data>
+  <data name="Admin" xml:space="preserve"><value>Verwaltung</value></data>
+  <data name="Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Attendees" xml:space="preserve"><value>Teilnehmende</value></data>
+  <data name="Check-in desk" xml:space="preserve"><value>Check-in</value></data>
+  <data name="Schedule builder" xml:space="preserve"><value>Programmplanung</value></data>
+  <data name="Settings" xml:space="preserve"><value>Einstellungen</value></data>
+  <data name="Public site" xml:space="preserve"><value>Öffentliche Website</value></data>
+  <data name="View public site" xml:space="preserve"><value>Öffentliche Website ansehen</value></data>
+  <data name="Account" xml:space="preserve"><value>Konto</value></data>
+  <data name="Sign out" xml:space="preserve"><value>Abmelden</value></data>
+  <data name="Breadcrumb" xml:space="preserve"><value>Brotkrumen</value></data>
+</root>

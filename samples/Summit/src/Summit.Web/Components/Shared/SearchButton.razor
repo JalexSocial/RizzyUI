@@ -1,11 +1,12 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> L
 @* Opens the search palette (Ctrl+K / Cmd+K). The palette itself lives in SearchPalette. *@
-<RzSearchButton Label="Search" class="hidden w-56 justify-between md:inline-flex"
+<RzSearchButton Label="@L["Search"]" class="hidden w-56 justify-between md:inline-flex"
                 x-data x-on:click="$dispatch('summit:open-search')">
     <RzKbdGroup class="ml-auto">
         <RzKbd>Ctrl</RzKbd><RzKbd>K</RzKbd>
     </RzKbdGroup>
 </RzSearchButton>
-<RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="md:hidden" aria-label="Search"
+<RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="md:hidden" aria-label="@L["Search"]"
           x-data x-on:click="$dispatch('summit:open-search')">
     <Blazicon Svg="Lucide.Search" class="size-4" />
 </RzButton>

@@ -1,15 +1,16 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> L
 @* Language and formats. A link with ?culture= switches; SummitCultures remembers it in a cookie. *@
 <RzDropdownMenu Anchor="AnchorPoint.BottomEnd">
     <DropdownMenuTrigger AsChild>
         @* The visible text ("EN") is part of the accessible name ("Language, EN"): WCAG 2.5.3. *@
         <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small">
             <Blazicon Svg="Lucide.Languages" class="size-4" />
-            <span class="sr-only">Language,</span>
+            <span class="sr-only">@L["Language,"]</span>
             <span class="text-xs font-medium uppercase">@Current.TwoLetterISOLanguageName</span>
         </RzButton>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-48">
-        <DropdownMenuLabel>Language</DropdownMenuLabel>
+        <DropdownMenuLabel>@L["Language"]</DropdownMenuLabel>
         <DropdownMenuSeparator />
         @foreach (var culture in SummitCultures.Supported)
         {

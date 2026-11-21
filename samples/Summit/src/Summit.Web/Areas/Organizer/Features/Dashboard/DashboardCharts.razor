@@ -6,7 +6,7 @@
     AriaLabel and a visually hidden table with the same numbers. Each chart has class="h-full" inside a
     wrapper with a fixed height: without it the canvas grows past its card (SF-061).
 *@
-<div id="dashboard-charts" class="grid gap-4 lg:grid-cols-3">
+<div id="dashboard-charts" class="grid grid-cols-1 gap-4 lg:grid-cols-3">
     @if (Panels.IsEmpty)
     {
         <RzCard class="lg:col-span-3">

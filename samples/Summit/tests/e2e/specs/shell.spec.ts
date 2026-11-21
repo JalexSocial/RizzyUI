@@ -62,7 +62,8 @@ test('the language menu switches to German and back', async ({ page }) => {
   // A language switch is a full page load (hx-boost="false"); wait for the new page's components.
   await waitForRuntime(page);
 
-  await page.getByRole('button', { name: /^Language/ }).first().click();
+  // The chrome is German now: the button is "Sprache, DE".
+  await page.getByRole('button', { name: /^Sprache/ }).first().click();
   await page.getByRole('menuitem', { name: 'English' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
