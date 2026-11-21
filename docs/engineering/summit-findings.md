@@ -8,6 +8,9 @@ is written as things happen, not reconstructed at the end.
 Each entry says what happened, how Summit worked around it, and what would fix it in the library.
 Entries from the planning pass (before any code) are marked **(planning)**.
 
+The closing assessment (verdict, priorities, roadmap, adoption readiness) is in
+[summit-assessment.md](summit-assessment.md).
+
 ## Categories
 
 | Tag | Meaning |
