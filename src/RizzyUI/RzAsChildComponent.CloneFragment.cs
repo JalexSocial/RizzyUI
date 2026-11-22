@@ -428,6 +428,16 @@ public abstract partial class RzAsChildComponent : RzComponent
         return null;
     }
 
+    /// <summary>Whether the single root of <paramref name="content"/> is an element or markup (not a component).</summary>
+    protected static bool ChildRootIsElement(RenderFragment? content)
+    {
+        if (content is null) return false;
+        var probe = new RenderTreeBuilder();
+        content(probe);
+        var range = probe.GetFrames();
+        return range.Count > 0 && range.Array[0].FrameType is RenderTreeFrameType.Element or RenderTreeFrameType.Markup;
+    }
+
     /// <summary>The id attribute of a markup child's root element.</summary>
     [System.Text.RegularExpressions.GeneratedRegex(@"^\s*<[A-Za-z][^>]*?\sid\s*=\s*[""']([^""']+)[""']", System.Text.RegularExpressions.RegexOptions.IgnoreCase)]
     private static partial System.Text.RegularExpressions.Regex MarkupRootId();

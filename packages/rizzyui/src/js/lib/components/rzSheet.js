@@ -82,16 +82,22 @@ export default function rzSheet() {
             if (this.modal && !this.focusScope) {
                 // The `open` watcher runs before x-show has displayed the panel, so nothing inside it
                 // is focusable yet and focus would stay on the trigger, behind the overlay (SF-074).
-                // Activate once the panel is shown.
-                this.$nextTick(() => {
+                // Activate once the panel is shown; x-show can take a few frames when the sheet opens
+                // from an event, so wait for the panel to have a box (at most ten frames).
+                const activate = (attempt) => {
                     if (!this.open || this.focusScope || !panel.isConnected) return;
+                    if (panel.getClientRects().length === 0 && attempt < 10) {
+                        requestAnimationFrame(() => activate(attempt + 1));
+                        return;
+                    }
                     this.focusScope = createFocusScope(panel, {
                         fallbackFocus: panel,
                         // SF-032: a selector for the element that takes focus when the sheet opens.
                         initialFocus: this.$el.dataset.initialFocus || null,
                     });
                     this.focusScope.activate();
-                });
+                };
+                this.$nextTick(() => activate(0));
             }
         },
 

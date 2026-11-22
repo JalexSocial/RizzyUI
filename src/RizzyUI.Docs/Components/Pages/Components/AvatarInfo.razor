@@ -242,7 +242,7 @@
                     Avatar with Indicator
                 </RzHeading>
                 <RzParagraph TextColor="SemanticColor.Foreground">
-                    Nest an <code class="font-semibold">RzIndicator</code> component within <code class="font-semibold">RzAvatar</code> to display a status dot. The indicator's position and color are configurable on the <code class="font-semibold">RzIndicator</code> itself.
+                    Nest an <code class="font-semibold">RzIndicator</code> component within <code class="font-semibold">RzAvatar</code> to display a status dot. The indicator's position and color are configurable on the <code class="font-semibold">RzIndicator</code> itself. Give it an <code>AriaLabel</code> ("Online") when the status matters: it is then an image with that name; without one it is decorative and hidden from assistive technology.
                 </RzParagraph>
 
                 <RzBrowser class="my-4">
@@ -377,9 +377,15 @@
                             </tr>
                             <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Accessible label for the avatar container. Defaults to a localized "Avatar".</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – The avatar's accessible name: with it the avatar is an image (<code>role="img"</code>) with that name. Without it the avatar has no role and its content speaks for it (the image's <code>AlternateText</code>, or the fallback text).</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Decorative</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Hides the avatar from assistive technology (<code>aria-hidden</code>), for an avatar next to the person's name.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
                             <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>

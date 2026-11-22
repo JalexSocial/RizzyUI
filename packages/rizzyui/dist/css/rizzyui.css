@@ -1061,6 +1061,9 @@
   .min-h-0 {
     min-height: calc(var(--spacing) * 0);
   }
+  .min-h-6 {
+    min-height: calc(var(--spacing) * 6);
+  }
   .min-h-9 {
     min-height: calc(var(--spacing) * 9);
   }
@@ -1198,6 +1201,9 @@
   }
   .min-w-5 {
     min-width: calc(var(--spacing) * 5);
+  }
+  .min-w-6 {
+    min-width: calc(var(--spacing) * 6);
   }
   .min-w-8 {
     min-width: calc(var(--spacing) * 8);
@@ -10266,6 +10272,12 @@ pre:has(> code) {
 @layer components {
   .animate-aurora {
     animation: aurora 8s ease-in-out infinite;
+  }
+  .rz-aurora-default {
+    background-image: linear-gradient(135deg, #FF0080, #7928CA, #0070F3, #38bdf8, #FF0080);
+    animation-duration: 10s;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 @keyframes aurora {

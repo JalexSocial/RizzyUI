@@ -1251,6 +1251,7 @@ RizzyUI.RzAvatar
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.RzAvatar.Slots
   ConfigureClasses: System.Action<RizzyUI.RzAvatar.Slots>
+  Decorative: System.Boolean
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
@@ -1411,6 +1412,7 @@ RizzyUI.RzCheckboxGroup<TValue>
   Element: System.String
   For: System.Linq.Expressions.Expression<System.Func<System.Collections.Generic.IList<TValue>>> [EditorRequired]
   Id: System.String
+  LegendVisible: System.Boolean
   LoadStrategy: System.String
   Name: System.String
   Orientation: RizzyUI.Orientation
@@ -2553,6 +2555,7 @@ RizzyUI.SidebarFooter
   LoadStrategy: System.String
 RizzyUI.SidebarGroup
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.SidebarGroup.Slots
   ConfigureClasses: System.Action<RizzyUI.SidebarGroup.Slots>
@@ -3043,7 +3046,7 @@ RizzyUI.RadioGroupItemSlotTypes: Base=0, Input=1
 RizzyUI.RzAccordion.SlotTypes: Base=0
 RizzyUI.RzAlert.SlotTypes: Base=0, CloseButton=1, CloseButtonIcon=2, ContentContainer=3, IconContainer=4, IconPulse=5, InnerContainer=6
 RizzyUI.RzAlertDialog.SlotTypes: Base=0
-RizzyUI.RzAlertLiveRegionMode: Alert=0, Status=1
+RizzyUI.RzAlertLiveRegionMode: Alert=0, Status=1, None=2
 RizzyUI.RzAnimatedGradientText.SlotTypes: Base=0
 RizzyUI.RzArticle.SlotTypes: Article=0, Aside=1, Base=2, InnerContainer=3
 RizzyUI.RzAspectRatio.SlotTypes: Base=0, Inner=1
@@ -3062,7 +3065,7 @@ RizzyUI.RzCarousel.SlotTypes: Base=0, Wrapper=1
 RizzyUI.RzChart.SlotTypes: Base=0, Canvas=1, Container=2
 RizzyUI.RzCheckboxGroupFieldSlotTypes: Base=0
 RizzyUI.RzCheckboxGroupItemSlotTypes: Base=0, Input=1
-RizzyUI.RzCheckboxGroupSlotTypes: Base=0
+RizzyUI.RzCheckboxGroupSlotTypes: Base=0, Legend=1
 RizzyUI.RzClipboard.SlotTypes: Base=0
 RizzyUI.RzCodeViewer.SlotTypes: Base=0, CodeContainer=1, CopyButton=2, CopyButtonContainer=3, CopyIconCopied=4, CopyIconDefault=5, ExpandButton=6, ExpandIcon=7, Header=8, HeaderTitle=9, PreElement=10, PreWrapper=11
 RizzyUI.RzCollapsible.SlotTypes: Base=0

@@ -3,7 +3,7 @@
 @inherits RzComponent<SidebarGroup.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement" role="group" data-slot="sidebar-group" @attributes="AdditionalAttributes" data-sidebar="group" aria-labelledby="@LabelId" id="@Id" class="@SlotClasses.GetBase()">
+    <HtmlElement Element="@EffectiveElement" role="group" data-slot="sidebar-group" @attributes="AdditionalAttributes" data-sidebar="group" aria-labelledby="@_labelledBy" aria-label="@(_labelledBy is null ? AriaLabel : null)" id="@Id" class="@SlotClasses.GetBase()">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

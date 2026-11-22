@@ -62,7 +62,7 @@
     @{ var supporter = Tickets.SingleOrDefault(t => t.Ticket.Slug == "supporter"); }
     @if (supporter is not null)
     {
-        <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.Status">
+        <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.None">
             <AlertTitle>@supporter.Ticket.Name tickets go on sale @supporter.Ticket.SalesStart.ToString("MMMM d", CultureInfo.CurrentCulture)</AlertTitle>
             <AlertDescription>
                 @supporter.Ticket.Description Each one funds a scholarship ticket for someone who could not otherwise attend

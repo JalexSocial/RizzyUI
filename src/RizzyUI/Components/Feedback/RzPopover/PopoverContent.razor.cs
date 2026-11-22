@@ -68,6 +68,8 @@ public partial class PopoverContent : RzComponent<PopoverContent.Slots>
             throw new InvalidOperationException($"{nameof(PopoverContent)} must be used within an {nameof(RzPopover)}.");
         }
 
+        // SF-076: the popover's AriaLabel names its content, the element with the dialog role.
+        AriaLabel ??= ParentPopover.AriaLabel;
         AriaLabelledBy ??= string.IsNullOrWhiteSpace(AriaLabel) ? TriggerId : null;
     }
 

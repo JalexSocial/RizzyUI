@@ -17,31 +17,22 @@ export type KnownDefect = {
 
 export const knownDefects: KnownDefect[] = [
   // Library defects (RizzyUI).
-  { finding: 'SF-075', kind: 'dangling-aria', rule: 'aria-labelledby', target: /data-slot=sidebar-group/ },
-  { finding: 'SF-023', kind: 'duplicate-id', rule: 'mdi-icon-id' },
-  { finding: 'SF-023', kind: 'duplicate-id', rule: 'template-id', target: /^svg#mdi-/ },
   {
     finding: 'SF-054', kind: 'duplicate-id', rule: 'template-id',
     target: /\[(table-head|table-row|table-cell|pagination-item|pagination-link|data-table-sort-toggle|data-table-sort-icon|data-table-row-select-checkbox|data-table-selection-cell|command-shortcut)\]$/,
     pages: ['/components/datatable', '/components/command', '/command-demo'],
   },
   { finding: 'SF-047', kind: 'duplicate-id', rule: 'empty-id', pages: ['/'] },
-  { finding: 'SF-066', kind: 'axe', rule: 'aria-prohibited-attr', target: /data-slot="indicator"/, pages: ['/components/avatar'] },
-  {
-    finding: 'SF-076', kind: 'axe', rule: 'aria-prohibited-attr', target: /data-slot="popover"/,
-    pages: ['/', '/components/button-group', '/components/sidebar', '/components/calendar-more', '/components/calendar-provider'],
-  },
   { finding: 'SF-063', kind: 'axe', rule: 'scrollable-region-focusable', target: /data-slot="table-container"/, pages: ['/components/table'] },
-  { finding: 'SF-035', kind: 'error', rule: 'csp', target: /^style-src-attr inline at \/:/, pages: ['/'] },
-  { finding: 'SF-079', kind: 'axe', rule: 'aria-required-children', target: /data-slot="command-list"/, pages: ['/components/command'] },
   { finding: 'SF-080', kind: 'axe', rule: 'aria-required-children', target: /data-slot="sidebar-menu"/, pages: ['/components/sidebar'] },
   { finding: 'SF-080', kind: 'axe', rule: 'listitem', target: /data-slot="sidebar-menu-item"/, pages: ['/components/sidebar'] },
   { finding: 'SF-080', kind: 'axe', rule: 'target-size', target: /text-sidebar-foreground|text-sidebar-foregro/, pages: ['/components/sidebar'] },
-  // Whether a code block overflows depends on the fonts (one page on Windows, four on the Linux
-  // runner), so this entry matches the element rather than a page list.
-  { finding: 'SF-084', kind: 'axe', rule: 'scrollable-region-focusable', target: /<pre class="border-muted border">/ },
 
   // Docs-site defects (styling and example content), fixed in W11.
+  // The docs site's own pages and examples still use Material Design icons, whose fixed ids repeat
+  // (the library's built-in icons no longer do: SF-023).
+  { finding: 'SF-023', kind: 'duplicate-id', rule: 'mdi-icon-id' },
+  { finding: 'SF-023', kind: 'duplicate-id', rule: 'template-id', target: /^svg#mdi-/ },
   { finding: 'SF-081', kind: 'axe', rule: 'color-contrast', target: /text-sky-600|<a href="|<code>|<span x-show=|<span class="inline-flex w-28/ },
   { finding: 'SF-082', kind: 'axe', rule: 'button-name' },
   { finding: 'SF-082', kind: 'axe', rule: 'label', pages: ['/components/input-otp', '/docs/interactivity/state-reactivity'] },

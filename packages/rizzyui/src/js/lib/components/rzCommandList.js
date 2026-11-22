@@ -7,6 +7,16 @@ export default function rzCommandList() {
         showLoading: false,
 
         /**
+         * The list is a listbox only while it has options; an empty listbox is invalid ARIA, and
+         * CommandEmpty carries the message then (Summit SF-079).
+         * @returns {string|null} The role.
+         */
+        get listRole() {
+            const items = this.parent ? this.parent.filteredItems : null;
+            return items && items.length > 0 ? 'listbox' : null;
+        },
+
+        /**
          * Initializes the command list and links it with the parent command instance.
          * @returns {void}
          */

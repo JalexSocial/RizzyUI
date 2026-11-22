@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using System.Reflection;
 using Rizzy.Components.Form.Helpers;
 
 namespace RizzyUI;
@@ -14,4 +15,17 @@ namespace RizzyUI;
 internal static class RzFieldNames
 {
     internal static string For(LambdaExpression expression) => ExpressionFormatter.FormatLambda(expression);
+
+    /// <summary>
+    /// The display name of a bound expression, as <c>FieldLabel</c> infers it: the member's
+    /// <c>[Display(Name)]</c>, <c>[DisplayName]</c>, or its name.
+    /// </summary>
+    internal static string DisplayNameFor(LambdaExpression? expression)
+    {
+        if (expression?.Body is not MemberExpression member)
+            return string.Empty;
+        return member.Member.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(true)?.GetName()
+            ?? member.Member.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>(true)?.DisplayName
+            ?? member.Member.Name;
+    }
 }

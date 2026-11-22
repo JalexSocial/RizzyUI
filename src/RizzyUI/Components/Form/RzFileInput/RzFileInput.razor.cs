@@ -108,6 +108,13 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     [Parameter] public string? AriaLabel { get; set; }
 
     /// <summary>
+    /// The native input's name: <see cref="AriaLabel"/>, or a localized default. The visible trigger
+    /// (button or dropzone) gets <see cref="AriaLabel"/> only when the caller set it; otherwise its own
+    /// text names it, so the name matches what it shows (Summit SF-037, WCAG 2.5.3).
+    /// </summary>
+    protected string EffectiveAriaLabel => AriaLabel ?? Localize("RzFileInput.DefaultAriaLabel", "File input");
+
+    /// <summary>
     /// Gets or sets the model expression used for optional validation tracking.
     /// </summary>
     [Parameter] public Expression<Func<object?>>? For { get; set; }
@@ -158,7 +165,6 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     {
         base.OnInitialized();
 
-        AriaLabel ??= Localize("RzFileInput.DefaultAriaLabel", "File input");
         UpdateValidationState();
         UpdateAssets();
     }
@@ -167,7 +173,6 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localize("RzFileInput.DefaultAriaLabel", "File input");
         UpdateValidationState();
         UpdateAssets();
     }

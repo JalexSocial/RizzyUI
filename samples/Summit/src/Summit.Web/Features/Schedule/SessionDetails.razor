@@ -35,7 +35,7 @@
                 <RzItemGroup>
                     @foreach (var speaker in Session.Speakers.OrderBy(s => s.Order).Select(s => s.Speaker))
                     {
-                        <RzItem role="listitem" Variant="ItemVariant.Outline" Size="Size.Small">
+                        <RzItem Variant="ItemVariant.Outline" Size="Size.Small">
                             <ItemMedia><SpeakerAvatar Speaker="speaker" Size="Size.Medium" /></ItemMedia>
                             <ItemContent>
                                 <ItemTitle>@speaker.Name</ItemTitle>

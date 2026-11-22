@@ -102,8 +102,9 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     public bool FocusFirstElementOnOpen { get; set; }
 
     /// <summary>
-    /// Gets or sets the ARIA label for the popover container, providing an accessible name.
-    /// If not set, a default localized label will be applied.
+    /// Gets or sets the accessible name of the popover's content (the dialog), used when
+    /// <c>PopoverContent</c> has no <c>AriaLabel</c> of its own. The wrapper element has no role, so the
+    /// label is not rendered there (Summit SF-076). Without either, the content is named by its trigger.
     /// </summary>
     [Parameter]
     public string? AriaLabel { get; set; }

@@ -5,5 +5,7 @@
 <HtmlElement Element="@EffectiveElement" role="list" data-slot="item-group" @attributes="AdditionalAttributes"
              id="@Id"
              class="@SlotClasses.GetBase()">
-    @ChildContent
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
 </HtmlElement>

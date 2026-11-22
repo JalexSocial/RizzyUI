@@ -5,15 +5,21 @@
              id="@Id"
              data-slot="aurora-text" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             aria-label="@ComputedAriaLabel"
              aria-hidden="@RootAriaHidden">
     @if (ShouldRenderScreenReaderContent)
     {
         <span class="@SlotClasses.GetSrText()" data-slot="@RzAuroraText.SlotNames.NameOf(SlotTypes.SrText)">
-            @ChildContent
+            @if (!string.IsNullOrWhiteSpace(AriaLabel))
+            {
+                @AriaLabel
+            }
+            else
+            {
+                @ChildContent
+            }
         </span>
     }
-    <span class="@SlotClasses.GetText()"
+    <span class="@SlotClasses.GetText() @DefaultsClass"
           data-slot="@RzAuroraText.SlotNames.NameOf(SlotTypes.Text)"
           style="@TextStyle"
           aria-hidden="true">

@@ -12,7 +12,8 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
     /// Defines the default styling for <see cref="RzClipboard"/>.
     /// </summary>
     public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+        // SF-071: at least 24 x 24 px (WCAG 2.2 target size), also around a single small icon.
+        @base: "relative inline-flex min-h-6 min-w-6 items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
     );
 
     /// <summary>

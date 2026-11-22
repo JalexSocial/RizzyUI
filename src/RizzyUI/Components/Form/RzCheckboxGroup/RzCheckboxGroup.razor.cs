@@ -39,11 +39,23 @@ public partial class RzCheckboxGroup<TValue> : RzComponent<RzCheckboxGroupSlots>
     /// <summary> Gets or sets the display name for the fieldset, rendered as a screen-reader-only legend. </summary>
     [Parameter] public string? DisplayName { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the legend is visible. By default it is visually hidden (the group usually
+    /// sits under a visible label of its own).
+    /// </summary>
+    [Parameter] public bool LegendVisible { get; set; }
+
+    /// <summary>
+    /// The group's name: <see cref="DisplayName"/>, or the bound property's <c>[Display(Name)]</c> or name,
+    /// so the group is never nameless (Summit SF-029).
+    /// </summary>
+    protected string EffectiveDisplayName => !string.IsNullOrWhiteSpace(DisplayName) ? DisplayName : RzFieldNames.DisplayNameFor(For);
+
     /// <summary> Gets or sets the orientation of the checkbox group (Vertical or Horizontal). Defaults to Vertical. </summary>
     [Parameter] public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    /// <summary> Gets or sets the custom Blazicon SVG icon to display when a checkbox is checked. Defaults to MdiIcon.CheckBold. </summary>
-    [Parameter] public SvgIcon CheckedIcon { get; set; } = MdiIcon.CheckBold;
+    /// <summary> Gets or sets the custom Blazicon SVG icon to display when a checkbox is checked. Defaults to Lucide.Check. </summary>
+    [Parameter] public SvgIcon CheckedIcon { get; set; } = Lucide.Check;
 
     /// <summary> Gets or sets a value indicating whether to show the indicators for each checkbox item. Defaults to true. </summary>
     [Parameter] public bool ShowIndicators { get; set; } = true;

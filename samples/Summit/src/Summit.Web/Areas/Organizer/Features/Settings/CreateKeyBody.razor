@@ -15,8 +15,7 @@
                 <input id="new-key-secret" readonly value="@Secret" aria-label="New API key secret"
                        class="flex-1 rounded-none border-0 bg-transparent px-3 font-mono text-sm shadow-none outline-none" />
                 <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
-                    @* size-8: RzClipboard is as small as its content (14 px), under the 24 px target size (SF-071). *@
-                    <RzClipboard TargetSelector="#new-key-secret" AriaLabel="Copy the API key secret" class="hover:bg-accent size-8 rounded-md">
+                    <RzClipboard TargetSelector="#new-key-secret" AriaLabel="Copy the API key secret" class="hover:bg-accent rounded-md">
                         <Blazicon Svg="Lucide.Copy" class="size-4" />
                     </RzClipboard>
                 </InputGroupAddon>
@@ -41,7 +40,7 @@
             </Field>
             <Field>
                 <FieldLabel For="@(() => Key!.Scopes)" />
-                <RzCheckboxGroup For="@(() => Key!.Scopes)" Name="Key.Scopes" DisplayName="Scopes" class="flex flex-col gap-2">
+                <RzCheckboxGroup For="@(() => Key!.Scopes)" DisplayName="Scopes" class="flex flex-col gap-2">
                     @foreach (var (value, description) in CreateKeyModel.KnownScopes)
                     {
                         <RzCheckboxGroupItem TValue="string" Value="@value">

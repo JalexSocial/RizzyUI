@@ -82,12 +82,22 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
     /// <summary>
     /// Gets the ARIA role emitted on the root live region.
     /// </summary>
-    protected string LiveRegionRole => LiveRegionMode == RzAlertLiveRegionMode.Status ? "status" : "alert";
+    protected string? LiveRegionRole => LiveRegionMode switch
+    {
+        RzAlertLiveRegionMode.Status => "status",
+        RzAlertLiveRegionMode.None => null,
+        _ => "alert",
+    };
 
     /// <summary>
     /// Gets the aria-live politeness value emitted on the root live region.
     /// </summary>
-    protected string AriaLivePoliteness => LiveRegionMode == RzAlertLiveRegionMode.Status ? "polite" : "assertive";
+    protected string? AriaLivePoliteness => LiveRegionMode switch
+    {
+        RzAlertLiveRegionMode.Status => "polite",
+        RzAlertLiveRegionMode.None => null,
+        _ => "assertive",
+    };
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -108,16 +118,16 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         if (Icon == null)
             Icon = Variant switch
             {
-                ThemeVariant.Information => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Success => MdiIcon.CheckCircle,
-                ThemeVariant.Warning => MdiIcon.AlertCircle,
-                ThemeVariant.Destructive => MdiIcon.CloseCircle,
+                ThemeVariant.Information => Lucide.Info,
+                ThemeVariant.Success => Lucide.CircleCheck,
+                ThemeVariant.Warning => Lucide.CircleAlert,
+                ThemeVariant.Destructive => Lucide.CircleX,
                 // Default icons for other variants if desired
-                ThemeVariant.Default => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Inverse => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Primary => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Secondary => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Accent => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Default => Lucide.Info,
+                ThemeVariant.Inverse => Lucide.Info,
+                ThemeVariant.Primary => Lucide.Info,
+                ThemeVariant.Secondary => Lucide.Info,
+                ThemeVariant.Accent => Lucide.Info,
                 ThemeVariant.Ghost => null,
                 _ => null
             };
@@ -182,5 +192,11 @@ public enum RzAlertLiveRegionMode
     /// <summary>
     /// Uses role="status" and aria-live="polite" for nonurgent messages that should not interrupt the current task.
     /// </summary>
-    Status
+    Status,
+
+    /// <summary>
+    /// No live region: a static callout that is part of the page when it loads (Summit SF-022). Screen
+    /// readers read it with the rest of the content instead of announcing it as an alert.
+    /// </summary>
+    None
 }

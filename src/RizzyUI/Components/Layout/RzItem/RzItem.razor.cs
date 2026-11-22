@@ -51,6 +51,9 @@ public partial class RzItem : RzAsChildComponent<RzItem.Slots>
     [Parameter]
     public Size Size { get; set; } = Size.Medium;
 
+    /// <summary>The enclosing <see cref="RzItemGroup"/>, if any.</summary>
+    [CascadingParameter] private RzItemGroup? ParentGroup { get; set; }
+
     /// <inheritdoc/>
     protected override RenderFragment? GetAsChildContent() => ChildContent;
 
@@ -65,6 +68,9 @@ public partial class RzItem : RzAsChildComponent<RzItem.Slots>
             ["data-variant"] = Variant.ToString().ToKebabCase(),
             ["data-size"] = Size == Size.Small ? "sm" : "default"
         };
+        // SF-038: an item in an RzItemGroup (role="list") is a list item, unless the caller set a role.
+        if (ParentGroup is not null && !attributes.ContainsKey("role"))
+            attributes["role"] = "listitem";
         return attributes;
     }
 

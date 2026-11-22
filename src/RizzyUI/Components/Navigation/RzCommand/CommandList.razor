@@ -3,7 +3,7 @@
 @using Blazicons
 @inherits RzComponent<CommandList.Slots>
 
-<div data-slot="command-list" role="listbox" @attributes="AdditionalAttributes"
+<div data-slot="command-list" role="listbox" x-bind:role="listRole" @attributes="AdditionalAttributes"
      id="rz-command-list-@ParentCommand?.Id"
      class="@SlotClasses.GetBase()"
      x-data="rzCommandList" x-load="@LoadStrategyOrNull"

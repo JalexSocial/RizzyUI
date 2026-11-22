@@ -65,23 +65,23 @@ tracks how much application code exists only to compensate.
 | SF-019 | RizzyUI docs | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Works (workaround) | Open | e2e: unique-id check (defect) |
 | SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works (workaround) | Open | Summit.Tests: htmx redirect, antiforgery 400 (defect) |
 | SF-021 | Template | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Works | Fixed in 1.0.0-preview.4 | template test: hx-boost:inherited in the markup and a Playwright check that a sidebar link navigates without a reload (defect); e2e: shell boosted navigation (workflow) |
-| SF-022 | RizzyUI | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Works (workaround) | Open | None |
-| SF-023 | RizzyUI, Blazicons | Icons | Bug | Medium | Material Design icons render `id="mdi-…"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, …) emit duplicate ids | Affected (no workaround) | Open | None (id check skips mdi-*); docs scan (known-defect list) |
+| SF-022 | RizzyUI | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a static alert has no live region) (defect) |
+| SF-023 | RizzyUI, Blazicons | Icons | Bug | Medium | Material Design icons render `id="mdi-…"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, …) emit duplicate ids | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (built-in icons render no ids) (defect); docs scan and Summit unique-id checks without the `mdi-` exception |
 | SF-024 | htmx, Rizzy docs | htmx boost | DX | Low | Boosted navigation swaps only `<body>`: `<html lang>` (and anything else on `<html>`) keeps the old value after a language switch | Works (documented pattern) | Fixed in docs | n/a (documentation) |
 | SF-025 | RizzyUI | RzCommand | Bug | Medium | Typing then pressing Enter quickly runs the item highlighted before the 50 ms search debounce, not the match | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (Enter right after typing), both builds (defect); e2e: quick actions without a wait (workflow) |
-| SF-026 | RizzyUI | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Affected (accepted) | Open | None |
+| SF-026 | RizzyUI | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a field error around child content is not an alert) (defect) |
 | SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
 | SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzGetForm cascades an EditContext and renders a GET form (defect); e2e: schedule and speaker filters (workflow) |
-| SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
+| SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a checkbox group is named by [Display]) (defect); e2e: getByRole group name (workflow) |
 | SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click and rz:toggle:change), both builds (defect); e2e: schedule level toggles (workflow) |
-| SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
+| SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (an avatar is named or decorative) (defect) |
 | SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (InitialFocus on a dialog and a sheet), both builds (defect); e2e: schedule session details (workflow) |
 | SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works | Fixed in 1.0.0-preview.4 | bUnit: input-group controls keep a caller id (defect); e2e: speakers search label (workflow) |
 | SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: head-content.spec.ts (a page with its own HeadContent keeps the theme in <head>), both builds; bUnit: RzThemeProviderTests (defect); e2e: shell, theme and track colors in <head> (workflow) |
-| SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
+| SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzAuroraTextTests (no inline style for the defaults, label as hidden text) (defect); docs scan (home page CSP entry removed) |
 | SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (status colors on their tint and behind their foreground) (defect); docs scan |
-| SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works (workaround) | Open | axe label-content-name-mismatch (defect) |
-| SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works (workaround) | Open | axe aria-required-children (defect) |
+| SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (the dropzone is named by its text) (defect) |
+| SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (items in a group are list items) (defect); axe on Summit's session pages |
 | SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Affected (early keypresses) | Open | None (tests wait for components) |
 | SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (Items and ItemsUrl with CommandItemTemplate), both builds (defect); e2e: site search (workflow) |
 | SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: server-error-toasts.spec.ts, both builds; JS unit tests (defect); e2e: dashboard failed panels request (workflow) |
@@ -109,25 +109,25 @@ tracks how much application code exists only to compensate.
 | SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe; docs scan (known-defect list) |
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works | Fixed in 1.0.0-preview.4 | bUnit: InputAttributes reach the native input (defect); e2e: check-in badge field (workflow) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzAlertTests.TintedStatusAlerts_UseTheForegroundColorForContent (defect); e2e: check-in axe (workflow) |
-| SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
+| SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (an indicator is an image with a label, decorative without) (defect); docs scan entry removed |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (checked-change on the menubar), both builds (defect); e2e: schedule builder view menu (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (no default name, AriaLabel) (defect); e2e: schedule builder finds the field by its label (workflow) |
 | SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click on a menubar item), both builds (defect); e2e: schedule builder publish all (workflow) |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works | Fixed in 1.0.0-preview.4 | bUnit: RzInputSliderTests (model path, single value, data-invalid) (defect); e2e: schedule builder length (workflow) |
-| SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
+| SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (minimum target size) (defect); e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
 | SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (culture mapping, locale file after flatpickr) (defect); e2e: culture S-12 (workflow) |
 | SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: sheet focus trap, both builds (defect); e2e: mobile S-16 (focus stays in the navigation sheet) |
-| SF-075 | RizzyUI | RzSidebar | Bug | Medium | `SidebarGroup` always renders `aria-labelledby` pointing at its label's id, also when the group has no `SidebarGroupLabel`: a reference to an element that does not exist (20 groups on every docs page) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
-| SF-076 | RizzyUI | RzPopover | Bug | Low | `RzPopover`'s `AriaLabel` lands on its wrapper `div`, which has no role (axe `aria-prohibited-attr`), instead of the trigger or the content | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-075 | RizzyUI | RzSidebar | Bug | Medium | `SidebarGroup` always renders `aria-labelledby` pointing at its label's id, also when the group has no `SidebarGroupLabel`: a reference to an element that does not exist (20 groups on every docs page) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (aria-labelledby only with a label) (defect); docs scan entry removed |
+| SF-076 | RizzyUI | RzPopover | Bug | Low | `RzPopover`'s `AriaLabel` lands on its wrapper `div`, which has no role (axe `aria-prohibited-attr`), instead of the trigger or the content | n/a | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (the popover label names its content) (defect); docs scan entry removed |
 | SF-077 | RizzyUI | RzCalendar | A11y | Medium | Calendar weekend column headers and some day buttons fail WCAG AA contrast in RizzyUI's calendar styles | Works | Fixed in 1.0.0-preview.4 | docs scan (calendar pages, color-contrast entry removed) |
 | SF-078 | RizzyUI | Default theme | A11y | Medium | In the docs theme, `text-primary` links, primary and outline buttons, the Steps labels, command shortcuts and event-viewer entries measure below 4.5:1 | n/a | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (every token pair of the built-in theme, light and dark) (defect); docs scan (color-contrast entries removed) |
-| SF-079 | RizzyUI | RzCommand | A11y | Low | An `RzCommand` list with no matching items is still a `listbox` with no `option` children (axe `aria-required-children`) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-079 | RizzyUI | RzCommand | A11y | Low | An `RzCommand` list with no matching items is still a `listbox` with no `option` children (axe `aria-required-children`) | n/a | Fixed in 1.0.0-preview.4 | docs scan (command page entry removed) |
 | SF-080 | RizzyUI docs | RzSidebar preview | A11y | Low | In the sidebar docs preview, menu items are not inside a list (`listitem`, `aria-required-children`) and the rail buttons are under 24 px; to triage between the example and the components | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 | SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a (docs site) | Open | docs scan (known-defect list) |
 | SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a (docs site) | Open | docs scan (known-defect list) |
 | SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a (docs site) | Open | docs scan (known-defect list) |
-| SF-084 | RizzyUI | Markdown code blocks | A11y | Low | RizzyUI's Markdig extension renders fenced code blocks as `<pre class="border-muted border">` without `tabindex`, so a block wide enough to scroll cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-084 | RizzyUI | Markdown code blocks | A11y | Low | RizzyUI's Markdig extension renders fenced code blocks as `<pre class="border-muted border">` without `tabindex`, so a block wide enough to scroll cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | n/a | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (Markdown code blocks are focusable) (defect); docs scan entry removed |
 
 ## Integration code ledger
 
@@ -146,11 +146,9 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
 | `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
-| a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
 | `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
-| `role="img"` on indicators | 1 per use | SF-066 | Correct defaults |
-| Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
+| Plain read-only input in `RzInputGroup` | 1 | SF-028 | An input-group control without a model |
 
 ### Application-specific code (would exist anyway)
 
@@ -470,6 +468,7 @@ finding on its own.
   response to an action use the default.
 - **Library fix:** add `RzAlertLiveRegionMode.None` (no role) and consider making it the default,
   as shadcn's Alert does; keep `Alert`/`Status` for messages that appear after an action.
+- **Fixed in 1.0.0-preview.4:** `RzAlertLiveRegionMode.None` renders a static callout without a role or `aria-live`; the default stays `Alert` for messages that appear after an action. Summit's static callouts (payment notice, demo account, ticket sales date) use `None`.
 
 ### SF-023 Material Design icons produce duplicate ids
 
@@ -486,6 +485,7 @@ finding on its own.
 - **Library fix:** render those icons without the id (Blazicons attribute override, or switch the
   internal icons to Lucide, which RizzyUI already uses elsewhere and which has no ids), and add a
   unique-id assertion to the accessibility fixtures.
+- **Fixed in 1.0.0-preview.4:** RizzyUI's built-in icons are Lucide icons, which carry no ids, instead of Material Design icons (`id="mdi-..."`). The exceptions in Summit's and the docs scan's unique-id checks are removed.
 
 ### SF-024 Boosted navigation does not update the html element
 
@@ -518,6 +518,7 @@ finding on its own.
   one empty alert region per field. Tests that look for "the alert" in a form find all of them.
 - **Library fix:** render the element (or the role) only when there are errors, or use a single
   polite summary region for the form.
+- **Fixed in 1.0.0-preview.4:** `FieldError` has `role="alert"` only when it renders its `Errors` itself; around child content (a validation message, usually empty, tied to its input by `aria-describedby`) it has no role, so a form no longer carries one empty alert per field.
 
 ### SF-027 Components without documentation
 
@@ -552,6 +553,7 @@ finding on its own.
   separately and hidden from assistive technology.
 - **Summit workaround:** `DisplayName` plus an `aria-hidden` visible label.
 - **Library fix:** fall back to `[Display(Name)]`/the property name; offer a visible legend option.
+- **Fixed in 1.0.0-preview.4:** `RzCheckboxGroup`'s legend falls back to the property's `[Display(Name)]`, `[DisplayName]` or name, and `LegendVisible` shows it.
 
 ### SF-030 Your x-on:click is silently dropped
 
@@ -579,6 +581,7 @@ finding on its own.
 - **Summit workaround:** `AriaLabel="@speaker.Name"` on every avatar.
 - **Library fix:** derive the label from `AvatarImage.AlternateText` (or the fallback initials' title);
   add a `Decorative` option that renders `aria-hidden="true"` and no role.
+- **Fixed in 1.0.0-preview.4:** without `AriaLabel`, `RzAvatar` has no role or generic "Avatar" label, so the image's alt text or the fallback text names it; with `AriaLabel` it is an image with that name; `Decorative` hides it. Summit keeps `AriaLabel` with the speaker's name, so the initials fallback is named too.
 
 ### SF-032 A sheet with long content opens scrolled to the bottom
 
@@ -628,6 +631,7 @@ finding on its own.
 - **Summit workaround:** no `AriaLabel`.
 - **Library fix:** render the label as visually hidden text (or `role="img"` with `aria-label`); move the
   colors to CSS custom properties set from a class or a nonced style.
+- **Fixed in 1.0.0-preview.4:** `AriaLabel` renders as visually hidden text instead of a prohibited `aria-label`; the default gradient and speed come from a CSS class, so the default needs no inline style. Custom `Colors` or `Speed` still use an inline style (documented); Summit's home page uses custom colors and reports it under its report-only `style-src`.
 
 ### SF-036 Status colors fail contrast; the theme keys that fix them are undocumented
 
@@ -656,6 +660,7 @@ finding on its own.
 - **Summit workaround:** `AriaLabel="Drag and drop files here or click to upload an attachment"`.
 - **Library fix:** name the dropzone from its visible text plus the field label
   (`aria-labelledby="label-id trigger-content-id"`).
+- **Fixed in 1.0.0-preview.4:** the file input's trigger is named by its visible text unless the caller sets `AriaLabel`; the native input keeps the label. Summit's `AriaLabel` on the contact dropzone is removed.
 
 ### SF-038 RzItemGroup is a list without list items
 
@@ -666,6 +671,7 @@ finding on its own.
 - **Summit workaround:** `role="listitem"` on each `RzItem` inside a group.
 - **Library fix:** `RzItem` renders `role="listitem"` when it is inside an `RzItemGroup` (a cascading
   value), or `RzItemGroup` drops the list role.
+- **Fixed in 1.0.0-preview.4:** `RzItem` inside an `RzItemGroup` renders `role="listitem"` (unless the caller sets a role). Summit's `role="listitem"` is removed.
 
 ### SF-039 Events sent before a component loads are lost
 
@@ -1096,6 +1102,7 @@ finding on its own.
 - **Summit workaround:** `role="img" AriaLabel="Live"` on the live dots (dashboard, check-in counter).
 - **Library fix:** `role="img"` when a label is given, `aria-hidden="true"` (decorative) when not; no
   generic default label.
+- **Fixed in 1.0.0-preview.4:** `RzIndicator` is `role="img"` with its `AriaLabel`, and `aria-hidden` (decorative) without one; there is no generic default label. Summit's `role="img"` on the live dots is removed.
 
 ### SF-067 Menubar checkbox and radio items cannot be observed
 
@@ -1171,6 +1178,7 @@ finding on its own.
   component; `RzRadioGroup`, `RzCheckboxGroup`, `RzSwitch` and `RzFormSection` in htmx forms. The
   read-only secret could not use `InputGroupInput`, which wraps `RzInputText` and needs a model
   property (SF-028).
+- **Fixed in 1.0.0-preview.4:** `RzClipboard`'s base has `min-h-6 min-w-6` (24 x 24 px). Summit's `size-8` is removed.
 
 ### SF-072 The testing entry point triggers a Node module-type warning
 
@@ -1239,6 +1247,7 @@ finding on its own.
 - **Library fix:** render `aria-labelledby` only when a `SidebarGroupLabel` registered itself (the label
   already receives the id from its parent group), or accept an `AriaLabel` for unlabeled groups.
 - **Regression test (library):** the docs scan, once its known-defect entry is removed.
+- **Fixed in 1.0.0-preview.4:** `SidebarGroup` references its label only when a `SidebarGroupLabel` registered an id that renders (with `AsChild`, a child that computes its own id, such as a collapsible trigger, cannot be referenced), and takes `AriaLabel` for a group without one.
 
 ### SF-076 A popover's label goes on a role-less wrapper
 
@@ -1247,6 +1256,7 @@ finding on its own.
   role, so the label is ignored and axe reports `aria-prohibited-attr` (five docs pages). The same shape
   as SF-066 (RzIndicator) and SF-035 (RzAuroraText).
 - **Library fix:** put the label on `PopoverContent` (the dialog) and let the trigger keep its own name.
+- **Fixed in 1.0.0-preview.4:** `RzPopover`'s `AriaLabel` names `PopoverContent` (the dialog) when the content has no label of its own; the role-less wrapper no longer carries it.
 
 ### SF-077 Calendar weekend headers and muted days lack contrast
 
@@ -1257,7 +1267,7 @@ finding on its own.
   popover, where axe did not scan it.
 - **Library fix:** use `text-muted-foreground` only where it meets 4.5:1 on the calendar surface, and a
   stronger color for weekends; check both themes in dark mode.
-- **Fixed in 1.0.0-preview.4:** weekday headers use `text-muted-foreground` with priority over vanilla-calendar-pro's weekend color, and days outside the month drop the extra `opacity-50` (the muted color alone meets 4.5:1).
+- **Fixed in 1.0.0-preview.4:** weekend headers use `--muted-foreground` over vanilla-calendar-pro's own weekend color (a rule in RizzyUI's CSS), and days outside the month drop the extra `opacity-50` (the muted color alone meets 4.5:1).
 
 ### SF-078 Primary and muted text colors fail contrast in the default theme
 
@@ -1271,7 +1281,7 @@ finding on its own.
 - **Library fix:** adjust `--primary`, `--primary-foreground` and `--muted-foreground` in the built-in
   themes until every documented pairing meets 4.5:1 (3:1 for large text), and add a theme-contrast unit
   test over the token pairs.
-- **Fixed in 1.0.0-preview.4:** the Arctic theme's `--primary` (light L 0.55; dark L 0.68 with a dark `--primary-foreground`) and `--muted-foreground` (light L 0.52, dark L 0.76) meet 4.5:1 in every documented pairing; a unit test measures the token pairs.
+- **Fixed in 1.0.0-preview.4:** the Arctic theme's `--primary` (light L 0.52; dark L 0.68 with a dark `--primary-foreground`), `--destructive` (light L 0.51; dark L 0.70 with a dark foreground) and `--muted-foreground` (light L 0.52, dark L 0.76) meet 4.5:1 in every documented pairing, also as soft badge and alert text on their own tint; a unit test measures the token pairs. The event viewer's timestamps drop their extra transparency.
 
 ### SF-079 An empty command list is an empty listbox
 
@@ -1280,6 +1290,7 @@ finding on its own.
   options; axe reports `aria-required-children` on the command docs page.
 - **Library fix:** drop the role (or set `aria-busy`) while the list is empty, and let `CommandEmpty`
   carry the message.
+- **Fixed in 1.0.0-preview.4:** `CommandList` is a `listbox` only while it shows items; empty, it has no role and `CommandEmpty` carries the message. `CommandSeparator` is decorative (`aria-hidden`), since a listbox may not contain a separator. The sheet also waits until its panel is shown before moving focus (found while testing `InitialFocus`).
 
 ### SF-080 The sidebar docs preview fails list semantics and target size
 
@@ -1331,3 +1342,5 @@ finding on its own.
   a name are optional for a code block), or wrap long lines.
 - **Regression test (library):** a Markdown rendering test that the `pre` has `tabindex="0"`, and the
   docs scan once its entry is removed.
+- **Fixed in 1.0.0-preview.4:** Markdown code blocks render `<pre tabindex="0">`, so a block that scrolls sideways can be scrolled with the keyboard.
+

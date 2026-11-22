@@ -24,8 +24,9 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Assert
         var avatar = cut.Find($"div#{expectedId}");
         Assert.NotNull(avatar);
-        Assert.Equal("img", avatar.GetAttribute("role"));
-        Assert.NotNull(avatar.GetAttribute("aria-label"));
+        // SF-031: without AriaLabel the avatar has no role or generic label; its content names it.
+        Assert.Null(avatar.GetAttribute("role"));
+        Assert.Null(avatar.GetAttribute("aria-label"));
         Assert.Contains("rounded-full", avatar.ClassList); // Default shape
         Assert.Contains("size-10", avatar.ClassList); // Default size (Medium)
         Assert.Equal("medium", avatar.GetAttribute("data-size"));

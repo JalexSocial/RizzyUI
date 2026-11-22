@@ -4,14 +4,13 @@
     The live counter. It polls (every Summit:CheckIn:PollSeconds) so a desk sees check-ins from other
     desks, and is also replaced out of band after a check-in here. hx-sync drops a poll that would
     overlap the previous one. The numbers are not a live region: a poll every few seconds must not be
-    announced. The live dot gets role="img": RzIndicator puts aria-label on a div without a role
-    (SF-066).
+    announced. The live dot is an image named "Live" (RzIndicator with AriaLabel).
 *@
 <RzCard id="checkin-counter" hx-get="/organizer/check-in/counter" hx-trigger="@($"every {Options.Value.CheckIn.PollSeconds}s")"
         hx-swap="outerHTML" hx-sync="this:drop">
     <CardHeader>
         <CardTitle class="flex items-center gap-2">
-            <span class="relative inline-flex size-2.5"><RzIndicator Color="Colors.Emerald.L500" Size="Size.Small" Position="IndicatorPosition.Center" class="animate-pulse" role="img" AriaLabel="Live" /></span>
+            <span class="relative inline-flex size-2.5"><RzIndicator Color="Colors.Emerald.L500" Size="Size.Small" Position="IndicatorPosition.Center" class="animate-pulse" AriaLabel="Live" /></span>
             Checked in
         </CardTitle>
         <CardDescription>Updates every @Options.Value.CheckIn.PollSeconds seconds</CardDescription>

@@ -41,6 +41,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzCalendarProvider` is a form field** (decision D-32, Summit SF-058): `Name` for single and multiple selection, `StartName`/`EndName` for ranges; it renders hidden inputs that follow its dates and raises a bubbling `change` when the value is complete, so `hx-trigger="change"` sends a date-range filter without script.
 - **`CommandItem.Href`** (Summit SF-016): an item that navigates when chosen, like a boosted link; data items take `href` (`ICommandItemData.Href`, default `null`).
 - **`RzCommandDialog` remote items and `Shortcut`** (Summit SF-007): `ItemsUrl`, `FetchTrigger` and `ServerFiltering` reach the inner `RzCommand`; `Shortcut="k"` opens the dialog with Ctrl+K / Cmd+K.
+- **`RzAlertLiveRegionMode.None`** (Summit SF-022) for static callouts; **`RzCheckboxGroup.LegendVisible`** and a legend from `[Display(Name)]` (SF-029); **`RzAvatar.Decorative`** (SF-031); **`SidebarGroup.AriaLabel`** (SF-075).
 
 ### Changed
 
@@ -51,7 +52,9 @@ Finding IDs (RZUI-0xx) refer to the
 - **`x-syncprop` on RizzyUI components** (decision D-24). On a component root without its own state (`RzSlider`, `RzChart`, ...) the directive moves to the element that holds the component's state, and "parent" is the nearest state that is not a RizzyUI component's, so a component inside a dialog or sheet syncs with the application's state. `data-syncprop-parent="#selector"` names the parent, and `.direct` keeps the closest state (RizzyUI's sidebar uses it).
 - **`AsChild` children keep their handlers and ids** (decisions D-25 and D-26). The component's `x-on:*` handlers go onto the child in Alpine's `@event` form, so a handler the child declares (`<PopoverTrigger AsChild><button x-on:click="track()">`) runs alongside instead of replacing the trigger's. A binding the component computes (`x-bind:aria-expanded`) wins over the child's, with a Development warning. A child that declares an `id` keeps it, and `PopoverContent`, `DropdownMenuContent` and `TabsContent` reference it in `aria-labelledby` instead of the generated trigger id.
 - **`rz:dialog-close` and `rz:sheet-close` take an optional target id** (decision D-29, Summit SF-003): `HX-Trigger: {"rz:dialog-close": {"id": "edit"}}` closes only the dialog with that id; without an id every open dialog closes, as before.
-- **The Arctic theme meets WCAG AA contrast** (Summit SF-078, SF-036): darker light-mode `--primary` and `--muted-foreground`, a lighter dark-mode `--primary` with dark text on it, and status colors that keep 4.5:1 as text on their own tint (also the theme JSON defaults). Apps that relied on the exact old values may see slightly different shades. The status theme keys are documented.
+- **The Arctic theme meets WCAG AA contrast** (Summit SF-078, SF-036): darker light-mode `--primary`, `--destructive` and `--muted-foreground`, lighter dark-mode `--primary` and `--destructive` with dark text on them, and status colors that keep 4.5:1 as text on their own tint (also the theme JSON defaults). Apps that relied on the exact old values may see slightly different shades. The status theme keys are documented.
+- **Accessibility defaults** (Summit SF-026, SF-031, SF-037, SF-066): `FieldError` around child content has no `role="alert"`; `RzAvatar` has no role or "Avatar" label unless `AriaLabel` is set (and takes `Decorative`); the file input's trigger is named by its visible text unless `AriaLabel` is set; `RzIndicator` is `role="img"` with an `AriaLabel` and decorative without one. Tests that found these elements by the old names need updating.
+- **Built-in icons are Lucide icons** (Summit SF-023): Material Design icons rendered fixed ids (`id="mdi-..."`), duplicated on every page with two of them. `RzCheckboxGroup.CheckedIcon` defaults to `Lucide.Check`.
 
 ### Fixed
 
@@ -77,6 +80,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Enter right after typing chooses the match** in `RzCommand` (Summit SF-025) and `RzCombobox` (SF-046: no refresh throttle for local options).
 - **Tab leaves a multiple `RzCombobox`** (Summit SF-055): its option checkboxes are out of the tab order, so focus no longer falls to `<body>`.
 - **Calendar weekday headers and days outside the month meet contrast** (Summit SF-077).
+- **ARIA fixes** found by axe (Summit SF-035, SF-038, SF-071, SF-075, SF-076, SF-079, SF-084): `RzAuroraText` renders its label as hidden text and needs no inline style by default; `RzItem` is a list item inside `RzItemGroup`; `RzClipboard` is at least 24 px; `SidebarGroup` no longer points at a missing label; `RzPopover`'s label names its content; an empty `CommandList` is not a listbox; Markdown code blocks are focusable.
 
 ## [1.0.0-preview.3] - 2026-11-20
 
