@@ -10,18 +10,16 @@ const { mountCodeBehind } = await import('@jalexsocial/rizzyui/testing');
 const attendeeTableState = (await import('../../.test-build/Areas/Organizer/Features/Attendees/AttendeeTableState.razor.js')).default;
 const scheduleBuilderPage = (await import('../../.test-build/Areas/Organizer/Features/ScheduleBuilder/ScheduleBuilderPage.razor.js')).default;
 
+// The table keeps its own state input (RzDataTable StateInputName, D-31); the module only adds the bulk action.
 const stateInputs = `
-  <div id="attendee-table-state">
-    <input name="Sort" x-bind:value="sort"><input name="Desc" x-bind:value="desc"><input name="Page" x-bind:value="page">
-    <input name="Search" x-bind:value="filterText"><input name="Hidden" x-bind:value="hidden"><input name="Selected" x-bind:value="selected">
-  </div>
+  <div id="attendee-table-state"><input name="action" x-bind:value="bulkAction"></div>
   <div id="table"></div>`;
 
 const value = (root, name) => root.querySelector(`input[name="${name}"]`).value;
 
-test('AttendeeTableState mirrors the table state into its inputs (SF-001)', async () => {
+test('AttendeeTableState counts the selected rows for the bulk-action bar (SF-001)', async () => {
   const { root, data, nextTick, destroy } = await mountCodeBehind(attendeeTableState, {
-    props: { TableId: 'attendees', EditUrl: '/organizer/attendees' },
+    props: { TableId: 'attendees', EditorSheetId: 'attendee-editor' },
     html: stateInputs,
   });
 
@@ -39,19 +37,14 @@ test('AttendeeTableState mirrors the table state into its inputs (SF-001)', asyn
   }));
   await nextTick();
 
-  assert.equal(value(root, 'Sort'), 'Company');
-  assert.equal(value(root, 'Desc'), 'true');
-  assert.equal(value(root, 'Page'), '3');
-  assert.equal(value(root, 'Search'), 'acme');
-  assert.equal(value(root, 'Hidden'), 'Country,Tags');
-  assert.equal(value(root, 'Selected'), 'a-1,a-7');
+  assert.equal(data.selectedCount, 2);
   assert.equal(data.selectionLabel, '2 attendees selected');
   destroy();
 });
 
 test('AttendeeTableState ignores other tables and builds the bulk confirmation text', async () => {
   const { root, data, nextTick, destroy } = await mountCodeBehind(attendeeTableState, {
-    props: { TableId: 'attendees', EditUrl: '/organizer/attendees' },
+    props: { TableId: 'attendees', EditorSheetId: 'attendee-editor' },
     html: stateInputs,
   });
   root.querySelector('#table').dispatchEvent(new CustomEvent('rz:datatable:state-changed', {
@@ -59,7 +52,7 @@ test('AttendeeTableState ignores other tables and builds the bulk confirmation t
     detail: { componentId: 'other', sorting: [{ id: 'Name', desc: false }], pagination: null, columnVisibility: {}, selectedRowIds: [], selectedRowCount: 0 },
   }));
   await nextTick();
-  assert.equal(value(root, 'Sort'), '');
+  assert.equal(data.selectedCount, 0);
 
   data.selectedCount = 1;
   let opened = false;
@@ -68,6 +61,8 @@ test('AttendeeTableState ignores other tables and builds the bulk confirmation t
   assert.equal(data.bulkSummary, 'Check in 1 attendee?');
   assert.equal(data.bulkAction, 'check-in');
   assert.ok(opened);
+  await nextTick();
+  assert.equal(value(root, 'action'), 'check-in');
   destroy();
 });
 
