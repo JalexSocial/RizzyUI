@@ -145,7 +145,6 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Infrastructure/Theming.cs`: `SidebarState` + `OrganizerLayout` `DefaultOpen` | ~10 C# | SF-010 | `RzSidebarProvider` reading its own cookie |
 | `Components/Shared/CommandNavigation.razor(.js)` | ~30 JS | SF-016 | `CommandItem.Href` |
 | `Components/Shared/SearchPalette.razor`: RzDialog + RzCommand instead of RzCommandDialog | ~10 Razor | SF-007 | `RzCommandDialog` with remote items |
-| `Components/Shared/AppNotifications.razor(.js)` | ~25 JS | SF-041 | A built-in server-error toast |
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
 | Explicit `Name="Model.X"` on group inputs, `aria-label` instead of `<label for>` | 1 per field | SF-009, SF-033 | Consistent field naming and consumer ids |
@@ -797,6 +796,7 @@ finding on its own.
   failing.
 - **Library fix:** in Rizzy, only add `id` when it is not empty; in RizzyUI, give each item's input an
   id derived from the group's.
+- **Rizzy fixed in 6.0.0-preview.4:** `RzInputRadioBase` renders no `id=""`. The RizzyUI side (ids derived from the group for each item) is slice 20.
 
 ### SF-048 htmx attributes in DataTable rows are never processed
 

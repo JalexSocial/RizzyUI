@@ -27,6 +27,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`ChartBuilder.Type(...)`** sets a chart's type; without it `RzChart` uses the first dataset's type (Summit SF-059).
 - **`<RzThemeHeadOutlet />`** renders the theme of `RzThemeProvider` in `<head>` (Summit SF-034). Place it next to `<RzHeadOutlet />` when `RzThemeProvider` wraps the page body; the starter template does.
 - **`RzButton AsChild`** (Summit SF-018): renders its single child, typically `<a href>`, with the button's styling and attributes instead of a `<button>`. Before, `AsChild` became an unknown attribute and the link was nested inside a button (invalid, two tab stops); the starter template's 404 page did this.
+- **`RzToastProvider ServerErrorToasts`** (Summit SF-041): shows a localized error toast when an htmx request fails, for Rizzy's `rz:server-error` (a 5xx that `UseHtmxErrorHandling` did not swap) and htmx's `htmx:error` (the request could not be sent). Without it, every app needed its own listener, or the user saw nothing. The messages can be set with `ServerErrorTitle`, `ServerErrorText` and `NetworkErrorText`.
 
 ### Changed
 
