@@ -58,6 +58,10 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
         if (ParentTabs == null)
             throw new InvalidOperationException($"{nameof(TabsTrigger)} must be used within an {nameof(RzTabs)} component.");
 
+        // D-26: a child with its own id keeps it, and the panel references it.
+        if (AsChild && ChildRootId(ChildContent) is { } childId)
+            ParentTabs.SetAsChildTriggerId(Value, childId);
+
     }
 
     /// <inheritdoc />

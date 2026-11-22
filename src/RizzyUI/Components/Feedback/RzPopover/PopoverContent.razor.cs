@@ -57,7 +57,7 @@ public partial class PopoverContent : RzComponent<PopoverContent.Slots>
     /// <summary>
     /// Gets the ID of the trigger element that controls this content.
     /// </summary>
-    protected string TriggerId => $"{ParentPopover?.Id}-trigger";
+    protected string TriggerId => ParentPopover?.AsChildTriggerId ?? $"{ParentPopover?.Id}-trigger";
 
     /// <inheritdoc/>
     protected override void OnInitialized()

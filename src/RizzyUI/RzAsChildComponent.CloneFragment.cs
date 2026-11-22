@@ -86,6 +86,30 @@ public abstract partial class RzAsChildComponent : RzComponent
             throw new InvalidOperationException("CloneFragment detected multiple top-level nodes. Please wrap sibling nodes in a container element or component.");
         }
 
+        // D-25: the component puts its behavior on the child, so the child cannot declare its own
+        // Alpine scope (element, component and markup children alike).
+        if (rootIsMarkup)
+        {
+            var scope = ChildScopeDirective().Match(root.MarkupContent ?? string.Empty);
+            if (scope.Success)
+                throw RzDirectiveRules.ChildScopeException(GetType(), scope.Groups[1].Value);
+        }
+        else
+        {
+            for (var a = 1; a < range.Count && frames[a].FrameType == RenderTreeFrameType.Attribute; a++)
+            {
+                if (RzDirectiveRules.IsScopeDirective(frames[a].AttributeName))
+                    throw RzDirectiveRules.ChildScopeException(GetType(), frames[a].AttributeName);
+            }
+        }
+
+        // D-25: the component's handlers go onto the child in Alpine's @event form, so a handler the
+        // child declares itself (x-on:click) runs alongside instead of replacing them.
+        if (attributes is not null && attributes.Keys.Any(k => k.StartsWith("x-on:", StringComparison.OrdinalIgnoreCase)))
+        {
+            attributes = attributes.ToDictionary(kv => RzDirectiveRules.ToShorthand(kv.Key), kv => kv.Value, StringComparer.OrdinalIgnoreCase);
+        }
+
         if (rootIsMarkup)
         {
             if (attributes is null || attributes.Count == 0)
@@ -102,8 +126,14 @@ public abstract partial class RzAsChildComponent : RzComponent
                 {
                     // The element's own attributes win, as on the element path below (class is merged
                     // with TwMerge). Joining values with a space produced invalid ids and broken
-                    // x-data, href and aria-* values.
-                    ConflictPolicyResolver = _ => HtmlUtils.AttrConflictPolicy.KeepExisting
+                    // x-data, href and aria-* values. Bindings the component computes win (D-25).
+                    ConflictPolicyResolver = name =>
+                    {
+                        if (!RzDirectiveRules.IsBinding(name))
+                            return HtmlUtils.AttrConflictPolicy.KeepExisting;
+                        RzDirectiveRules.WarnAsChild(DirectiveServices, GetType(), name);
+                        return HtmlUtils.AttrConflictPolicy.Replace;
+                    }
                 });
 
             // Return a new fragment that renders the modified markup.
@@ -219,6 +249,13 @@ public abstract partial class RzAsChildComponent : RzComponent
                 // The child's classes win Tailwind conflicts, as on the markup path (RZUI-039).
                 val = TwMerge.Merge([baseClass, originalClass]) ?? string.Empty;
                 baseAttrs.Remove("class");
+            }
+            else if (RzDirectiveRules.IsBinding(name) && baseAttrs.TryGetValue(name, out var computed))
+            {
+                // D-25: a binding the component computes (x-bind:aria-expanded) wins over the child's.
+                RzDirectiveRules.WarnAsChild(DirectiveServices, GetType(), name);
+                val = computed;
+                baseAttrs.Remove(name);
             }
             else
             {
@@ -359,4 +396,39 @@ public abstract partial class RzAsChildComponent : RzComponent
         RenderTreeFrameType.Region => frame.RegionSubtreeLength,
         _ => 1
     };
+
+    /// <summary>x-data, x-init or x-load(-*) on the root element of a markup child.</summary>
+    [System.Text.RegularExpressions.GeneratedRegex(@"^\s*<[A-Za-z][^>]*?\s(x-data|x-init|x-load[\w-]*)(?=[\s=/>])", System.Text.RegularExpressions.RegexOptions.IgnoreCase)]
+    private static partial System.Text.RegularExpressions.Regex ChildScopeDirective();
+
+    /// <summary>
+    /// The id the single root of <paramref name="content"/> declares (an element's or markup's
+    /// <c>id</c>, a component's <c>Id</c> or <c>id</c>), or null. With <c>AsChild</c>, a component adopts
+    /// it and derives its references from it (decision D-26).
+    /// </summary>
+    protected static string? ChildRootId(RenderFragment? content)
+    {
+        if (content is null) return null;
+        var probe = new RenderTreeBuilder();
+        content(probe);
+        var range = probe.GetFrames();
+        if (range.Count == 0) return null;
+        var frames = range.Array;
+        if (frames[0].FrameType == RenderTreeFrameType.Markup)
+        {
+            var match = MarkupRootId().Match(frames[0].MarkupContent ?? string.Empty);
+            return match.Success ? System.Net.WebUtility.HtmlDecode(match.Groups[1].Value) : null;
+        }
+        for (var i = 1; i < range.Count && frames[i].FrameType == RenderTreeFrameType.Attribute; i++)
+        {
+            if (string.Equals(frames[i].AttributeName, "id", StringComparison.OrdinalIgnoreCase)
+                && frames[i].AttributeValue?.ToString() is { Length: > 0 } id)
+                return id;
+        }
+        return null;
+    }
+
+    /// <summary>The id attribute of a markup child's root element.</summary>
+    [System.Text.RegularExpressions.GeneratedRegex(@"^\s*<[A-Za-z][^>]*?\sid\s*=\s*[""']([^""']+)[""']", System.Text.RegularExpressions.RegexOptions.IgnoreCase)]
+    private static partial System.Text.RegularExpressions.Regex MarkupRootId();
 }

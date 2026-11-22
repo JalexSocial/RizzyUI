@@ -6,7 +6,7 @@
 
 <PageTitle>Directives harness</PageTitle>
 
-<div class="space-y-8 p-6" x-data="{ clicks: 0, menuClicks: 0, bold: false, volume: [30] }">
+<div class="space-y-8 p-6" x-data="{ clicks: 0, menuClicks: 0, shares: 0, bold: false, volume: [30] }">
     <h1 class="text-2xl font-semibold">Directives harness</h1>
 
     <section class="space-y-2">
@@ -24,6 +24,19 @@
             </MenubarMenu>
         </RzMenubar>
         <p>Menu clicks: <span id="menu-clicks" x-text="menuClicks"></span></p>
+    </section>
+
+    <section class="space-y-2">
+        @* D-25/D-26: the child's own handler runs alongside the trigger's, and its id is kept. *@
+        <RzPopover>
+            <PopoverTrigger AsChild>
+                <button id="share-button" type="button" class="rounded border px-3 py-1" x-on:click="shares++">Share</button>
+            </PopoverTrigger>
+            <PopoverContent>
+                <p id="share-content">Share this page</p>
+            </PopoverContent>
+        </RzPopover>
+        <p>Shares: <span id="shares" x-text="shares"></span></p>
     </section>
 
     <section class="space-y-2">

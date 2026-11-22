@@ -11,6 +11,12 @@ namespace RizzyUI;
 public partial class RzPopover : RzComponent<RzPopover.Slots>
 {
     /// <summary>
+    /// The id of an <c>AsChild</c> trigger's child, when it declares one (decision D-26); the content
+    /// references it instead of the generated trigger id.
+    /// </summary>
+    internal string? AsChildTriggerId { get; set; }
+
+    /// <summary>
     /// Defines the default styling for the RzPopover component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(

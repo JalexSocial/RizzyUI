@@ -148,7 +148,7 @@ public abstract partial class RzComponent : ComponentBase
 
     /// <summary>Services for the directive rules' Development warnings.</summary>
     [Inject]
-    private IServiceProvider? DirectiveServices { get; set; }
+    private protected IServiceProvider? DirectiveServices { get; set; }
 
     /// <summary>
     /// Whether callers may put <c>x-model</c> on this component (decision D-27): true for components

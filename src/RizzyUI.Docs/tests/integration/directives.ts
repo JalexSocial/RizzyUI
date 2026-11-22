@@ -28,6 +28,16 @@ export function defineDirectiveSpecs(runtime: string) {
       expect(errors).toEqual([]);
     });
 
+    test('an AsChild trigger child keeps its handler and id; the trigger still opens (D-25, D-26)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      const button = page.locator('#share-button');
+      await button.click();
+      await expect(page.locator('#shares')).toHaveText('1');
+      await expect(page.locator('#share-content')).toBeVisible();
+      await expect(page.locator('[data-slot="popover-content"]', { has: page.locator('#share-content') })).toHaveAttribute('aria-labelledby', 'share-button');
+      expect(errors).toEqual([]);
+    });
+
     test('x-syncprop on a component inside a dialog syncs with the app state, not the dialog (D-24)', async ({ page }) => {
       const errors = collectPageErrors(page);
       await page.locator('#open-dialog').click();

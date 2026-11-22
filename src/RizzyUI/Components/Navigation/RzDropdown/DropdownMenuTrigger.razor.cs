@@ -50,6 +50,10 @@ public partial class DropdownMenuTrigger : RzAsChildComponent<DropdownMenuTrigge
         {
             throw new InvalidOperationException($"{nameof(DropdownMenuTrigger)} must be used within an {nameof(RzDropdownMenu)}.");
         }
+
+        // D-26: a child with its own id keeps it, and the menu content references it.
+        if (AsChild && ChildRootId(ChildContent) is { } childId)
+            ParentDropdownMenu.AsChildTriggerId = childId;
     }
 
     /// <inheritdoc/>

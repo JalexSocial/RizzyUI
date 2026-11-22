@@ -160,6 +160,28 @@ internal static partial class RzDirectiveRules
 
     private static string ComponentName(Type type) => StripGenericArity(type.Name);
 
+    /// <summary>True for <c>x-data</c>, <c>x-init</c>, <c>x-load</c> and <c>x-load-*</c>.</summary>
+    internal static bool IsScopeDirective(string key)
+    {
+        var name = key.ToLowerInvariant();
+        return DirectiveName(name) is "x-data" or "x-init" or "x-load" || name.StartsWith("x-load-", StringComparison.Ordinal);
+    }
+
+    /// <summary>True for <c>x-bind:attr</c> and <c>:attr</c>.</summary>
+    internal static bool IsBinding(string key) => BoundAttribute(key.ToLowerInvariant()) is not null;
+
+    /// <summary>The <c>@event</c> form of an <c>x-on:event</c> attribute, or the key unchanged.</summary>
+    internal static string ToShorthand(string key) =>
+        key.StartsWith("x-on:", StringComparison.OrdinalIgnoreCase) ? "@" + key["x-on:".Length..] : key;
+
+    /// <summary>The exception for an <c>AsChild</c> child that declares its own Alpine scope (D-25).</summary>
+    internal static InvalidOperationException ChildScopeException(Type component, string key) => new(
+        $"{ComponentName(component)} AsChild: the child declares '{key}'. The component puts its own behavior on the child, " +
+        "which cannot also have a scope of its own: put application state on an ancestor element (<div x-data=\"...\">).");
+
+    /// <summary>Development warning for a child binding that the component's own binding replaced (D-25).</summary>
+    internal static void WarnAsChild(IServiceProvider? services, Type type, string key) => Warn(services, type, key, BoundAttribute(key.ToLowerInvariant()) ?? key);
+
     private static void Warn(IServiceProvider? services, Type type, string key, string attribute)
     {
         if (services?.GetService<IHostEnvironment>()?.IsDevelopment() != true)

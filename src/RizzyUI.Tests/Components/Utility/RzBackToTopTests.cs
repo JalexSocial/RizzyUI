@@ -57,7 +57,7 @@ public class RzBackToTopTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("a", root.TagName.ToLowerInvariant());
         Assert.Equal("500", root.GetAttribute("data-threshold"));
         Assert.Equal("button", root.GetAttribute("type"));
-        Assert.Equal("scrollToTop", root.GetAttribute("x-on:click.prevent"));
+        Assert.Equal("scrollToTop", root.GetAttribute("@click.prevent"));  // D-25: the component's handler goes onto the child as @event
         Assert.Equal("#top", root.GetAttribute("href"));
     }
 }
