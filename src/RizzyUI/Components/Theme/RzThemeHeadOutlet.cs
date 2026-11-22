@@ -41,8 +41,25 @@ public sealed class RzThemeHeadOutlet : ComponentBase
     }
 }
 
-/// <summary>Per-request record of whether an <see cref="RzThemeHeadOutlet"/> is on the page.</summary>
+/// <summary>
+/// Per-request record of the <see cref="RzThemeHeadOutlet"/> on the page and the provider that fills it.
+/// </summary>
+/// <remarks>
+/// One request can render more than one document: <c>RzBrowser</c> renders its preview, with its own
+/// <c>&lt;head&gt;</c> and <see cref="RzThemeProvider"/>, inside the page. Only the first provider (the
+/// page's) uses the outlet; every other provider renders its theme where it stands.
+/// </remarks>
 internal sealed class RzThemeHeadState
 {
     public bool OutletRendered { get; set; }
+
+    private object? _owner;
+
+    /// <summary>Whether <paramref name="provider"/> renders into the outlet (the first provider to ask does).</summary>
+    public bool UseOutlet(object provider)
+    {
+        if (!OutletRendered) return false;
+        _owner ??= provider;
+        return ReferenceEquals(_owner, provider);
+    }
 }

@@ -94,7 +94,7 @@ public class RzThemeProvider : ComponentBase
         // SF-034: not HeadContent (Blazor shows only the last one rendered, so a page's own
         // HeadContent removed the theme). With an RzThemeHeadOutlet in <head>, use its section;
         // without one, render the theme at the start of this component's output.
-        if (Services.GetService<RzThemeHeadState>()?.OutletRendered == true)
+        if (Services.GetService<RzThemeHeadState>()?.UseOutlet(this) == true)
         {
             builder.OpenComponent<SectionContent>(0);
             builder.AddComponentParameter(1, nameof(SectionContent.SectionId), RzThemeHeadOutlet.SectionId);

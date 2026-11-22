@@ -21,5 +21,17 @@ export function defineHeadContentSpecs(runtime: string) {
       expect(primary).not.toBe('');
       expect(errors).toEqual([]);
     });
+
+    test('a preview document rendered in the same request keeps its own theme', async ({ page }) => {
+      // RzBrowser renders a whole document (PreviewLayout, with RzThemeProvider in its <head>) inside
+      // the page's request. Only the page's provider uses the page's RzThemeHeadOutlet.
+      await page.goto('/components/card');
+      const iframe = page.locator('iframe').first();
+      await expect(iframe).toBeAttached();
+      await expect.poll(() => iframe.evaluate(frame => {
+        const head = (frame as HTMLIFrameElement).contentDocument?.head;
+        return head ? [...head.querySelectorAll('style')].some(s => s.textContent?.includes('--primary:')) : null;
+      })).toBe(true);
+    });
   });
 }
