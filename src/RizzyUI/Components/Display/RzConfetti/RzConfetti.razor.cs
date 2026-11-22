@@ -125,7 +125,7 @@ public partial class RzConfetti : RzComponent<RzConfetti.Slots>
     public bool ResizeCanvas { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether canvas-confetti should use workers when supported.
+    /// Gets or sets whether canvas-confetti should use workers when supported. canvas-confetti starts the worker from a <c>blob:</c> URL, so under a Content Security Policy it needs <c>worker-src blob:</c>; leave it off otherwise (Summit SF-083).
     /// </summary>
     [Parameter]
     public bool UseWorker { get; set; }

@@ -47,7 +47,7 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 flex items-center justify-center gap-4 p-8 min-h-40">
                         <EditForm Model="_model">
-                            <RzNativeSelect @bind-Value="_model.Fruit" For="@(() => _model.Fruit)">
+                            <RzNativeSelect @bind-Value="_model.Fruit" For="@(() => _model.Fruit)" aria-label="Fruit">
                                 <RzNativeSelectOption Value="@("apple")">Apple</RzNativeSelectOption>
                                 <RzNativeSelectOption Value="@("banana")">Banana</RzNativeSelectOption>
                                 <RzNativeSelectOption Value="@("blueberry")">Blueberry</RzNativeSelectOption>

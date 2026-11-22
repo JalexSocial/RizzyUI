@@ -1,4 +1,19 @@
+// Segment styles for the "Segment Styling" example on the line chart page (an external script, so it
+// also runs under the docs site's Content Security Policy; SF-083).
+window.myLineSegmentStyles = {
+    borderColor: (ctx) => (ctx.p0.skip || ctx.p1.skip ? "var(--chart-2)" : "var(--chart-1)"),
+    borderDash: (ctx) => (ctx.p0.skip || ctx.p1.skip ? [6, 6] : undefined)
+};
+
 document.addEventListener('alpine:init', () => {
+
+    // The Alpine fundamentals examples, registered for the CSP build (inline methods are not allowed there).
+    Alpine.data('fundamentalsCounter', () => ({ count: 0, increment() { this.count++; } }));
+    Alpine.data('fundamentalsRefs', () => ({ updateMessage() { this.$refs.output.innerText = 'Updated Directly!'; } }));
+    Alpine.data('fundamentalsSave', () => ({
+        isSaved: false,
+        save() { this.isSaved = true; setTimeout(() => (this.isSaved = false), 2000); },
+    }));
 
     Alpine.data('docSearch', () => ({
 

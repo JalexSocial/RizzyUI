@@ -13,8 +13,8 @@
     </RzAlpineComponent>
 
     <div class="mt-4">
-        <RzButton onclick="window.dispatchEvent(new Event('loadPromo')); console.log('Show Promo clicked!')">
+        <span x-data class="contents"><RzButton x-on:click="$dispatch('loadPromo')">
             Show Promo
-        </RzButton>
+        </RzButton></span>
     </div>
 </div>

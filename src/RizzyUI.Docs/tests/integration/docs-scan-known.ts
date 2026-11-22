@@ -24,21 +24,5 @@ export const knownDefects: KnownDefect[] = [
   // (the library's built-in icons no longer do: SF-023).
   { finding: 'SF-023', kind: 'duplicate-id', rule: 'mdi-icon-id' },
   { finding: 'SF-023', kind: 'duplicate-id', rule: 'template-id', target: /^svg#mdi-/ },
-  { finding: 'SF-081', kind: 'axe', rule: 'color-contrast', target: /text-sky-600|<a href="|<code>|<span x-show=|<span class="inline-flex w-28/ },
-  { finding: 'SF-082', kind: 'axe', rule: 'button-name' },
-  { finding: 'SF-082', kind: 'axe', rule: 'label', pages: ['/components/input-otp', '/docs/interactivity/state-reactivity'] },
-  { finding: 'SF-082', kind: 'axe', rule: 'select-name', pages: ['/components/button-group', '/components/native-select'] },
-  { finding: 'SF-082', kind: 'axe', rule: 'listitem', target: /data-slot="breadcrumb-item"/, pages: ['/command-demo'] },
 
-  { finding: 'SF-082', kind: 'axe', rule: 'target-size', pages: ['/'] },
-  {
-    finding: 'SF-083', kind: 'error', rule: 'console.error', target: /violates the following Content Security Policy/,
-    pages: ['/components/confetti', '/components/sidebar', '/docs/interactivity/lazy-loading', '/components/empty', '/components/item', '/components/marquee', '/components/chart-line'],
-  },
-  {
-    finding: 'SF-083', kind: 'error', rule: 'csp', target: /^(script-src-elem|script-src-attr|worker-src) /,
-    pages: ['/components/chart-line', '/components/confetti'],
-  },
-  { finding: 'SF-083', kind: 'error', rule: 'console.warn', target: /Alpine Expression Error/, pages: ['/docs/interactivity/alpine-fundamentals'] },
-  { finding: 'SF-083', kind: 'error', rule: 'pageerror', pages: ['/docs/interactivity/alpine-fundamentals'] },
 ];

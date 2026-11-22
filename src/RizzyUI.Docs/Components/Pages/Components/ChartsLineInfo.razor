@@ -33,13 +33,6 @@
                 This page focuses on line chart patterns built with <code>RzChart</code> and direct inline fluent builder configuration.
             </RzParagraph>
 
-            <script>
-                window.myLineSegmentStyles = {
-                    borderColor: (ctx) => (ctx.p0.skip || ctx.p1.skip ? "var(--chart-2)" : "var(--chart-1)"),
-                    borderDash: (ctx) => (ctx.p0.skip || ctx.p1.skip ? [6, 6] : undefined)
-                };
-            </script>
-
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Interpolation Modes" class="scroll-mt-20">Interpolation Modes</RzHeading>
                 <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">

@@ -124,9 +124,9 @@ tracks how much application code exists only to compensate.
 | SF-078 | RizzyUI | Default theme | A11y | Medium | In the docs theme, `text-primary` links, primary and outline buttons, the Steps labels, command shortcuts and event-viewer entries measure below 4.5:1 | n/a | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (every token pair of the built-in theme, light and dark) (defect); docs scan (color-contrast entries removed) |
 | SF-079 | RizzyUI | RzCommand | A11y | Low | An `RzCommand` list with no matching items is still a `listbox` with no `option` children (axe `aria-required-children`) | n/a | Fixed in 1.0.0-preview.4 | docs scan (command page entry removed) |
 | SF-080 | RizzyUI docs | RzSidebar preview | A11y | Low | In the sidebar docs preview, menu items are not inside a list (`listitem`, `aria-required-children`) and the rail buttons are under 24 px; to triage between the example and the components | n/a | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a collapsible AsChild puts its behavior on the menu item) (defect); docs scan (sidebar entries removed) |
-| SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a (docs site) | Open | docs scan (known-defect list) |
-| SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a (docs site) | Open | docs scan (known-defect list) |
-| SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a (docs site) | Open | docs scan (known-defect list) |
+| SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a | Fixed in 1.0.0-preview.4 | docs scan (color-contrast entry removed) |
+| SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a | Fixed in 1.0.0-preview.4 | docs scan (button-name, label, select-name, listitem and target-size entries removed) |
+| SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a | Fixed in 1.0.0-preview.4 | docs scan, CSP project (csp, console and pageerror entries removed) |
 | SF-084 | RizzyUI | Markdown code blocks | A11y | Low | RizzyUI's Markdig extension renders fenced code blocks as `<pre class="border-muted border">` without `tabindex`, so a block wide enough to scroll cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | n/a | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (Markdown code blocks are focusable) (defect); docs scan entry removed |
 
 ## Integration code ledger
@@ -490,6 +490,7 @@ finding on its own.
   internal icons to Lucide, which RizzyUI already uses elsewhere and which has no ids), and add a
   unique-id assertion to the accessibility fixtures.
 - **Fixed in 1.0.0-preview.4:** RizzyUI's built-in icons are Lucide icons, which carry no ids, instead of Material Design icons (`id="mdi-..."`). The exceptions in Summit's and the docs scan's unique-id checks are removed.
+- **Docs site (1.0.0-preview.4):** the docs site's own pages and examples still use Material Design icons; their repeated `mdi-` ids remain a docs-scan known entry, now attributed to the docs site.
 
 ### SF-024 Boosted navigation does not update the html element
 
@@ -1322,6 +1323,7 @@ finding on its own.
   getting-started pages, and inline `code`.
 - **Fix (W11):** darker colors in the docs stylesheet for those three elements; the scan then drops the
   entry.
+- **Fixed in 1.0.0-preview.4:** the API tables' parameter names use `text-sky-700` (5.9:1 on white) instead of `text-sky-600` (4.0:1); with the slice 25 theme values, prose links and inline code meet contrast too. The docs scan reports no color-contrast result.
 
 ### SF-082 Docs examples contain accessibility mistakes
 
@@ -1332,6 +1334,7 @@ finding on its own.
   instead of `AriaLabel` on a button, `BreadcrumbItem` given `href`/`label` attributes it does not have,
   and small targets on the home page.
 - **Fix (W11):** correct each example; examples should pass the same scan as components.
+- **Fixed in 1.0.0-preview.4:** the examples name their icon-only buttons (`AssistiveLabel` on `RzButton`, which the docs had written as `AriaLabel`, rendered as a meaningless `arialabel` attribute; `aria-label` on `InputGroupButton`), label the input OTPs, native selects and the state page's textarea, use `BreadcrumbList`/`BreadcrumbLink`/`BreadcrumbPage` on the command demo, and put the sidebar popover's button in `PopoverTrigger AsChild`. The home page's small-target result was a library issue: `InputGroupButton` could shrink in a narrow row (an icon button at 14 px); it is `shrink-0` now.
 
 ### SF-083 Docs examples break under the strict CSP
 
@@ -1343,6 +1346,7 @@ finding on its own.
   (object-literal `x-bind:class`, undefined variables) that the CSP build cannot evaluate.
 - **Fix (W11):** rewrite the examples in the CSP-safe subset, self-host the images, and document that
   `UseWorker` needs `worker-src blob:` (or turn it off) under a strict policy.
+- **Fixed in 1.0.0-preview.4:** the examples work under the docs site's Content Security Policy: `$dispatch` in an Alpine scope instead of inline `onclick`, the line chart's segment styles in `site.js` instead of an inline script, local avatar images and icons instead of github.com and simpleicons.org, and the Alpine fundamentals examples use data registered with `Alpine.data` under the CSP build. A library bug surfaced: `RzConfetti` in global mode used canvas-confetti's default instance, which always starts a `blob:` worker; it now creates its own instance that honors `UseWorker` (off by default), and `UseWorker` documents `worker-src blob:`.
 
 ### SF-084 Scrolling Markdown code blocks are not keyboard accessible
 

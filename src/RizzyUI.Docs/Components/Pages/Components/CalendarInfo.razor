@@ -188,49 +188,49 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">Mode</td>
+                                <td class="p-4 font-mono text-sky-700">Mode</td>
                                 <td class="p-4 font-mono text-violet-600">SelectionDatesMode</td>
                                 <td class="p-4 font-mono">Single</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Determines if the user selects a Single date, Multiple dates, or a Range.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">Value</td>
+                                <td class="p-4 font-mono text-sky-700">Value</td>
                                 <td class="p-4 font-mono text-violet-600">DateOnly?</td>
                                 <td class="p-4 font-mono">null</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">The initial selected date when Mode is <code>Single</code>.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">Values</td>
+                                <td class="p-4 font-mono text-sky-700">Values</td>
                                 <td class="p-4 font-mono text-violet-600">List&lt;DateOnly&gt;?</td>
                                 <td class="p-4 font-mono">null</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">The initial list of selected dates when Mode is <code>Multiple</code>.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">Range</td>
+                                <td class="p-4 font-mono text-sky-700">Range</td>
                                 <td class="p-4 font-mono text-violet-600">CalendarDateRange?</td>
                                 <td class="p-4 font-mono">null</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">The initial date range when Mode is <code>MultipleRanged</code>.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">MinDate</td>
+                                <td class="p-4 font-mono text-sky-700">MinDate</td>
                                 <td class="p-4 font-mono text-violet-600">DateOnly?</td>
                                 <td class="p-4 font-mono">null</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Minimum selectable date. Dates before this are disabled.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">MaxDate</td>
+                                <td class="p-4 font-mono text-sky-700">MaxDate</td>
                                 <td class="p-4 font-mono text-violet-600">DateOnly?</td>
                                 <td class="p-4 font-mono">null</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Maximum selectable date. Dates after this are disabled.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">Type</td>
+                                <td class="p-4 font-mono text-sky-700">Type</td>
                                 <td class="p-4 font-mono text-violet-600">CalendarType</td>
                                 <td class="p-4 font-mono">Default</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">View type: <code>Default</code> (Month), <code>Multiple</code> (Multi-Month), <code>Month</code>, or <code>Year</code>.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">Options</td>
+                                <td class="p-4 font-mono text-sky-700">Options</td>
                                 <td class="p-4 font-mono text-violet-600">VanillaCalendarOptions</td>
                                 <td class="p-4 font-mono">null</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Advanced configuration object for locale, disabled weekdays, week numbers, and more. Without a <code>Locale</code> the calendar uses the request culture.</td>
@@ -256,27 +256,27 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">rz:calendar:init</td>
+                                <td class="p-4 font-mono text-sky-700">rz:calendar:init</td>
                                 <td class="p-4 font-mono text-xs">{ instance }</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when the calendar is fully initialized.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">rz:calendar:click-day</td>
+                                <td class="p-4 font-mono text-sky-700">rz:calendar:click-day</td>
                                 <td class="p-4 font-mono text-xs">{ dates, event }</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when a day is clicked. <code>dates</code> contains the array of selected ISO date strings.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">rz:calendar:change-time</td>
+                                <td class="p-4 font-mono text-sky-700">rz:calendar:change-time</td>
                                 <td class="p-4 font-mono text-xs">{ time, hours, minutes... }</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when the time picker value changes.</td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">rz:calendar:click-month</td>
+                                <td class="p-4 font-mono text-sky-700">rz:calendar:click-month</td>
                                 <td class="p-4 font-mono text-xs">{ month, event }</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when a month is selected in the header.</td>
                             </tr>
                              <tr>
-                                <td class="p-4 font-mono text-sky-600">rz:calendar:click-year</td>
+                                <td class="p-4 font-mono text-sky-700">rz:calendar:click-year</td>
                                 <td class="p-4 font-mono text-xs">{ year, event }</td>
                                 <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when a year is selected in the header.</td>
                             </tr>
@@ -298,8 +298,8 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">initCalendar</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">configId: string</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initializes the underlying Vanilla Calendar instance for the supplied configuration.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">dispatchCalendarEvent</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">eventName: string, detail: object</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Dispatches calendar lifecycle and interaction events from the component root.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">initCalendar</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">configId: string</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initializes the underlying Vanilla Calendar instance for the supplied configuration.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">dispatchCalendarEvent</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">eventName: string, detail: object</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Dispatches calendar lifecycle and interaction events from the component root.</td></tr>
                         </tbody>
                     </table>
                 </div>

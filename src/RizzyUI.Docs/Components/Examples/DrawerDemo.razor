@@ -1,9 +1,9 @@
 @namespace RizzyUI.Docs.Examples
 @using RizzyUI
 
-<RzButton Variant="ThemeVariant.Default" Outline onclick="window.dispatchEvent(new Event('drawer-demo'))">
+<span x-data class="contents"><RzButton Variant="ThemeVariant.Default" Outline x-on:click="$dispatch('drawer-demo')">
     Open Drawer
-</RzButton>
+</RzButton></span>
 
 <RzSheet EventTriggerName="drawer-demo">
     <SheetContent Side="SheetSide.Bottom">

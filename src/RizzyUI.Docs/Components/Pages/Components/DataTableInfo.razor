@@ -819,31 +819,31 @@ public async Task&lt;IResult&gt; Table(string? status, [FromQuery(Name = "TableS
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Items</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Items</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required source rows serialized into the DataTable transport.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IReadOnlyList&lt;TItem&gt;</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Array.Empty&lt;TItem&gt;()</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Config</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Config</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required table configuration containing <code>Columns</code>, <code>Features</code>, and <code>InitialState</code>.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RzDataTableConfig&lt;TItem&gt;</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">RowIdSelector</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">RowIdSelector</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required member-access expression used to derive stable row ids. Values must be non-empty and unique.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TItem, object?&gt;&gt;</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Author-provided markup that renders headers, rows, cells, controls, empty states, and pagination from Alpine projections.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LoadStrategy</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">LoadStrategy</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Inherited Alpine loading strategy rendered as <code>x-load</code> when non-empty.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"eager"</code></td>

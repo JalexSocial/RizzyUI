@@ -1,9 +1,9 @@
 @namespace RizzyUI.Docs.Examples
 @using RizzyUI
 
-<RzButton Variant="ThemeVariant.Accent" Outline onclick="window.dispatchEvent(new Event('alert-dialog-demo'))">
+<span x-data class="contents"><RzButton Variant="ThemeVariant.Accent" Outline x-on:click="$dispatch('alert-dialog-demo')">
     Show Dialog
-</RzButton>
+</RzButton></span>
 
 <RzAlertDialog EventTriggerName="alert-dialog-demo">
     <AlertDialogContent>

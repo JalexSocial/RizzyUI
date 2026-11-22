@@ -97,6 +97,9 @@ Finding IDs (RZUI-0xx) refer to the
 - **`hx-*` in DataTable row templates works** (Summit SF-048): the table processes the rows Alpine renders.
 - **No repeated ids in DataTable rows** (Summit SF-054): row-template helpers render an id only when given one, and the table drops generated ids copied from its `x-for` templates.
 - **Docs** (Summit SF-008, SF-019, SF-027, SF-051): pages for `RzIdScope`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle` and `RzEmbeddedPreview`; the navigation menu example renders one link per item; upload progress with htmx 4 and the state input's name are documented.
+- **`RzConfetti` honors `UseWorker` in global mode** (Summit SF-083): it used canvas-confetti's default instance, which starts a `blob:` worker that a Content Security Policy blocks.
+- **`InputGroupButton` keeps its size in a narrow input group** (`shrink-0`): an icon button shrank below the 24 px target size.
+- **Docs examples are accessible and CSP-safe** (Summit SF-081, SF-082, SF-083): readable API tables, named icon-only buttons (`AssistiveLabel` on `RzButton`), labeled inputs, no inline handlers or scripts, no external images.
 
 ## [1.0.0-preview.3] - 2026-11-20
 
