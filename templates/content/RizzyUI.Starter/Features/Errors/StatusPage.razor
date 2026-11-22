@@ -1,0 +1,24 @@
+<RzPageTitle>@Title</RzPageTitle>
+
+<div class="flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center">
+    <Blazicon Svg="Lucide.CircleAlert" class="text-muted-foreground size-12" />
+    <h1 class="text-2xl font-semibold tracking-tight">@Title</h1>
+    <p class="text-muted-foreground max-w-md text-sm">The request could not be completed (status @StatusCode).</p>
+    <RzButton AsChild>
+        <a href="/">Back to the dashboard</a>
+    </RzButton>
+</div>
+
+@code {
+    [Parameter]
+    public int StatusCode { get; set; }
+
+    private string Title => StatusCode switch
+    {
+        400 => "Bad request",
+        401 => "Sign-in required",
+        403 => "Access denied",
+        405 => "Method not allowed",
+        _ => StatusCode >= 500 ? "Something went wrong" : "Request failed",
+    };
+}

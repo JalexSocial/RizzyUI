@@ -4,6 +4,7 @@ using RizzyUI;
 using RizzyUI.Starter.Components.Layout;
 using RizzyUI.Starter.Features.Activity;
 using RizzyUI.Starter.Features.Customers;
+using RizzyUI.Starter.Features.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +40,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePagesWithReExecute("/not-found");
+// Error pages for empty 4xx/5xx responses, keeping the status code and leaving htmx alone.
+app.UseStatusPages();
 app.UseHttpsRedirection();
 // Files under wwwroot (including the CSS Tailwind builds on every build).
 app.UseStaticFiles();

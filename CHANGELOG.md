@@ -48,6 +48,9 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzCommand` renders data-driven items** (Summit SF-040). `Items` and `ItemsUrl` with a `CommandItemTemplate` showed nothing ("No data template found"): the template reported its id after the command had rendered `data-template-id`. The command now derives the id itself.
 - **`RzInputTextArea` is styled like the other inputs** (Summit SF-052): it rendered without border, background, padding or focus ring.
 - **Content inside a tinted alert is readable** (Summit SF-065). The Information, Success and Warning alerts colored their content with the status's `*-foreground`, made for a solid fill; on the 10% tint it was near-white on near-white. They use `text-foreground` now.
+- **Starter template: links and forms are boosted** (Summit SF-021). `<body hx-boost="true">` boosts nothing in htmx 4, which inherits only `hx-boost:inherited`; every link was a full page load.
+- **Starter template: error pages keep their status and leave htmx alone** (Summit SF-020). `UseStatusCodePagesWithReExecute("/not-found")` turned every empty 4xx into "Page not found" (404), swapped a whole error page into htmx partial targets and replaced htmx redirects from an expired session. The template's `UseStatusPages()` renders `/status/{code}` only for full-page requests without `HX-Redirect`.
+- **Starter template: a clean build with TypeScript code-behind** (Summit SF-042). The npm and Tailwind targets ran `BeforeTargets="Build"`, after the code-behind bundling that needs `node_modules`; they run before `BeforeBuild` now.
 
 ## [1.0.0-preview.3] - 2026-11-20
 
