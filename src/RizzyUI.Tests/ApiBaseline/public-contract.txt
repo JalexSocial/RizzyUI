@@ -2299,6 +2299,7 @@ RizzyUI.RzTabs
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+RizzyUI.RzThemeHeadOutlet
 RizzyUI.RzThemeProvider
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Theme: RizzyUI.RzTheme
@@ -3173,6 +3174,7 @@ RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
   Rizzy.Htmx.IRizzyNonceProvider (Scoped) -> Rizzy.RizzyNonceProvider
   RizzyUI.RizzyUIRegistrationMarker (Singleton) -> RizzyUI.RizzyUIRegistrationMarker
   RizzyUI.RzAlpineModuleResolver (Singleton) -> RizzyUI.RzAlpineModuleResolver
+  RizzyUI.RzThemeHeadState (Scoped) -> RizzyUI.RzThemeHeadState
   RizzyUI.Services.RzToast.IRzToastService (Scoped) -> RizzyUI.Services.RzToast.RzToastService
   RizzyUI.Services.RzToast.Internal.RzToastCommandQueue (Scoped) -> RizzyUI.Services.RzToast.Internal.RzToastCommandQueue
   TailwindMerge.TwMerge (Singleton) -> TailwindMerge.TwMerge

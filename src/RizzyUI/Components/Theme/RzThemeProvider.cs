@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Sections;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Extensions;
@@ -10,13 +12,18 @@ namespace RizzyUI;
 
 /// <summary>
 ///     A Blazor component that provides the current theme's CSS variables and initial dark mode script
-///     into the document head via <see cref="HeadOutlet" />. It also cascades the resolved theme
+///     and cascades the resolved theme to its child content. The style and script go into
+///     <see cref="RzThemeHeadOutlet" /> when the page has one (in <c>&lt;head&gt;</c>), otherwise at the start
+///     of this component's output. They do not use <see cref="HeadContent" />, which another
+///     <see cref="HeadContent" /> on the page would replace (Summit SF-034). It also cascades the resolved theme
 ///     to its child content. If no theme parameter is provided, it uses the default theme specified
 ///     in <see cref="RizzyUIConfig" /> or falls back to <see cref="RzTheme.Default" />.
 /// </summary>
 public class RzThemeProvider : ComponentBase
 {
     [Inject] private IOptions<RizzyUIConfig>? RizzyConfig { get; set; }
+
+    [Inject] private IServiceProvider Services { get; set; } = default!;
 
     /// <summary>
     ///     NonceProvider service that provides scoped per-request nonce values to RizzyUI components.
@@ -39,8 +46,8 @@ public class RzThemeProvider : ComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    ///     Builds the render tree for the component, injecting a &lt;style&gt; tag with CSS variables
-    ///     and an initial dark mode script into the head via <see cref="HeadContent" />. It also
+    ///     Builds the render tree for the component, rendering a &lt;style&gt; tag with CSS variables
+    ///     and an initial dark mode script into <see cref="RzThemeHeadOutlet" /> (or inline). It also
     ///     renders the <see cref="ChildContent" /> wrapped in a <see cref="CascadingValue{TValue}" />
     ///     providing the resolved <see cref="RzTheme" />.
     /// </summary>
@@ -54,9 +61,7 @@ public class RzThemeProvider : ComponentBase
         var css = GenerateRootVariables(actualTheme);
         var nonce = RizzyNonceProvider.GetNonce(); // Get nonce once for efficiency
 
-        // Render HeadContent to inject style and script into <head>
-        builder.OpenComponent<HeadContent>(0);
-        builder.AddAttribute(1, "ChildContent", (RenderFragment)(headBuilder =>
+        RenderFragment head = headBuilder =>
         {
             // Inject the style tag with theme variables
             headBuilder.AddMarkupContent(2, $"<style nonce=\"{nonce}\">{css}</style>");
@@ -84,8 +89,22 @@ public class RzThemeProvider : ComponentBase
     root.style.colorScheme = prefersDark ? 'dark' : 'light';
   }}
 }})();</script>");
-        }));
-        builder.CloseComponent(); // Close HeadContent
+        };
+
+        // SF-034: not HeadContent (Blazor shows only the last one rendered, so a page's own
+        // HeadContent removed the theme). With an RzThemeHeadOutlet in <head>, use its section;
+        // without one, render the theme at the start of this component's output.
+        if (Services.GetService<RzThemeHeadState>()?.OutletRendered == true)
+        {
+            builder.OpenComponent<SectionContent>(0);
+            builder.AddComponentParameter(1, nameof(SectionContent.SectionId), RzThemeHeadOutlet.SectionId);
+            builder.AddComponentParameter(9, nameof(SectionContent.ChildContent), head);
+            builder.CloseComponent();
+        }
+        else
+        {
+            builder.AddContent(10, head);
+        }
 
         // Render ChildContent wrapped in a CascadingValue to provide the theme
         builder.OpenComponent<CascadingValue<RzTheme>>(4); // Use specific type RzTheme

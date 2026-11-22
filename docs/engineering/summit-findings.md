@@ -77,7 +77,7 @@ tracks how much application code exists only to compensate.
 | SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
 | SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
 | SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open (decided: D-26 (consumer ids adopted)) | axe label checks (defect) |
-| SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works (workaround) | Open | axe color-contrast on every page (defect) |
+| SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: head-content.spec.ts (a page with its own HeadContent keeps the theme in <head>), both builds; bUnit: RzThemeProviderTests (defect); e2e: shell, theme and track colors in <head> (workflow) |
 | SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
 | SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect); docs scan (known-defect list) |
 | SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works (workaround) | Open | axe label-content-name-mismatch (defect) |
@@ -149,7 +149,6 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
 | Explicit `Name="Model.X"` on group inputs, `aria-label` instead of `<label for>` | 1 per field | SF-009, SF-033 | Consistent field naming and consumer ids |
-| `Components/Shared/TrackStyles.razor` placed in `<head>` (not `HeadContent`) | ~20 Razor | SF-034 | A theme style component that does not use `HeadContent` |
 | `SessionDetails` sheet opened by swap with `DefaultOpen` | pattern | SF-002 | Sheet open/close events |
 | `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
@@ -608,6 +607,7 @@ finding on its own.
 - **Library fix:** render the theme `<style>` from a component placed in `<head>` (for example inside
   `RzHeadOutlet`, or a dedicated `<RzThemeStyles />`) instead of through `HeadContent`; document the
   conflict until then.
+- **Fixed in 1.0.0-preview.4:** `RzThemeProvider` no longer uses `HeadContent`. A new `<RzThemeHeadOutlet />` (a Blazor section of its own) goes in `<head>` next to `<RzHeadOutlet />`; the provider renders the theme there when the outlet is on the page, and at the start of its own output otherwise (so a provider placed in `<head>`, as the docs show, keeps working unchanged). The docs app and the starter template add the outlet. Summit's `TrackStyles` uses `HeadContent` again.
 
 ### SF-035 RzAuroraText's AriaLabel is prohibited ARIA
 

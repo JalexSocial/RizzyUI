@@ -25,6 +25,7 @@ Finding IDs (RZUI-0xx) refer to the
 ### Added
 
 - **`ChartBuilder.Type(...)`** sets a chart's type; without it `RzChart` uses the first dataset's type (Summit SF-059).
+- **`<RzThemeHeadOutlet />`** renders the theme of `RzThemeProvider` in `<head>` (Summit SF-034). Place it next to `<RzHeadOutlet />` when `RzThemeProvider` wraps the page body; the starter template does.
 
 ### Changed
 
@@ -41,6 +42,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Components inside a removed wrapper are destroyed.** Alpine only cleans up removed elements it initialized, so components inside a plain element that was removed (an htmx swap of a region) never ran `destroy()` and kept their listeners and third-party instances. RizzyUI now destroys those trees.
 - **A calendar inside a popover works with its `RzCalendarProvider`** (Summit SF-057). The popover teleports its content to `<body>`, so the calendar's events never reached the provider around the popover: picking days changed nothing, and the docs "Range Popover" example did not work. The calendar now finds its provider through Alpine's scope, and `rz:calendar:range-complete` also reaches markup around a teleported calendar.
 - **Numbers in markup are culture-independent** (Summit SF-060). Under a culture with a decimal comma (de-DE), `RzNumberTicker` wrote `data-value="96356,2"`, which its script read as 0, and `RzShineBorder` and `RzSlider` wrote their sizes, steps and `aria-value*` the same way. They are written with the invariant culture now; a test renders every component with a fractional parameter under de-DE.
+- **A page's own `HeadContent` no longer removes the theme** (Summit SF-034). `RzThemeProvider` injected its CSS variables through `HeadContent`, and Blazor shows only the last `HeadContent`, so any page with its own silently fell back to the default palette. The theme now renders into `RzThemeHeadOutlet`, or at the start of the provider's output when the page has no outlet.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

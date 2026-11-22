@@ -83,3 +83,12 @@ test('organizer quick actions open with Ctrl+J and navigate with the keyboard', 
   await expect(page.getByRole('heading', { level: 1, name: 'Check-in desk' })).toBeVisible();
   await expect(dialog).toBeHidden();
 });
+
+test('the theme and the track colors are both in <head>, each through its own outlet', async ({ page }) => {
+  // TrackStyles uses HeadContent; RzThemeProvider renders through RzThemeHeadOutlet. Before SF-034 was
+  // fixed the theme also used HeadContent, and the later one replaced the other.
+  await page.goto('/schedule');
+  const styles = await page.evaluate(() => [...document.head.querySelectorAll('style')].map(s => s.textContent ?? ''));
+  expect(styles.filter(css => css.includes('--primary:'))).toHaveLength(1);
+  expect(styles.filter(css => css.includes('--track:')).length).toBeGreaterThan(0);
+});

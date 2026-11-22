@@ -90,6 +90,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpContextAccessor();
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
         services.TryAddScoped<RzToastCommandQueue>();
+        services.TryAddScoped<RzThemeHeadState>();
         services.TryAddScoped<IRzToastService, RzToastService>();
         services.TryAddSingleton<RzAlpineModuleResolver>();
 

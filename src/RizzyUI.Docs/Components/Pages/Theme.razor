@@ -139,8 +139,12 @@ In `App.razor`, add the head components. This file owns the HTML document struct
     &lt;script type="module" nonce="@@Nonce" src="/_content/RizzyUI/js/rizzyui.min.js"&gt;&lt;/script&gt;
 
     &lt;!-- 4. The Theme Provider
-         - Must be in &lt;head&gt; to prevent Flash of Unstyled Content (FOUC)
-         - Calculates and injects CSS variables for the current theme
+         - Renders the theme's CSS variables and the dark-mode script where it stands, here in
+           &lt;head&gt;, which prevents a Flash of Unstyled Content (FOUC)
+         - It does not use HeadContent, so a page's own HeadContent does not remove the theme
+         - To wrap the page in RzThemeProvider instead (it cascades the theme to components), put
+           &lt;RzThemeHeadOutlet /&gt; here and RzThemeProvider around the body content: the variables
+           still go into &lt;head&gt;
     --&gt;
     &lt;RzThemeProvider Theme="@@CurrentTheme" /&gt; 
 &lt;/head&gt;
@@ -364,6 +368,10 @@ To switch from `ArcticTheme` to `VercelTheme` at runtime, you update the `Theme`
 
 *   **Interactive UI (dropdowns, toggles) isn't responding.**
     *   Confirm `&lt;RzHeadOutlet /&gt;` is in `&lt;head&gt;`.
+
+*   **The theme colors are missing on some pages.**
+    *   With `RzThemeProvider` around the body, add `&lt;RzThemeHeadOutlet /&gt;` to `&lt;head&gt;`; without it the
+        variables render at the start of the body, which works but can flash the default colors first.
     *   Check the browser console network tab—is `rizzyui.js` loading?
     *   Check if a Content Security Policy (CSP) is blocking the script.
 

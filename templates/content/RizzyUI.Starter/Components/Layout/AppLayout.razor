@@ -10,8 +10,10 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/css/app.css" />
 
-    @* The htmx-config meta tag and page head content, then htmx 4, rizzy.js and its extensions. *@
+    @* The htmx-config meta tag and page head content, the theme's CSS variables (from RzThemeProvider),
+       then htmx 4, rizzy.js and its extensions. *@
     <RzHeadOutlet />
+    <RzThemeHeadOutlet />
     <RzScripts />
 
     @* RizzyUI's runtime: Alpine.js and the component behaviors. *@
