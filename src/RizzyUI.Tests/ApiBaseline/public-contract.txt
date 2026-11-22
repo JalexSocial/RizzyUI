@@ -1349,12 +1349,15 @@ RizzyUI.RzCalendarProvider
   Classes: RizzyUI.RzCalendarProvider.Slots
   ConfigureClasses: System.Action<RizzyUI.RzCalendarProvider.Slots>
   Element: System.String
+  EndName: System.String
   FormatOptions: RizzyUI.IntlDateTimeFormatOptions
   Id: System.String
   LoadStrategy: System.String
   Locale: System.String
   Mode: RizzyUI.SelectionDatesMode
+  Name: System.String
   Range: RizzyUI.CalendarDateRange
+  StartName: System.String
   Value: System.DateOnly?
   Values: System.Collections.Generic.List<System.DateOnly>
 RizzyUI.RzCard

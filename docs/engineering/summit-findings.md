@@ -57,7 +57,7 @@ tracks how much application code exists only to compensate.
 | SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
 | SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Works | Fixed in 1.0.0-preview.4 | bUnit: no style attribute on the OTP input (defect); docs scan CSP build |
-| SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works (designed around: the dashboard range uses RzCalendar, SF-057/SF-058) | Open | n/a |
+| SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (posts its value while pressed) (defect) |
 | SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works (workaround) | Open | e2e: quick actions, search palette (workflow) |
 | SF-017 | Rizzy, template | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: ExtensionTests (script URL with and without a path base) (defect); template test (slice 15 adds a nested URL check) |
@@ -101,7 +101,7 @@ tracks how much application code exists only to compensate.
 | SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` sends focus to `<body>`: the `checkbox_options` plugin RizzyUI adds puts a tabbable checkbox in every option, and Tom Select hides the list on blur | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
 | SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: calendar-popover.spec.ts (the docs Range Popover example), both builds (defect); e2e: dashboard calendar range (workflow) |
-| SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open (decided: D-32) | e2e: dashboard calendar range, quick ranges |
+| SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works | Fixed in 1.0.0-preview.4 | bUnit: CalendarProviderFieldsTests (fields rendered) (defect); RizzyUI integration: calendar-popover.spec.ts (fields follow the range, change raised), both builds (defect); e2e: dashboard range (workflow) |
 | SF-059 | RizzyUI | RzChart | Bug | Medium | The chart config has no top-level `type` (only per-dataset types), so Chart.js uses no chart-type defaults: a doughnut's legend shows the dataset label instead of one entry per slice | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts (doughnut legend), both builds (defect) |
 | SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works | Fixed in 1.0.0-preview.4 | bUnit: InvariantMarkupTests (every component with a fractional parameter under de-DE) (defect); e2e: culture S-12 revenue with cents (workflow) |
 | SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts (fixed-height parent), both builds (defect) |
@@ -150,7 +150,6 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
 | a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
 | `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
-| `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: hidden range inputs and `send()` | ~35 TS | SF-058 | A provider that is a form participant |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | `role="img"` on indicators | 1 per use | SF-066 | Correct defaults |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
@@ -363,6 +362,7 @@ finding on its own.
 - **What:** flatpickr's `Mode.Range` posts "from to" as one string into the `DateTime?` that
   `RzDateEdit` requires.
 - **Summit workaround:** the dashboard range uses `RzCalendar Mode="MultipleRanged"`.
+- **Fixed in 1.0.0-preview.4:** documented on the date edit page: `RzDateEdit` binds one date; a range uses `RzCalendarProvider` with `StartName`/`EndName` (or two date edits).
 
 ### SF-015 RzToggle posts nothing (planning)
 
@@ -979,6 +979,7 @@ finding on its own.
   code-behind, which writes them and triggers the form's `change`.
 - **Library fix:** `StartName`/`EndName` (or `Name` with a separator) rendering hidden inputs kept in
   sync, and a bubbling `change` event on them when a range completes.
+- **Fixed in 1.0.0-preview.4:** decision D-32: `RzCalendarProvider` takes `Name` (single and multiple; multiple posts one value per date) and `StartName`/`EndName` (ranges), renders hidden inputs kept in step with its dates, and raises a bubbling `change` when the value is complete. Summit's hidden inputs and `send()` are removed: the form's `hx-trigger="change"` sends the range.
 
 ### SF-059 RzChart never sets the chart type
 

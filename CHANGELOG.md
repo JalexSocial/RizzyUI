@@ -38,6 +38,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzInputSlider<TValue>`** (Summit SF-070): a single-value slider bound to a numeric model property with `For`, posting the model path like the other inputs.
 - **`RzInputOTP InputAttributes`** (Summit SF-064): attributes for the real input, such as `autofocus` (htmx 4 honors it after a swap).
 - **Sheet events** (Summit SF-002, SF-032): `RzSheet` takes `EventTriggerName`, `CloseEventName` (default `rz:sheet-close`) and `InitialFocus`, and dispatches `rz:sheet:open` and `rz:sheet:close`; `RzDialog` takes `InitialFocus`.
+- **`RzCalendarProvider` is a form field** (decision D-32, Summit SF-058): `Name` for single and multiple selection, `StartName`/`EndName` for ranges; it renders hidden inputs that follow its dates and raises a bubbling `change` when the value is complete, so `hx-trigger="change"` sends a date-range filter without script.
 
 ### Changed
 

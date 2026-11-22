@@ -12,13 +12,8 @@ function daysBefore(iso: string, offset: number): string {
 
 const dashboardFilters: AlpineCodeBehind<Props> = () => ({
   init() {
-    // SF-058: the provider announces a complete range but is not part of the form, so put the range in
-    // the hidden inputs and submit the form.
-    this.onRange = (event: Event) => {
-      const { start, end } = (event as CustomEvent<{ start: string; end: string }>).detail;
-      this.closePopover();
-      this.send(start, end);
-    };
+    // The provider posts the range itself and raises change (which sends the form); close the popover.
+    this.onRange = () => this.closePopover();
     this.$el.addEventListener('rz:calendar:range-complete', this.onRange);
   },
 
@@ -30,24 +25,10 @@ const dashboardFilters: AlpineCodeBehind<Props> = () => ({
   last30() { this.setRange(daysBefore(this.$props.Today, 29), this.$props.Today); },
   wholeSale() { this.setRange(this.$props.AllFrom, this.$props.Today); },
 
-  /**
-   * Sets the provider's dates (the calendar and the button label follow them) and submits the form.
-   * The provider normalizes the dates over more than one tick, so the hidden inputs are written
-   * directly rather than waiting for their bindings.
-   */
+  /** Sets the provider's dates: the calendar, the button label and the form fields follow, and the form is sent. */
   setRange(from: string, to: string) {
     const provider = window.Rizzy.$data(this.$props.ProviderId);
-    if (!provider) return;
-    provider.dates = [from, to];
-    this.send(from, to);
-  },
-
-  /** Writes the range into the form's hidden inputs (ahead of their bindings) and submits the form. */
-  send(from: string, to: string) {
-    const form = this.$root.querySelector('form') as HTMLFormElement;
-    (form.elements.namedItem('From') as HTMLInputElement).value = from;
-    (form.elements.namedItem('To') as HTMLInputElement).value = to;
-    window.htmx.trigger(form, 'change');
+    if (provider) provider.dates = [from, to];
   },
 
   closePopover() {

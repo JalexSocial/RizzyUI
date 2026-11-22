@@ -206,6 +206,19 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Date Ranges" class="scroll-mt-20">
+                    Date Ranges
+                </RzHeading>
+                <RzParagraph>
+                    <code>RzDateEdit</code> binds one <code>DateTime?</code> with <code>For</code>, so it cannot hold a range. For a
+                    start and an end date, use <code>RzCalendarProvider</code> with <code>Mode="SelectionDatesMode.MultipleRanged"</code>
+                    and <code>StartName</code>/<code>EndName</code>: it posts both dates as form fields and raises
+                    <code>change</code> when the range is complete (see <a href="/components/calendar-more">All Calendar Examples</a>,
+                    "Range Popover"). Two <code>RzDateEdit</code> fields, one per date, also work.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
                     Component Parameters
                 </RzHeading>

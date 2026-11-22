@@ -21,6 +21,19 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
     );
 
     private string _serializedDates = "[]";
+    private List<string> _dateList = [];
+
+    /// <summary>
+    /// Gets or sets the form field name for single and multiple selection: the provider posts the
+    /// selected date (<c>yyyy-MM-dd</c>), or one value per date in multiple mode (decision D-32).
+    /// </summary>
+    [Parameter] public string? Name { get; set; }
+
+    /// <summary>Gets or sets the form field name for the start of a range (decision D-32).</summary>
+    [Parameter] public string? StartName { get; set; }
+
+    /// <summary>Gets or sets the form field name for the end of a range (decision D-32).</summary>
+    [Parameter] public string? EndName { get; set; }
     private string _serializedFormatOptions = "{}";
 
     /// <summary>
@@ -126,6 +139,7 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
             }
         }
 
+        _dateList = dateList;
         _serializedDates = JsonSerializer.Serialize(dateList);
 
         var effectiveFormatOptions = FormatOptions ?? new IntlDateTimeFormatOptions

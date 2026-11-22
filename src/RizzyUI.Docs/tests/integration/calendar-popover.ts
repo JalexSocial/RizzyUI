@@ -19,6 +19,8 @@ export function defineCalendarPopoverSpecs(runtime: string) {
       await provider.evaluate(el => {
         (window as any).__rangeComplete = 0;
         el.addEventListener('rz:calendar:range-complete', () => (window as any).__rangeComplete++);
+        (window as any).__changes = 0;
+        el.addEventListener('change', () => (window as any).__changes++);
       });
 
       await trigger.click();
@@ -34,6 +36,11 @@ export function defineCalendarPopoverSpecs(runtime: string) {
       await expect(dialog).toBeHidden();
       await expect(trigger).not.toHaveText(before);
       await expect(trigger).toContainText('10');
+
+      // D-32 (SF-058): the provider posts the range as form fields and raises change once it is complete.
+      await expect(provider.locator('input[name="CheckIn"]')).toHaveValue(/-10$/);
+      await expect(provider.locator('input[name="CheckOut"]')).toHaveValue(/-14$/);
+      expect(await page.evaluate(() => (window as any).__changes)).toBeGreaterThanOrEqual(1);
       expect(errors).toEqual([]);
     });
   });

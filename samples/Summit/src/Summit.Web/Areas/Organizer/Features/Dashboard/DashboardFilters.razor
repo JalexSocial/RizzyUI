@@ -5,10 +5,9 @@
     ranges and a ticket type. One form; a change sends one request for every panel and pushes the URL.
 
     The structure follows the RizzyUI docs' "Range Popover" example (provider around the popover). The
-    code-behind (DashboardFilters.razor.ts) compensates for one gap:
-    - SF-058: the provider keeps its dates in Alpine state only, so hidden inputs mirror them and the
-      code-behind submits the form when a range is complete.
-    Quick ranges set the provider's dates the same way (application behavior).
+    provider posts the range as From and To and raises change when a range is complete, which sends the
+    form. The code-behind closes the popover then and sets the provider's dates for the quick ranges
+    (application behavior).
 *@
 <RzAlpineComponent For="this" Props="@(new { ProviderId = "dashboard-range", Today = Iso(Today), AllFrom = Iso(Today.AddDays(-119)) })">
     <form id="dashboard-filters" class="flex flex-wrap items-end gap-3"
@@ -16,11 +15,9 @@
           hx-vals='{"push": "true"}' hx-sync="this:replace">
         <div class="flex flex-col gap-1.5">
             <span id="dashboard-range-label" class="text-sm font-medium">Date range</span>
-            <RzCalendarProvider id="dashboard-range" Mode="SelectionDatesMode.MultipleRanged"
+            <RzCalendarProvider id="dashboard-range" Mode="SelectionDatesMode.MultipleRanged" StartName="From" EndName="To"
                                 Range="@(new CalendarDateRange { From = Filter.From!.Value.ToDateTime(TimeOnly.MinValue), To = Filter.To!.Value.ToDateTime(TimeOnly.MinValue) })"
                                 FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Short, Day = Numeric2Digit.Numeric, Year = Numeric2Digit.Numeric })">
-                <input type="hidden" name="From" value="@Iso(Filter.From!.Value)" x-bind:value="startDate" />
-                <input type="hidden" name="To" value="@Iso(Filter.To!.Value)" x-bind:value="endDate" />
                 <RzPopover>
                     <PopoverTrigger AsChild>
                         <RzButton type="button" Variant="ThemeVariant.Secondary" Outline class="h-9 min-w-64 justify-start font-normal"
