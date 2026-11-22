@@ -39,6 +39,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzInputOTP InputAttributes`** (Summit SF-064): attributes for the real input, such as `autofocus` (htmx 4 honors it after a swap).
 - **Sheet events** (Summit SF-002, SF-032): `RzSheet` takes `EventTriggerName`, `CloseEventName` (default `rz:sheet-close`) and `InitialFocus`, and dispatches `rz:sheet:open` and `rz:sheet:close`; `RzDialog` takes `InitialFocus`.
 - **`RzCalendarProvider` is a form field** (decision D-32, Summit SF-058): `Name` for single and multiple selection, `StartName`/`EndName` for ranges; it renders hidden inputs that follow its dates and raises a bubbling `change` when the value is complete, so `hx-trigger="change"` sends a date-range filter without script.
+- **`CommandItem.Href`** (Summit SF-016): an item that navigates when chosen, like a boosted link; data items take `href` (`ICommandItemData.Href`, default `null`).
+- **`RzCommandDialog` remote items and `Shortcut`** (Summit SF-007): `ItemsUrl`, `FetchTrigger` and `ServerFiltering` reach the inner `RzCommand`; `Shortcut="k"` opens the dialog with Ctrl+K / Cmd+K.
 
 ### Changed
 
@@ -71,6 +73,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzInputOTP` works under a strict `style-src`** (Summit SF-013): its hidden input used an inline style.
 - **`RzSidebarProvider` renders the persisted state** (Summit SF-010): it reads its cookie on the server, so a collapsed sidebar no longer renders open and then collapses. `SidebarInset` has `min-w-0` (SF-049), so wide content scrolls inside it.
 - **Dialog docs name the real close event** (Summit SF-004): `rz:dialog-close` (`Constants.Events.DialogClose`), not `rz:modal-close`.
+- **Enter right after typing chooses the match** in `RzCommand` (Summit SF-025) and `RzCombobox` (SF-046: no refresh throttle for local options).
+- **Tab leaves a multiple `RzCombobox`** (Summit SF-055): its option checkboxes are out of the tab order, so focus no longer falls to `<body>`.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

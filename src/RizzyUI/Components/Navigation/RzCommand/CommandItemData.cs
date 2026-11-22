@@ -26,4 +26,7 @@ public class CommandItemData : ICommandItemData
 
     /// <inheritdoc />
     public bool ForceMount { get; set; }
+
+    /// <inheritdoc />
+    public string? Href { get; set; }
 }

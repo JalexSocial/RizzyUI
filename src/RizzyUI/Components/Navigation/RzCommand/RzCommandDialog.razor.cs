@@ -75,6 +75,42 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
     [Parameter]
     public string EventTriggerName { get; set; } = string.Empty;
 
+    /// <summary>Gets or sets a URL to load items from, passed to the inner <see cref="RzCommand"/> (Summit SF-007).</summary>
+    [Parameter]
+    public string? ItemsUrl { get; set; }
+
+    /// <summary>Gets or sets when items load from <see cref="ItemsUrl"/>, passed to the inner <see cref="RzCommand"/>.</summary>
+    [Parameter]
+    public FetchTrigger FetchTrigger { get; set; } = FetchTrigger.Immediate;
+
+    /// <summary>Gets or sets whether <see cref="ItemsUrl"/> filters on the server (<c>?q=</c>), passed to the inner <see cref="RzCommand"/>.</summary>
+    [Parameter]
+    public bool ServerFiltering { get; set; }
+
+    /// <summary>
+    /// Gets or sets a key that opens the dialog with Ctrl (or Cmd on macOS), for example <c>"k"</c> for
+    /// Ctrl+K / Cmd+K. Off by default (Summit SF-007).
+    /// </summary>
+    [Parameter]
+    public string? Shortcut { get; set; }
+
+    /// <summary>The caller's attributes, with the keyboard shortcut's window listeners.</summary>
+    private Dictionary<string, object> DialogAttributes
+    {
+        get
+        {
+            var attributes = AdditionalAttributes is null ? new Dictionary<string, object>() : new Dictionary<string, object>(AdditionalAttributes);
+            if (!string.IsNullOrWhiteSpace(Shortcut))
+            {
+                var key = Shortcut.Trim().ToLowerInvariant();
+                var open = $"$dispatch('{EventTriggerName}')";
+                attributes[$"x-on:keydown.window.ctrl.{key}.prevent"] = open;
+                attributes[$"x-on:keydown.window.meta.{key}.prevent"] = open;
+            }
+            return attributes;
+        }
+    }
+
     /// <summary>The <see cref="Title"/> parameter, or its localized default.</summary>
     protected string EffectiveTitle => Title ?? Localizer["RzCommandDialog.DefaultTitle"];
 

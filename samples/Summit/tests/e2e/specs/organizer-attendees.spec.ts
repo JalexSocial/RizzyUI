@@ -73,9 +73,9 @@ test('S-03: editing an attendee keeps the table where the organizer left it', as
   await sheet.getByRole('combobox', { name: 'Tags' }).fill('Workshop lead');
   await expect(page.locator('.ts-dropdown .create.active').filter({ visible: true })).toContainText('Workshop lead');
   await page.keyboard.press('Enter');
-  // A multiple combobox stays open after a pick. Tab should move on to Notes, but focus falls to <body>
-  // instead (SF-055), so the test closes the list with a click elsewhere in the sheet.
-  await sheet.getByText('Changes are saved to the registration').click();
+  // A multiple combobox stays open after a pick; Tab closes it and moves on to Notes (SF-055).
+  await page.keyboard.press('Tab');
+  await expect(sheet.getByLabel('Notes')).toBeFocused();
   await expect(page.locator('.ts-dropdown').filter({ visible: true })).toHaveCount(0);
   await sheet.getByRole('button', { name: 'Save changes' }).click();
   await expect(page.getByRole('dialog', { name: 'Edit attendee' })).toHaveCount(0);

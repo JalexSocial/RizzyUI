@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<RzCommandDialog.Slots>
 
-<RzDialog @attributes="AdditionalAttributes" @bind-Open="Open" EventTriggerName="@EventTriggerName">
+<RzDialog @attributes="DialogAttributes" @bind-Open="Open" EventTriggerName="@EventTriggerName">
     <DialogContent class="@SlotClasses.GetBase()" ShowCloseButton="@ShowCloseButton">
         <DialogHeader class="sr-only">
             <DialogTitle>@EffectiveTitle</DialogTitle>
@@ -11,7 +11,10 @@
         <RzCommand class="@SlotClasses.GetCommand()"
                    ShouldFilter="@ShouldFilter"
                    Loop="@Loop"
-                   SelectedValue="@SelectedValue">
+                   SelectedValue="@SelectedValue"
+                   ItemsUrl="@ItemsUrl"
+                   FetchTrigger="@FetchTrigger"
+                   ServerFiltering="@ServerFiltering">
             @ChildContent
         </RzCommand>
     </DialogContent>

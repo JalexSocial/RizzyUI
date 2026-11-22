@@ -11,9 +11,32 @@ export function defineCommandSpecs(runtime: string) {
       const errors = collectPageErrors(page);
       await page.goto('/_tests/command');
       const command = page.locator('#command-items');
-      await expect(command.getByRole('option')).toHaveText(['Open file', 'Save file', 'Close window']);
+      await expect(command.getByRole('option')).toHaveText(['Open file', 'Save file', 'Close window', 'Go to the harness']);
       await command.getByPlaceholder('Search static items').fill('save');
       await expect(command.getByRole('option')).toHaveText(['Save file']);
+      expect(errors).toEqual([]);
+    });
+
+    test('Enter right after typing runs the match, not the item highlighted before (SF-025)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.goto('/_tests/command');
+      const command = page.locator('#command-items');
+      await expect(command.getByRole('option').first()).toBeVisible();
+      await page.evaluate(() => document.addEventListener('rz:command:execute', (e) => ((window as any).__executed = (e as CustomEvent).detail.value)));
+      const input = command.getByPlaceholder('Search static items');
+      await input.click();
+      await page.keyboard.type('close', { delay: 0 });
+      await page.keyboard.press('Enter');
+      await expect.poll(() => page.evaluate(() => (window as any).__executed)).toBe('close');
+      expect(errors).toEqual([]);
+    });
+
+    test('an item with Href navigates when chosen (SF-016)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.goto('/_tests/command');
+      const command = page.locator('#command-items');
+      await command.getByRole('option', { name: 'Go to the harness' }).click();
+      await expect(page).toHaveURL(/\/_tests\/harness$/);
       expect(errors).toEqual([]);
     });
 

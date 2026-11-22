@@ -82,10 +82,22 @@ export default function rzCombobox() {
 
             const alpine = this;
 
+            // SF-046: Tom Select throttles refreshing the option list (300 ms), so a fast Enter picked
+            // the option highlighted for the previous query. Local options need no throttle.
+            if (!('refreshThrottle' in config) && !config.load) config.refreshThrottle = 0;
+
             this.tomSelect = new TomSelect(selectEl, {
                 ...config,
                 render: render,
                 onInitialize: function() {
+                    // SF-055: checkbox_options renders a checkbox per option; out of the tab order
+                    // (the listbox is operated with aria-activedescendant) so Tab leaves the control.
+                    this.hook('after', 'refreshOptions', () => {
+                        this.dropdown?.querySelectorAll('input.tomselect-checkbox').forEach((box) => {
+                            box.tabIndex = -1;
+                            box.setAttribute('aria-hidden', 'true');
+                        });
+                    });
                     this.sync();
                     alpine.syncSelectedState(false);
                     const controlInput = this.control_input;

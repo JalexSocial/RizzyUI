@@ -75,9 +75,8 @@ test('organizer quick actions open with Ctrl+J and navigate with the keyboard', 
   const dialog = page.getByRole('dialog', { name: 'Quick actions' });
   await expect(dialog).toBeVisible();
 
+  // Enter right after typing runs the match: RzCommand applies the pending search first (SF-025).
   await page.keyboard.type('check-in');
-  // RzCommand filters after a 50 ms debounce; Enter before that runs the previous item (SF-025).
-  await expect(dialog.getByRole('option', { name: 'Check-in desk' })).toHaveAttribute('aria-selected', 'true');
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/organizer\/check-in/);
   await expect(page.getByRole('heading', { level: 1, name: 'Check-in desk' })).toBeVisible();

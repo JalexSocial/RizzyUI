@@ -360,6 +360,7 @@ RizzyUI.CommandItem
   Disabled: System.Boolean
   Element: System.String
   ForceMount: System.Boolean
+  Href: System.String
   Id: System.String
   Keywords: System.Collections.Generic.IEnumerable<System.String>
   LoadStrategy: System.String
@@ -1537,11 +1538,15 @@ RizzyUI.RzCommandDialog
   Description: System.String
   Element: System.String
   EventTriggerName: System.String
+  FetchTrigger: RizzyUI.FetchTrigger
   Id: System.String
+  ItemsUrl: System.String
   LoadStrategy: System.String
   Loop: System.Boolean
   Open: System.Boolean
   SelectedValue: System.String
+  ServerFiltering: System.Boolean
+  Shortcut: System.String
   ShouldFilter: System.Boolean
   ShowCloseButton: System.Boolean
   Title: System.String
