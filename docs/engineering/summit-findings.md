@@ -79,7 +79,7 @@ tracks how much application code exists only to compensate.
 | SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works | Fixed in 1.0.0-preview.4 | bUnit: input-group controls keep a caller id (defect); e2e: speakers search label (workflow) |
 | SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: head-content.spec.ts (a page with its own HeadContent keeps the theme in <head>), both builds; bUnit: RzThemeProviderTests (defect); e2e: shell, theme and track colors in <head> (workflow) |
 | SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
-| SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect); docs scan (known-defect list) |
+| SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (status colors on their tint and behind their foreground) (defect); docs scan |
 | SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works (workaround) | Open | axe label-content-name-mismatch (defect) |
 | SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works (workaround) | Open | axe aria-required-children (defect) |
 | SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Affected (early keypresses) | Open | None (tests wait for components) |
@@ -120,8 +120,8 @@ tracks how much application code exists only to compensate.
 | SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: sheet focus trap, both builds (defect); e2e: mobile S-16 (focus stays in the navigation sheet) |
 | SF-075 | RizzyUI | RzSidebar | Bug | Medium | `SidebarGroup` always renders `aria-labelledby` pointing at its label's id, also when the group has no `SidebarGroupLabel`: a reference to an element that does not exist (20 groups on every docs page) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 | SF-076 | RizzyUI | RzPopover | Bug | Low | `RzPopover`'s `AriaLabel` lands on its wrapper `div`, which has no role (axe `aria-prohibited-attr`), instead of the trigger or the content | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
-| SF-077 | RizzyUI | RzCalendar | A11y | Medium | Calendar weekend column headers and some day buttons fail WCAG AA contrast in RizzyUI's calendar styles | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
-| SF-078 | RizzyUI | Default theme | A11y | Medium | In the docs theme, `text-primary` links, primary and outline buttons, the Steps labels, command shortcuts and event-viewer entries measure below 4.5:1 | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-077 | RizzyUI | RzCalendar | A11y | Medium | Calendar weekend column headers and some day buttons fail WCAG AA contrast in RizzyUI's calendar styles | Works | Fixed in 1.0.0-preview.4 | docs scan (calendar pages, color-contrast entry removed) |
+| SF-078 | RizzyUI | Default theme | A11y | Medium | In the docs theme, `text-primary` links, primary and outline buttons, the Steps labels, command shortcuts and event-viewer entries measure below 4.5:1 | n/a | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (every token pair of the built-in theme, light and dark) (defect); docs scan (color-contrast entries removed) |
 | SF-079 | RizzyUI | RzCommand | A11y | Low | An `RzCommand` list with no matching items is still a `listbox` with no `option` children (axe `aria-required-children`) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 | SF-080 | RizzyUI docs | RzSidebar preview | A11y | Low | In the sidebar docs preview, menu items are not inside a list (`listitem`, `aria-required-children`) and the rail buttons are under 24 px; to triage between the example and the components | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 | SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a (docs site) | Open | docs scan (known-defect list) |
@@ -644,6 +644,7 @@ finding on its own.
 - **Summit workaround:** AA-safe `success`, `info` and `warning` values in `Themes/summit.json`.
 - **Library fix:** AA-safe defaults (or the foreground color for soft text, as toasts do); document the
   extra theme keys on the theming page.
+- **Fixed in 1.0.0-preview.4:** AA-safe status defaults in the Arctic theme and the theme JSON converter (light green-800, blue-700, amber-800 with white text; dark green-400, blue-400, amber-400 with black text); the theming page documents the `success`, `info`, `warning` and `-foreground` keys. Summit keeps its own values in `summit.json`, now the documented way.
 
 ### SF-037 The file dropzone's name does not match its text
 
@@ -1256,6 +1257,7 @@ finding on its own.
   popover, where axe did not scan it.
 - **Library fix:** use `text-muted-foreground` only where it meets 4.5:1 on the calendar surface, and a
   stronger color for weekends; check both themes in dark mode.
+- **Fixed in 1.0.0-preview.4:** weekday headers use `text-muted-foreground` with priority over vanilla-calendar-pro's weekend color, and days outside the month drop the extra `opacity-50` (the muted color alone meets 4.5:1).
 
 ### SF-078 Primary and muted text colors fail contrast in the default theme
 
@@ -1269,6 +1271,7 @@ finding on its own.
 - **Library fix:** adjust `--primary`, `--primary-foreground` and `--muted-foreground` in the built-in
   themes until every documented pairing meets 4.5:1 (3:1 for large text), and add a theme-contrast unit
   test over the token pairs.
+- **Fixed in 1.0.0-preview.4:** the Arctic theme's `--primary` (light L 0.55; dark L 0.68 with a dark `--primary-foreground`) and `--muted-foreground` (light L 0.52, dark L 0.76) meet 4.5:1 in every documented pairing; a unit test measures the token pairs.
 
 ### SF-079 An empty command list is an empty listbox
 

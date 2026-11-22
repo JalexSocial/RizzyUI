@@ -14,7 +14,6 @@ export type KnownDefect = {
   pages?: string[];
 };
 
-const calendarPages = ['/components/calendar', '/components/calendar-more', '/components/calendar-provider'];
 
 export const knownDefects: KnownDefect[] = [
   // Library defects (RizzyUI).
@@ -34,14 +33,6 @@ export const knownDefects: KnownDefect[] = [
   },
   { finding: 'SF-063', kind: 'axe', rule: 'scrollable-region-focusable', target: /data-slot="table-container"/, pages: ['/components/table'] },
   { finding: 'SF-035', kind: 'error', rule: 'csp', target: /^style-src-attr inline at \/:/, pages: ['/'] },
-  {
-    finding: 'SF-036', kind: 'axe', rule: 'color-contrast', target: /data-slot="(alert-title|badge-inner-span)"|text-(success|warning|info)|data-rz-toast-demo/,
-  },
-  { finding: 'SF-077', kind: 'axe', rule: 'color-contrast', target: /vc-week__day|data-vc-date-btn/, pages: calendarPages },
-  {
-    finding: 'SF-078', kind: 'axe', rule: 'color-contrast',
-    target: /data-slot="(link|breadcrumb-link|command-shortcut|entry|field-label|dialog-trigger|sheet-trigger|popover-trigger|button|input-group-button)"|text-primary|text-muted-foreground|-trigger <button x-ref="trigger"/,
-  },
   { finding: 'SF-079', kind: 'axe', rule: 'aria-required-children', target: /data-slot="command-list"/, pages: ['/components/command'] },
   { finding: 'SF-080', kind: 'axe', rule: 'aria-required-children', target: /data-slot="sidebar-menu"/, pages: ['/components/sidebar'] },
   { finding: 'SF-080', kind: 'axe', rule: 'listitem', target: /data-slot="sidebar-menu-item"/, pages: ['/components/sidebar'] },

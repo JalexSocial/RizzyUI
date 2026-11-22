@@ -292,6 +292,22 @@ builder.Services.AddRizzyUI(config => {
 
 This allows you to change your entire application's color palette without recompiling, simply by swapping the JSON file.
 
+### Status colors
+
+Besides the Shadcn keys, a theme file can set the status colors RizzyUI uses for alerts, badges and toasts:
+`success`, `success-foreground`, `info`, `info-foreground`, `warning` and `warning-foreground`, in both `light` and `dark`.
+Soft badges and alerts draw the status color as text on a 15% tint of itself, so pick values that keep 4.5:1 there
+(the defaults are green-800, blue-700 and amber-800 with white text in light mode, and green-400, blue-400 and
+amber-400 with black text in dark mode). `RzThemeProvider` writes the theme into the page after your stylesheets,
+so set these in the theme rather than overriding the CSS variables.
+
+```json
+"cssVars": {
+  "light": { "success": "oklch(0.448 0.119 151.328)", "success-foreground": "oklch(1 0 0)" },
+  "dark":  { "success": "oklch(0.792 0.209 151.711)", "success-foreground": "oklch(0 0 0)" }
+}
+```
+
 ## Component Customization (TailwindVariants)
 
 Sometimes you don't just want to change colors; you want to change the **structure** or **default behavior** of a component across the entire app. 

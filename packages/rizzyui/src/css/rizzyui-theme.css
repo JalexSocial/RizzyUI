@@ -440,6 +440,11 @@
     }
 }
 
+/* SF-077: vanilla-calendar-pro colors weekend headers itself (unlayered CSS), below 4.5:1. */
+.vc-week__day[data-vc-week-day-off] {
+    color: var(--muted-foreground) !important;
+}
+
 /* Color picker */
 @layer components {
 

@@ -51,6 +51,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`x-syncprop` on RizzyUI components** (decision D-24). On a component root without its own state (`RzSlider`, `RzChart`, ...) the directive moves to the element that holds the component's state, and "parent" is the nearest state that is not a RizzyUI component's, so a component inside a dialog or sheet syncs with the application's state. `data-syncprop-parent="#selector"` names the parent, and `.direct` keeps the closest state (RizzyUI's sidebar uses it).
 - **`AsChild` children keep their handlers and ids** (decisions D-25 and D-26). The component's `x-on:*` handlers go onto the child in Alpine's `@event` form, so a handler the child declares (`<PopoverTrigger AsChild><button x-on:click="track()">`) runs alongside instead of replacing the trigger's. A binding the component computes (`x-bind:aria-expanded`) wins over the child's, with a Development warning. A child that declares an `id` keeps it, and `PopoverContent`, `DropdownMenuContent` and `TabsContent` reference it in `aria-labelledby` instead of the generated trigger id.
 - **`rz:dialog-close` and `rz:sheet-close` take an optional target id** (decision D-29, Summit SF-003): `HX-Trigger: {"rz:dialog-close": {"id": "edit"}}` closes only the dialog with that id; without an id every open dialog closes, as before.
+- **The Arctic theme meets WCAG AA contrast** (Summit SF-078, SF-036): darker light-mode `--primary` and `--muted-foreground`, a lighter dark-mode `--primary` with dark text on it, and status colors that keep 4.5:1 as text on their own tint (also the theme JSON defaults). Apps that relied on the exact old values may see slightly different shades. The status theme keys are documented.
 
 ### Fixed
 
@@ -75,6 +76,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Dialog docs name the real close event** (Summit SF-004): `rz:dialog-close` (`Constants.Events.DialogClose`), not `rz:modal-close`.
 - **Enter right after typing chooses the match** in `RzCommand` (Summit SF-025) and `RzCombobox` (SF-046: no refresh throttle for local options).
 - **Tab leaves a multiple `RzCombobox`** (Summit SF-055): its option checkboxes are out of the tab order, so focus no longer falls to `<body>`.
+- **Calendar weekday headers and days outside the month meet contrast** (Summit SF-077).
 
 ## [1.0.0-preview.3] - 2026-11-20
 
