@@ -34,6 +34,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Charts survive theme changes and replacement** (Summit SF-062, SF-005). `RzChart` kept its Chart.js instance in Alpine's reactive state, so toggling dark mode threw and a replaced chart stayed registered with Chart.js. The instance now lives outside Alpine, and CSS-variable colors are resolved again on `rz:theme-change`.
 - **A doughnut or pie chart lists each slice in its legend** (Summit SF-059): the chart type now reaches Chart.js.
 - **Components inside a removed wrapper are destroyed.** Alpine only cleans up removed elements it initialized, so components inside a plain element that was removed (an htmx swap of a region) never ran `destroy()` and kept their listeners and third-party instances. RizzyUI now destroys those trees.
+- **A calendar inside a popover works with its `RzCalendarProvider`** (Summit SF-057). The popover teleports its content to `<body>`, so the calendar's events never reached the provider around the popover: picking days changed nothing, and the docs "Range Popover" example did not work. The calendar now finds its provider through Alpine's scope, and `rz:calendar:range-complete` also reaches markup around a teleported calendar.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

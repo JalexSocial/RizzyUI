@@ -1,6 +1,19 @@
 
 export default function rzCalendarProvider() {
+    // The provider's own element. A calendar inside the provider reaches it through Alpine's scope
+    // (rzCalendarProviderElement below), also when the calendar is teleported out of the provider's
+    // DOM subtree, for example into a popover (Summit SF-057).
+    let providerElement = null;
+
     return {
+        /**
+         * The provider's element, for a calendar in its scope to dispatch its events on.
+         * @returns {HTMLElement|null}
+         */
+        rzCalendarProviderElement() {
+            return providerElement;
+        },
+
         // --- Public State ---
         mode: 'single', 
         dates: [], // Canonical state: Flat array of ISO strings ['YYYY-MM-DD', ...], always sorted/unique
@@ -55,6 +68,7 @@ export default function rzCalendarProvider() {
 
         // --- Lifecycle ---
         init() {
+            providerElement = this.$el;
             this.mode = this.$el.dataset.mode || 'single';
             this.locale = this.$el.dataset.locale || 'en-US';
             try { this.formatOptions = JSON.parse(this.$el.dataset.formatOptions || '{}'); } catch(e) {}
@@ -90,11 +104,23 @@ export default function rzCalendarProvider() {
                 // Dispatch event only if we transitioned to complete state or are actively refining
                 // Dispatched from $el to ensure consistent bubbling from provider root
                 if (!wasComplete && this.isRangeComplete) {
+                    const detail = { start: this.dates[0], end: this.dates[this.dates.length - 1] };
                     this.$el.dispatchEvent(new CustomEvent('rz:calendar:range-complete', {
-                        detail: { start: this.dates[0], end: this.dates[this.dates.length - 1] },
+                        detail,
                         bubbles: true,
                         composed: true
                     }));
+
+                    // A calendar teleported out of the provider (into a popover) also gets the event,
+                    // so markup around it, such as the popover content, can react (SF-057).
+                    const source = e.rzCalendarSource;
+                    if (source && source.isConnected && !this.$el.contains(source)) {
+                        source.dispatchEvent(new CustomEvent('rz:calendar:range-complete', {
+                            detail,
+                            bubbles: true,
+                            composed: true
+                        }));
+                    }
                 }
                 
                 this.$nextTick(() => this._isUpdatingFromCalendar = false);
@@ -128,6 +154,7 @@ export default function rzCalendarProvider() {
          * @returns {any} Returns the result of `destroy` when applicable.
          */
         destroy() {
+            providerElement = null;
             this._handlers.forEach(h => this.$el.removeEventListener(h.type, h.fn));
             this._handlers = [];
         },

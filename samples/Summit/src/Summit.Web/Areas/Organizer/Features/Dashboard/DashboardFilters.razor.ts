@@ -1,9 +1,7 @@
 // Code-behind for DashboardFilters.razor (TypeScript).
 import type { AlpineCodeBehind } from 'rizzyui';
 
-type Props = { ProviderId: string; CalendarId: string; Today: string; AllFrom: string };
-
-const CALENDAR_EVENTS = ['rz:calendar:init', 'rz:calendar:destroy', 'rz:calendar:click-day'];
+type Props = { ProviderId: string; Today: string; AllFrom: string };
 
 /** yyyy-MM-dd for a day `offset` days before `iso`. */
 function daysBefore(iso: string, offset: number): string {
@@ -14,17 +12,6 @@ function daysBefore(iso: string, offset: number): string {
 
 const dashboardFilters: AlpineCodeBehind<Props> = () => ({
   init() {
-    // SF-057: RzPopover teleports its content (and the calendar) to <body>, so the calendar's events
-    // bubble to <body> instead of the provider that wraps the popover. Forward them to the provider.
-    this.forward = (event: Event) => {
-      const target = event.target as Element | null;
-      if (!target?.closest?.(`#${this.$props.CalendarId}`)) return;
-      const provider = document.getElementById(this.$props.ProviderId);
-      if (!provider || provider.contains(target)) return;
-      provider.dispatchEvent(new CustomEvent(event.type, { detail: (event as CustomEvent).detail }));
-    };
-    for (const name of CALENDAR_EVENTS) document.addEventListener(name, this.forward);
-
     // SF-058: the provider announces a complete range but is not part of the form, so put the range in
     // the hidden inputs and submit the form.
     this.onRange = (event: Event) => {
@@ -36,7 +23,6 @@ const dashboardFilters: AlpineCodeBehind<Props> = () => ({
   },
 
   destroy() {
-    for (const name of CALENDAR_EVENTS) document.removeEventListener(name, this.forward);
     this.$el.removeEventListener('rz:calendar:range-complete', this.onRange);
   },
 

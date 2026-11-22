@@ -5,15 +5,13 @@
     ranges and a ticket type. One form; a change sends one request for every panel and pushes the URL.
 
     The structure follows the RizzyUI docs' "Range Popover" example (provider around the popover). The
-    code-behind (DashboardFilters.razor.ts) compensates for two gaps:
-    - SF-057: the popover teleports the calendar to <body>, so its events never reach the provider; the
-      code-behind forwards them;
+    code-behind (DashboardFilters.razor.ts) compensates for one gap:
     - SF-058: the provider keeps its dates in Alpine state only, so hidden inputs mirror them and the
       code-behind submits the form when a range is complete.
     Quick ranges set the provider's dates the same way (application behavior). The calendar is given the
     culture by hand: RzCalendar and RzDateEdit default to English, not the request culture (SF-073).
 *@
-<RzAlpineComponent For="this" Props="@(new { ProviderId = "dashboard-range", CalendarId = "dashboard-calendar", Today = Iso(Today), AllFrom = Iso(Today.AddDays(-119)) })">
+<RzAlpineComponent For="this" Props="@(new { ProviderId = "dashboard-range", Today = Iso(Today), AllFrom = Iso(Today.AddDays(-119)) })">
     <form id="dashboard-filters" class="flex flex-wrap items-end gap-3"
           hx-get="/organizer/dashboard/panels" hx-trigger="change" hx-target="#dashboard-charts" hx-swap="outerHTML"
           hx-vals='{"push": "true"}' hx-sync="this:replace">
