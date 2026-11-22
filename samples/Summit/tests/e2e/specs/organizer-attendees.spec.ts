@@ -14,10 +14,9 @@ const table = (page: Page) => page.locator('#attendee-table');
 const filters = (page: Page) => page.locator('#attendee-filters');
 const rows = (page: Page) => table(page).locator('tbody tr[data-row-id]');
 
-/** The table's state as the hidden inputs send it with every request. */
+/** The table's state as RzDataTable's state input sends it with every request (D-31: versioned JSON). */
 async function sentState(page: Page) {
-  return page.locator('#attendee-table-state input').evaluateAll(inputs =>
-    Object.fromEntries(inputs.map(input => [(input as HTMLInputElement).name, (input as HTMLInputElement).value])));
+  return JSON.parse(await page.locator('#attendees-state').inputValue());
 }
 
 async function openAttendees(page: Page) {
@@ -39,7 +38,9 @@ test('S-03: editing an attendee keeps the table where the organizer left it', as
   await table(page).getByRole('button', { name: 'Next' }).click();
   await expect(table(page)).toContainText('Page 2 of');
   await expect(table(page).locator('th[data-column-id="Country"]')).toHaveCount(0);
-  expect(await sentState(page)).toMatchObject({ Sort: 'Company', Desc: 'false', Page: '1', Search: 'example.org', Hidden: 'Country' });
+  expect(await sentState(page)).toMatchObject({
+    v: 1, sorting: [{ id: 'Company', desc: false }], pagination: { pageIndex: 1 }, globalFilter: 'example.org', columnVisibility: { Country: false },
+  });
 
   const before = await rows(page).first().getAttribute('data-row-id');
   const editButton = rows(page).first().locator('[data-edit-id]');
@@ -99,7 +100,7 @@ test('server filters rebuild the table, push the URL and start on the first page
   await expect(page).toHaveURL(/\/organizer\/attendees\?status=Cancelled$/);
   await expect(table(page)).toContainText('Page 1 of');
   await expect(table(page).locator('td[data-column-id="Status"]').first()).toHaveText('Cancelled');
-  expect((await sentState(page)).Page).toBe('0');
+  expect((await sentState(page)).pagination.pageIndex).toBe(0);
 
   // The pushed URL is a real page.
   await page.reload();
@@ -139,5 +140,5 @@ test('S-04: a bulk check-in across pages is confirmed, applied and announced', a
   await expect(page.locator('[data-slot=toast-provider]')).toContainText('5 attendees checked in.');
   await expect(table(page).locator('[data-total-rows]')).toHaveText(String(total - 5));
   await expect(bulk).toBeHidden();
-  expect((await sentState(page)).Selected).toBe('');
+  expect(Object.values((await sentState(page)).rowSelection).filter(Boolean)).toEqual([]);
 });

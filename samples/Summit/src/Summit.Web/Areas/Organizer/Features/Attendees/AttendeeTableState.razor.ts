@@ -27,13 +27,6 @@ const BULK_LABELS: Record<string, string> = {
 };
 
 const attendeeTableState: AlpineCodeBehind<Props> = () => ({
-  sort: '',
-  desc: true,
-  page: 0,
-  pageSize: 10,
-  filterText: '',
-  hidden: '',
-  selected: '',
   selectedCount: 0,
   bulkAction: '',
   bulkSummary: '',
@@ -42,31 +35,20 @@ const attendeeTableState: AlpineCodeBehind<Props> = () => ({
   editorOpen: false,
 
   init() {
-    // SF-001: mirror the table's state into the hidden inputs.
+    // The table keeps its own state input (StateInputName, D-31); the bulk bar needs the selection count.
     this.onState = (event: Event) => {
       const state = (event as CustomEvent<TableState>).detail;
       if (state.componentId !== this.$props.TableId) return;
-      this.apply(state);
+      this.selectedCount = state.selectedRowCount;
     };
 
-    // The table dispatches no state event when it starts (on page load or after a rebuild), so read its
-    // state once it is ready: a rebuilt table may start on another page than the inputs say. Then give
-    // focus back to the row that was edited: the row is rebuilt after a save, so the sheet cannot.
+    // A rebuilt table starts without a selection and dispatches no state event, so reset the count when
+    // it is ready. Then give focus back to the row that was edited: the row is rebuilt after a save, so
+    // the sheet cannot.
     this.onReady = (event: Event) => {
       if ((event as CustomEvent<{ componentId: string }>).detail.componentId !== this.$props.TableId) return;
       const table = window.Rizzy.$data(this.$props.TableId)?.table;
-      if (table) {
-        const s = table.getState();
-        this.apply({
-          componentId: this.$props.TableId,
-          sorting: s.sorting,
-          pagination: s.pagination,
-          globalFilter: s.globalFilter,
-          columnVisibility: s.columnVisibility,
-          selectedRowIds: Object.keys(s.rowSelection ?? {}).filter((id) => s.rowSelection[id]),
-          selectedRowCount: Object.values(s.rowSelection ?? {}).filter(Boolean).length,
-        });
-      }
+      if (table) this.selectedCount = table.getSelectedRowModel().rows.length;
       const id = this.focusAfterRebuild;
       if (!id) return;
       this.focusAfterRebuild = null;
@@ -99,17 +81,6 @@ const attendeeTableState: AlpineCodeBehind<Props> = () => ({
 
   focusRow(id: string) {
     this.$nextTick(() => (this.$el.querySelector(`[data-edit-id="${CSS.escape(id)}"]`) as HTMLElement | null)?.focus());
-  },
-
-  apply(state: TableState) {
-    this.sort = state.sorting[0]?.id ?? '';
-    this.desc = state.sorting[0]?.desc ?? false;
-    this.page = state.pagination?.pageIndex ?? 0;
-    this.pageSize = state.pagination?.pageSize ?? 10;
-    this.filterText = state.globalFilter ?? '';
-    this.hidden = Object.entries(state.columnVisibility ?? {}).filter(([, visible]) => !visible).map(([id]) => id).join(',');
-    this.selected = state.selectedRowIds.join(',');
-    this.selectedCount = state.selectedRowCount;
   },
 
   /** SF-048: rows are rendered by Alpine, after htmx processed the page, so they cannot carry hx-get. */

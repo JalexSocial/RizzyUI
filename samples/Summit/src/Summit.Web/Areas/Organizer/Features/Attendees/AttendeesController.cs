@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rizzy;
 using Rizzy.Htmx;
+using RizzyUI;
 using RizzyUI.Services.RzToast;
 using Summit.Web.Data;
 using Summit.Web.Data.Entities;
@@ -18,16 +19,16 @@ namespace Summit.Web.Areas.Organizer.Features.Attendees;
 public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query, IHtmxSwapService swaps, IRzToastService toasts, TimeProvider clock) : OrganizerController
 {
     [HttpGet("/organizer/attendees")]
-    public async Task<IResult> Index([FromQuery] AttendeeServerFilter filter, [FromQuery] AttendeeTableRequest state) =>
+    public async Task<IResult> Index([FromQuery] AttendeeServerFilter filter, [FromQuery(Name = "TableState")] RzDataTableState? state) =>
         View<AttendeesPage>(new { Table = await TableAsync(filter, state), Filter = filter, TicketTypes = await query.TicketTypesAsync() });
 
     // Server filters (status, ticket): rebuild the table with the client state sent along.
     [HttpGet("/organizer/attendees/table")]
-    public async Task<IResult> Table([FromQuery] AttendeeServerFilter filter, [FromQuery] AttendeeTableRequest state)
+    public async Task<IResult> Table([FromQuery] AttendeeServerFilter filter, [FromQuery(Name = "TableState")] RzDataTableState? state)
     {
         Response.HtmxIfRequested(h => h.PushUrl(PageUrl(filter)));
-        state.Page = 0; // a different set of rows starts on its first page
-        return PartialView<AttendeeTable>(new { Model = await TableAsync(filter, state) });
+        // A different set of rows starts on its first page.
+        return PartialView<AttendeeTable>(new { Model = await TableAsync(filter, state, firstPage: true) });
     }
 
     [HttpGet("/organizer/attendees/{id:int}/edit")]
@@ -48,7 +49,7 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
 
     // Save: 422 back into the sheet's form, or close the sheet and rebuild the table, both out of band.
     [HttpPost("/organizer/attendees/{id:int}"), ValidateAntiForgeryToken]
-    public async Task<IResult> Save(int id, [FromForm(Name = "Model")] AttendeeEditModel model, [FromForm] AttendeeServerFilter filter, [FromForm] AttendeeTableRequest state)
+    public async Task<IResult> Save(int id, [FromForm(Name = "Model")] AttendeeEditModel model, [FromForm] AttendeeServerFilter filter, [FromForm(Name = "TableState")] RzDataTableState? state)
     {
         var attendee = await db.Attendees.SingleOrDefaultAsync(a => a.Id == id);
         if (attendee is null)
@@ -88,9 +89,9 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
 
     // Bulk actions on the selected rows, confirmed in an alert dialog.
     [HttpPost("/organizer/attendees/bulk"), ValidateAntiForgeryToken]
-    public async Task<IResult> Bulk([FromForm] string action, [FromForm] AttendeeServerFilter filter, [FromForm] AttendeeTableRequest state)
+    public async Task<IResult> Bulk([FromForm] string action, [FromForm] AttendeeServerFilter filter, [FromForm(Name = "TableState")] RzDataTableState? state)
     {
-        var ids = state.SelectedIds;
+        var ids = AttendeeTableStates.SelectedIds(state);
         var attendees = await db.Attendees.Where(a => ids.Contains(a.Id)).ToListAsync();
         var now = clock.GetUtcNow();
         string message;
@@ -113,7 +114,7 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
         Audit($"attendee.bulk_{action.Replace('-', '_')}", null, message);
         await db.SaveChangesAsync();
 
-        state.Selected = null;
+        // The rebuilt table starts without a selection (ToInitialState leaves it out).
         swaps.AddSwappableComponent<AttendeeTable>("attendee-table", new { Model = await TableAsync(filter, state) });
         toasts.Success(message, "Done");
         // D-29: the one close event with this dialog's id closes only this dialog.
@@ -121,8 +122,8 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
         return PartialView<Components.Shared.Nothing>();
     }
 
-    private async Task<AttendeeTableModel> TableAsync(AttendeeServerFilter filter, AttendeeTableRequest state) =>
-        new(await query.RowsAsync(filter), state.ToInitialState(), filter);
+    private async Task<AttendeeTableModel> TableAsync(AttendeeServerFilter filter, RzDataTableState? state, bool firstPage = false) =>
+        new(await query.RowsAsync(filter), AttendeeTableStates.ToInitialState(state, firstPage), filter);
 
     private void Audit(string action, int? entityId, string summary) =>
         db.AuditEvents.Add(new AuditEvent

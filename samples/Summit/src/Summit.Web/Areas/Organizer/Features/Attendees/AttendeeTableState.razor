@@ -2,25 +2,18 @@
 @*
     Glue between the attendees RzDataTable and the server (AttendeeTableState.razor.ts, TypeScript).
 
+    The table keeps its own state in an input (RzDataTable StateInputName="TableState", #attendees-state),
+    which every server request includes, so a rebuilt table starts where the organizer left it (D-31).
     Compensates for library gaps, each tagged in the module:
-    - SF-001: the table's sort, page, filter, hidden columns and selection are mirrored into the hidden
-      inputs below, which every server request includes (hx-include="#attendee-table-state"), so a
-      rebuilt table starts where the organizer left it;
     - SF-048: rows are rendered by Alpine, so their buttons cannot use hx-get; edit() calls htmx;
     - the editor sheet is closed by the server, but the row that opened it is rebuilt, so focus is returned to the
       row's Edit button by hand.
-    Application behavior: the bulk-action bar and its confirmation text.
+    Application behavior: the bulk-action bar (selection count from rz:datatable:state-changed) and its
+    confirmation text; the bulk action's name goes with the form.
 *@
 <RzAlpineComponent For="this" class="flex flex-col gap-4"
                    Props="@(new { TableId = "attendees", EditUrl = "/organizer/attendees", EditorSheetId = AttendeeEditor.SheetId })">
     <div id="attendee-table-state" hidden>
-        <input type="hidden" name="Sort" x-bind:value="sort" />
-        <input type="hidden" name="Desc" x-bind:value="desc" />
-        <input type="hidden" name="Page" x-bind:value="page" />
-        <input type="hidden" name="PageSize" x-bind:value="pageSize" />
-        <input type="hidden" name="Search" x-bind:value="filterText" />
-        <input type="hidden" name="Hidden" x-bind:value="hidden" />
-        <input type="hidden" name="Selected" x-bind:value="selected" />
         <input type="hidden" name="action" x-bind:value="bulkAction" />
     </div>
     @ChildContent

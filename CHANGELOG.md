@@ -45,6 +45,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzCollapsible.AsChild`** (Summit SF-080): the collapsible's behavior goes on its child, so `<RzCollapsible AsChild><SidebarMenuItem>` keeps a sidebar menu a list of items.
 - **`RizzyUIConfig.LocalAssetPath` and `RizzyUIAssets.Vendor`** (Summit SF-012): serve the widget libraries (Chart.js, Tom Select, flatpickr, vanilla-calendar-pro, Coloris, Embla, rough-notation) from your own site, in jsDelivr's `{package}@{version}/{file}` layout, with the same integrity hashes.
 - **Events sent before a component starts are kept** (Summit SF-039): a dialog's or sheet's `EventTriggerName` event that arrives while its code is still loading opens it once it starts. `Rizzy.componentsReady()` and the `rz:ready` document event tell tests and apps when the page's components have started.
+- **`RzDataTable` state transport** (decision D-31, Summit SF-001): `StateInputName` keeps a hidden input with the table's sorting, page, filters and column visibility (and, with `IncludeSelectionInState`, the selection) as versioned JSON; bind it as `RzDataTableState` and rebuild the table from `ToInitialState()` so it keeps the user's place.
 
 ### Changed
 
@@ -58,6 +59,10 @@ Finding IDs (RZUI-0xx) refer to the
 - **The Arctic theme meets WCAG AA contrast** (Summit SF-078, SF-036): darker light-mode `--primary`, `--destructive` and `--muted-foreground`, lighter dark-mode `--primary` and `--destructive` with dark text on them, and status colors that keep 4.5:1 as text on their own tint (also the theme JSON defaults). Apps that relied on the exact old values may see slightly different shades. The status theme keys are documented.
 - **Accessibility defaults** (Summit SF-026, SF-031, SF-037, SF-066): `FieldError` around child content has no `role="alert"`; `RzAvatar` has no role or "Avatar" label unless `AriaLabel` is set (and takes `Decorative`); the file input's trigger is named by its visible text unless `AriaLabel` is set; `RzIndicator` is `role="img"` with an `AriaLabel` and decorative without one. Tests that found these elements by the old names need updating.
 - **Built-in icons are Lucide icons** (Summit SF-023): Material Design icons rendered fixed ids (`id="mdi-..."`), duplicated on every page with two of them. `RzCheckboxGroup.CheckedIcon` defaults to `Lucide.Check`.
+
+### Deprecated
+
+- **`TableRequestModel`** (decision D-31): use `RzDataTableState`; it will be removed after 1.0.
 
 ### Fixed
 

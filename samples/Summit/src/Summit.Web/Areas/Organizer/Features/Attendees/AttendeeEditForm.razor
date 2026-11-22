@@ -7,7 +7,7 @@
     <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
               hx-post="@($"/organizer/attendees/{AttendeeId}")"
               hx-swap="none"
-              hx-include="#attendee-filters, #attendee-table-state"
+              hx-include="#attendee-filters, #attendee-table-state, #attendees-state"
               hx-disabled-elt="find button[type=submit]">
         <RzModelStateProvider />
         <RzFocusFirstInvalid />

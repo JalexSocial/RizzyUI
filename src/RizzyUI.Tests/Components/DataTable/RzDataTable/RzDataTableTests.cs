@@ -226,6 +226,41 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Contains("\"core\":\"getCoreRowModel\"", json);
     }
 
+    [Fact]
+    public void StateInputName_renders_the_initial_state_as_versioned_json()
+    {
+        // D-31, Summit SF-001.
+        var config = new global::RizzyUI.RzDataTableConfig<RowModel>
+        {
+            Columns = CreateConfig().Columns,
+            InitialState = new global::RizzyUI.RzDataTableInitialState
+            {
+                Sorting = [new global::RizzyUI.RzSortDescriptor { Id = "Name", Desc = true }],
+                Pagination = new global::RizzyUI.RzPaginationState { PageIndex = 2, PageSize = 25 },
+                ColumnVisibility = new() { ["Name"] = false },
+            },
+        };
+        var cut = Render<TestableDataTable>(p => p
+            .Add(x => x.Id, "people")
+            .Add(x => x.Items, CreateRows())
+            .Add(x => x.Config, config)
+            .Add(x => x.RowIdSelector, x => x.Id)
+            .Add(x => x.StateInputName, "TableState"));
+
+        var input = cut.Find("input#people-state[name='TableState'][data-datatable-state]");
+        Assert.Null(input.GetAttribute("data-include-selection"));
+        Assert.True(global::RizzyUI.RzDataTableState.TryParse(input.GetAttribute("value"), out var state));
+        Assert.Equal(1, state.Version);
+        Assert.Equal("Name", state.Sorting[0].Id);
+        Assert.True(state.Sorting[0].Desc);
+        Assert.Equal(2, state.Pagination!.PageIndex);
+        Assert.False(state.ColumnVisibility["Name"]);
+        Assert.Null(state.RowSelection);
+
+        var plain = RenderTable();
+        Assert.Empty(plain.FindAll("input[data-datatable-state]"));
+    }
+
     private IRenderedComponent<TestableDataTable> RenderTable()
     {
         return Render<TestableDataTable>(parameters => parameters

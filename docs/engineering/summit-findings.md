@@ -44,7 +44,7 @@ tracks how much application code exists only to compensate.
 
 | Id | Owner | Area | Tag | Severity | Summary | Application | Library | Regression test |
 |---|---|---|---|---|---|---|---|---|
-| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Works (workaround: `AttendeeTableState`) | Open (decided: D-31) | e2e: attendees S-03, filters (workflow) |
+| SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Works | Fixed in 1.0.0-preview.4 | bUnit: RzDataTableStateTests (parse, versions, model binder) and RzDataTableTests (state input rendered) (defect); e2e: attendees S-03, S-04 (workflow) |
 | SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (sheet opened and closed by window events, rz:sheet:open/close), both builds (defect); e2e: attendees S-03 (workflow) |
 | SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (close by id, close all), both builds (defect); e2e: attendees S-04 (workflow) |
 | SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Fixed in 1.0.0-preview.4 | n/a (docs) |
@@ -146,7 +146,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
 | `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
-| `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
+| `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: `edit()`, focus return, selection count | ~50 TS/Razor | SF-048, SF-002 | Processed rows (SF-048); focus return is application behavior |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | Plain read-only input in `RzInputGroup` | 1 | SF-028 | An input-group control without a model |
 
@@ -232,6 +232,7 @@ finding on its own.
 - **Library fix:** a built-in state transport, for example a `StateInputName` parameter that renders
   hidden inputs (or one JSON input) kept in sync, plus a server-side `RzDataTableState` model binder
   that maps back to `RzDataTableInitialState`. Decide what `TableRequestModel` is for, or delete it.
+- **Fixed in 1.0.0-preview.4:** decision D-31: `RzDataTable` takes `StateInputName` (and opt-in `IncludeSelectionInState`) and keeps one hidden input (`{Id}-state`) with its state as versioned JSON; `RzDataTableState` binds it (MVC model binder, minimal API `TryParse`) and maps it back with `ToInitialState()`. `TableRequestModel` is obsolete. Summit's seven mirrored hidden inputs, `AttendeeTableRequest` and the TypeScript state mirror are replaced by the state input and `AttendeeTableStates` (its defaults and page-size limits).
 
 ### SF-002 RzSheet has no event-driven open or close (planning)
 

@@ -13,37 +13,26 @@ namespace Summit.Web.Areas.Organizer.Features.Attendees;
 public sealed record AttendeeRow(string Id, string Name, string Email, string Company, string Country, string Ticket, string Status, string Tags, string Registered);
 
 /// <summary>
-/// The table's client state, posted back by the hidden inputs of the AttendeeTableState component (summit-findings.md
-/// SF-001: RzDataTable has no way to send its own state with a request). The server rebuilds the table
-/// with the same sort, page, filter and visible columns.
+/// The attendees table's state, posted by RzDataTable's state input (RzDataTableState, decision D-31),
+/// with Summit's defaults and limits: newest registrations first, page sizes 10, 25 and 50.
 /// </summary>
-public sealed class AttendeeTableRequest
+public static class AttendeeTableStates
 {
-    public string? Sort { get; set; }
-    public bool Desc { get; set; }
-    public int Page { get; set; }
-    public int PageSize { get; set; } = 10;
-    /// <summary>
-    /// The table's search text. Not called Filter: a query key that matches an action parameter's name
-    /// ("filter") makes MVC bind that parameter with the key as prefix, so Status and Ticket were lost (SF-051).
-    /// </summary>
-    public string? Search { get; set; }
-    /// <summary>Comma-separated ids of hidden columns.</summary>
-    public string? Hidden { get; set; }
-    /// <summary>Comma-separated ids of selected rows (used by bulk actions).</summary>
-    public string? Selected { get; set; }
-
-    public RzDataTableInitialState ToInitialState() => new()
+    public static RzDataTableInitialState ToInitialState(RzDataTableState? state, bool firstPage = false) => new()
     {
-        Sorting = string.IsNullOrEmpty(Sort) ? [new RzSortDescriptor { Id = "Registered", Desc = true }] : [new RzSortDescriptor { Id = Sort, Desc = Desc }],
-        Pagination = new RzPaginationState { PageIndex = Math.Max(0, Page), PageSize = PageSize is 10 or 25 or 50 ? PageSize : 10 },
-        GlobalFilter = string.IsNullOrWhiteSpace(Search) ? null : Search,
-        ColumnVisibility = (Hidden ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries).ToDictionary(id => id, _ => false),
+        Sorting = state?.Sorting is { Count: > 0 } sorting ? sorting : [new RzSortDescriptor { Id = "Registered", Desc = true }],
+        Pagination = new RzPaginationState
+        {
+            PageIndex = firstPage ? 0 : Math.Max(0, state?.Pagination?.PageIndex ?? 0),
+            PageSize = state?.Pagination?.PageSize is 10 or 25 or 50 ? state.Pagination.PageSize : 10,
+        },
+        GlobalFilter = string.IsNullOrWhiteSpace(state?.GlobalFilter) ? null : state.GlobalFilter,
+        ColumnVisibility = state?.ColumnVisibility ?? [],
     };
 
-    public IReadOnlyList<int> SelectedIds =>
-        (Selected ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries)
-            .Select(id => int.TryParse(id.Replace("a-", ""), out var n) ? n : 0).Where(n => n > 0).ToList();
+    /// <summary>The attendee ids of the selected rows (row ids are "a-{id}").</summary>
+    public static IReadOnlyList<int> SelectedIds(RzDataTableState? state) =>
+        (state?.SelectedRowIds ?? []).Select(id => int.TryParse(id.Replace("a-", ""), out var n) ? n : 0).Where(n => n > 0).ToList();
 }
 
 /// <summary>Server-side filters (the table filters the rest in the browser).</summary>

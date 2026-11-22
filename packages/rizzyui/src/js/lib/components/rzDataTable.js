@@ -174,6 +174,32 @@ function normalizeStatePayload(state, componentId, table) {
     };
 }
 
+/**
+ * Writes the table state into its StateInputName input as versioned JSON (decision D-31, SF-001), the
+ * format RzDataTableState reads on the server. Selection only when the input asks for it.
+ * @param {HTMLElement} root The component root.
+ * @param {object} state The TanStack state.
+ */
+function writeStateInput(root, state) {
+    const input = typeof root?.querySelector === 'function' ? root.querySelector(':scope > input[data-datatable-state]') : null;
+    if (!input) {
+        return;
+    }
+
+    const value = {
+        v: 1,
+        sorting: (state.sorting || []).map(entry => ({ id: String(entry.id), desc: Boolean(entry.desc) })),
+        pagination: state.pagination ? { pageIndex: state.pagination.pageIndex ?? 0, pageSize: state.pagination.pageSize ?? 10 } : undefined,
+        columnFilters: (state.columnFilters || []).map(entry => ({ id: String(entry.id), value: entry.value })),
+        globalFilter: state.globalFilter ? String(state.globalFilter) : undefined,
+        columnVisibility: state.columnVisibility || {},
+    };
+    if (input.dataset.includeSelection === 'true') {
+        value.rowSelection = state.rowSelection || {};
+    }
+    input.value = JSON.stringify(value);
+}
+
 function stateSliceChanged(previous, next, key) {
     if (!previous) {
         return false;
@@ -752,6 +778,7 @@ export default function rzDataTable() {
 
             this.refreshDerivedState();
             this._lastStatePayload = normalizeStatePayload(this.table.getState(), componentId, this.table);
+            writeStateInput(this.$el, this.table.getState());
             this.bindGeneratedSelectionCells(componentId);
 
             this.dispatchEvent('rz:datatable:ready', {
@@ -855,6 +882,8 @@ export default function rzDataTable() {
             const state = this.table.getState();
             const payload = normalizeStatePayload(state, componentId, this.table);
             const previous = this._lastStatePayload;
+
+            writeStateInput(this.$el, state);
 
             this.dispatchEvent('rz:datatable:state-changed', payload);
 

@@ -562,6 +562,36 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Keeping the state across server rebuilds" class="scroll-mt-20">Keeping the state across server rebuilds</RzHeading>
+                <RzParagraph>
+                    Set <code>StateInputName</code> and the table keeps one hidden input (id <code>{Id}-state</code>) with its sorting,
+                    page, filters and column visibility as versioned JSON; <code>IncludeSelectionInState</code> adds the selected row
+                    ids. Include the input in requests that rebuild the table, bind it as <code>RzDataTableState</code>, and render the
+                    new table from <code>ToInitialState()</code>: the user keeps their place. What you accept from the state (page sizes,
+                    columns) is up to the action.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Table">
+&lt;RzDataTable TItem="PersonRow" Id="people" Items="Rows" Config="Config" RowIdSelector="x =&gt; x.Id"
+             StateInputName="TableState" IncludeSelectionInState="true"&gt;...&lt;/RzDataTable&gt;
+
+&lt;select name="Status" hx-get="/people/table" hx-target="#people-region" hx-include="#people-state"&gt;...&lt;/select&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Action" class="mt-4">
+[HttpGet("/people/table")]
+public async Task&lt;IResult&gt; Table(string? status, [FromQuery(Name = "TableState")] RzDataTableState? state)
+{
+    var initial = state?.ToInitialState() ?? new RzDataTableInitialState();
+    return PartialView&lt;PeopleTable&gt;(new { Rows = await LoadAsync(status), State = initial });
+}
+// state.SelectedRowIds lists the selected rows (with IncludeSelectionInState), for bulk actions.
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    MVC binds the input with the parameter's name; minimal APIs bind it through <code>RzDataTableState.TryParse</code>.
+                    A missing or unreadable value binds <code>null</code>. <code>TableRequestModel</code> is obsolete and will be removed after 1.0.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Architecture and author responsibilities" class="scroll-mt-20" Id="architecture-and-author-responsibilities">Architecture and author responsibilities</RzHeading>
                 <RzParagraph>
                     <code>RzDataTable&lt;TItem&gt;</code> owns data transport and TanStack state; it does not generate the visible table, rows, or cells for you.

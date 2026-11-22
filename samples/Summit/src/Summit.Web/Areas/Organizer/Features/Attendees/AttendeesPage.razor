@@ -1,7 +1,7 @@
 @*
     Organizer › Attendees. The table works in the browser (RzDataTable); the status and ticket filters
-    go to the server and rebuild it. AttendeeTableState keeps the table's state in hidden inputs that
-    every request includes, so the organizer keeps their sort, page and columns (SF-001).
+    go to the server and rebuild it. The table keeps its state in an input (StateInputName, D-31) that
+    every request includes, so the organizer keeps their sort, page and columns.
 *@
 <RzPageTitle>Attendees · Summit organizer</RzPageTitle>
 
@@ -10,7 +10,7 @@
 <AttendeeTableState>
     <form id="attendee-filters" class="flex flex-wrap items-end gap-3"
           hx-get="/organizer/attendees/table" hx-trigger="change" hx-target="#attendee-table" hx-swap="outerHTML"
-          hx-include="#attendee-table-state">
+          hx-include="#attendee-table-state, #attendees-state">
         <label class="flex flex-col gap-1.5 text-sm font-medium">
             Status
             <select name="Status" class="border-input bg-background h-9 min-w-40 rounded-md border px-2 text-sm">
@@ -55,7 +55,7 @@
             <AlertDialogFooter>
                 <AlertDialogCancel>Go back</AlertDialogCancel>
                 <AlertDialogAction hx-post="/organizer/attendees/bulk" hx-swap="none"
-                                   hx-include="#attendee-filters, #attendee-table-state, #attendee-bulk-token">
+                                   hx-include="#attendee-filters, #attendee-table-state, #attendees-state, #attendee-bulk-token">
                     Apply
                 </AlertDialogAction>
             </AlertDialogFooter>

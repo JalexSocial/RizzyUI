@@ -5,7 +5,8 @@
     it starts from comes from AttendeeTableState (SF-001).
 *@
 <div id="attendee-table">
-    <RzDataTable TItem="AttendeeRow" Id="attendees" Items="Model.Rows" Config="Config" RowIdSelector="x => x.Id">
+    <RzDataTable TItem="AttendeeRow" Id="attendees" Items="Model.Rows" Config="Config" RowIdSelector="x => x.Id"
+                 StateInputName="TableState" IncludeSelectionInState="true">
         <div class="flex flex-wrap items-end gap-3 pb-4">
             <div class="flex min-w-60 flex-1 flex-col gap-1.5">
                 <label for="attendee-search" class="text-sm font-medium">Search attendees</label>

@@ -1620,9 +1620,11 @@ RizzyUI.RzDataTable<TItem>
   ConfigureClasses: System.Action<RizzyUI.RzDataTableSlots>
   Element: System.String
   Id: System.String
+  IncludeSelectionInState: System.Boolean
   Items: System.Collections.Generic.IReadOnlyList<TItem> [EditorRequired]
   LoadStrategy: System.String
   RowIdSelector: System.Linq.Expressions.Expression<System.Func<TItem, System.Object>> [EditorRequired]
+  StateInputName: System.String
 RizzyUI.RzDateEdit
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   AriaLabel: System.String
