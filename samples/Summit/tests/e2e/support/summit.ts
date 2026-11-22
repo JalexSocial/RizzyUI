@@ -139,24 +139,17 @@ export async function expectNoDanglingAriaReferences(page: Page) {
   expect(dangling).toEqual([]);
 }
 
-/**
- * No duplicate ids on the page (invalid HTML, and it breaks aria references and htmx targets).
- * One known library defect is reported as an annotation instead of a failure, so the check still
- * catches everything else: the empty id="" Rizzy's radio inputs render (summit-findings.md SF-047).
- */
+/** No duplicate or empty ids on the page (invalid HTML, and it breaks aria references and htmx targets). */
 export async function expectUniqueIds(page: Page) {
-  const { duplicates, emptyIds } = await page.evaluate(() => {
+  const problems = await page.evaluate(() => {
     const seen = new Map<string, number>();
     let emptyIds = 0;
     for (const element of document.querySelectorAll('[id]')) {
       if (element.id === '') { emptyIds++; continue; }
       seen.set(element.id, (seen.get(element.id) ?? 0) + 1);
     }
-    return {
-      duplicates: [...seen].filter(([, count]) => count > 1).map(([id, count]) => `${id} ×${count}`),
-      emptyIds,
-    };
+    const duplicates = [...seen].filter(([, count]) => count > 1).map(([id, count]) => `${id} ×${count}`);
+    return emptyIds > 0 ? [...duplicates, `${emptyIds} elements with id=""`] : duplicates;
   });
-  if (emptyIds > 0) test.info().annotations.push({ type: 'known-defect', description: `SF-047: ${emptyIds} elements with id=""` });
-  expect(duplicates).toEqual([]);
+  expect(problems).toEqual([]);
 }

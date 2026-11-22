@@ -26,7 +26,7 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
     [HttpGet("/organizer/attendees/table")]
     public async Task<IResult> Table([FromQuery] AttendeeServerFilter filter, [FromQuery(Name = "TableState")] RzDataTableState? state)
     {
-        Response.HtmxIfRequested(h => h.PushUrl(PageUrl(filter)));
+        Response.Htmx(h => h.PushUrl(PageUrl(filter)));
         // A different set of rows starts on its first page.
         return PartialView<AttendeeTable>(new { Model = await TableAsync(filter, state, firstPage: true) });
     }

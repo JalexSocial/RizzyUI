@@ -62,6 +62,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Accessibility defaults** (Summit SF-026, SF-031, SF-037, SF-066): `FieldError` around child content has no `role="alert"`; `RzAvatar` has no role or "Avatar" label unless `AriaLabel` is set (and takes `Decorative`); the file input's trigger is named by its visible text unless `AriaLabel` is set; `RzIndicator` is `role="img"` with an `AriaLabel` and decorative without one. Tests that found these elements by the old names need updating.
 - **Built-in icons are Lucide icons** (Summit SF-023): Material Design icons rendered fixed ids (`id="mdi-..."`), duplicated on every page with two of them. `RzCheckboxGroup.CheckedIcon` defaults to `Lucide.Check`.
 - **Dropped toasts are a Warning in Development** (Summit SF-006): `UseRzToast()` logs when toasts queued on a normal request or an htmx redirect cannot be delivered.
+- **Requires Rizzy 6.0.0-preview.4** (Summit SF-017, SF-020, SF-043, SF-044, SF-047): absolute client script URL, htmx redirects that survive status code pages, `HtmxResponse` setters that are no-ops outside htmx requests (decision D-30), model state for list item fields, and radio inputs without an empty `id`. The starter template's `StatusPages` no longer needs its own redirect handling.
 
 ### Deprecated
 

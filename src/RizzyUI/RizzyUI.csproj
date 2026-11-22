@@ -45,7 +45,7 @@
         <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
         <PackageReference Include="Blazicons.Lucide" Version="1.14.37" />
         <PackageReference Include="Markdig" Version="0.45.0" />
-        <PackageReference Include="Rizzy" Version="6.0.0-preview.3" />
+        <PackageReference Include="Rizzy" Version="6.0.0-preview.4" />
         <PackageReference Include="Blazicons" Version="3.0.12" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
         <PackageReference Include="TailwindVariants.NET" Version="0.2.9" />

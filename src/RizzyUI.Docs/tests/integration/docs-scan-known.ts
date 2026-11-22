@@ -16,9 +16,6 @@ export type KnownDefect = {
 
 
 export const knownDefects: KnownDefect[] = [
-  // Library defects (RizzyUI).
-  { finding: 'SF-047', kind: 'duplicate-id', rule: 'empty-id', pages: ['/'] },
-
   // Docs-site defects (styling and example content), fixed in W11.
   // The docs site's own pages and examples still use Material Design icons, whose fixed ids repeat
   // (the library's built-in icons no longer do: SF-023).

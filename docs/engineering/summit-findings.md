@@ -63,7 +63,7 @@ tracks how much application code exists only to compensate.
 | SF-017 | Rizzy, template | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: ExtensionTests (script URL with and without a path base) (defect); template test (slice 15 adds a nested URL check) |
 | SF-018 | RizzyUI, template | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Works | Fixed in 1.0.0-preview.4 | bUnit: RzButtonTests.AsChild_* (defect); the starter template's 404 page (slice 10 adds a browser check) |
 | SF-019 | RizzyUI docs | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Works | Fixed in 1.0.0-preview.4 | docs scan (navigation menu page) |
-| SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works (workaround) | Open | Summit.Tests: htmx redirect, antiforgery 400 (defect) |
+| SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works | Fixed in Rizzy 6.0.0-preview.4 | Summit.Tests: htmx redirect, antiforgery 400 (defect); Rizzy: error handling tests |
 | SF-021 | Template | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Works | Fixed in 1.0.0-preview.4 | template test: hx-boost:inherited in the markup and a Playwright check that a sidebar link navigates without a reload (defect); e2e: shell boosted navigation (workflow) |
 | SF-022 | RizzyUI | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a static alert has no live region) (defect) |
 | SF-023 | RizzyUI, Blazicons | Icons | Bug | Medium | Material Design icons render `id="mdi-…"`: 14 components (breadcrumb separator, nav menu trigger, pagination, checkbox indicator, …) emit duplicate ids | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (built-in icons render no ids) (defect); docs scan and Summit unique-id checks without the `mdi-` exception |
@@ -86,11 +86,11 @@ tracks how much application code exists only to compensate.
 | SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (Items and ItemsUrl with CommandItemTemplate), both builds (defect); e2e: site search (workflow) |
 | SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: server-error-toasts.spec.ts, both builds; JS unit tests (defect); e2e: dashboard failed panels request (workflow) |
 | SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works | Fixed in 1.0.0-preview.4 | template test: a clean `dotnet new rizzyui` build (defect) |
-| SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works (workaround) | Open (decided: D-30) | e2e: checkout entry link (workflow) |
-| SF-044 | Rizzy | RzModelStateProvider | Bug | High | Server validation errors for collection items (`Model.Attendees[0].Name`) are never shown: keys containing `[` map to a non-existent root field, so a 422 for a list form displays no errors at all | Works (workaround) | Open | e2e: checkout attendees 422 (defect) |
+| SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: HtmxResponse tests (setters no-op outside htmx, ValidationFailed keeps the 422) (defect); e2e: checkout entry link (workflow) |
+| SF-044 | Rizzy | RzModelStateProvider | Bug | High | Server validation errors for collection items (`Model.Attendees[0].Name`) are never shown: keys containing `[` map to a non-existent root field, so a 422 for a list form displays no errors at all | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: RzModelStateProvider tests (indexed keys) (defect); e2e: checkout attendees 422 (defect) |
 | SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: focus moves to the first invalid field (defect); e2e: forms after a 422 (workflow) |
 | SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Works | Fixed in 1.0.0-preview.4 | e2e: checkout attendee countries without a wait (workflow) |
-| SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
+| SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: radio tests (no id without an Id) (defect); e2e: unique-id check without the empty-id exception; docs scan entry removed |
 | SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: datatable.spec.ts (hx-get in a row template issues its request), both builds (defect); e2e: attendees S-03 (workflow) |
 | SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works | Fixed in 1.0.0-preview.4 | Manual (page width checked in the browser) |
 | SF-050 | RizzyUI | RzDataTable | DX | Low | In row templates, `row` is RizzyUI's view object (`{ id, row, cells }`), and the row data is camelCase while column ids keep the C# names | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
@@ -139,13 +139,11 @@ behavior (code a real product would write anyway) is listed separately, so the t
 
 | Code | Lines | Compensates for | What a library fix replaces it with |
 |---|---|---|---|
-| `Infrastructure/StatusPages.cs` | ~35 C# | SF-020 | Rizzy disabling status pages for htmx redirects and partial requests |
+| `Infrastructure/StatusPages.cs` (no status pages for htmx partial requests) | ~20 C# | SF-020 | Kept: an application choice; Rizzy handles htmx redirects |
 | `vendor.json`, `scripts/fetch-vendor.mjs` (download the pinned files) | ~40 JS/JSON | SF-012 | Kept: the app chooses where the files come from; RizzyUI maps them with `LocalAssetPath` |
-| `Program.cs`: absolute `ClientScriptUrl`; `AppLayout`: `"/@Assets[...]"` | 3 | SF-017 | Absolute default URLs |
+| `AppLayout`: `"/@Assets[...]"` (absolute asset paths, no `<base href>`) | 2 | SF-017 | Kept: Summit's own assets |
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
-| `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
-| `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
 | `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: focus return after a save, selection count | ~40 TS/Razor | SF-002 | Application behavior (the row that opened the editor is rebuilt) |
 | Plain read-only input in `RzInputGroup` | 1 | SF-028 | An input-group control without a model |
 
@@ -400,6 +398,7 @@ finding on its own.
   `"/@Assets[...]"` pattern in the RizzyUI getting-started guide; reconsider `<base href>` in the
   starter template.
 - **Fixed in Rizzy 6.0.0-preview.4:** Rizzy's `ClientScriptUrl` defaults to `/_content/Rizzy/js/rizzy.js` and `<RzScripts />` prefixes root-relative URLs with the path base (Rizzy 6.0.0-preview.4). The rizzy.docs pages show the absolute URL. Summit's absolute `ClientScriptUrl` goes with the Rizzy bump (slice 15).
+- **RizzyUI side (1.0.0-preview.4):** RizzyUI depends on Rizzy 6.0.0-preview.4; Summit's absolute `ClientScriptUrl` is removed (the default is absolute now).
 
 ### SF-018 RzButton has no AsChild
 
@@ -444,6 +443,7 @@ finding on its own.
   original status code and skip partial htmx requests.
 - **Starter template fixed in 1.0.0-preview.4:** the template's `UseStatusPages()` (`Features/Errors/StatusPages.cs`) re-executes `/status/{code}` only for full-page requests, never for htmx partial requests or responses with `HX-Redirect`, and keeps the status code (a 400 page says "Bad request" with status 400). The template test checks a partial 404 and a full-page 400. The Rizzy side (`UseHtmxRedirects` disabling status pages) is slice 14; Summit's `StatusPages` goes with the Rizzy bump.
 - **Rizzy fixed in 6.0.0-preview.4:** `UseHtmxRedirects` disables `IStatusCodePagesFeature` for its empty 401/403, so status code pages no longer replace an htmx redirect (Rizzy test with status pages on).
+- **Fixed in Rizzy 6.0.0-preview.4:** released in Rizzy 6.0.0-preview.4: `UseHtmxRedirects` keeps its 401/403 with `HX-Redirect` away from status code pages; the starter template keeps status codes and renders status pages only for full-page requests (slice 10). Summit's and the template's `StatusPages` drop their redirect handling and keep only the partial-request rule (an application choice).
 
 ### SF-021 The starter template's body-level hx-boost does nothing
 
@@ -753,6 +753,7 @@ finding on its own.
 - **Library fix:** make the setters no-ops for non-htmx requests (`ValidationFailed` should still set
   422), optionally logging at Debug; or offer `Response.HtmxIfRequested(...)` in Rizzy.
 - **Rizzy fixed in 6.0.0-preview.4 (decision D-30):** every `HtmxResponse` setter skips its header with a Debug log outside htmx requests; `ValidationFailed()` sets 422 on any request. Summit deletes `HtmxResponses.cs` with the Rizzy bump (slice 15).
+- **Fixed in Rizzy 6.0.0-preview.4:** decision D-30, released in Rizzy 6.0.0-preview.4: `HtmxResponse` setters are no-ops (with a Debug log) outside htmx requests and `ValidationFailed()` sets 422 either way. RizzyUI 1.0.0-preview.4 depends on it; Summit's `HtmxResponses.cs` (`HtmxIfRequested`, `ValidationFailedForAnyRequest`) is deleted.
 
 ### SF-044 Errors for list items never reach their fields
 
@@ -769,6 +770,7 @@ finding on its own.
 - **Library fix:** resolve indexers in `ResolveField` (walk `List[2]` through `IList`), with a test for
   a nested collection.
 - **Rizzy fixed in 6.0.0-preview.4:** `RzModelStateProvider.ResolveField` walks list, array and dictionary indexers. Summit deletes `IndexedModelStateProvider` with the Rizzy bump (slice 15).
+- **Fixed in Rizzy 6.0.0-preview.4:** released in Rizzy 6.0.0-preview.4: `RzModelStateProvider` maps keys with indexers (`Model.Attendees[0].Name`) to their list item fields. Summit's `IndexedModelStateProvider` is deleted.
 
 ### SF-045 No focus management after a server validation error
 
@@ -820,6 +822,7 @@ finding on its own.
   id derived from the group's.
 - **Rizzy fixed in 6.0.0-preview.4:** `RzInputRadioBase` renders no `id=""`. The RizzyUI side (ids derived from the group for each item) is slice 20.
 - **RizzyUI side fixed in 1.0.0-preview.4:** each radio item's input gets an id derived from the item's (`{item}-input`).
+- **Fixed in Rizzy 6.0.0-preview.4:** released in Rizzy 6.0.0-preview.4: a radio input without an `Id` renders no `id` attribute (RizzyUI's radio items give theirs an id since slice 20). Summit's unique-id check fails on empty ids again.
 
 ### SF-048 htmx attributes in DataTable rows are never processed
 

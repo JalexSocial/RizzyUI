@@ -26,9 +26,6 @@ builder.Services.AddRizzy(config =>
 {
     config.RootComponent = typeof(HtmxApp<AppLayout>);
     config.DefaultLayout = typeof(HtmxLayout<PublicLayout>);
-    // Absolute, because Summit has no <base href="/"> (it would break in-page links). The relative
-    // default only works on top-level URLs. summit-findings.md SF-017.
-    config.ClientScriptUrl = "/_content/Rizzy/js/rizzy.js";
 });
 
 // htmx is served by Summit (wwwroot/lib/htmx, copied from the CDN URL Rizzy pins). Integrity stays on:

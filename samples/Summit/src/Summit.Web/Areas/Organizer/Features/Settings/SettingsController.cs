@@ -39,7 +39,7 @@ public sealed class SettingsController(SettingsStore store, IHtmxSwapService swa
     {
         if (!ModelState.IsValid)
         {
-            Response.ValidationFailedForAnyRequest();
+            Response.Htmx().ValidationFailed();
             return PartialView<GeneralSettingsForm>();
         }
         await store.SaveGeneralAsync(model, Actor);
@@ -65,7 +65,7 @@ public sealed class SettingsController(SettingsStore store, IHtmxSwapService swa
             ModelState.AddModelError("Key.Scopes", "Choose scopes from the list.");
         if (!ModelState.IsValid)
         {
-            Response.ValidationFailedForAnyRequest();
+            Response.Htmx().ValidationFailed();
             return PartialView<CreateKeyBody>();
         }
 
