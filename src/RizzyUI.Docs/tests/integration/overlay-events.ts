@@ -30,6 +30,19 @@ export function defineOverlayEventSpecs(runtime: string) {
       expect(errors).toEqual([]);
     });
 
+    test('an open event sent as the page loads, before the dialog started, still opens it (SF-039)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.addInitScript(() => {
+        document.addEventListener('DOMContentLoaded', () => window.dispatchEvent(new CustomEvent('harness:open-a')));
+        document.addEventListener('rz:ready', () => ((window as any).__rzReady = true));
+      });
+      await page.goto('/_tests/overlay-events');
+      await expect(page.getByRole('dialog', { name: 'Dialog A' })).toBeVisible();
+      await expect.poll(() => page.evaluate(() => (window as any).__rzReady === true)).toBe(true);
+      expect(await page.evaluate(() => (window as any).Rizzy.componentsReady())).toBe(true);
+      expect(errors).toEqual([]);
+    });
+
     test('InitialFocus moves focus to the selected element when a dialog opens (SF-032)', async ({ page }) => {
       await fire(page, 'harness:open-b');
       await expect(page.locator('#b-second')).toBeFocused();

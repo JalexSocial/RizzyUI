@@ -41,14 +41,17 @@ builder.Services.AddHtmx(config =>
 // Summit's own theme, loaded from JSON with RizzyUI's ThemeLoader, next to the built-in themes.
 var summitTheme = await ThemeLoader.LoadFromFileAsync(Path.Combine(builder.Environment.ContentRootPath, "Themes", "summit.json"))
                   ?? throw new InvalidOperationException("Themes/summit.json could not be loaded.");
+var useCdnAssets = builder.Configuration.GetValue<bool>("Summit:Assets:UseCdnDefaults");
 builder.Services.AddRizzyUI(config =>
 {
     config.DefaultTheme = summitTheme;
     config.AvailableThemes.Add(RzTheme.ArcticTheme);
     config.AvailableThemes.Add(RzTheme.VercelTheme);
+    // Widget libraries from wwwroot/lib ({package}@{version}/{file}, the files vendor.json lists)
+    // instead of jsDelivr, with RizzyUI's SRI hashes.
+    if (!useCdnAssets)
+        config.LocalAssetPath = "/lib";
 });
-// Widget libraries from wwwroot/lib instead of the CDN (runs after RizzyUI fills in its defaults).
-builder.Services.AddSingleton<IPostConfigureOptions<RizzyUIConfig>, SelfHostedAssets>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddLocalization();

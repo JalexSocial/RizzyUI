@@ -1,4 +1,5 @@
 import { createFocusScope } from '../../runtime/a11y/focusScope.js';
+import { takeBufferedEvent } from '../../runtime/lazyEvents.js';
 import { removeMissingReferences } from '../../runtime/a11y/triggerReference.js';
 import { registerDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
 
@@ -25,7 +26,12 @@ export default function rzSheet() {
             const closeEvent = this.$el.dataset.closeEventName || 'rz:sheet-close';
             this._onOpenEvent = (event) => { if (targets(event)) this.show(); };
             this._onCloseEvent = (event) => { if (targets(event)) this.close(); };
-            if (openEvent) window.addEventListener(openEvent, this._onOpenEvent);
+            if (openEvent) {
+                window.addEventListener(openEvent, this._onOpenEvent);
+                // SF-039: an open event sent before this sheet started.
+                const buffered = takeBufferedEvent(openEvent);
+                if (buffered) this.$nextTick(() => this._onOpenEvent({ detail: buffered.detail }));
+            }
             window.addEventListener(closeEvent, this._onCloseEvent);
             this._eventNames = { openEvent, closeEvent };
 

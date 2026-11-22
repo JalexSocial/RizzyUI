@@ -43,6 +43,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzCommandDialog` remote items and `Shortcut`** (Summit SF-007): `ItemsUrl`, `FetchTrigger` and `ServerFiltering` reach the inner `RzCommand`; `Shortcut="k"` opens the dialog with Ctrl+K / Cmd+K.
 - **`RzAlertLiveRegionMode.None`** (Summit SF-022) for static callouts; **`RzCheckboxGroup.LegendVisible`** and a legend from `[Display(Name)]` (SF-029); **`RzAvatar.Decorative`** (SF-031); **`SidebarGroup.AriaLabel`** (SF-075).
 - **`RzCollapsible.AsChild`** (Summit SF-080): the collapsible's behavior goes on its child, so `<RzCollapsible AsChild><SidebarMenuItem>` keeps a sidebar menu a list of items.
+- **`RizzyUIConfig.LocalAssetPath` and `RizzyUIAssets.Vendor`** (Summit SF-012): serve the widget libraries (Chart.js, Tom Select, flatpickr, vanilla-calendar-pro, Coloris, Embla, rough-notation) from your own site, in jsDelivr's `{package}@{version}/{file}` layout, with the same integrity hashes.
+- **Events sent before a component starts are kept** (Summit SF-039): a dialog's or sheet's `EventTriggerName` event that arrives while its code is still loading opens it once it starts. `Rizzy.componentsReady()` and the `rz:ready` document event tell tests and apps when the page's components have started.
 
 ### Changed
 
@@ -83,6 +85,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Calendar weekday headers and days outside the month meet contrast** (Summit SF-077).
 - **ARIA fixes** found by axe (Summit SF-035, SF-038, SF-071, SF-075, SF-076, SF-079, SF-084): `RzAuroraText` renders its label as hidden text and needs no inline style by default; `RzItem` is a list item inside `RzItemGroup`; `RzClipboard` is at least 24 px; `SidebarGroup` no longer points at a missing label; `RzPopover`'s label names its content; an empty `CommandList` is not a listbox; Markdown code blocks are focusable.
 - **Sidebar action buttons meet the 24 px target size** (Summit SF-080): `SidebarMenuAction` and `SidebarGroupAction` are `w-6`.
+- **No MODULE_TYPELESS_PACKAGE_JSON warning** from `@jalexsocial/rizzyui/testing` (Summit SF-072): the package's ES module folders declare `"type": "module"`.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

@@ -101,13 +101,10 @@ export async function resetDatabase(baseURL: string) {
  * a component's listeners (for example a dialog's open event) exist only after its chunk has loaded.
  */
 export async function waitForRuntime(page: Page) {
-  await expect.poll(() => page.evaluate(() => {
-    const w = window as any;
-    if (typeof w.Alpine?.version !== 'string' || typeof w.Rizzy?.toast !== 'object') return 'runtime';
-    const pending = [...document.querySelectorAll('[x-data]')].filter(el =>
-      !el.closest('template') && (el.getAttribute('x-load') ?? 'eager') === 'eager' && !(el as any)._x_dataStack);
-    return pending.length === 0 ? 'ready' : `${pending.length} components`;
-  }), { message: 'RizzyUI components initialized' }).toBe('ready');
+  // RizzyUI resolves componentsReady() once the page's eager components have started (SF-039).
+  await expect.poll(() => page.evaluate(() => typeof (window as any).Rizzy?.componentsReady === 'function'),
+    { message: 'RizzyUI runtime loaded' }).toBe(true);
+  expect(await page.evaluate(() => (window as any).Rizzy.componentsReady()), 'RizzyUI components initialized').toBe(true);
 }
 
 // The release gate is WCAG 2.x A/AA, the tags the RizzyUI docs suite uses. Best-practice rules are

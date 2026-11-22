@@ -55,7 +55,7 @@ tracks how much application code exists only to compensate.
 | SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works | Fixed in 1.0.0-preview.4 | bUnit: ModelPathNameTests (the five components post the model path like Blazor's InputText) (defect); e2e: contact upload, schedule filters (workflow) |
 | SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works | Fixed in 1.0.0-preview.4 | bUnit: RzSidebarProviderTests (persisted state from the request cookie) (defect) |
 | SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
-| SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
+| SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works | Fixed in 1.0.0-preview.4 | bUnit: LocalAssetPathTests (local URLs keep their hashes, overrides win) (defect); e2e: external-request guard (defect) |
 | SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Works | Fixed in 1.0.0-preview.4 | bUnit: no style attribute on the OTP input (defect); docs scan CSP build |
 | SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (posts its value while pressed) (defect) |
@@ -82,7 +82,7 @@ tracks how much application code exists only to compensate.
 | SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (status colors on their tint and behind their foreground) (defect); docs scan |
 | SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (the dropzone is named by its text) (defect) |
 | SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (items in a group are list items) (defect); axe on Summit's session pages |
-| SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Affected (early keypresses) | Open | None (tests wait for components) |
+| SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Works | Fixed in 1.0.0-preview.4 | node: lazyEvents.test.mjs (buffered and replayed once) (defect); RizzyUI integration: overlay-events.spec.ts (an open event at page load opens the dialog, rz:ready), both builds (defect) |
 | SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (Items and ItemsUrl with CommandItemTemplate), both builds (defect); e2e: site search (workflow) |
 | SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: server-error-toasts.spec.ts, both builds; JS unit tests (defect); e2e: dashboard failed panels request (workflow) |
 | SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works | Fixed in 1.0.0-preview.4 | template test: a clean `dotnet new rizzyui` build (defect) |
@@ -115,7 +115,7 @@ tracks how much application code exists only to compensate.
 | SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click on a menubar item), both builds (defect); e2e: schedule builder publish all (workflow) |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works | Fixed in 1.0.0-preview.4 | bUnit: RzInputSliderTests (model path, single value, data-invalid) (defect); e2e: schedule builder length (workflow) |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (minimum target size) (defect); e2e: settings API keys (axe) |
-| SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
+| SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works | Fixed in 1.0.0-preview.4 | node: the package's own tests run without the warning |
 | SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (culture mapping, locale file after flatpickr) (defect); e2e: culture S-12 (workflow) |
 | SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: sheet focus trap, both builds (defect); e2e: mobile S-16 (focus stays in the navigation sheet) |
 | SF-075 | RizzyUI | RzSidebar | Bug | Medium | `SidebarGroup` always renders `aria-labelledby` pointing at its label's id, also when the group has no `SidebarGroupLabel`: a reference to an element that does not exist (20 groups on every docs page) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (aria-labelledby only with a label) (defect); docs scan entry removed |
@@ -140,7 +140,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | Code | Lines | Compensates for | What a library fix replaces it with |
 |---|---|---|---|
 | `Infrastructure/StatusPages.cs` | ~35 C# | SF-020 | Rizzy disabling status pages for htmx redirects and partial requests |
-| `Infrastructure/SelfHostedAssets.cs`, `vendor.json`, `scripts/fetch-vendor.mjs` | ~90 C#/JS/JSON | SF-012 | A RizzyUI option to serve its widget libraries locally |
+| `vendor.json`, `scripts/fetch-vendor.mjs` (download the pinned files) | ~40 JS/JSON | SF-012 | Kept: the app chooses where the files come from; RizzyUI maps them with `LocalAssetPath` |
 | `Program.cs`: absolute `ClientScriptUrl`; `AppLayout`: `"/@Assets[...]"` | 3 | SF-017 | Absolute default URLs |
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
@@ -344,6 +344,7 @@ finding on its own.
   `AddRizzyUI` overrides `AssetUrls`.
 - **Library fix:** ship the files as static web assets with an option such as
   `config.UseLocalAssets = true`, or document the keys, versions and an override example.
+- **Fixed in 1.0.0-preview.4:** `RizzyUIConfig.LocalAssetPath` loads every default widget asset from `{path}/{package}@{version}/{file}` (jsDelivr's layout) with the same SRI hash, and `RizzyUIAssets.Vendor` lists each file (key, CDN URL, hash, local path) for a copy script; the getting-started page documents it. Summit's `SelfHostedAssets` post-configure is deleted: `Program.cs` sets `LocalAssetPath = "/lib"`, and `vendor.json` (still used by `npm run vendor` to download the files) uses the same layout.
 
 ### SF-013 RzInputOTP uses an inline style attribute (planning)
 
@@ -685,6 +686,7 @@ finding on its own.
 - **Library fix:** register `EventTriggerName` listeners from a tiny eager shim that opens the dialog
   once the chunk is ready (or queues the event), and expose a "components ready" promise or event
   (`rz:ready`) that tests and apps can wait for.
+- **Fixed in 1.0.0-preview.4:** RizzyUI keeps the last event for each `EventTriggerName` that no started component handled, and dialogs and sheets replay it when they start; `Rizzy.componentsReady()` resolves once the page's eager components have started, and the document gets `rz:ready`. Summit's test helper awaits `componentsReady()` instead of checking every element itself.
 
 ### SF-040 RzCommand's data-driven items never render
 
@@ -1194,6 +1196,7 @@ finding on its own.
 - **Observed working:** `mountCodeBehind` tests a TypeScript module bundled by esbuild, its window and
   bubbling events, and a module whose markup lives outside the component (teleported menu items).
   Summit's first three code-behind tests (`tests/codebehind/organizer.test.mjs`) run in CI.
+- **Fixed in 1.0.0-preview.4:** `src/js` and `testing` carry a `package.json` with `"type": "module"` (published with the package), so Node no longer warns MODULE_TYPELESS_PACKAGE_JSON or reparses the files.
 
 ### SF-073 Date pickers ignore the request culture
 

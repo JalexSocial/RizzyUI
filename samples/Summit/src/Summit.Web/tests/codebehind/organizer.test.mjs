@@ -71,26 +71,16 @@ test('AttendeeTableState ignores other tables and builds the bulk confirmation t
   destroy();
 });
 
-test('ScheduleBuilderPage copies menubar item state to the page (SF-067)', async () => {
+test('ScheduleBuilderPage applies the View menu through rz:menubar:checked-change (SF-067)', async () => {
   const { root, destroy } = await mountCodeBehind(scheduleBuilderPage, {
     attributes: { 'data-density': 'comfortable', 'data-drafts-only': 'false' },
   });
-  // The menu content is teleported, so the items live outside the component.
-  const item = document.createElement('div');
-  item.setAttribute('data-view-option', 'drafts-only');
-  item.setAttribute('aria-checked', 'true');
-  const compact = document.createElement('div');
-  compact.setAttribute('data-view-density', 'compact');
-  compact.setAttribute('aria-checked', 'true');
-  document.body.append(item, compact);
-
-  item.click();
-  compact.click();
-  await new Promise(resolve => queueMicrotask(resolve));
+  // RzMenubar dispatches the event on the menubar, inside the component (the menu content is teleported).
+  const send = (detail) => root.dispatchEvent(new CustomEvent('rz:menubar:checked-change', { bubbles: true, detail }));
+  send({ type: 'checkbox', value: 'drafts-only', checked: true, group: null });
+  send({ type: 'radio', value: 'compact', checked: true, group: 'density' });
 
   assert.equal(root.dataset.draftsOnly, 'true');
   assert.equal(root.dataset.density, 'compact');
-  item.remove();
-  compact.remove();
   destroy();
 });

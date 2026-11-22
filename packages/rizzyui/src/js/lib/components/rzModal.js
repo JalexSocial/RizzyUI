@@ -1,5 +1,6 @@
 import { createFocusScope } from '../../runtime/a11y/focusScope.js';
 import { createDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
+import { takeBufferedEvent } from '../../runtime/lazyEvents.js';
 
 export default function rzModal() {
     return {
@@ -33,6 +34,9 @@ export default function rzModal() {
             if (this.eventTriggerName) {
                 this._openListener = (e) => this.openModal(e);
                 window.addEventListener(this.eventTriggerName, this._openListener);
+                // SF-039: an open event sent before this dialog started.
+                const buffered = takeBufferedEvent(this.eventTriggerName);
+                if (buffered) this.$nextTick(() => this.openModal(new CustomEvent(this.eventTriggerName, { detail: buffered.detail })));
             }
 
             // D-29: one close event; with detail.id it closes only the dialog with that id.

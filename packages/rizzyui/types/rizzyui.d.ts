@@ -112,6 +112,12 @@ export interface RizzyGlobal {
     Alpine: any;
     /** Resolves when RizzyUI's runtime has started. */
     ready: Promise<RizzyGlobal>;
+    /**
+     * Resolves when the page's eager components have started (their code loaded and Alpine initialized
+     * them); `true`, or `false` after a 10 s timeout. The document also receives `rz:ready` the first time.
+     * Events a component's `EventTriggerName` listens for are kept until it starts (SF-039).
+     */
+    componentsReady(): Promise<boolean>;
     /** The props of the code-behind component that contains `element` (usually `this.$el`). */
     props<TProps = Record<string, any>>(element: Element): Readonly<TProps>;
     /** The Alpine data of the component whose root has the given id, or that contains the element. */

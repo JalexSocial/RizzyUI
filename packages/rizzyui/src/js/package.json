@@ -1,0 +1,4 @@
+{
+  "$comment": "RizzyUI's sources are ES modules (SF-072: without this, Node warns MODULE_TYPELESS_PACKAGE_JSON and reparses each file).",
+  "type": "module"
+}

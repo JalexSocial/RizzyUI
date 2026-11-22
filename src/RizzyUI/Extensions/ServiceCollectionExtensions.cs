@@ -113,8 +113,10 @@ public static class ServiceCollectionExtensions
             // with a different URL does not inherit the default hash).
             // flatpickr's locale files are keyed FlatpickrLocale.{file}; RzDateEdit loads the one the
             // request culture needs (SF-073).
-            foreach (var (key, url, integrity) in DefaultCdnAssets.Concat(FlatpickrLocales.CdnAssets))
+            // With LocalAssetPath, the same files load from the app's own site (SF-012), same hashes.
+            foreach (var (key, cdnUrl, integrity) in DefaultCdnAssets.Concat(FlatpickrLocales.CdnAssets))
             {
+                var url = string.IsNullOrWhiteSpace(config.LocalAssetPath) ? cdnUrl : RizzyUIAssets.LocalUrl(config.LocalAssetPath, cdnUrl);
                 config.AssetUrls.TryAdd(key, url);
                 config.AssetIntegrity.TryAdd(url, integrity);
             }
