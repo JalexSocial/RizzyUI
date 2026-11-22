@@ -1,12 +1,10 @@
-@attribute [RzAlpineCodeBehind]
 @*
     The badge form, with the last result above it. Posted with htmx when the six characters are complete
     (rz:inputotp:onchange) or on submit; the response replaces #checkin-form. After a check-in the form
-    comes back empty and focus returns to the badge input for the next person: RzInputOTP passes extra
-    attributes to its container, so autofocus cannot reach the input (SF-064) and the code-behind
-    focuses it.
+    comes back empty and focus returns to the badge input for the next person: autofocus on the input
+    (InputAttributes), which htmx honors after the swap.
 *@
-<RzAlpineComponent For="this" id="checkin-form" class="flex flex-col gap-4">
+<div id="checkin-form" class="flex flex-col gap-4">
     @if (Result is not null)
     {
         <CheckInResultCard Result="Result" />
@@ -21,8 +19,7 @@
                 <RzFocusFirstInvalid />
                 <Field>
                     <FieldLabel For="@(() => Model!.BadgeCode)" />
-                    @* Name set explicitly: RzInputOTP defaults to the bare property name (SF-009). *@
-                    <RzInputOTP For="@(() => Model!.BadgeCode)" Length="6" Autocomplete="off"
+                    <RzInputOTP For="@(() => Model!.BadgeCode)" Length="6" Autocomplete="off" InputAttributes="_badgeInputAttributes"
                                 OtpType="InputOtpType.Alphanumeric" TextTransform="InputOtpTextTransform.ToUpper">
                         <InputOTPGroup>
                             <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
@@ -42,7 +39,7 @@
             </EditForm>
         </CardContent>
     </RzCard>
-</RzAlpineComponent>
+</div>
 
 @code {
     [SupplyParameterFromForm(FormName = "Model")]
@@ -51,6 +48,9 @@
     [Parameter] public CheckInResult? Result { get; set; }
     /// <summary>Show an empty form (after a code was handled).</summary>
     [Parameter] public bool Reset { get; set; }
+
+    // SF-064: autofocus reaches the real input (htmx 4 honors it after the swap).
+    private static readonly Dictionary<string, object> _badgeInputAttributes = new() { ["autofocus"] = true };
 
     protected override void OnInitialized()
     {

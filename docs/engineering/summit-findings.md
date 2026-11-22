@@ -56,7 +56,7 @@ tracks how much application code exists only to compensate.
 | SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works (workaround) | Open | None |
 | SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works (designed around) | Open | e2e: unique-id check (defect) |
 | SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
-| SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Reported, not enforced | Open | CSP report-only annotations; docs scan (known-defect list) |
+| SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Works | Fixed in 1.0.0-preview.4 | bUnit: no style attribute on the OTP input (defect); docs scan CSP build |
 | SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works (designed around: the dashboard range uses RzCalendar, SF-057/SF-058) | Open | n/a |
 | SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (posts its value while pressed) (defect) |
 | SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works (workaround) | Open | e2e: quick actions, search palette (workflow) |
@@ -107,13 +107,13 @@ tracks how much application code exists only to compensate.
 | SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts (fixed-height parent), both builds (defect) |
 | SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
 | SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe; docs scan (known-defect list) |
-| SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
+| SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works | Fixed in 1.0.0-preview.4 | bUnit: InputAttributes reach the native input (defect); e2e: check-in badge field (workflow) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzAlertTests.TintedStatusAlerts_UseTheForegroundColorForContent (defect); e2e: check-in axe (workflow) |
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (checked-change on the menubar), both builds (defect); e2e: schedule builder view menu (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (no default name, AriaLabel) (defect); e2e: schedule builder finds the field by its label (workflow) |
 | SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click on a menubar item), both builds (defect); e2e: schedule builder publish all (workflow) |
-| SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
+| SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works | Fixed in 1.0.0-preview.4 | bUnit: RzInputSliderTests (model path, single value, data-invalid) (defect); e2e: schedule builder length (workflow) |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
 | SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (culture mapping, locale file after flatpickr) (defect); e2e: culture S-12 (workflow) |
@@ -155,9 +155,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
 | `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: hidden range inputs and `send()` | ~35 TS | SF-058 | A provider that is a form participant |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
-| `CheckIn/CheckInForm.razor.js` (focus the badge input) | ~5 JS | SF-064 | An input attribute or `AutoFocus` on RzInputOTP |
 | `role="img"` on indicators | 1 per use | SF-066 | Correct defaults |
-| `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
 
 ### Application-specific code (would exist anyway)
@@ -355,6 +353,7 @@ finding on its own.
 - **What:** the hidden input carries `style="position:absolute;…"`, which a `style-src` without
   `'unsafe-inline'` blocks.
 - **Library fix:** move the styling to a class.
+- **Fixed in 1.0.0-preview.4:** the hidden input is visually hidden with classes (`pointer-events-none absolute size-px opacity-0`) instead of an inline style.
 
 ### SF-014 RzDateEdit range mode cannot bind (planning)
 
@@ -1062,6 +1061,7 @@ finding on its own.
 - **Observed working:** `rz:inputotp:onchange` fires once the code is complete, after the hidden input
   holds the value, so `hx-trigger="submit, rz:inputotp:onchange"` on the form posts the full code with
   no script (open question from the plan, answered).
+- **Fixed in 1.0.0-preview.4:** `RzInputOTP` takes `InputAttributes` for the real input (`autofocus`, `autocapitalize`, `enterkeyhint`). Summit's `CheckInForm.razor.js` is replaced by `InputAttributes` with `autofocus`.
 
 ### SF-065 Content inside a colored alert is unreadable
 
@@ -1143,6 +1143,7 @@ finding on its own.
 - **Summit workaround:** the three parameters above and `AriaLabelledBy` pointing at a plain label.
 - **Library fix:** an `RzInputSlider` (or `For`/`Value` overloads for a single `double`/`int`) built on
   `InputBase`, like the other inputs.
+- **Fixed in 1.0.0-preview.4:** new `RzInputSlider<TValue>`: a single-value slider bound with `For` to any numeric property; it posts the model path with one value and marks `data-invalid` while the field has errors. Summit's `Name`/`UseIndexedNames`/`Value` array is replaced.
 
 ### SF-071 The copy button is too small to hit
 

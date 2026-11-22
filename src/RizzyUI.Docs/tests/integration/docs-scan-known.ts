@@ -33,7 +33,6 @@ export const knownDefects: KnownDefect[] = [
     pages: ['/', '/components/button-group', '/components/sidebar', '/components/calendar-more', '/components/calendar-provider'],
   },
   { finding: 'SF-063', kind: 'axe', rule: 'scrollable-region-focusable', target: /data-slot="table-container"/, pages: ['/components/table'] },
-  { finding: 'SF-013', kind: 'error', rule: 'csp', target: /^style-src-attr inline at \/components\/input-otp:/, pages: ['/components/input-otp'] },
   { finding: 'SF-035', kind: 'error', rule: 'csp', target: /^style-src-attr inline at \/:/, pages: ['/'] },
   {
     finding: 'SF-036', kind: 'axe', rule: 'color-contrast', target: /data-slot="(alert-title|badge-inner-span)"|text-(success|warning|info)|data-rz-toast-demo/,

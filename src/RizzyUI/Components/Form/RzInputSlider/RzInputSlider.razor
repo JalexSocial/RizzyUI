@@ -1,0 +1,16 @@
+@typeparam TValue
+@namespace RizzyUI
+@inherits InputBase<TValue, RzInputSliderSlots>
+
+<RzSlider data-slot="input-slider" @attributes="SliderAttributes"
+          Id="@Id"
+          Value="@(new[] { SliderValue })"
+          Name="@FieldName"
+          UseIndexedNames="false"
+          Min="@Min" Max="@Max" Step="@Step"
+          Disabled="@Disabled"
+          AriaLabel="@AriaLabel"
+          AriaLabelledBy="@AriaLabelledBy"
+          AriaDescribedBy="@AriaDescribedBy"
+          ValueFormat="@ValueFormat"
+          class="@SlotClasses.GetBase()" />

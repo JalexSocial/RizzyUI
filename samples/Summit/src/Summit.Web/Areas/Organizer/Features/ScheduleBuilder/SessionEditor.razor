@@ -38,9 +38,8 @@
 
             <Field>
                 <span id="session-length-label" class="text-sm font-medium">Length</span>
-                @* RzSlider is not an EditForm input: it takes a value array and a name, not For (SF-070). *@
-                <RzSlider Name="Model.LengthMinutes" UseIndexedNames="false" Value="@([Model!.LengthMinutes])" Min="15" Max="240" Step="15"
-                          AriaLabelledBy="session-length-label" ValueFormat="{0} min" />
+                <RzInputSlider For="@(() => Model!.LengthMinutes)" Min="15" Max="240" Step="15"
+                               AriaLabelledBy="session-length-label" ValueFormat="{0} min" />
                 <FieldDescription>@Model.LengthMinutes minutes now; 15 to 240 in steps of 15.</FieldDescription>
                 <FieldError><RzValidationMessageBase For="@(() => Model!.LengthMinutes)" /></FieldError>
             </Field>

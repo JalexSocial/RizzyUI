@@ -1874,6 +1874,7 @@ RizzyUI.RzInputOTP
   Element: System.String
   For: System.Linq.Expressions.Expression<System.Func<System.String>>
   Id: System.String
+  InputAttributes: System.Collections.Generic.Dictionary<System.String, System.Object>
   InputMode: System.String
   Invalid: System.Boolean?
   Length: System.Int32 [EditorRequired]
@@ -1883,6 +1884,24 @@ RizzyUI.RzInputOTP
   Required: System.Boolean
   TextTransform: RizzyUI.InputOtpTextTransform
   Value: System.String
+RizzyUI.RzInputSlider<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  AriaLabel: System.String
+  AriaLabelledBy: System.String
+  Classes: RizzyUI.RzInputSliderSlots
+  ConfigureClasses: System.Action<RizzyUI.RzInputSliderSlots>
+  Disabled: System.Boolean
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Max: System.Double
+  Min: System.Double
+  Step: System.Double
+  Value: TValue
+  ValueFormat: System.String
 RizzyUI.RzInputText
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   Classes: RizzyUI.RzInputText.Slots
@@ -3064,6 +3083,7 @@ RizzyUI.RzInputColor.SlotTypes: Base=0, Input=1, InputGroup=2, Thumbnail=3, Thum
 RizzyUI.RzInputGroup.SlotTypes: Base=0
 RizzyUI.RzInputNumberSlotTypes: Base=0
 RizzyUI.RzInputOTP.SlotTypes: Base=0, Input=1
+RizzyUI.RzInputSliderSlotTypes: Base=0
 RizzyUI.RzInputText.SlotTypes: Base=0
 RizzyUI.RzInputTextArea.SlotTypes: Base=0
 RizzyUI.RzItem.SlotTypes: Base=0

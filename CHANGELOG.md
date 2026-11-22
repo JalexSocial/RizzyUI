@@ -35,6 +35,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`rz:menubar:checked-change`** (Summit SF-067): menubar checkbox and radio items report changes with `{ type, value, checked, group }`, on the item and on the menubar element (the menu content is teleported). `MenubarCheckboxItem` gains `Value`. The events are declared in `rizzyui.d.ts`.
 - **`RzGetForm`** (Summit SF-028): a GET form for searches and filters that RizzyUI's inputs work in, without `EditForm`'s antiforgery token and `_handler` field in the query string.
 - **`RzFocusFirstInvalid`** (Summit SF-045): placed in a form, focuses the first invalid field when the form renders with validation errors (after a 422 swap), including composite controls.
+- **`RzInputSlider<TValue>`** (Summit SF-070): a single-value slider bound to a numeric model property with `For`, posting the model path like the other inputs.
+- **`RzInputOTP InputAttributes`** (Summit SF-064): attributes for the real input, such as `autofocus` (htmx 4 honors it after a swap).
 
 ### Changed
 
@@ -63,6 +65,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Starter template: error pages keep their status and leave htmx alone** (Summit SF-020). `UseStatusCodePagesWithReExecute("/not-found")` turned every empty 4xx into "Page not found" (404), swapped a whole error page into htmx partial targets and replaced htmx redirects from an expired session. The template's `UseStatusPages()` renders `/status/{code}` only for full-page requests without `HX-Redirect`.
 - **Starter template: a clean build with TypeScript code-behind** (Summit SF-042). The npm and Tailwind targets ran `BeforeTargets="Build"`, after the code-behind bundling that needs `node_modules`; they run before `BeforeBuild` now.
 - **A caller's `id` on `InputGroupInput` and `InputGroupTextarea` is kept** (decision D-26, Summit SF-033), so a hand-written `<label for>` reaches the input; radio items give their input an id.
+- **`RzInputOTP` works under a strict `style-src`** (Summit SF-013): its hidden input used an inline style.
 
 ## [1.0.0-preview.3] - 2026-11-20
 
