@@ -1,0 +1,45 @@
+@page "/_tests/chart"
+@layout HarnessLayout
+@* RzChart integration harness (Summit SF-005, SF-059, SF-061, SF-062): a bar chart in a fixed-height
+   parent with theme colors, a doughnut whose legend needs the chart type, and a region the specs
+   replace while a chart animates. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>Chart harness</PageTitle>
+
+<div class="space-y-8 p-6 max-w-3xl">
+    <h1 class="text-2xl font-semibold">Chart harness</h1>
+
+    <section id="fixed-parent" class="h-56 overflow-hidden rounded border">
+        <RzChart Id="chart-bar" AriaLabel="Sales per month" Configure=@(c => c
+            .Data(d => d
+                .Labels("Jan", "Feb", "Mar")
+                .Datasets(ds => ds
+                    .Bar()
+                    .Label("Sales")
+                    .Data(12, 19, 7)
+                    .BackgroundColors("var(--chart-1)")))
+            .Options(o => o.Responsive(true).MaintainAspectRatio(false))) />
+    </section>
+
+    <section id="auto-parent">
+        <RzChart Id="chart-doughnut" AriaLabel="Tickets by type" Configure=@(c => c
+            .Data(d => d
+                .Labels("Standard", "Student", "Workshop")
+                .Datasets(ds => ds
+                    .Doughnut()
+                    .Label("Tickets")
+                    .Data(300, 50, 100)
+                    .BackgroundColors("var(--chart-1)", "var(--chart-2)", "var(--chart-3)"))))  />
+    </section>
+
+    <section id="replace-region">
+        <RzChart Id="chart-replaced" AriaLabel="Check-ins" Configure=@(c => c
+            .Data(d => d
+                .Labels("Mon", "Tue", "Wed", "Thu")
+                .Datasets(ds => ds
+                    .Line()
+                    .Label("Check-ins")
+                    .Data(5, 9, 3, 11)
+                    .BorderColor("var(--chart-2)")))) />
+    </section>
+</div>

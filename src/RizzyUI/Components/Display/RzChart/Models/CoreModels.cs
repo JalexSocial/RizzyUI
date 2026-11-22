@@ -7,6 +7,13 @@ namespace RizzyUI.Charts;
 public class Chart
 {
     /// <summary>
+    /// Gets or sets the chart type (<c>bar</c>, <c>line</c>, <c>doughnut</c>, ...). Chart.js applies
+    /// the type's defaults (a doughnut's legend and tooltips, for example) from it. When not set,
+    /// <see cref="RzChart"/> uses the first dataset's type.
+    /// </summary>
+    public string? Type { get; set; }
+
+    /// <summary>
     /// Gets or sets the data object containing labels and datasets.
     /// </summary>
     public Data? Data { get; set; }

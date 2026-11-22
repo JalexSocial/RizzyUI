@@ -10,8 +10,6 @@
       code-behind forwards them;
     - SF-058: the provider keeps its dates in Alpine state only, so hidden inputs mirror them and the
       code-behind submits the form when a range is complete.
-    - SF-062 and SF-005: RzChart leaks or throws when its chart is replaced or the theme changes; the
-      code-behind destroys the Chart.js instances itself and reloads the charts on a theme change.
     Quick ranges set the provider's dates the same way (application behavior). The calendar is given the
     culture by hand: RzCalendar and RzDateEdit default to English, not the request culture (SF-073).
 *@

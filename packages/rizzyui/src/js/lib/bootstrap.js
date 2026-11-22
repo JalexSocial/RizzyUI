@@ -21,6 +21,7 @@ import { registerAsyncComponent } from '../runtime/asyncComponentRegistrar.js';
 import { installCodeBehindLoader } from '../runtime/codeBehindLoader.js';
 import { mergeIntoRizzyGlobal } from '../runtime/rizzyGlobal.js';
 import { installHtmxTeleportBridge } from '../runtime/htmxTeleportBridge.js';
+import { installAlpineOrphanCleanup } from '../runtime/alpineOrphanCleanup.js';
 
 let cachedRizzyUI;
 
@@ -89,6 +90,7 @@ export function bootstrapRizzyUI(Alpine) {
         window.Alpine = Alpine;
         window.Rizzy = mergeIntoRizzyGlobal(window.Rizzy, cachedRizzyUI);
         installHtmxTeleportBridge(window);
+        installAlpineOrphanCleanup(window, Alpine);
 
         document.dispatchEvent(new CustomEvent('rz:init', {
             detail: { Rizzy: window.Rizzy },

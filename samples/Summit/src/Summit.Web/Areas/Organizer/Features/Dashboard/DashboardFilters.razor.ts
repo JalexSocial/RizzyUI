@@ -12,24 +12,6 @@ function daysBefore(iso: string, offset: number): string {
   return date.toISOString().slice(0, 10);
 }
 
-/** SF-062: destroys the real Chart.js instances of the RzCharts in `region` and their theme listeners. */
-function destroyCharts(region: Element) {
-  const Alpine = window.Rizzy.Alpine;
-  region.querySelectorAll('[x-data="rzChart"]').forEach((element) => {
-    const data = Alpine.$data(element);
-    if (!data) return;
-    if (data.themeChangeHandler) {
-      window.removeEventListener('rz:theme-change', data.themeChangeHandler);
-      data.themeChangeHandler = null;
-    }
-    const chart = Alpine.raw(data.chartInstance);
-    if (chart) {
-      chart.destroy();
-      data.chartInstance = null;
-    }
-  });
-}
-
 const dashboardFilters: AlpineCodeBehind<Props> = () => ({
   init() {
     // SF-057: RzPopover teleports its content (and the calendar) to <body>, so the calendar's events
@@ -51,37 +33,11 @@ const dashboardFilters: AlpineCodeBehind<Props> = () => ({
       this.send(start, end);
     };
     this.$el.addEventListener('rz:calendar:range-complete', this.onRange);
-
-    // SF-062: RzChart keeps its Chart.js instance in Alpine's reactive state, so its own destroy() and
-    // update() run on a proxy: destroy() leaves the chart registered with Chart.js (later frames throw
-    // "reading 'save'") and update() on a theme change throws. Destroy the real instances before the
-    // charts region is swapped.
-    this.onBeforeSwap = (event: Event) => {
-      const text = (event as CustomEvent).detail?.ctx?.text;
-      const region = document.getElementById('dashboard-charts');
-      if (region && typeof text === 'string' && text.includes('id="dashboard-charts"')) destroyCharts(region);
-    };
-    document.addEventListener('htmx:before:swap', this.onBeforeSwap);
-
-    // SF-005 (and SF-062): RzChart does not re-read its CSS variable colors on a theme change. This
-    // listener is registered before any chart's, so it runs first: it destroys the charts (removing
-    // their listeners before they run) and loads the panels again under the new theme.
-    this.onTheme = () => {
-      const region = document.getElementById('dashboard-charts');
-      if (!region || !region.querySelector('[data-slot="chart"]')) return;
-      destroyCharts(region);
-      const form = this.$root.querySelector('form') as HTMLFormElement;
-      const query = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
-      window.htmx.ajax('GET', `/organizer/dashboard/panels?${query}`, { target: '#dashboard-charts', swap: 'outerHTML' });
-    };
-    window.addEventListener('rz:theme-change', this.onTheme);
   },
 
   destroy() {
     for (const name of CALENDAR_EVENTS) document.removeEventListener(name, this.forward);
     this.$el.removeEventListener('rz:calendar:range-complete', this.onRange);
-    window.removeEventListener('rz:theme-change', this.onTheme);
-    document.removeEventListener('htmx:before:swap', this.onBeforeSwap);
   },
 
   last7() { this.setRange(daysBefore(this.$props.Today, 6), this.$props.Today); },

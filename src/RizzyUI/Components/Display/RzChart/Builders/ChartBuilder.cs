@@ -33,6 +33,18 @@ public class ChartBuilder
         action(builder);
         return this;
     }
+
+    /// <summary>
+    /// Sets the chart type (<c>bar</c>, <c>line</c>, <c>doughnut</c>, ...). Optional: without it the
+    /// first dataset's type is used. Set it for mixed charts whose first dataset is not the base type.
+    /// </summary>
+    /// <param name="type">The Chart.js chart type.</param>
+    /// <returns>The current <see cref="ChartBuilder"/> instance.</returns>
+    public ChartBuilder Type(string type)
+    {
+        Chart.Type = type;
+        return this;
+    }
 }
 
 /// <summary>

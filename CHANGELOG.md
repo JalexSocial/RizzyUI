@@ -18,11 +18,22 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Added
+
+- **`ChartBuilder.Type(...)`** sets a chart's type; without it `RzChart` uses the first dataset's type (Summit SF-059).
+
+### Changed
+
+- **`RzChart` sizing** (Summit SF-061): the chart fills the height of a parent that has one instead of overflowing it, and is 2:1 (width to height) in a parent without a height; the fixed `min-h-[300px]` is gone. Set a height class on the chart or its parent for another size.
+
 ### Fixed
 
 - **A sheet opened from its trigger takes focus and traps Tab** (Summit SF-074). `RzSheet` activated its
   focus scope before the panel was visible, so focus stayed on the trigger behind the overlay and Tab
   walked the page. Sheets opened with `DefaultOpen` were not affected.
+- **Charts survive theme changes and replacement** (Summit SF-062, SF-005). `RzChart` kept its Chart.js instance in Alpine's reactive state, so toggling dark mode threw and a replaced chart stayed registered with Chart.js. The instance now lives outside Alpine, and CSS-variable colors are resolved again on `rz:theme-change`.
+- **A doughnut or pie chart lists each slice in its legend** (Summit SF-059): the chart type now reaches Chart.js.
+- **Components inside a removed wrapper are destroyed.** Alpine only cleans up removed elements it initialized, so components inside a plain element that was removed (an htmx swap of a region) never ran `destroy()` and kept their listeners and third-party instances. RizzyUI now destroys those trees.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

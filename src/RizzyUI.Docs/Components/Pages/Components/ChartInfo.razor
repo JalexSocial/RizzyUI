@@ -80,6 +80,26 @@
     )) /&gt;
                 </RzCodeViewer>
             </section>
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Size, type and theme" class="scroll-mt-20">Size, type and theme</RzHeading>
+                <RzParagraph>
+                    A chart fills the height of its parent when the parent has one (<code>h-64</code>, a grid cell,
+                    a card with a fixed height), so it never grows past it. In a parent without a height it is half as
+                    tall as it is wide, Chart.js's default 2:1 ratio. Override the slots to change either, for example
+                    <code>class="h-80"</code> on the chart.
+                </RzParagraph>
+                <RzParagraph>
+                    The chart's type comes from its first dataset (<code>.Doughnut()</code>, <code>.Bar()</code>, ...), so
+                    Chart.js applies that type's defaults, such as a doughnut legend with one entry per slice. For a
+                    mixed chart whose first dataset is not the base type, set it with <code>.Type("bar")</code> on the
+                    builder.
+                </RzParagraph>
+                <RzParagraph>
+                    Colors given as CSS variables (<code>var(--chart-1)</code>) are resolved again when the theme changes,
+                    so a chart follows dark mode without being re-rendered. A chart removed from the page, for example by
+                    an htmx swap, destroys its Chart.js instance.
+                </RzParagraph>
+            </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>

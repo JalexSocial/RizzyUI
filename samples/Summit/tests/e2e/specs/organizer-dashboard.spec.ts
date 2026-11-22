@@ -130,9 +130,8 @@ test('charts follow the dark mode toggle', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
   await openDashboard(page);
   const tickColor = () => page.evaluate(() => {
-    const element = document.querySelector('#chart-daily [x-data="rzChart"]');
-    const Alpine = (window as any).Rizzy.Alpine;
-    const chart = element ? Alpine.raw(Alpine.$data(element).chartInstance) : null;
+    const canvas = document.querySelector('#chart-daily canvas');
+    const chart = canvas ? (window as any).Chart?.getChart(canvas) : null;
     return chart ? String(chart.options.scales.y.ticks.color) : null;
   });
   await expect.poll(tickColor).not.toBeNull();

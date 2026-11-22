@@ -48,7 +48,7 @@ tracks how much application code exists only to compensate.
 | SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet, attendees S-03 (workflow) |
 | SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works (own `CloseEventName`) | Open (decided: D-29) | e2e: attendees S-04 (workflow) |
 | SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open (decided: D-29) | n/a |
-| SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Works (workaround: charts reloaded on theme change) | Open | e2e: dashboard dark mode (workflow) |
+| SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
 | SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
 | SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
@@ -102,10 +102,10 @@ tracks how much application code exists only to compensate.
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
 | SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works (workaround: event forwarding) | Open | e2e: dashboard calendar range (workflow) |
 | SF-058 | RizzyUI | RzCalendarProvider | Gap | Medium | The provider is not a form participant: no `Name`, no hidden inputs, no `change` event; a range filter needs hidden inputs, bindings and script to submit | Works (workaround: hidden inputs + `send()`) | Open (decided: D-32) | e2e: dashboard calendar range, quick ranges |
-| SF-059 | RizzyUI | RzChart | Bug | Medium | The chart config has no top-level `type` (only per-dataset types), so Chart.js uses no chart-type defaults: a doughnut's legend shows the dataset label instead of one entry per slice | Works (workaround: HTML legend) | Open | e2e: dashboard panels (legend items not asserted) |
+| SF-059 | RizzyUI | RzChart | Bug | Medium | The chart config has no top-level `type` (only per-dataset types), so Chart.js uses no chart-type defaults: a doughnut's legend shows the dataset label instead of one entry per slice | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts (doughnut legend), both builds (defect) |
 | SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works (workaround: whole numbers) | Open | e2e: culture S-12 (German grouping, whole euros) |
-| SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works (workaround: `class="h-full"`, parents of at least 300 px) | Open | Manual (sizes checked in the browser) |
-| SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works (workaround: destroy the raw instance, reload on theme change) | Open | e2e: dashboard dark mode, quick ranges (no page errors) |
+| SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts (fixed-height parent), both builds (defect) |
+| SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
 | SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe; docs scan (known-defect list) |
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works (workaround: `text-foreground` on the content) | Open | e2e: check-in S-05 (axe) |
@@ -159,8 +159,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `AttendeeTable.razor`: `aria-labelledby` on sort toggles | 3 | SF-053 | Sort toggles named after their column |
 | `Components/Shared/SummitClasses.cs` (`TextArea`), one attribute per text area | ~15 C# | SF-052 | Styled `RzInputTextArea` |
 | `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
-| `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: calendar event forwarding, hidden range inputs and `send()`, raw chart teardown and reload on theme change | ~75 TS | SF-057, SF-058, SF-062, SF-005 | A calendar that finds its provider, a form-aware provider, a proxy-free RzChart that re-reads colors |
-| `DashboardCharts.razor`: HTML legend for the doughnut; `class="h-full"` on charts | ~12 Razor | SF-059, SF-061 | Chart type in the config; a chart that fills its parent |
+| `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: calendar event forwarding, hidden range inputs and `send()` | ~45 TS | SF-057, SF-058 | A calendar that finds its provider; a provider that is a form participant |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | Money tickers in whole euros | 2 | SF-060 | Invariant `data-value` |
 | `CheckIn/CheckInForm.razor.js` (focus the badge input) | ~5 JS | SF-064 | An input attribute or `AutoFocus` on RzInputOTP |
@@ -292,6 +291,7 @@ finding on its own.
   `rz:theme-change`, so the colors are resolved under the new theme.
 - **Library fix:** keep the unresolved config and re-resolve it in the theme-change handler before
   `update()`.
+- **Fixed in 1.0.0-preview.4:** the theme-change handler rebuilds the configuration from its unresolved source and applies the re-resolved options and dataset colors (`update('none')`).
 
 ### SF-006 Server toasts are dropped outside htmx requests (planning)
 
@@ -974,6 +974,7 @@ finding on its own.
   with `bg-chart-N` swatches and counts), which is also easier to read and to translate.
 - **Library fix:** set `type` from the first dataset (or add `ChartBuilder.Type(...)`); add a doughnut
   example with its legend to the docs tests.
+- **Fixed in 1.0.0-preview.4:** RzChart sets the config's `type` from the first dataset (C# and JS), and `ChartBuilder.Type(...)` sets it explicitly. Summit keeps its HTML legend as a design choice.
 
 ### SF-060 Decimal tickers show zero in German
 
@@ -997,6 +998,7 @@ finding on its own.
   covered the card below. The docs examples set a height on a wrapper but not on the chart.
 - **Summit workaround:** `class="h-full"` on each `RzChart`, inside wrappers of 256 or 320 px.
 - **Library fix:** `h-full` on the base slot, and drop the fixed `min-h` (or document it).
+- **Fixed in 1.0.0-preview.4:** the base slot is `h-full w-full` and the container `relative aspect-[2/1] h-full w-full`: a chart fills a parent with a height and is 2:1 without one. Summit's `class="h-full"` on charts is deleted.
 
 ### SF-062 Charts throw on a theme change and when replaced
 
@@ -1017,6 +1019,7 @@ finding on its own.
   `Alpine.raw(this.chartInstance)` everywhere. Re-resolve colors on theme change at the same time (SF-005).
 - **Regression test (library):** a docs-page browser test that toggles the theme and replaces a chart
   with no page errors.
+- **Fixed in 1.0.0-preview.4:** RzChart keeps the Chart.js instance in a closure, outside Alpine's reactive data. The replacement case also needed a runtime fix: Alpine cleans up only removed elements it marked, so components inside a removed plain wrapper (an htmx-swapped region, or RzChart's own root) were never destroyed; `alpineOrphanCleanup.js` runs `Alpine.destroyTree` on those. Summit's `destroyCharts` and its swap and theme listeners are deleted.
 
 ### SF-063 A scrolling table is not keyboard accessible
 
