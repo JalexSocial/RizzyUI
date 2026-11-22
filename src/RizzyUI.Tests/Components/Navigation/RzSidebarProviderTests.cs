@@ -35,6 +35,22 @@ public class RzSidebarProviderTests : BunitAlbaContext, IClassFixture<WebAppFixt
         Assert.Equal("icon", root.GetAttribute("data-collapsible"));
     }
 
+    [Theory]
+    [InlineData("false", true, "false")]
+    [InlineData("true", false, "true")]
+    [InlineData("not-a-bool", false, "false")]
+    public void RzSidebarProvider_RendersThePersistedStateFromTheRequestCookie(string cookie, bool defaultOpen, string expected)
+    {
+        // Summit SF-010: the server renders the state the browser persisted, so a collapsed sidebar does not flash open.
+        var context = new Microsoft.AspNetCore.Http.DefaultHttpContext();
+        context.Request.Headers.Cookie = $"sidebar_state={cookie}";
+        var cut = Render<Microsoft.AspNetCore.Components.CascadingValue<Microsoft.AspNetCore.Http.HttpContext>>(p => p
+            .Add(x => x.Value, context)
+            .AddChildContent<RzSidebarProvider>(s => s.Add(x => x.DefaultOpen, defaultOpen).AddChildContent("Body")));
+
+        Assert.Equal(expected, cut.Find("[data-slot='sidebar-wrapper']").GetAttribute("data-default-open"));
+    }
+
     [Fact]
     public void RzSidebarProvider_InlineCssVariablesReflectWidths()
     {

@@ -19,6 +19,7 @@ public partial class RzDataTable<TItem> : RzComponent<RzDataTableSlots>, IHasRzD
     };
 
     private string _configJson = "{}";
+    private string? _stateJson;
     private string _assets = "[]";
 
     /// <summary>
@@ -51,6 +52,25 @@ public partial class RzDataTable<TItem> : RzComponent<RzDataTableSlots>, IHasRzD
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
+    /// Gets or sets the name of a hidden input that holds the table's state (sorting, page, filters,
+    /// column visibility) as versioned JSON, kept in step with the table (decision D-31, Summit SF-001).
+    /// Include it in requests (<c>hx-include="#{Id}-state"</c>), bind it as <see cref="RzDataTableState"/>,
+    /// and rebuild the table from <see cref="RzDataTableState.ToInitialState"/>. <c>null</c> renders no input.
+    /// </summary>
+    [Parameter]
+    public string? StateInputName { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the state input includes the row selection (row ids can be many, so it is
+    /// opt-in).
+    /// </summary>
+    [Parameter]
+    public bool IncludeSelectionInState { get; set; }
+
+    /// <summary>The id of the state input: <c>{Id}-state</c>.</summary>
+    protected string StateInputId => $"{Id}-state";
+
+    /// <summary>
     /// Gets the inert JSON script id consumed by the Alpine runtime.
     /// </summary>
     protected string ConfigScriptId => $"{Id}-config";
@@ -72,6 +92,9 @@ public partial class RzDataTable<TItem> : RzComponent<RzDataTableSlots>, IHasRzD
 
         var transport = RzDataTableTransportBuilder.Build(Items, normalizedConfig, RowIdSelector);
         _configJson = JsonSerializer.Serialize(transport, _jsonOptions);
+        _stateJson = string.IsNullOrWhiteSpace(StateInputName)
+            ? null
+            : RzDataTableState.From(Config.InitialState, IncludeSelectionInState).ToJson();
 
         _assets = JsonSerializer.Serialize(Array.Empty<string>(), _jsonOptions);
     }

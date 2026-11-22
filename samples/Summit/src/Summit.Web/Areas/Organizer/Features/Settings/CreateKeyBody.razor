@@ -15,15 +15,14 @@
                 <input id="new-key-secret" readonly value="@Secret" aria-label="New API key secret"
                        class="flex-1 rounded-none border-0 bg-transparent px-3 font-mono text-sm shadow-none outline-none" />
                 <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
-                    @* size-8: RzClipboard is as small as its content (14 px), under the 24 px target size (SF-071). *@
-                    <RzClipboard TargetSelector="#new-key-secret" AriaLabel="Copy the API key secret" class="hover:bg-accent size-8 rounded-md">
+                    <RzClipboard TargetSelector="#new-key-secret" AriaLabel="Copy the API key secret" class="hover:bg-accent rounded-md">
                         <Blazicon Svg="Lucide.Copy" class="size-4" />
                     </RzClipboard>
                 </InputGroupAddon>
             </RzInputGroup>
             <RzCodeViewer Language="@CodeLanguage.Bash" ViewerTitle="Try it" Source="@Curl" />
             <div class="flex justify-end">
-                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('settings:create-key-close')">Done</RzButton>
+                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('rz:dialog-close', { id: 'create-key-dialog' })">Done</RzButton>
             </div>
         </div>
     }
@@ -33,7 +32,7 @@
                   hx-post="/organizer/settings/api-keys" hx-target="#create-key-body" hx-swap="outerHTML"
                   hx-disabled-elt="find button[type=submit]">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
             <Field>
                 <FieldLabel For="@(() => Key!.Name)" />
                 <RzInputText For="@(() => Key!.Name)" placeholder="Badge printer" autocomplete="off" />
@@ -41,7 +40,7 @@
             </Field>
             <Field>
                 <FieldLabel For="@(() => Key!.Scopes)" />
-                <RzCheckboxGroup For="@(() => Key!.Scopes)" Name="Key.Scopes" DisplayName="Scopes" class="flex flex-col gap-2">
+                <RzCheckboxGroup For="@(() => Key!.Scopes)" DisplayName="Scopes" class="flex flex-col gap-2">
                     @foreach (var (value, description) in CreateKeyModel.KnownScopes)
                     {
                         <RzCheckboxGroupItem TValue="string" Value="@value">
@@ -52,7 +51,7 @@
                 <FieldError><RzValidationMessageBase For="@(() => Key!.Scopes)" /></FieldError>
             </Field>
             <div class="flex justify-end gap-3">
-                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('settings:create-key-close')">Cancel</RzButton>
+                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('rz:dialog-close', { id: 'create-key-dialog' })">Cancel</RzButton>
                 <RzButton type="submit" Variant="ThemeVariant.Primary">Create key</RzButton>
             </div>
         </EditForm>

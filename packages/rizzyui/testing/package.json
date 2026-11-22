@@ -1,0 +1,4 @@
+{
+  "$comment": "The testing helper is an ES module (SF-072).",
+  "type": "module"
+}

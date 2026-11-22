@@ -147,6 +147,36 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     /// <inheritdoc/>
     protected override string DefaultElement => "button";
 
+    /// <summary>
+    /// Gets or sets whether the button renders its single child (for example an <c>&lt;a href&gt;</c>)
+    /// instead of a <c>&lt;button&gt;</c>, with the button's classes, <c>data-slot</c>, accessible name
+    /// and other attributes merged into it. The child's own attributes win; classes are merged.
+    /// </summary>
+    [Parameter] public bool AsChild { get; set; }
+
+    /// <summary>Renders the child through <see cref="AsChildHost"/>.</summary>
+    private RenderFragment RenderAsChild() => builder =>
+    {
+        builder.OpenComponent<AsChildHost>(0);
+        builder.AddComponentParameter(1, nameof(AsChildHost.Content), ChildContent);
+        builder.AddComponentParameter(2, nameof(AsChildHost.Attributes), GetAsChildAttributes());
+        builder.CloseComponent();
+    };
+
+    /// <summary>The attributes <see cref="AsChild"/> merges into the child.</summary>
+    private Dictionary<string, object?> GetAsChildAttributes()
+    {
+        if (ChildContent is null)
+            throw new InvalidOperationException($"{nameof(RzButton)}: AsChild requires ChildContent with exactly one root element.");
+
+        var attributes = CopyAdditionalAttributes();
+        attributes["data-slot"] = "button";
+        attributes["class"] = SlotClasses.GetBase();
+        if (!string.IsNullOrWhiteSpace(EffectiveAssistiveLabel))
+            attributes["aria-label"] = EffectiveAssistiveLabel;
+        return attributes;
+    }
+
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzButton;
 

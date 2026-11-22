@@ -1,9 +1,9 @@
 @*
-    The attendee editor: an RzSheet that is open as soon as it is swapped into #attendee-editor, and is
-    removed (not closed) by the out-of-band swap that follows a save. RzSheet has no server-driven
-    open/close, so DefaultOpen plus removal is the pattern (SF-002).
+    The attendee editor: an RzSheet that is open as soon as it is swapped into #attendee-editor (content
+    loaded on demand renders open), and closed by the server after a save with
+    HX-Trigger: {"rz:sheet-close": {"id": "attendee-sheet"}} (D-29).
 *@
-<RzSheet DefaultOpen="true">
+<RzSheet Id="@SheetId" DefaultOpen="true">
     <SheetContent Side="SheetSide.Right" class="w-full overflow-y-auto sm:max-w-md">
         <SheetHeader>
             <SheetTitle>Edit attendee</SheetTitle>
@@ -16,6 +16,8 @@
 </RzSheet>
 
 @code {
+    public const string SheetId = "attendee-sheet";
+
     [Parameter, EditorRequired] public int AttendeeId { get; set; }
     [Parameter] public AttendeeEditModel? Initial { get; set; }
     [Parameter, EditorRequired] public IReadOnlyList<TicketType> TicketTypes { get; set; } = [];

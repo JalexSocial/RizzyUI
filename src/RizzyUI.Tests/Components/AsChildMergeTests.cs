@@ -56,12 +56,13 @@ public class AsChildMergeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void ElementAndMarkupChild_KeepTheirOwnValuesForConflictingAttributes()
     {
-        // The markup path joined conflicting values with a space: id="from-component mine",
-        // x-data="componentData childData".
+        // The markup path joined conflicting values with a space: id="from-component mine". (A child
+        // with its own x-data now throws, D-25: AsChildRulesTests.)
         var attributes = new Dictionary<string, object?>
         {
             ["id"] = "from-component",
             ["x-data"] = "componentData",
+            ["title"] = "From component",
             ["aria-label"] = "From component",
             ["x-load"] = "eager",
         };
@@ -69,11 +70,11 @@ public class AsChildMergeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         {
             b.OpenElement(0, "div");
             b.AddAttribute(1, "id", "mine");
-            b.AddAttribute(2, "x-data", "childData");
+            b.AddAttribute(2, "title", "From child");
             b.AddAttribute(3, "aria-label", "From child");
             b.CloseElement();
         };
-        RenderFragment markupChild = b => b.AddMarkupContent(0, "<div id=\"mine\" x-data='childData' aria-label=\"From child\"></div>");
+        RenderFragment markupChild = b => b.AddMarkupContent(0, "<div id=\"mine\" title='From child' aria-label=\"From child\"></div>");
 
         foreach (var child in new[] { elementChild, markupChild })
         {
@@ -82,7 +83,8 @@ public class AsChildMergeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
                 .Add(x => x.Attributes, attributes)).Find("div");
 
             Assert.Equal("mine", div.GetAttribute("id"));
-            Assert.Equal("childData", div.GetAttribute("x-data"));
+            Assert.Equal("componentData", div.GetAttribute("x-data"));
+            Assert.Equal("From child", div.GetAttribute("title"));
             Assert.Equal("From child", div.GetAttribute("aria-label"));
             Assert.Equal("eager", div.GetAttribute("x-load"));
         }

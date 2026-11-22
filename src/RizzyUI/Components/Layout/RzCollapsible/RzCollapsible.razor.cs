@@ -9,12 +9,12 @@ namespace RizzyUI;
 /// allowing child <see cref="CollapsibleTrigger"/> and <see cref="CollapsibleContent"/>
 /// components to coordinate their behavior.
 /// </summary>
-public partial class RzCollapsible : RzComponent<RzCollapsible.Slots>
+public partial class RzCollapsible : RzAsChildComponent<RzCollapsible.Slots>
 {
     /// <summary>
     /// Defines the default styling for the RzCollapsible component.
     /// </summary>
-    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "group/collapsible"
     );
 
@@ -33,7 +33,28 @@ public partial class RzCollapsible : RzComponent<RzCollapsible.Slots>
     public bool DefaultOpen { get; set; }
 
     /// <inheritdoc/>
-    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCollapsible;
+    protected override RenderFragment? GetAsChildContent() => ChildContent;
+
+    /// <summary>
+    /// The root attributes. With <c>AsChild</c> they go on the child, so a collapsible can be a
+    /// <c>SidebarMenuItem</c> (an <c>li</c>) instead of a <c>div</c> between the list and its item
+    /// (Summit SF-080).
+    /// </summary>
+    protected override Dictionary<string, object?> GetComponentAttributes() =>
+        new(CopyAdditionalAttributes(), StringComparer.OrdinalIgnoreCase)
+        {
+            ["data-slot"] = "collapsible",
+            ["id"] = Id,
+            ["class"] = SlotClasses.GetBase(),
+            ["x-data"] = "rzCollapsible",
+            ["x-load"] = LoadStrategyOrNull,
+            ["data-alpine-root"] = Id,
+            ["data-default-open"] = DefaultOpen.ToString().ToLowerInvariant(),
+            ["x-bind:data-state"] = "state",
+        };
+
+    /// <inheritdoc/>
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.RzCollapsible;
 
     /// <summary>
     /// Defines the slots available for styling in the RzCollapsible component.

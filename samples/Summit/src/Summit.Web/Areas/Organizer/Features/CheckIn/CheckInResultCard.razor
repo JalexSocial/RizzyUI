@@ -1,15 +1,13 @@
 @using System.Globalization
 @*
     The result of the last code. Success is a status (announced politely); an already used or cancelled
-    badge is an alert (announced at once), because the person at the door must react. The item sets
-    text-foreground: RzAlert's colored variants give their content the variant's *-foreground color,
-    made for a solid fill, on a 10% tint, which is unreadable (SF-065).
+    badge is an alert (announced at once), because the person at the door must react.
 *@
 <RzAlert Variant="Variant" LiveRegionMode="@(Result.Outcome == CheckInOutcome.CheckedIn ? RzAlertLiveRegionMode.Status : RzAlertLiveRegionMode.Alert)"
          data-checkin-result="@Result.Outcome">
     <AlertTitle>@Title</AlertTitle>
     <AlertDescription>
-        <RzItem Size="Size.Small" class="text-foreground mt-2 px-0 py-0">
+        <RzItem Size="Size.Small" class="mt-2 px-0 py-0">
             <ItemMedia>
                 <RzAvatar Size="Size.Medium" AriaLabel="@Result.Name"><AvatarFallback>@Result.Initials</AvatarFallback></RzAvatar>
             </ItemMedia>

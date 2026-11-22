@@ -1,8 +1,8 @@
 @using System.Globalization
 @* The key table (replaced out of band after a create or a revoke). Each active key has a revoke
-   confirmation of its own, closed by the server with a named event (SF-003). *@
+   confirmation of its own, closed by the server with rz:dialog-close and its id (D-29). *@
 <div id="api-keys-table">
-    <RzTable tabindex="0" role="region" aria-label="API keys table">
+    <RzTable AriaLabel="API keys table">
         <TableCaption class="sr-only">API keys</TableCaption>
         <TableHeader>
             <TableRow>
@@ -46,7 +46,7 @@
                                 </TooltipTrigger>
                                 <TooltipContent>Revoke this key</TooltipContent>
                             </RzTooltip>
-                            <RzAlertDialog EventTriggerName="@($"settings:revoke-{key.Id}")" CloseEventName="settings:revoke-close" CloseOnEscape>
+                            <RzAlertDialog Id="@($"revoke-{key.Id}")" EventTriggerName="@($"settings:revoke-{key.Id}")" CloseOnEscape>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>Revoke &ldquo;@key.Name&rdquo;?</AlertDialogTitle>

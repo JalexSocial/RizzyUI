@@ -1,6 +1,19 @@
 
 export default function rzCalendarProvider() {
+    // The provider's own element. A calendar inside the provider reaches it through Alpine's scope
+    // (rzCalendarProviderElement below), also when the calendar is teleported out of the provider's
+    // DOM subtree, for example into a popover (Summit SF-057).
+    let providerElement = null;
+
     return {
+        /**
+         * The provider's element, for a calendar in its scope to dispatch its events on.
+         * @returns {HTMLElement|null}
+         */
+        rzCalendarProviderElement() {
+            return providerElement;
+        },
+
         // --- Public State ---
         mode: 'single', 
         dates: [], // Canonical state: Flat array of ISO strings ['YYYY-MM-DD', ...], always sorted/unique
@@ -55,6 +68,7 @@ export default function rzCalendarProvider() {
 
         // --- Lifecycle ---
         init() {
+            providerElement = this.$el;
             this.mode = this.$el.dataset.mode || 'single';
             this.locale = this.$el.dataset.locale || 'en-US';
             try { this.formatOptions = JSON.parse(this.$el.dataset.formatOptions || '{}'); } catch(e) {}
@@ -89,12 +103,26 @@ export default function rzCalendarProvider() {
 
                 // Dispatch event only if we transitioned to complete state or are actively refining
                 // Dispatched from $el to ensure consistent bubbling from provider root
+                this.syncInputs(true);
+
                 if (!wasComplete && this.isRangeComplete) {
+                    const detail = { start: this.dates[0], end: this.dates[this.dates.length - 1] };
                     this.$el.dispatchEvent(new CustomEvent('rz:calendar:range-complete', {
-                        detail: { start: this.dates[0], end: this.dates[this.dates.length - 1] },
+                        detail,
                         bubbles: true,
                         composed: true
                     }));
+
+                    // A calendar teleported out of the provider (into a popover) also gets the event,
+                    // so markup around it, such as the popover content, can react (SF-057).
+                    const source = e.rzCalendarSource;
+                    if (source && source.isConnected && !this.$el.contains(source)) {
+                        source.dispatchEvent(new CustomEvent('rz:calendar:range-complete', {
+                            detail,
+                            bubbles: true,
+                            composed: true
+                        }));
+                    }
                 }
                 
                 this.$nextTick(() => this._isUpdatingFromCalendar = false);
@@ -120,6 +148,7 @@ export default function rzCalendarProvider() {
                     return;
                 }
                 this.syncToCalendar();
+                this.syncInputs(true);
             });
         },
 
@@ -128,8 +157,44 @@ export default function rzCalendarProvider() {
          * @returns {any} Returns the result of `destroy` when applicable.
          */
         destroy() {
+            providerElement = null;
             this._handlers.forEach(h => this.$el.removeEventListener(h.type, h.fn));
             this._handlers = [];
+        },
+
+        /**
+         * Writes the dates into the provider's form fields (Name, or StartName/EndName for ranges) and,
+         * with `notify`, dispatches a bubbling `change` once the value is complete, so a form or
+         * `hx-trigger="change"` reacts without script (decision D-32, Summit SF-058).
+         * @param {boolean} notify Whether to dispatch `change`.
+         */
+        syncInputs(notify) {
+            const { name, startName, endName } = this.$el.dataset;
+            if (!name && !startName && !endName) return;
+
+            this.$el.querySelectorAll(':scope > input[data-calendar-input]').forEach((input) => input.remove());
+            const add = (fieldName, value) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = fieldName;
+                input.value = value || '';
+                input.setAttribute('data-calendar-input', '');
+                this.$el.prepend(input);
+            };
+
+            let complete = true;
+            if (this.mode === 'multiple-ranged') {
+                if (endName) add(endName, this.dates.length > 1 ? this.endDate : '');
+                if (startName) add(startName, this.startDate);
+                complete = this.dates.length === 0 || this.dates.length >= 2;
+            } else if (name) {
+                const values = this.mode === 'multiple' ? [...this.dates].reverse() : [this.dates[0] || ''];
+                values.forEach((value) => add(name, value));
+            }
+
+            if (notify && complete) {
+                this.$el.dispatchEvent(new Event('change', { bubbles: true }));
+            }
         },
 
         /**

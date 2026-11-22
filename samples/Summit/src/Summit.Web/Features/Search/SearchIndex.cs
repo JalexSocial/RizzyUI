@@ -7,14 +7,18 @@ namespace Summit.Web.Features.Search;
 
 /// <summary>
 /// One result in the search palette. The shape RzCommand expects from ItemsUrl (value, name, group,
-/// keywords), plus a description the item template shows. The value is the page to open.
+/// keywords, href), plus a description the item template shows. The value is the page; href makes RzCommand open it.
 /// </summary>
 public sealed record SearchItem(
     [property: JsonPropertyName("value")] string Value,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("group")] string Group,
     [property: JsonPropertyName("description")] string Description,
-    [property: JsonPropertyName("keywords")] string[] Keywords);
+    [property: JsonPropertyName("keywords")] string[] Keywords)
+{
+    /// <summary>The page to open when the item is chosen.</summary>
+    [JsonPropertyName("href")] public string Href => Value;
+}
 
 public sealed class SearchIndex(SummitDbContext db)
 {

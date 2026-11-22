@@ -37,6 +37,13 @@ public partial class MenubarCheckboxItem : RzComponent<MenubarCheckboxItem.Slots
     [Parameter]
     public bool Checked { get; set; }
 
+    /// <summary>
+    /// Gets or sets the value reported in the <c>rz:menubar:checked-change</c> event's <c>value</c>
+    /// (the item's text when not set).
+    /// </summary>
+    [Parameter]
+    public string? Value { get; set; }
+
     /// <inheritdoc/>
     protected override string DefaultElement => "button";
 

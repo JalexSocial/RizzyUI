@@ -83,6 +83,26 @@ export interface RzModuleErrorDetail {
     error: unknown;
 }
 
+/** Detail of `rz:toggle:change`, dispatched by `RzToggle` when its pressed state changes. */
+export interface RzToggleChangeDetail {
+    pressed: boolean;
+    /** The toggle's `Value`, or null. */
+    value: string | null;
+}
+
+/**
+ * Detail of `rz:menubar:checked-change`, dispatched by `MenubarCheckboxItem` and `MenubarRadioItem`
+ * on the item and on the menubar element.
+ */
+export interface RzMenubarCheckedChangeDetail {
+    type: 'checkbox' | 'radio';
+    /** The item's `Value` (its text when not set). */
+    value: string;
+    checked: boolean;
+    /** The radio group's `Name`; null for checkbox items. */
+    group: string | null;
+}
+
 /** An asset for `Rizzy.require`: a URL, or a URL with its Subresource Integrity hash. */
 export type RizzyAsset = string | { src: string; integrity?: string };
 
@@ -92,6 +112,12 @@ export interface RizzyGlobal {
     Alpine: any;
     /** Resolves when RizzyUI's runtime has started. */
     ready: Promise<RizzyGlobal>;
+    /**
+     * Resolves when the page's eager components have started (their code loaded and Alpine initialized
+     * them); `true`, or `false` after a 10 s timeout. The document also receives `rz:ready` the first time.
+     * Events a component's `EventTriggerName` listens for are kept until it starts (SF-039).
+     */
+    componentsReady(): Promise<boolean>;
     /** The props of the code-behind component that contains `element` (usually `this.$el`). */
     props<TProps = Record<string, any>>(element: Element): Readonly<TProps>;
     /** The Alpine data of the component whose root has the given id, or that contains the element. */
@@ -114,5 +140,11 @@ declare global {
     }
     interface DocumentEventMap {
         'rz:module-error': CustomEvent<RzModuleErrorDetail>;
+        'rz:toggle:change': CustomEvent<RzToggleChangeDetail>;
+        'rz:menubar:checked-change': CustomEvent<RzMenubarCheckedChangeDetail>;
+    }
+    interface HTMLElementEventMap {
+        'rz:toggle:change': CustomEvent<RzToggleChangeDetail>;
+        'rz:menubar:checked-change': CustomEvent<RzMenubarCheckedChangeDetail>;
     }
 }

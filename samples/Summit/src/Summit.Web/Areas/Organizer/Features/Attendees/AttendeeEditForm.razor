@@ -7,10 +7,10 @@
     <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
               hx-post="@($"/organizer/attendees/{AttendeeId}")"
               hx-swap="none"
-              hx-include="#attendee-filters, #attendee-table-state"
+              hx-include="#attendee-filters, #attendee-table-state, #attendees-state"
               hx-disabled-elt="find button[type=submit]">
         <RzModelStateProvider />
-        <FocusFirstError />
+        <RzFocusFirstInvalid />
 
         <Field>
             <FieldLabel For="@(() => Model!.Name)" />
@@ -48,14 +48,14 @@
         </div>
         <Field>
             <FieldLabel For="@(() => Model!.Tags)" />
-            <RzCombobox TItem="string" TValue="List<string>" For="@(() => Model!.Tags)" Name="Model.Tags" Multiple
+            <RzCombobox TItem="string" TValue="List<string>" For="@(() => Model!.Tags)" Multiple
                         Items="AttendeeQuery.KnownTags" Placeholder="Add tags"
                         Options="@(new ComboboxOptions { Create = true })" />
             <FieldDescription>Pick a tag or type a new one.</FieldDescription>
         </Field>
         <Field>
             <FieldLabel For="@(() => Model!.Notes)" />
-            <RzInputTextArea For="@(() => Model!.Notes)" rows="3" class="@SummitClasses.TextArea" />
+            <RzInputTextArea For="@(() => Model!.Notes)" rows="3" />
             <FieldError><RzValidationMessageBase For="@(() => Model!.Notes)" /></FieldError>
         </Field>
 

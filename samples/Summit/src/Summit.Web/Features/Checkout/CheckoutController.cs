@@ -27,8 +27,9 @@ public sealed class CheckoutController(CheckoutService checkout, IHtmxSwapServic
             data.Reached = CheckoutStep.Tickets;
             await checkout.SaveAsync(visitorId, data);
         }
-        // Reached by a plain link as well as by boosted navigation (SF-043).
-        Response.HtmxIfRequested(h => h.PushUrl("/tickets/checkout/tickets"));
+        // Reached by a plain link as well as by boosted navigation: HtmxResponse setters are no-ops
+        // outside htmx requests (Rizzy D-30).
+        Response.Htmx(h => h.PushUrl("/tickets/checkout/tickets"));
         return View<CheckoutPage>(new { View = await BuildAsync(CheckoutStep.Tickets, data) });
     }
 

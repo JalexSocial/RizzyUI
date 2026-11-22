@@ -40,4 +40,10 @@ public interface ICommandItemData
     /// If true, the item will always be rendered, regardless of the search query.
     /// </summary>
     bool ForceMount { get; set; }
+
+    /// <summary>
+    /// A URL to go to when the item is chosen (Summit SF-016). <c>null</c> (the default) leaves the item
+    /// to <c>rz:command:execute</c> listeners.
+    /// </summary>
+    string? Href => null;
 }

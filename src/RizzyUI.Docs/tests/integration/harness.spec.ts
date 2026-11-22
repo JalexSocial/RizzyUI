@@ -120,6 +120,8 @@ test.describe('integration harness', () => {
     await expect(page.locator('#harness-form-region')).toContainText('Enter a valid email address.');
     await expect(page.getByLabel('Email')).toHaveValue('not-an-email');
     await expect(page.getByLabel('Name')).toHaveValue('Ada');
+    // RzFocusFirstInvalid moves focus to the first invalid field (Summit SF-045).
+    await expect(page.getByLabel('Email')).toBeFocused();
 
     await page.getByLabel('Email').fill('ada@example.com');
     const valid = page.waitForResponse(response => response.url().endsWith('/_tests/form'));

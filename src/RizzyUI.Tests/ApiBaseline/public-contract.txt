@@ -360,6 +360,7 @@ RizzyUI.CommandItem
   Disabled: System.Boolean
   Element: System.String
   ForceMount: System.Boolean
+  Href: System.String
   Id: System.String
   Keywords: System.Collections.Generic.IEnumerable<System.String>
   LoadStrategy: System.String
@@ -396,6 +397,13 @@ RizzyUI.CommandShortcut
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+RizzyUI.DataTableBodyRows
+  Selection: System.Boolean
+RizzyUI.DataTableHeaderRows
+  Selection: System.Boolean
+  SelectionAriaLabel: System.String
+  SelectionScope: RizzyUI.DataTableSelectionScope
+  Sortable: System.Boolean
 RizzyUI.DataTableRowSelectCheckbox
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   AriaLabel: System.String
@@ -872,6 +880,7 @@ RizzyUI.MenubarCheckboxItem
   Id: System.String
   LoadStrategy: System.String
   ShortcutContent: Microsoft.AspNetCore.Components.RenderFragment
+  Value: System.String
 RizzyUI.MenubarContent
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
@@ -1249,6 +1258,7 @@ RizzyUI.RzAvatar
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.RzAvatar.Slots
   ConfigureClasses: System.Action<RizzyUI.RzAvatar.Slots>
+  Decorative: System.Boolean
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
@@ -1302,6 +1312,7 @@ RizzyUI.RzBrowser
 RizzyUI.RzButton
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   Animate: System.Boolean
+  AsChild: System.Boolean
   AssistiveLabel: System.String
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.RzButton.Slots
@@ -1347,12 +1358,15 @@ RizzyUI.RzCalendarProvider
   Classes: RizzyUI.RzCalendarProvider.Slots
   ConfigureClasses: System.Action<RizzyUI.RzCalendarProvider.Slots>
   Element: System.String
+  EndName: System.String
   FormatOptions: RizzyUI.IntlDateTimeFormatOptions
   Id: System.String
   LoadStrategy: System.String
   Locale: System.String
   Mode: RizzyUI.SelectionDatesMode
+  Name: System.String
   Range: RizzyUI.CalendarDateRange
+  StartName: System.String
   Value: System.DateOnly?
   Values: System.Collections.Generic.List<System.DateOnly>
 RizzyUI.RzCard
@@ -1405,6 +1419,7 @@ RizzyUI.RzCheckboxGroup<TValue>
   Element: System.String
   For: System.Linq.Expressions.Expression<System.Func<System.Collections.Generic.IList<TValue>>> [EditorRequired]
   Id: System.String
+  LegendVisible: System.Boolean
   LoadStrategy: System.String
   Name: System.String
   Orientation: RizzyUI.Orientation
@@ -1439,6 +1454,7 @@ RizzyUI.RzCodeViewer
   ViewerTitle: System.String
 RizzyUI.RzCollapsible
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
   Classes: RizzyUI.RzCollapsible.Slots
   ConfigureClasses: System.Action<RizzyUI.RzCollapsible.Slots>
@@ -1532,11 +1548,15 @@ RizzyUI.RzCommandDialog
   Description: System.String
   Element: System.String
   EventTriggerName: System.String
+  FetchTrigger: RizzyUI.FetchTrigger
   Id: System.String
+  ItemsUrl: System.String
   LoadStrategy: System.String
   Loop: System.Boolean
   Open: System.Boolean
   SelectedValue: System.String
+  ServerFiltering: System.Boolean
+  Shortcut: System.String
   ShouldFilter: System.Boolean
   ShowCloseButton: System.Boolean
   Title: System.String
@@ -1607,11 +1627,14 @@ RizzyUI.RzDataTable<TItem>
   ConfigureClasses: System.Action<RizzyUI.RzDataTableSlots>
   Element: System.String
   Id: System.String
+  IncludeSelectionInState: System.Boolean
   Items: System.Collections.Generic.IReadOnlyList<TItem> [EditorRequired]
   LoadStrategy: System.String
   RowIdSelector: System.Linq.Expressions.Expression<System.Func<TItem, System.Object>> [EditorRequired]
+  StateInputName: System.String
 RizzyUI.RzDateEdit
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
   Classes: RizzyUI.RzDateEdit.Slots
   ComponentAssetKeys: System.String[]
   ConfigureClasses: System.Action<RizzyUI.RzDateEdit.Slots>
@@ -1634,6 +1657,7 @@ RizzyUI.RzDialog
   Element: System.String
   EventTriggerName: System.String
   Id: System.String
+  InitialFocus: System.String
   LoadStrategy: System.String
 RizzyUI.RzDropdownMenu
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
@@ -1724,6 +1748,13 @@ RizzyUI.RzFileInput
   Multiple: System.Boolean
   Name: System.String
   Variant: RizzyUI.FileInputVariant
+RizzyUI.RzFocusFirstInvalid
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzFocusFirstInvalid.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzFocusFirstInvalid.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
 RizzyUI.RzFormSection
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   Classes: RizzyUI.RzFormSection.Slots
@@ -1735,6 +1766,16 @@ RizzyUI.RzFormSection
   Layout: RizzyUI.SectionLayout
   LoadStrategy: System.String
   Title: System.String [EditorRequired]
+RizzyUI.RzGetForm
+  Action: System.String
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzGetForm.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzGetForm.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Model: System.Object [EditorRequired]
 RizzyUI.RzHeading
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
@@ -1854,6 +1895,7 @@ RizzyUI.RzInputOTP
   Element: System.String
   For: System.Linq.Expressions.Expression<System.Func<System.String>>
   Id: System.String
+  InputAttributes: System.Collections.Generic.Dictionary<System.String, System.Object>
   InputMode: System.String
   Invalid: System.Boolean?
   Length: System.Int32 [EditorRequired]
@@ -1863,6 +1905,24 @@ RizzyUI.RzInputOTP
   Required: System.Boolean
   TextTransform: RizzyUI.InputOtpTextTransform
   Value: System.String
+RizzyUI.RzInputSlider<TValue>
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaDescribedBy: System.String
+  AriaLabel: System.String
+  AriaLabelledBy: System.String
+  Classes: RizzyUI.RzInputSliderSlots
+  ConfigureClasses: System.Action<RizzyUI.RzInputSliderSlots>
+  Disabled: System.Boolean
+  DisplayName: System.String
+  Element: System.String
+  For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
+  Id: System.String
+  LoadStrategy: System.String
+  Max: System.Double
+  Min: System.Double
+  Step: System.Double
+  Value: TValue
+  ValueFormat: System.String
 RizzyUI.RzInputText
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   Classes: RizzyUI.RzInputText.Slots
@@ -2171,11 +2231,14 @@ RizzyUI.RzSheet
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
   Classes: RizzyUI.RzSheet.Slots
+  CloseEventName: System.String
   ConfigureClasses: System.Action<RizzyUI.RzSheet.Slots>
   DefaultOpen: System.Boolean
   DismissOnOutsideClick: System.Boolean
   Element: System.String
+  EventTriggerName: System.String
   Id: System.String
+  InitialFocus: System.String
   LoadStrategy: System.String
   Modal: System.Boolean
 RizzyUI.RzShineBorder
@@ -2281,6 +2344,7 @@ RizzyUI.RzSwitch
   Value: System.Boolean
 RizzyUI.RzTable
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
   Border: System.Boolean
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
   Classes: RizzyUI.RzTableSlots
@@ -2298,6 +2362,7 @@ RizzyUI.RzTabs
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+RizzyUI.RzThemeHeadOutlet
 RizzyUI.RzThemeProvider
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Theme: RizzyUI.RzTheme
@@ -2315,6 +2380,7 @@ RizzyUI.RzToastProvider
   Id: System.String
   LoadStrategy: System.String
   MaxVisible: System.Int32
+  NetworkErrorText: System.String
   NewestOnTop: System.Boolean
   OverflowStrategy: RizzyUI.ToastOverflowStrategy
   PauseOnFocus: System.Boolean
@@ -2323,6 +2389,9 @@ RizzyUI.RzToastProvider
   Position: RizzyUI.ToastPosition
   PreventDuplicates: System.Boolean
   RegionAriaLabel: System.String
+  ServerErrorText: System.String
+  ServerErrorTitle: System.String
+  ServerErrorToasts: System.Boolean
   ShowIcon: System.Boolean
   ShowProgress: System.Boolean
   Speed: System.Int32
@@ -2337,8 +2406,10 @@ RizzyUI.RzToggle
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+  Name: System.String
   Pressed: System.Boolean?
   Size: RizzyUI.ToggleSize
+  Value: System.String
   Variant: RizzyUI.ToggleVariant
 RizzyUI.RzTooltip
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
@@ -2495,6 +2566,7 @@ RizzyUI.SidebarFooter
   LoadStrategy: System.String
 RizzyUI.SidebarGroup
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.SidebarGroup.Slots
   ConfigureClasses: System.Action<RizzyUI.SidebarGroup.Slots>
@@ -2985,7 +3057,7 @@ RizzyUI.RadioGroupItemSlotTypes: Base=0, Input=1
 RizzyUI.RzAccordion.SlotTypes: Base=0
 RizzyUI.RzAlert.SlotTypes: Base=0, CloseButton=1, CloseButtonIcon=2, ContentContainer=3, IconContainer=4, IconPulse=5, InnerContainer=6
 RizzyUI.RzAlertDialog.SlotTypes: Base=0
-RizzyUI.RzAlertLiveRegionMode: Alert=0, Status=1
+RizzyUI.RzAlertLiveRegionMode: Alert=0, Status=1, None=2
 RizzyUI.RzAnimatedGradientText.SlotTypes: Base=0
 RizzyUI.RzArticle.SlotTypes: Article=0, Aside=1, Base=2, InnerContainer=3
 RizzyUI.RzAspectRatio.SlotTypes: Base=0, Inner=1
@@ -3004,7 +3076,7 @@ RizzyUI.RzCarousel.SlotTypes: Base=0, Wrapper=1
 RizzyUI.RzChart.SlotTypes: Base=0, Canvas=1, Container=2
 RizzyUI.RzCheckboxGroupFieldSlotTypes: Base=0
 RizzyUI.RzCheckboxGroupItemSlotTypes: Base=0, Input=1
-RizzyUI.RzCheckboxGroupSlotTypes: Base=0
+RizzyUI.RzCheckboxGroupSlotTypes: Base=0, Legend=1
 RizzyUI.RzClipboard.SlotTypes: Base=0
 RizzyUI.RzCodeViewer.SlotTypes: Base=0, CodeContainer=1, CopyButton=2, CopyButtonContainer=3, CopyIconCopied=4, CopyIconDefault=5, ExpandButton=6, ExpandIcon=7, Header=8, HeaderTitle=9, PreElement=10, PreWrapper=11
 RizzyUI.RzCollapsible.SlotTypes: Base=0
@@ -3026,7 +3098,9 @@ RizzyUI.RzEventViewer.SlotTypes: ActionIcon=0, Base=1, Console=2, Container=3, C
 RizzyUI.RzFieldGroup.SlotTypes: Base=0
 RizzyUI.RzFieldSet.SlotTypes: Base=0
 RizzyUI.RzFileInput.SlotTypes: Base=0, Container=1, Description=2, FileName=3, FileSize=4, Info=5, Item=6, List=7, NativeInput=8, PreviewImage=9, RemoveButton=10, Status=11, Trigger=12, TriggerContent=13
+RizzyUI.RzFocusFirstInvalid.SlotTypes: Base=0
 RizzyUI.RzFormSection.SlotTypes: Base=0, ContentContainer=1, Description=2, DescriptionContainer=3, Title=4
+RizzyUI.RzGetForm.SlotTypes: Base=0
 RizzyUI.RzHeading.SlotTypes: Base=0
 RizzyUI.RzHighlighter.SlotTypes: Base=0, Content=1
 RizzyUI.RzIndicator.SlotTypes: Base=0
@@ -3035,6 +3109,7 @@ RizzyUI.RzInputColor.SlotTypes: Base=0, Input=1, InputGroup=2, Thumbnail=3, Thum
 RizzyUI.RzInputGroup.SlotTypes: Base=0
 RizzyUI.RzInputNumberSlotTypes: Base=0
 RizzyUI.RzInputOTP.SlotTypes: Base=0, Input=1
+RizzyUI.RzInputSliderSlotTypes: Base=0
 RizzyUI.RzInputText.SlotTypes: Base=0
 RizzyUI.RzInputTextArea.SlotTypes: Base=0
 RizzyUI.RzItem.SlotTypes: Base=0
@@ -3161,6 +3236,7 @@ RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
   AvailableThemes: System.Collections.Generic.List<RizzyUI.RzTheme>
   CodeBehindPropsSerializerOptions: System.Text.Json.JsonSerializerOptions
   DefaultTheme: RizzyUI.RzTheme
+  LocalAssetPath: System.String
   LocalizationResourceLocation: System.String
   LocalizationResourceType: System.Type
 
@@ -3172,6 +3248,7 @@ RizzyUI.TypingAnimationCursorStyle: Line=0, Block=1, Underscore=2
   Rizzy.Htmx.IRizzyNonceProvider (Scoped) -> Rizzy.RizzyNonceProvider
   RizzyUI.RizzyUIRegistrationMarker (Singleton) -> RizzyUI.RizzyUIRegistrationMarker
   RizzyUI.RzAlpineModuleResolver (Singleton) -> RizzyUI.RzAlpineModuleResolver
+  RizzyUI.RzThemeHeadState (Scoped) -> RizzyUI.RzThemeHeadState
   RizzyUI.Services.RzToast.IRzToastService (Scoped) -> RizzyUI.Services.RzToast.RzToastService
   RizzyUI.Services.RzToast.Internal.RzToastCommandQueue (Scoped) -> RizzyUI.Services.RzToast.Internal.RzToastCommandQueue
   TailwindMerge.TwMerge (Singleton) -> TailwindMerge.TwMerge

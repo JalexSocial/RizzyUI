@@ -17,7 +17,7 @@
                   hx-post="/help/contact" hx-encoding="multipart/form-data" hx-target="#contact-form" hx-swap="outerHTML"
                   hx-indicator="#contact-progress" hx-disabled-elt="find button[type=submit]">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
 
             <div class="grid gap-5 sm:grid-cols-2">
                 <Field>
@@ -46,17 +46,14 @@
 
             <Field>
                 <FieldLabel For="@(() => Model!.Message)" />
-                <RzInputTextArea For="@(() => Model!.Message)" rows="5" placeholder="How can we help?" class="@SummitClasses.TextArea" />
+                <RzInputTextArea For="@(() => Model!.Message)" rows="5" placeholder="How can we help?" />
                 <FieldDescription>Up to 2,000 characters.</FieldDescription>
                 <FieldError><RzValidationMessageBase For="@(() => Model!.Message)" /></FieldError>
             </Field>
 
             <Field>
                 <FieldLabel For="@(() => Model!.Attachment)">Attachment (optional)</FieldLabel>
-                @* Name set explicitly: RzFileInput defaults to the bare property name (SF-009). The dropzone's
-                   default name ("File input") does not match its visible text (SF-037). *@
-                <RzFileInput For="@(() => Model!.Attachment)" Name="Model.Attachment" Variant="FileInputVariant.Dropzone" Accept=".png,.jpg,.jpeg,.pdf"
-                             AriaLabel="Drag and drop files here or click to upload an attachment" />
+                <RzFileInput For="@(() => Model!.Attachment)" Variant="FileInputVariant.Dropzone" Accept=".png,.jpg,.jpeg,.pdf" />
                 <FieldDescription>A screenshot or a PDF, up to 2 MB.</FieldDescription>
                 <FieldError><RzValidationMessageBase For="@(() => Model!.Attachment)" /></FieldError>
             </Field>

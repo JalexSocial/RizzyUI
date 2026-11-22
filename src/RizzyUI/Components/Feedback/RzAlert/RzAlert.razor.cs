@@ -40,9 +40,9 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
                 [ThemeVariant.Primary] = new() { [s => s.Base] = "border-primary/50 bg-primary/10 text-primary", [s => s.IconContainer] = "text-primary", [s => s.IconPulse] = "bg-primary/15" },
                 [ThemeVariant.Secondary] = new() { [s => s.Base] = "border-secondary/50 bg-secondary/10 text-secondary-foreground", [s => s.IconContainer] = "text-secondary-foreground", [s => s.IconPulse] = "bg-secondary/15" },
                 [ThemeVariant.Accent] = new() { [s => s.Base] = "border-accent/50 bg-accent/10 text-accent-foreground", [s => s.IconContainer] = "text-accent-foreground", [s => s.IconPulse] = "bg-accent/15" },
-                [ThemeVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-info-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
-                [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
-                [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
+                [ThemeVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
+                [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
+                [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
                 [ThemeVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" },
 
                 // Ghost
@@ -82,12 +82,22 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
     /// <summary>
     /// Gets the ARIA role emitted on the root live region.
     /// </summary>
-    protected string LiveRegionRole => LiveRegionMode == RzAlertLiveRegionMode.Status ? "status" : "alert";
+    protected string? LiveRegionRole => LiveRegionMode switch
+    {
+        RzAlertLiveRegionMode.Status => "status",
+        RzAlertLiveRegionMode.None => null,
+        _ => "alert",
+    };
 
     /// <summary>
     /// Gets the aria-live politeness value emitted on the root live region.
     /// </summary>
-    protected string AriaLivePoliteness => LiveRegionMode == RzAlertLiveRegionMode.Status ? "polite" : "assertive";
+    protected string? AriaLivePoliteness => LiveRegionMode switch
+    {
+        RzAlertLiveRegionMode.Status => "polite",
+        RzAlertLiveRegionMode.None => null,
+        _ => "assertive",
+    };
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -108,16 +118,16 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         if (Icon == null)
             Icon = Variant switch
             {
-                ThemeVariant.Information => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Success => MdiIcon.CheckCircle,
-                ThemeVariant.Warning => MdiIcon.AlertCircle,
-                ThemeVariant.Destructive => MdiIcon.CloseCircle,
+                ThemeVariant.Information => Lucide.Info,
+                ThemeVariant.Success => Lucide.CircleCheck,
+                ThemeVariant.Warning => Lucide.CircleAlert,
+                ThemeVariant.Destructive => Lucide.CircleX,
                 // Default icons for other variants if desired
-                ThemeVariant.Default => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Inverse => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Primary => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Secondary => MdiIcon.InformationSlabCircle,
-                ThemeVariant.Accent => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Default => Lucide.Info,
+                ThemeVariant.Inverse => Lucide.Info,
+                ThemeVariant.Primary => Lucide.Info,
+                ThemeVariant.Secondary => Lucide.Info,
+                ThemeVariant.Accent => Lucide.Info,
                 ThemeVariant.Ghost => null,
                 _ => null
             };
@@ -182,5 +192,11 @@ public enum RzAlertLiveRegionMode
     /// <summary>
     /// Uses role="status" and aria-live="polite" for nonurgent messages that should not interrupt the current task.
     /// </summary>
-    Status
+    Status,
+
+    /// <summary>
+    /// No live region: a static callout that is part of the page when it loads (Summit SF-022). Screen
+    /// readers read it with the rest of the content instead of announcing it as an alert.
+    /// </summary>
+    None
 }

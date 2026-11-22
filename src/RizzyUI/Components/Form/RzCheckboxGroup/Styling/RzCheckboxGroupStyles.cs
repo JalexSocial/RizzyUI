@@ -24,6 +24,12 @@ public sealed partial class RzCheckboxGroupSlots : ISlots
     /// </summary>
     [Slot("checkbox-group")]
     public string? Base { get; set; }
+
+    /// <summary>
+    /// The legend, when it is visible (<c>LegendVisible</c>); otherwise it is visually hidden.
+    /// </summary>
+    [Slot("checkbox-group-legend")]
+    public string? Legend { get; set; }
 }
 
 /// <summary>
@@ -36,6 +42,10 @@ public static class RzCheckboxGroupStyles
     /// </summary>
     public static readonly TvDescriptor<RzComponent<RzCheckboxGroupSlots>, RzCheckboxGroupSlots> DefaultDescriptor = new(
         @base: "gap-2",
+        slots: new()
+        {
+            [s => s.Legend] = "mb-2 text-sm leading-none font-medium"
+        },
         variants: new()
         {
             [c => ((IHasCheckboxGroupStylingProperties)c).Orientation] = new Variant<Orientation, RzCheckboxGroupSlots>

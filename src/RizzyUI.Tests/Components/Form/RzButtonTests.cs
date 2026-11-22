@@ -108,4 +108,30 @@ public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         Assert.Equal("From parameter", cut.Find("button").GetAttribute("aria-label"));
     }
+    [Fact]
+    public void AsChild_RendersTheChildWithTheButtonStyling()
+    {
+        // Summit SF-018: <RzButton AsChild><a href> rendered a link inside a button.
+        var cut = Render<RzButton>(p => p
+            .Add(x => x.AsChild, true)
+            .Add(x => x.Variant, ThemeVariant.Primary)
+            .AddUnmatched("hx-boost", "true")
+            .AddChildContent("<a href=\"/home\" class=\"px-8\">Home</a>"));
+
+        Assert.Empty(cut.FindAll("button"));
+        var link = cut.Find("a");
+        Assert.Equal("/home", link.GetAttribute("href"));
+        Assert.Equal("button", link.GetAttribute("data-slot"));
+        Assert.Equal("true", link.GetAttribute("hx-boost"));
+        Assert.Contains("bg-primary", link.ClassList);
+        Assert.Contains("px-8", link.ClassList); // the child's class wins the padding conflict
+        Assert.DoesNotContain("px-4", link.ClassList);
+        Assert.False(link.HasAttribute("aschild"));
+    }
+
+    [Fact]
+    public void AsChild_WithoutChildContentThrows()
+    {
+        Assert.ThrowsAny<Exception>(() => Render<RzButton>(p => p.Add(x => x.AsChild, true)));
+    }
 }

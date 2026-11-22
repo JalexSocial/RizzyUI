@@ -54,9 +54,17 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     [Parameter, EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
 
     /// <summary>
-    /// Gets or sets the configuration options for the Flatpickr instance.
+    /// Gets or sets the configuration options for the Flatpickr instance. When
+    /// <see cref="FlatpickrOptions.Locale"/> is not set, the calendar follows the request culture
+    /// (<see cref="CultureInfo.CurrentCulture"/>) and RzDateEdit loads flatpickr's locale file for it.
     /// </summary>
-    [Parameter] public FlatpickrOptions Options { get; set; } = new() { Locale = "en" };
+    [Parameter] public FlatpickrOptions Options { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets an accessible name for the input, for a date field without a visible label. A
+    /// field with a <c>FieldLabel</c> (or any <c>&lt;label for&gt;</c>) needs none: the label names it.
+    /// </summary>
+    [Parameter] public string? AriaLabel { get; set; }
 
     /// <summary>
     /// Gets or sets the placeholder text for the input field.
@@ -115,7 +123,8 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         builder.AddAttribute(6, "placeholder", Placeholder);
         builder.AddAttribute(7, "class", SlotClasses.GetInput());
         builder.AddAttribute(8, "data-input", true);
-        builder.AddAttribute(9, "aria-label", "Select date");
+        // SF-068: no default aria-label, which would replace the field's <label> as its name.
+        builder.AddAttribute(9, "aria-label", string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel);
         builder.CloseComponent();
     };
 
@@ -135,10 +144,21 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         if (string.IsNullOrEmpty(Options.DefaultDate) && _currentValue.HasValue)
             options["defaultDate"] = _currentValue.Value.ToString("yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture);
 
+        // SF-073: the calendar speaks the request culture unless Options.Locale says otherwise, and the
+        // locale file flatpickr needs for it is loaded after flatpickr itself.
+        var localeFile = string.IsNullOrWhiteSpace(Options.Locale)
+            ? FlatpickrLocales.FileFor(CultureInfo.CurrentCulture)
+            : FlatpickrLocales.FileForOption(Options.Locale);
+        if (string.IsNullOrWhiteSpace(Options.Locale))
+            options["locale"] = localeFile is null ? "en" : FlatpickrLocales.Files[localeFile].Key;
+
         var alpineData = new { options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
         _serializedConfig = JsonSerializer.Serialize(alpineData, serializerOptions);
 
-        _assets = SerializeAssetUrls(ComponentAssetKeys);
+        var assetKeys = ComponentAssetKeys.ToList();
+        if (localeFile is not null && !assetKeys.Contains(FlatpickrLocales.AssetKey(localeFile)))
+            assetKeys.Add(FlatpickrLocales.AssetKey(localeFile));
+        _assets = SerializeAssetUrls(assetKeys);
     }
 
     /// <inheritdoc/>

@@ -22,6 +22,17 @@ public sealed class RizzyUIConfig
     public Dictionary<string, string> AssetIntegrity { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>
+    /// Gets or sets a root-relative path (for example <c>/lib</c>) to serve the widget libraries
+    /// (Chart.js, Tom Select, flatpickr, vanilla-calendar-pro, Coloris, Embla, rough-notation) from
+    /// your own site instead of jsDelivr (Summit SF-012). Each default asset then loads from
+    /// <c>{LocalAssetPath}/{package}@{version}/{file}</c>, the same layout as on jsDelivr, with the same
+    /// Subresource Integrity hash, so a copy that is not byte-identical fails to load. Copy the files
+    /// <see cref="RizzyUIAssets.Vendor"/> lists into that folder (for example under <c>wwwroot</c>).
+    /// <c>null</c> (the default) loads them from jsDelivr. Entries you set in <see cref="AssetUrls"/> win.
+    /// </summary>
+    public string? LocalAssetPath { get; set; }
+
+    /// <summary>
     /// Gets or sets how <see cref="RzAlpineComponent"/> serializes its <c>Props</c> for code-behind
     /// modules. The default has no naming policy: properties keep the names written in C#, so
     /// <c>new { InitialCount = 10 }</c> is read as <c>this.$props.InitialCount</c>. Use

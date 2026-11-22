@@ -51,12 +51,6 @@
   <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
     <value>Alternar modo oscuro</value>
   </data>
-  <data name="RzDateEdit.AriaLabel" xml:space="preserve">
-    <value>Selector de fecha</value>
-  </data>
-  <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
-    <value>Seleccionar fecha</value>
-  </data>
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
     <value>Alternar navegación lateral</value>
   </data>
@@ -194,5 +188,14 @@
   </data>
   <data name="RzToastProvider.RegionAriaLabel" xml:space="preserve">
     <value>Notificaciones</value>
+  </data>
+  <data name="RzToastProvider.ServerErrorTitle" xml:space="preserve">
+    <value>Algo salió mal</value>
+  </data>
+  <data name="RzToastProvider.ServerErrorText" xml:space="preserve">
+    <value>El servidor no pudo completar la solicitud. Inténtalo de nuevo.</value>
+  </data>
+  <data name="RzToastProvider.NetworkErrorText" xml:space="preserve">
+    <value>No se pudo conectar con el servidor. Comprueba tu conexión.</value>
   </data>
 </root>

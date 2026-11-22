@@ -32,8 +32,11 @@ test.describe('organizer pages in German', () => {
     await expect(page.getByRole('navigation', { name: 'Brotkrumen' })).toContainText('Dashboard');
     await expect(page.locator('aside, [data-slot=sidebar]').first()).toContainText('Teilnehmende');
 
-    // Revenue in whole euros (SF-060) with German grouping, after the ticker's animation.
-    await expect(page.locator('[data-stat="Revenue"]')).toHaveText(/^€\d{1,3}(\.\d{3})+$/);
+    // Revenue with cents in German format, after the ticker's animation: the ticker reads its value
+    // invariantly (SF-060 showed €0,00).
+    await expect(page.locator('[data-stat="Revenue"]')).toHaveText(/^€\d{1,3}(\.\d{3})+,\d{2}$/);
+    await expect(page.locator('[data-stat="Average order"]')).toHaveText(/^€\d{1,3}(\.\d{3})*,\d{2}$/);
+    await expect(page.locator('[data-stat="Revenue"]')).not.toHaveText('€0,00');
     // German month names in the range button and the calendar.
     await expect(page.getByRole('button', { name: /^Date range/ })).toContainText('Mai');
     await page.getByRole('button', { name: /^Date range/ }).click();
@@ -45,7 +48,7 @@ test.describe('organizer pages in German', () => {
     await waitForRuntime(page);
     const editor = page.locator('#session-editor');
     const start = editor.locator('[data-slot=date-edit] input[name="Model.StartsAt"]');
-    // The picker speaks German (flatpickr's l10n, loaded as an asset: SF-073).
+    // The picker speaks German: RzDateEdit loads flatpickr's locale for the request culture.
     await start.click();
     await expect(page.locator('.flatpickr-calendar.open')).toContainText('Juni');
     await expect(page.locator('.flatpickr-calendar.open')).toContainText('Mo');

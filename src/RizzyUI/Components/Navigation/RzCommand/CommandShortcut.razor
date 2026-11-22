@@ -3,7 +3,7 @@
 @inherits RzComponent<CommandShortcut.Slots>
 
 <span data-slot="command-shortcut" @attributes="AdditionalAttributes"
-      id="@Id"
+      id="@(HasExplicitId ? Id : null)"
       class="@SlotClasses.GetBase()">
     @ChildContent
 </span>

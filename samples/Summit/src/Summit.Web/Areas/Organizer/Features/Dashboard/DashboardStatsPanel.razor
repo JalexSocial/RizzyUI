@@ -1,18 +1,17 @@
 @using System.Globalization
 @*
     Key figures for the filter (out of band with the panels request). The tickers animate, so the
-    numbers are announced once through a status line instead of frame by frame. Money is shown in whole
-    euros: RzNumberTicker writes a decimal value with the current culture (96356,2 in German), which its
-    script cannot parse (SF-060).
+    numbers are announced once through a status line instead of frame by frame. Money is shown with
+    cents, in the request culture's format.
 *@
 <section id="dashboard-stats" aria-labelledby="dashboard-stats-title">
     <h2 id="dashboard-stats-title" class="sr-only">Key figures</h2>
     <p role="status" class="sr-only">@Announcement</p>
     <dl class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        @Stat("Revenue", Math.Round(Panels.Stats.Revenue), 0, "€", Lucide.Euro)
+        @Stat("Revenue", Panels.Stats.Revenue, 2, "€", Lucide.Euro)
         @Stat("Tickets sold", Panels.Stats.Tickets, 0, null, Lucide.Ticket)
         @Stat("Checked in", Panels.Stats.CheckedIn, 0, null, Lucide.UserCheck)
-        @Stat("Average order", Math.Round(Panels.Stats.AverageOrder), 0, "€", Lucide.ShoppingCart)
+        @Stat("Average order", Panels.Stats.AverageOrder, 2, "€", Lucide.ShoppingCart)
     </dl>
 </section>
 

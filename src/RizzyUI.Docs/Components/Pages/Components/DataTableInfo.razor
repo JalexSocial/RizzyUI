@@ -96,6 +96,49 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Header and body helpers" class="scroll-mt-20">Header and body helpers</RzHeading>
+                <RzParagraph>
+                    The table stays headless: you write its structure. For the common case, <code>DataTableHeaderRows</code> and
+                    <code>DataTableBodyRows</code> write the standard rows for you: flex-rendered headers with a sort toggle and
+                    <code>aria-sort</code>, flex-rendered cells, and with <code>Selection</code> a checkbox column. Mix them with your own
+                    markup (a custom body with the standard header, for example).
+                </RzParagraph>
+                <div class="not-prose">
+                    <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                        <RzTable Border AriaLabel="Users">
+                            <TableHeader><DataTableHeaderRows Selection="true" /></TableHeader>
+                            <TableBody><DataTableBodyRows Selection="true" /></TableBody>
+                        </RzTable>
+                    </RzDataTable>
+                </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-4">
+&lt;RzDataTable Items="_users" Config="_config" RowIdSelector="x =&gt; x.Id"&gt;
+    &lt;RzTable Border AriaLabel="Users"&gt;
+        &lt;TableHeader&gt;&lt;DataTableHeaderRows Selection="true" /&gt;&lt;/TableHeader&gt;
+        &lt;TableBody&gt;&lt;DataTableBodyRows Selection="true" /&gt;&lt;/TableBody&gt;
+    &lt;/RzTable&gt;
+&lt;/RzDataTable&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Row objects in templates" class="scroll-mt-20">Row objects in templates</RzHeading>
+                <RzParagraph>Inside the templates, these names are in scope:</RzParagraph>
+                <ul class="list-disc pl-6">
+                    <li><code>row</code>: RizzyUI's row view, <code>{ id, row, cells }</code>. <code>row.id</code> is the value of <code>RowIdSelector</code>.</li>
+                    <li><code>row.row</code>: the TanStack row (selection helpers take it: <code>RowExpr="row.row"</code>).</li>
+                    <li><code>row.row.original</code>: your item, serialized with camelCase property names (<code>Name</code> becomes <code>name</code>).</li>
+                    <li><code>cell</code> (in <code>row.cells</code>) and <code>header</code> (in <code>headerGroup.headers</code>): TanStack's cell and header. Column ids
+                        keep the names you gave them in C# (<code>cell.column.id === 'Name'</code>), unlike the item's properties.</li>
+                </ul>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-4">
+&lt;template x-if="cell.column.id === 'Name'"&gt;
+    &lt;a x-bind:href="'/people/' + row.id" x-text="row.row.original.name"&gt;&lt;/a&gt;
+&lt;/template&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Empty state" class="scroll-mt-20">Empty state</RzHeading>
                 <RzParagraph>Empty state is consumer-authored and driven by <code>isEmpty</code>.</RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.Razor">
@@ -562,6 +605,47 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="htmx in rows" class="scroll-mt-20">htmx in rows</RzHeading>
+                <RzParagraph>
+                    Rows are rendered by Alpine from the row template, after htmx processed the page. The table processes the rows it
+                    renders, so <code>hx-*</code> attributes in a row template work: bind a per-row URL with
+                    <code>x-bind:hx-get="row.row.original.editUrl"</code> and add <code>hx-target</code> as usual. Components inside an
+                    <code>x-for</code> template would repeat their generated id in every row, so the copies drop it; give an element an
+                    id per row with <code>x-bind:id</code> when you need one.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Keeping the state across server rebuilds" class="scroll-mt-20">Keeping the state across server rebuilds</RzHeading>
+                <RzParagraph>
+                    Set <code>StateInputName</code> and the table keeps one hidden input (id <code>{Id}-state</code>) with its sorting,
+                    page, filters and column visibility as versioned JSON; <code>IncludeSelectionInState</code> adds the selected row
+                    ids. Include the input in requests that rebuild the table, bind it as <code>RzDataTableState</code>, and render the
+                    new table from <code>ToInitialState()</code>: the user keeps their place. What you accept from the state (page sizes,
+                    columns) is up to the action.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Table">
+&lt;RzDataTable TItem="PersonRow" Id="people" Items="Rows" Config="Config" RowIdSelector="x =&gt; x.Id"
+             StateInputName="TableState" IncludeSelectionInState="true"&gt;...&lt;/RzDataTable&gt;
+
+&lt;select name="Status" hx-get="/people/table" hx-target="#people-region" hx-include="#people-state"&gt;...&lt;/select&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Action" class="mt-4">
+[HttpGet("/people/table")]
+public async Task&lt;IResult&gt; Table(string? status, [FromQuery(Name = "TableState")] RzDataTableState? state)
+{
+    var initial = state?.ToInitialState() ?? new RzDataTableInitialState();
+    return PartialView&lt;PeopleTable&gt;(new { Rows = await LoadAsync(status), State = initial });
+}
+// state.SelectedRowIds lists the selected rows (with IncludeSelectionInState), for bulk actions.
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    MVC binds the input with the parameter's name; minimal APIs bind it through <code>RzDataTableState.TryParse</code>.
+                    A missing or unreadable value binds <code>null</code>. <code>TableRequestModel</code> is obsolete and will be removed after 1.0. Pick a <code>StateInputName</code> that is not also the name of a complex action parameter: MVC would bind that parameter with the name as a prefix (a field named <code>Filter</code> next to a parameter <code>filter</code> loses the parameter's values).
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Architecture and author responsibilities" class="scroll-mt-20" Id="architecture-and-author-responsibilities">Architecture and author responsibilities</RzHeading>
                 <RzParagraph>
                     <code>RzDataTable&lt;TItem&gt;</code> owns data transport and TanStack state; it does not generate the visible table, rows, or cells for you.
@@ -620,7 +704,7 @@
 
                 <RzHeading Level="HeadingLevel.H3">Sorting, selection, pagination, filtering, and visibility</RzHeading>
                 <ul class="list-disc pl-6 space-y-2">
-                    <li><strong>Sorting:</strong> <code>DataTableSortToggle</code> renders a native <code>button</code>, binds disabled state to <code>!sort.can(header)</code>, binds its accessible name to <code>sort.nextLabel(header)</code>, exposes <code>data-sort-direction</code>, and calls <code>sort.toggle(header)</code>.</li>
+                    <li><strong>Sorting:</strong> <code>DataTableSortToggle</code> renders a native <code>button</code>, binds disabled state to <code>!sort.can(header)</code>, is named by its visible label (the column; give the header cell <code>aria-sort</code> for the direction, and an icon-only toggle gets the column name from <code>sort.columnName(header)</code>), exposes <code>data-sort-direction</code>, and calls <code>sort.toggle(header)</code>.</li>
                     <li><strong>Selection:</strong> selection helpers render native checkboxes with <code>aria-label</code>, checked/disabled bindings, indeterminate state effects, and change handlers that update TanStack row selection state.</li>
                     <li><strong>Pagination:</strong> the runtime exposes page state and methods. Examples bind unavailable links with <code>aria-disabled</code>, remove them from the tab order with <code>tabindex="-1"</code>, and mark the active page with <code>aria-current="page"</code>.</li>
                     <li><strong>Filtering:</strong> the runtime exposes <code>filter.globalFilter</code> and <code>filter.setGlobalFilter(value)</code>. Authors must provide the visible label or accessible name for filter inputs.</li>
@@ -735,31 +819,31 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Items</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Items</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required source rows serialized into the DataTable transport.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IReadOnlyList&lt;TItem&gt;</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Array.Empty&lt;TItem&gt;()</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Config</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Config</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required table configuration containing <code>Columns</code>, <code>Features</code>, and <code>InitialState</code>.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RzDataTableConfig&lt;TItem&gt;</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">RowIdSelector</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">RowIdSelector</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required member-access expression used to derive stable row ids. Values must be non-empty and unique.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TItem, object?&gt;&gt;</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Author-provided markup that renders headers, rows, cells, controls, empty states, and pagination from Alpine projections.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LoadStrategy</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">LoadStrategy</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Inherited Alpine loading strategy rendered as <code>x-load</code> when non-empty.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"eager"</code></td>
@@ -792,7 +876,8 @@
                     <li><code>sort.direction(header)</code> — current sort direction for the header.</li>
                     <li><code>sort.toggle(header)</code> — toggles sorting for the header. <a href="https://tanstack.com/table/latest/docs/api/features/sorting#togglesorting" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
                     <li><code>sort.ariaSort(header)</code> — mapped ARIA value from current sort state.</li>
-                    <li><code>sort.nextLabel(header)</code> — convenience label for the next sort action.</li>
+                    <li><code>sort.columnName(header)</code> — the column's display name (its header text, or its id).</li>
+                    <li><code>sort.nextLabel(header)</code> — English text for the next sort action ("Sort ascending"), for a tooltip; not used as the button's name.</li>
                 </ul>
 
                 <RzHeading Level="HeadingLevel.H3">Selection API (<code>selection.*</code>)</RzHeading>

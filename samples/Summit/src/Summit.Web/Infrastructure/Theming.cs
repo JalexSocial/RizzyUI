@@ -29,15 +29,3 @@ public sealed class ThemeSelection(IHttpContextAccessor accessor, IOptions<Rizzy
             IsEssential = true, SameSite = SameSiteMode.Lax, MaxAge = TimeSpan.FromDays(365), HttpOnly = true,
         });
 }
-
-/// <summary>
-/// The organizer sidebar's collapsed state. RzSidebarProvider persists it in a cookie from JavaScript
-/// but does not read it on the server (summit-findings.md SF-010), so the layout does.
-/// </summary>
-public static class SidebarState
-{
-    public const string CookieName = "sidebar_state";
-
-    public static bool IsOpen(HttpContext? context) =>
-        !string.Equals(context?.Request.Cookies[CookieName], "false", StringComparison.OrdinalIgnoreCase);
-}

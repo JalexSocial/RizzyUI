@@ -84,7 +84,8 @@ public class RizzyCodeBlockRenderer : HtmlObjectRenderer<CodeBlock>
             if (!string.IsNullOrEmpty(language)) classes += $" language-{System.Net.WebUtility.HtmlEncode(language)}";
 
             // Write the opening tags for a fenced code block.
-            renderer.Write("<pre class=\"border-muted border\"><code");
+            // SF-084: focusable, so a block that scrolls sideways can be scrolled with the keyboard.
+            renderer.Write("<pre class=\"border-muted border\" tabindex=\"0\"><code");
             renderer.Write($" class=\"{classes}\"");
             renderer.Write(">");
         }

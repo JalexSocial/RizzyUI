@@ -54,20 +54,29 @@ public partial class RzAuroraText : RzComponent<RzAuroraText.Slots>
     public bool Decorative { get; set; }
 
     /// <summary>
-    /// Gets the inline style used by the visual aurora text node.
+    /// Gets the inline style of the visual aurora text node: only for custom <see cref="Colors"/> or
+    /// <see cref="Speed"/>. The default gradient and duration come from the <c>rz-aurora-default</c> CSS
+    /// class, so the default works under a strict <c>style-src</c> (Summit SF-035).
     /// </summary>
-    protected string TextStyle =>
+    protected string? TextStyle => UsesDefaults ? null :
         $"background-image: {BuildGradient()}; animation-duration: {GetAnimationDurationSeconds().ToString("0.###", CultureInfo.InvariantCulture)}s; -webkit-background-clip: text; -webkit-text-fill-color: transparent;";
+
+    /// <summary>Whether the default colors and speed apply (no inline style is needed).</summary>
+    protected bool UsesDefaults => Colors is not { Length: > 0 } && Speed == 1d;
+
+    /// <summary>The class that supplies the default gradient, or null for custom colors or speed.</summary>
+    protected string? DefaultsClass => UsesDefaults ? "rz-aurora-default" : null;
 
     /// <summary>
     /// Gets a value indicating whether the screen reader content copy should be rendered.
     /// </summary>
-    protected bool ShouldRenderScreenReaderContent => !Decorative && string.IsNullOrWhiteSpace(AriaLabel);
+    protected bool ShouldRenderScreenReaderContent => !Decorative;
 
     /// <summary>
-    /// Gets the computed aria-label attribute value for the root element.
+    /// Always null: an <c>aria-label</c> on a role-less span is prohibited ARIA, so <see cref="AriaLabel"/>
+    /// is rendered as visually hidden text instead (Summit SF-035).
     /// </summary>
-    protected string? ComputedAriaLabel => Decorative ? null : AriaLabel;
+    protected string? ComputedAriaLabel => null;
 
     /// <summary>
     /// Gets the root aria-hidden attribute value.

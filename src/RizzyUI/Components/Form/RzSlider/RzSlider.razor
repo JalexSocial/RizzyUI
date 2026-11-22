@@ -1,4 +1,5 @@
 @namespace RizzyUI
+@using System.Globalization
 @using RizzyUI.Extensions
 @inherits RzComponent<RzSlider.Slots>
 
@@ -12,13 +13,13 @@
          x-data="rzSlider" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
-         data-min="@Min"
-         data-max="@Max"
-         data-step="@Step"
+         data-min="@Min.ToString(CultureInfo.InvariantCulture)"
+         data-max="@Max.ToString(CultureInfo.InvariantCulture)"
+         data-step="@Step.ToString(CultureInfo.InvariantCulture)"
          data-orientation="@Orientation.ToString().ToKebabCase()"
          data-disabled="@Disabled.ToString().ToLowerInvariant()"
          data-inverted="@Inverted.ToString().ToLowerInvariant()"
-         data-min-steps-between-thumbs="@MinStepsBetweenThumbs"
+         data-min-steps-between-thumbs="@MinStepsBetweenThumbs.ToString(CultureInfo.InvariantCulture)"
          data-name="@Name"
          data-use-indexed-names="@UseIndexedNames.ToString().ToLowerInvariant()"
          data-values="@_serializedValues"
@@ -45,9 +46,9 @@
                  role="slider"
                  tabindex="@(Disabled ? -1 : (TabIndex ?? 0))"
                  aria-disabled="@Disabled.ToString().ToLowerInvariant()"
-                 aria-valuemin="@Min"
-                 aria-valuemax="@Max"
-                 aria-valuenow="@EffectiveValues[index]"
+                 aria-valuemin="@Min.ToString(CultureInfo.InvariantCulture)"
+                 aria-valuemax="@Max.ToString(CultureInfo.InvariantCulture)"
+                 aria-valuenow="@EffectiveValues[index].ToString(CultureInfo.InvariantCulture)"
                  aria-orientation="@Orientation.ToString().ToLowerInvariant()"
                  aria-label="@GetThumbAriaLabel(index)"
                  aria-labelledby="@AriaLabelledBy"

@@ -25,8 +25,8 @@
       <thead>
         <tr>
           <th scope="col"><input id="select-visible" type="checkbox" aria-label="Select visible rows" /></th>
-          <th id="name-header" scope="col" aria-sort="none"><button id="sort-name" type="button" data-sort="name" aria-label="Sort ascending">Name</button></th>
-          <th id="email-header" scope="col" data-column="email"><button id="sort-email" type="button" data-sort="email" aria-label="Sort ascending">Email</button></th>
+          <th id="name-header" scope="col" aria-sort="none"><button id="sort-name" type="button" data-sort="name">Name</button></th>
+          <th id="email-header" scope="col" data-column="email"><button id="sort-email" type="button" data-sort="email">Email</button></th>
           <th id="role-header" scope="col" data-column="role">Role</th>
         </tr>
       </thead>
@@ -129,7 +129,6 @@
       document.getElementById('name-header').setAttribute('aria-sort', state.sorting[0]?.id === 'name' ? (state.sorting[0].desc ? 'descending' : 'ascending') : 'none');
       for (const button of document.querySelectorAll('[data-sort]')) {
         const sort = state.sorting[0];
-        button.setAttribute('aria-label', !sort || sort.id !== button.dataset.sort ? 'Sort ascending' : sort.desc ? 'Clear sort' : 'Sort descending');
       }
       if (focusedSelectVisible) {
         selectVisible.focus();

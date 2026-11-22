@@ -205,13 +205,17 @@
                 </RzCodeViewer>
 
                 <RzParagraph class="mb-4">
-                    <strong>Range Popover:</strong> Closes automatically when the range is complete.
+                    <strong>Range Popover:</strong> Closes automatically when the range is complete. The provider is also a
+                    form field: with <code>StartName</code> and <code>EndName</code> it posts the range as two fields
+                    (<code>yyyy-MM-dd</code>) and raises a bubbling <code>change</code> when the range is complete, so a form
+                    with <code>hx-trigger="change"</code> sends it without script. For single and multiple selection,
+                    <code>Name</code> posts the date (one value per date in multiple mode).
                 </RzParagraph>
                 <div class="mx-auto flex justify-center-safe items-center overflow-x-auto p-4 sm:p-8 min-h-60 border rounded-xl mb-6">
                     <div class="flex flex-col gap-6 items-center">
                         <div class="flex flex-col gap-2">
                             <Label>Select your stay</Label>
-                            <RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1" FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Short, Day = Numeric2Digit.Numeric })">
+                            <RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1" StartName="CheckIn" EndName="CheckOut" FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Short, Day = Numeric2Digit.Numeric })">
                                 <RzPopover>
                                     <PopoverTrigger AsChild>
                                         <RzButton Variant="ThemeVariant.Default" Outline class="w-[300px] justify-start text-left font-normal">
@@ -231,7 +235,7 @@
                     </div>
                 </div>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1"&gt;
+&lt;RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1" StartName="CheckIn" EndName="CheckOut"&gt;
     &lt;RzPopover&gt;
         &lt;PopoverTrigger AsChild&gt;
              &lt;RzButton Variant="ThemeVariant.Default" Outline&gt;
@@ -264,7 +268,7 @@
                                     <div class="absolute right-0 top-0">
                                         <RzPopover Anchor="AnchorPoint.BottomEnd" Offset="8">
                                             <PopoverTrigger AsChild>
-                                                <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="px-2 h-9">
+                                                <RzButton AssistiveLabel="Open calendar" Variant="ThemeVariant.Ghost" Size="Size.Small" class="px-2 h-9">
                                                     <Blazicon Svg="Lucide.Calendar" class="size-4 opacity-50" />
                                                 </RzButton>
                                             </PopoverTrigger>
@@ -316,7 +320,7 @@
                                  <!-- Reactive Header -->
                                  <div class="flex justify-between w-full items-center">
                                      <span class="font-medium text-sm" x-text="formattedDate || 'Select a date'"></span>
-                                     <RzButton Variant="ThemeVariant.Ghost" Size="Size.ExtraSmall"><Blazicon Svg="Lucide.Plus" /></RzButton>
+                                     <RzButton AssistiveLabel="Add event" Variant="ThemeVariant.Ghost" Size="Size.ExtraSmall"><Blazicon Svg="Lucide.Plus" /></RzButton>
                                  </div>
                                  
                                  <!-- Simulated Event List Logic -->

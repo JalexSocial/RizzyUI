@@ -3,7 +3,7 @@
     <CardContent class="flex flex-col gap-5 pt-6">
         @if (DemoAccount is { Email.Length: > 0 })
         {
-            <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.Status">
+            <RzAlert Variant="ThemeVariant.Information" LiveRegionMode="RzAlertLiveRegionMode.None">
                 <AlertTitle>Demo account</AlertTitle>
                 <AlertDescription>
                     Sign in as <code class="font-mono">@DemoAccount.Email</code> with password
@@ -15,7 +15,7 @@
         <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
                   hx-post="/account/sign-in" hx-target="#sign-in-form" hx-swap="outerHTML">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
             @if (Error is not null)
             {
                 <RzAlert Variant="ThemeVariant.Destructive" LiveRegionMode="RzAlertLiveRegionMode.Alert">

@@ -440,6 +440,11 @@
     }
 }
 
+/* SF-077: vanilla-calendar-pro colors weekend headers itself (unlayered CSS), below 4.5:1. */
+.vc-week__day[data-vc-week-day-off] {
+    color: var(--muted-foreground) !important;
+}
+
 /* Color picker */
 @layer components {
 
@@ -1104,6 +1109,14 @@ pre:has(> code) {
 @layer components {
     .animate-aurora {
         animation: aurora 8s ease-in-out infinite;
+    }
+
+    /* RzAuroraText's default gradient (SF-035: no inline style for the defaults). */
+    .rz-aurora-default {
+        background-image: linear-gradient(135deg, #FF0080, #7928CA, #0070F3, #38bdf8, #FF0080);
+        animation-duration: 10s;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 }
 

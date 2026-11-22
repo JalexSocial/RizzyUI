@@ -75,7 +75,8 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("button", toggle.TagName.ToLowerInvariant());
         Assert.Equal("button", toggle.GetAttribute("type"));
         Assert.Equal("!sort.can(header)", toggle.GetAttribute("x-bind:disabled"));
-        Assert.Equal("sort.nextLabel(header)", toggle.GetAttribute("x-bind:aria-label"));
+        // SF-053: named by its label (the column), not "Sort ascending".
+        Assert.False(toggle.HasAttribute("x-bind:aria-label"));
         Assert.Equal("sort.direction(header) || 'none'", toggle.GetAttribute("x-bind:data-sort-direction"));
         Assert.Equal("sort.toggle(header)", toggle.GetAttribute("x-on:click"));
 
@@ -223,6 +224,69 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Contains("\"accessorKey\":\"Name\"", json);
         Assert.Contains("\"enableGlobalFilter\":true", json);
         Assert.Contains("\"core\":\"getCoreRowModel\"", json);
+    }
+
+    [Fact]
+    public void StateInputName_renders_the_initial_state_as_versioned_json()
+    {
+        // D-31, Summit SF-001.
+        var config = new global::RizzyUI.RzDataTableConfig<RowModel>
+        {
+            Columns = CreateConfig().Columns,
+            InitialState = new global::RizzyUI.RzDataTableInitialState
+            {
+                Sorting = [new global::RizzyUI.RzSortDescriptor { Id = "Name", Desc = true }],
+                Pagination = new global::RizzyUI.RzPaginationState { PageIndex = 2, PageSize = 25 },
+                ColumnVisibility = new() { ["Name"] = false },
+            },
+        };
+        var cut = Render<TestableDataTable>(p => p
+            .Add(x => x.Id, "people")
+            .Add(x => x.Items, CreateRows())
+            .Add(x => x.Config, config)
+            .Add(x => x.RowIdSelector, x => x.Id)
+            .Add(x => x.StateInputName, "TableState"));
+
+        var input = cut.Find("input#people-state[name='TableState'][data-datatable-state]");
+        Assert.Null(input.GetAttribute("data-include-selection"));
+        Assert.True(global::RizzyUI.RzDataTableState.TryParse(input.GetAttribute("value"), out var state));
+        Assert.Equal(1, state.Version);
+        Assert.Equal("Name", state.Sorting[0].Id);
+        Assert.True(state.Sorting[0].Desc);
+        Assert.Equal(2, state.Pagination!.PageIndex);
+        Assert.False(state.ColumnVisibility["Name"]);
+        Assert.Null(state.RowSelection);
+
+        var plain = RenderTable();
+        Assert.Empty(plain.FindAll("input[data-datatable-state]"));
+    }
+
+    [Fact]
+    public void Header_and_body_helpers_render_the_standard_rows()
+    {
+        // Summit SF-056: composable helpers instead of hand-written templates.
+        var cut = Render<TestableDataTable>(p => p
+            .Add(x => x.Items, CreateRows())
+            .Add(x => x.Config, CreateConfig())
+            .Add(x => x.RowIdSelector, x => x.Id)
+            .Add(x => x.ChildContent, (RenderFragment)(b =>
+            {
+                b.OpenComponent<global::RizzyUI.DataTableHeaderRows>(0);
+                b.AddAttribute(1, "Selection", true);
+                b.CloseComponent();
+                b.OpenComponent<global::RizzyUI.DataTableBodyRows>(2);
+                b.AddAttribute(3, "Selection", true);
+                b.CloseComponent();
+            })));
+
+        var markup = cut.Markup;
+        Assert.Contains("x-for=\"headerGroup in headerGroups\"", markup);
+        Assert.Contains("x-bind:aria-sort=\"sort.can(header) ? sort.ariaSort(header) : null\"", markup);
+        Assert.Contains("data-slot=\"data-table-sort-toggle\"", markup);
+        Assert.Contains("data-slot=\"data-table-select-all-checkbox\"", markup);
+        Assert.Contains("x-for=\"row in rows\"", markup);
+        Assert.Contains("x-flexrender=\"_flex.cell(cell)\"", markup);
+        Assert.Contains("data-slot=\"data-table-row-select-checkbox\"", markup);
     }
 
     private IRenderedComponent<TestableDataTable> RenderTable()

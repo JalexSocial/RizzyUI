@@ -1,0 +1,18 @@
+@namespace RizzyUI
+@* SF-056: the standard body markup of an RzDataTable, for use inside TableBody. *@
+<template x-for="row in rows" :key="row.id">
+    <TableRow>
+        @if (Selection)
+        {
+            <DataTableSelectionCell RowExpr="row.row" />
+        }
+        <template x-for="cell in row.cells" :key="cell.id">
+            <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+        </template>
+    </TableRow>
+</template>
+
+@code {
+    /// <summary>Whether each row starts with a checkbox cell (pair with <c>DataTableHeaderRows Selection</c>).</summary>
+    [Parameter] public bool Selection { get; set; }
+}

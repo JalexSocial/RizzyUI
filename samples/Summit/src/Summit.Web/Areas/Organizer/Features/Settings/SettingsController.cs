@@ -39,7 +39,7 @@ public sealed class SettingsController(SettingsStore store, IHtmxSwapService swa
     {
         if (!ModelState.IsValid)
         {
-            Response.ValidationFailedForAnyRequest();
+            Response.Htmx().ValidationFailed();
             return PartialView<GeneralSettingsForm>();
         }
         await store.SaveGeneralAsync(model, Actor);
@@ -65,7 +65,7 @@ public sealed class SettingsController(SettingsStore store, IHtmxSwapService swa
             ModelState.AddModelError("Key.Scopes", "Choose scopes from the list.");
         if (!ModelState.IsValid)
         {
-            Response.ValidationFailedForAnyRequest();
+            Response.Htmx().ValidationFailed();
             return PartialView<CreateKeyBody>();
         }
 
@@ -83,8 +83,8 @@ public sealed class SettingsController(SettingsStore store, IHtmxSwapService swa
             return Results.NotFound();
         swaps.AddSwappableComponent<ApiKeysTable>("api-keys-table", new { Keys = await store.KeysAsync() });
         toasts.Success($"The key “{name}” was revoked.", "API key revoked");
-        // Close only the revoke dialog (SF-003).
-        Response.Htmx(h => h.Trigger("settings:revoke-close"));
+        // D-29: close only this key's revoke dialog.
+        Response.Htmx(h => h.Trigger("rz:dialog-close", new { id = $"revoke-{id}" }));
         return PartialView<Components.Shared.Nothing>();
     }
 

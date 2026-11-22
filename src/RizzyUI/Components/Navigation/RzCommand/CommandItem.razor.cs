@@ -68,6 +68,13 @@ public partial class CommandItem : RzComponent<CommandItem.Slots>
     [Parameter]
     public bool ForceMount { get; set; }
 
+    /// <summary>
+    /// Gets or sets a URL to go to when the item is chosen (Enter or click), after
+    /// <c>rz:command:execute</c>; boosted through htmx when the page has it (Summit SF-016).
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {

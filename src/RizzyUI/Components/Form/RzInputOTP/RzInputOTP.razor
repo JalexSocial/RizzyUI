@@ -16,7 +16,7 @@
          data-value="@Value"
          data-disabled="@Disabled.ToString().ToLowerInvariant()"
          data-invalid="@GetInvalidValue().ToString().ToLowerInvariant()">
-        <input type="text"
+        <input type="text" @attributes="InputAttributes"
                id="@InputId"
                name="@GetNameAttribute()"
                maxlength="@Length"
@@ -32,7 +32,6 @@
                class="@GetInputClasses()"
                data-slot="@RzInputOTP.SlotNames.NameOf(SlotTypes.Input)"
                data-otp-input="true"
-               style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" 
                x-ref="input"
                x-on:input="onInput"
                x-on:keydown="onKeyDown"

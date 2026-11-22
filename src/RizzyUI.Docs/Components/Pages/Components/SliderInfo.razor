@@ -109,6 +109,21 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Bound to a Model" class="scroll-mt-20">Bound to a Model</RzHeading>
+                <RzParagraph>
+                    In an <code>EditForm</code>, <code>RzInputSlider</code> binds one value to a numeric property with <code>For</code>,
+                    like the other inputs: it posts the field's model path (<code>Model.LengthMinutes</code>) with a single value and
+                    marks itself <code>data-invalid</code> while the field has errors. It takes the slider's <code>Min</code>,
+                    <code>Max</code>, <code>Step</code>, <code>AriaLabel</code>, <code>AriaLabelledBy</code> and <code>ValueFormat</code>.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;span id="length-label"&gt;Length&lt;/span&gt;
+&lt;RzInputSlider For="@@(() =&gt; Model.LengthMinutes)" Min="15" Max="240" Step="15"
+               AriaLabelledBy="length-label" ValueFormat="{0} min" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Parameters</RzHeading>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">

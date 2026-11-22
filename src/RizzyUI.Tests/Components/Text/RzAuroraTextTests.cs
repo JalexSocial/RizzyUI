@@ -32,17 +32,14 @@ public class RzAuroraTextTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     }
 
     [Fact]
-    public void DefaultStyle_ContainsExpectedGradientAndDuration()
+    public void DefaultStyle_UsesTheDefaultClassWithoutInlineStyle()
     {
         var cut = Render<RzAuroraText>(p => p.AddChildContent("aurora"));
 
+        // SF-035: the defaults come from a CSS class, so no inline style (strict style-src).
         var visual = cut.Find("[data-slot='text']");
-        var style = visual.GetAttribute("style");
-
-        Assert.NotNull(style);
-        Assert.Contains("linear-gradient(135deg, #FF0080, #7928CA, #0070F3, #38bdf8, #FF0080)", style);
-        Assert.Contains("animation-duration: 10s", style);
-        Assert.Contains("-webkit-background-clip: text", style);
+        Assert.Null(visual.GetAttribute("style"));
+        Assert.Contains("rz-aurora-default", visual.ClassList);
     }
 
     [Fact]
@@ -76,15 +73,16 @@ public class RzAuroraTextTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     }
 
     [Fact]
-    public void AriaLabel_SetsLabelAndOmitsScreenReaderCopy()
+    public void AriaLabel_IsRenderedAsScreenReaderText()
     {
         var cut = Render<RzAuroraText>(p => p
             .Add(x => x.AriaLabel, "Custom Label")
             .AddChildContent("✨"));
 
+        // SF-035: aria-label on a role-less span is prohibited; the label is visually hidden text.
         var root = cut.Find("[data-slot='aurora-text']");
-        Assert.Equal("Custom Label", root.GetAttribute("aria-label"));
-        Assert.Empty(cut.FindAll("[data-slot='sr-text']"));
+        Assert.Null(root.GetAttribute("aria-label"));
+        Assert.Equal("Custom Label", cut.Find("[data-slot='sr-text']").TextContent.Trim());
     }
 
     [Fact]

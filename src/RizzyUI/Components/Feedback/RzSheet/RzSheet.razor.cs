@@ -55,6 +55,28 @@ public partial class RzSheet : RzComponent<RzSheet.Slots>
     [Parameter]
     public bool DismissOnOutsideClick { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets a window event that opens the sheet (Summit SF-002), for example from
+    /// <c>HX-Trigger</c> or <c>$dispatch</c>. With <c>{ "id": "..." }</c> in its detail it opens only the
+    /// sheet with that id.
+    /// </summary>
+    [Parameter]
+    public string? EventTriggerName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the window event that closes the sheet (decision D-29). Without a detail it closes
+    /// every open sheet; with <c>{ "id": "..." }</c> only this one. Defaults to <c>rz:sheet-close</c>.
+    /// </summary>
+    [Parameter]
+    public string CloseEventName { get; set; } = Constants.Events.SheetClose;
+
+    /// <summary>
+    /// Gets or sets a CSS selector, inside the sheet, for the element that takes focus when it opens
+    /// (Summit SF-032). Without it, the first focusable element does.
+    /// </summary>
+    [Parameter]
+    public string? InitialFocus { get; set; }
+
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSheet;
 

@@ -8,7 +8,7 @@
              id="@Id" 
              class="@SlotClasses.GetBase()"
              aria-labelledby="@LegendId">
-    <legend id="@LegendId" class="sr-only">@DisplayName</legend>
+    <legend id="@LegendId" class="@(LegendVisible ? SlotClasses.GetLegend() : "sr-only")">@EffectiveDisplayName</legend>
     <CascadingValue Value="this" IsFixed="true">
         <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
             @ChildContent

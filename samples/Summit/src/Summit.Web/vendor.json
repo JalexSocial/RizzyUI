@@ -1,55 +1,55 @@
 {
-  "$comment": "Third-party widget libraries RizzyUI loads on demand. RizzyUI's defaults point at jsDelivr; Summit serves the same files itself (wwwroot/lib) so CI does not depend on a CDN. `npm run vendor` downloads them from the URLs below; at runtime Infrastructure/SelfHostedAssets.cs points RizzyUI's AssetUrls at the local copies and reuses RizzyUI's own SRI hash for each, so a copy that differs from the pinned file fails to load. Keep the URLs identical to RizzyUI's DefaultCdnAssets (src/RizzyUI/Extensions/ServiceCollectionExtensions.cs).",
+  "$comment": "Third-party widget libraries RizzyUI loads on demand. RizzyUI's defaults point at jsDelivr; Summit serves the same files itself (wwwroot/lib) so CI does not depend on a CDN: Program.cs sets RizzyUIConfig.LocalAssetPath = \"/lib\", and RizzyUI loads each file from /lib/{package}@{version}/{file} with its own SRI hash, so a copy that differs from the pinned file fails to load. `npm run vendor` downloads the files from the URLs below (RizzyUIAssets.Vendor lists them, with the local paths).",
   "assets": [
     {
       "key": "ChartJs",
       "url": "https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.js",
-      "path": "lib/chart.js/chart.umd.js"
+      "path": "lib/chart.js@4.6.1/dist/chart.umd.js"
     },
     {
       "key": "TomSelect",
       "url": "https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js",
-      "path": "lib/tom-select/tom-select.complete.min.js"
+      "path": "lib/tom-select@2.4.1/dist/js/tom-select.complete.min.js"
     },
     {
       "key": "FlatpickrCore",
       "url": "https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js",
-      "path": "lib/flatpickr/flatpickr.min.js"
+      "path": "lib/flatpickr@4.6.13/dist/flatpickr.min.js"
     },
     {
-      "key": "FlatpickrDe",
+      "key": "FlatpickrLocale.de",
       "url": "https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/de.js",
-      "path": "lib/flatpickr/l10n/de.js"
+      "path": "lib/flatpickr@4.6.13/dist/l10n/de.js"
     },
     {
       "key": "VanillaCalendarPro",
       "url": "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.4.0/index.js",
-      "path": "lib/vanilla-calendar-pro/index.js"
+      "path": "lib/vanilla-calendar-pro@3.4.0/index.js"
     },
     {
       "key": "VanillaCalendarCss",
       "url": "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.4.0/styles/index.css",
-      "path": "lib/vanilla-calendar-pro/styles/index.css"
+      "path": "lib/vanilla-calendar-pro@3.4.0/styles/index.css"
     },
     {
       "key": "Coloris",
       "url": "https://cdn.jsdelivr.net/gh/mdbassit/Coloris@v0.25.1/dist/coloris.min.js",
-      "path": "lib/coloris/coloris.min.js"
+      "path": "lib/Coloris@v0.25.1/dist/coloris.min.js"
     },
     {
       "key": "EmblaCore",
       "url": "https://cdn.jsdelivr.net/npm/embla-carousel@8.1.7/embla-carousel.umd.js",
-      "path": "lib/embla-carousel/embla-carousel.umd.js"
+      "path": "lib/embla-carousel@8.1.7/embla-carousel.umd.js"
     },
     {
       "key": "EmblaAutoplay",
       "url": "https://cdn.jsdelivr.net/npm/embla-carousel-autoplay@8.1.7/embla-carousel-autoplay.umd.js",
-      "path": "lib/embla-carousel/embla-carousel-autoplay.umd.js"
+      "path": "lib/embla-carousel-autoplay@8.1.7/embla-carousel-autoplay.umd.js"
     },
     {
       "key": "RzHighlighterCoreScript",
       "url": "https://cdn.jsdelivr.net/npm/rough-notation@0.5.1/lib/rough-notation.iife.js",
-      "path": "lib/rough-notation/rough-notation.iife.js"
+      "path": "lib/rough-notation@0.5.1/lib/rough-notation.iife.js"
     }
   ],
   "htmx": {

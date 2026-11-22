@@ -6,6 +6,7 @@ namespace RizzyUI;
 /// <summary>
 /// Represents the parameters for an HTMX table request, including pagination, sorting, and filtering.
 /// </summary>
+[Obsolete("Use RzDataTableState (RzDataTable.StateInputName) instead; TableRequestModel will be removed after 1.0 (decision D-31).")]
 public record TableRequestModel
 {
     /// <summary>

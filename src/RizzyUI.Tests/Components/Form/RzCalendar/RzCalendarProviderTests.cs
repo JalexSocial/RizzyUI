@@ -16,7 +16,9 @@ public class RzCalendarProviderTests : BunitAlbaContext, IClassFixture<WebAppFix
 
         Assert.Equal("single", root.GetAttribute("data-mode"));
         Assert.Equal("[]", root.GetAttribute("data-initial-dates"));
-        Assert.Equal("en-US", root.GetAttribute("data-locale"));
+        // The request culture (DateCultureTests covers de-DE); "en-US" for the invariant culture.
+        var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+        Assert.Equal(string.IsNullOrEmpty(culture) ? "en-US" : culture, root.GetAttribute("data-locale"));
         Assert.Contains("month", root.GetAttribute("data-format-options"));
     }
 

@@ -7,7 +7,29 @@
      x-data="rzCalendarProvider" x-load="@LoadStrategyOrNull"
      data-mode="@ToVcpMode(Mode)"
      data-initial-dates="@_serializedDates"
-     data-locale="@(Locale ?? "en-US")"
-     data-format-options="@_serializedFormatOptions">
+     data-locale="@EffectiveLocale"
+     data-format-options="@_serializedFormatOptions"
+     data-name="@Name"
+     data-start-name="@StartName"
+     data-end-name="@EndName">
+    @* D-32 (SF-058): the dates as form fields; rzCalendarProvider keeps them in step. *@
+    @if (Mode == SelectionDatesMode.MultipleRanged)
+    {
+        if (!string.IsNullOrEmpty(StartName))
+        {
+            <input type="hidden" data-calendar-input name="@StartName" value="@(_dateList.FirstOrDefault() ?? "")" />
+        }
+        if (!string.IsNullOrEmpty(EndName))
+        {
+            <input type="hidden" data-calendar-input name="@EndName" value="@(_dateList.Count > 1 ? _dateList[^1] : "")" />
+        }
+    }
+    else if (!string.IsNullOrEmpty(Name))
+    {
+        @foreach (var date in Mode == SelectionDatesMode.Multiple ? _dateList : new List<string> { _dateList.FirstOrDefault() ?? "" })
+        {
+            <input type="hidden" data-calendar-input name="@Name" value="@date" />
+        }
+    }
     @ChildContent
 </div>

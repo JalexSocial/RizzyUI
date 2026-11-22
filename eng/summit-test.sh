@@ -77,8 +77,11 @@ if [[ -f "$work/publish/package.json" || -f "$work/publish/package-lock.json" ||
   exit 1
 fi
 modules=$(find "$publish_root" -name "*.razor.js" -not -name "*.gz" -not -name "*.br" | wc -l)
-if [[ "$modules" -lt 10 ]]; then
-  echo "error: expected the bundled code-behind modules in the publish output, found $modules" >&2
+# Every *.razor.js / *.razor.ts module in the source is bundled into one published *.razor.js.
+expected=$(find "$web" \( -name node_modules -o -name 'bin*' -o -name 'obj*' -o -name .test-build -o -name tests -o -name wwwroot \) -prune \
+  -o \( -name "*.razor.js" -o -name "*.razor.ts" \) -print | wc -l)
+if [[ "$expected" -lt 1 || "$modules" -lt "$expected" ]]; then
+  echo "error: expected the $expected bundled code-behind modules in the publish output, found $modules" >&2
   exit 1
 fi
 if ! find "$publish_root" -name "AttendeeTableState*.razor.js" | grep -q .; then

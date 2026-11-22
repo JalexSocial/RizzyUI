@@ -87,6 +87,12 @@
     &lt;RzButton class=&quot;mt-4&quot; type=&quot;submit&quot;&gt;Upload&lt;/RzButton&gt;
 &lt;/form&gt;
                 </RzCodeViewer>
+                <RzParagraph>
+                    <strong>Upload progress.</strong> htmx 4 sends requests with <code>fetch()</code>, which reports no upload progress,
+                    so <code>RzFileInput</code> shows none. Show that the upload is running with an indeterminate <code>RzProgress</code> as
+                    the request indicator (<code>hx-indicator</code>), and keep uploads small enough for that to be enough; for large files,
+                    upload with your own <code>XMLHttpRequest</code> code, which reports progress.
+                </RzParagraph>
             </section>
 
             <section class="my-8 py-2">
@@ -116,12 +122,12 @@
                             <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
                         </thead>
                         <tbody class="divide-y">
-                            <tr class="align-top"><td class="p-4"><code>Name</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Posted field name for standard form submissions.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Name</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Posted field name for standard form submissions. Defaults to the model path of <code>For</code> (<code>Model.Attachment</code>), as Blazor's own inputs post.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Multiple</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Enables selecting and posting multiple files.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Accept</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Accepted MIME types/extensions (for example <code>image/*</code>).</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>FileInputVariant</code></td><td class="p-4"><code>Default</code></td><td class="p-4">Choose compact button style or dropzone style.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Disabled</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Disables file selection and drag/drop interactions.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"File input"</td><td class="p-4">Accessible label applied to the custom trigger and native input. Provide a task-specific label when multiple file inputs are on the same page.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"File input" (native input)</td><td class="p-4">Accessible label of the native input and, when set, of the custom trigger. Without it the trigger is named by its visible text (button or dropzone text), so its name matches what it shows. Provide a task-specific label when multiple file inputs are on the same page.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;object?&gt;&gt;?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Optional model expression used to mirror validation state styles.</td></tr>
                         </tbody>
                     </table>

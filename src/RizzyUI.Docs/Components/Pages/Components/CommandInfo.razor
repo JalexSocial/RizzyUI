@@ -308,6 +308,10 @@
                         <tbody class="divide-y">
                             <tr class="align-top"><td class="p-4"><code>Open</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Controls the visibility of the dialog. Supports two-way binding with <code>@@bind-Open</code>.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>EventTriggerName</code></td><td class="p-4"><code>string</code></td><td class="p-4">Generated</td><td class="p-4">The name of the window event that will trigger the dialog to open.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Shortcut</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">A key that opens the dialog with Ctrl (Cmd on macOS), for example <code>"k"</code>. Off by default.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ItemsUrl</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">A URL to load items from, passed to the inner <code>RzCommand</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>FetchTrigger</code></td><td class="p-4"><code>FetchTrigger</code></td><td class="p-4"><code>Immediate</code></td><td class="p-4">When items load from <code>ItemsUrl</code>, passed to the inner <code>RzCommand</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ServerFiltering</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Whether <code>ItemsUrl</code> filters on the server (<code>?q=</code>), passed to the inner <code>RzCommand</code>.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Title</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"Command Palette"</td><td class="p-4">The title for the dialog, used for accessibility.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Description</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"Search for a command..."</td><td class="p-4">The description for the dialog, used for accessibility.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ShowCloseButton</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">Whether to display the default 'X' close button.</td></tr>
@@ -326,6 +330,7 @@
                             <tr class="align-top"><td class="p-4"><code>Keywords</code></td><td class="p-4"><code>IEnumerable&lt;string&gt;</code></td><td class="p-4">Empty</td><td class="p-4">A list of additional keywords to match against during search.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Disabled</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">If true, the item cannot be selected.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ForceMount</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">If true, the item will always be rendered, regardless of the search query.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Href</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">A URL to go to when the item is chosen (Enter or click), after <code>rz:command:execute</code>. Open dialogs close, then the page is loaded like a boosted link (htmx body swap, URL pushed), or with a normal navigation without htmx. Data items (<code>Items</code>, <code>ItemsUrl</code>) take <code>href</code> too.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -348,7 +353,7 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">handleInteraction</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Triggers command interaction flow, including filtering and item focus updates.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">handleInteraction</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Triggers command interaction flow, including filtering and item focus updates.</td></tr>
                         </tbody>
                     </table>
                 </div>

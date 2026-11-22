@@ -1,0 +1,168 @@
+@page "/docs/interactivity/parent-property-sync"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+
+<PageTitle>Parent Property Synchronization</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        Interactivity
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Parent Property Synchronization</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Parent Property Synchronization">
+                Parent Property Synchronization
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                A RizzyUI component keeps its own Alpine state: whether a toggle is pressed, which values a slider
+                holds, whether a dialog is open. Your application's state lives on an element around it. This page
+                shows how the two talk to each other: events and <code>x-on</code> for "something happened", and
+                <code>x-syncprop</code> for "keep this value in step with mine".
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Your state goes on an ancestor">
+                    Your state goes on an ancestor
+                </RzHeading>
+                <RzParagraph>
+                    Every RizzyUI component owns its Alpine scope, so <code>x-data</code>, <code>x-init</code> and
+                    <code>x-load</code> are reserved on its attributes. Passing one throws an exception that names the
+                    component. Put your state on an element around it instead; everything inside, the component's own
+                    markup included, can read it.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Application state on an ancestor" class="mt-4">
+&lt;!-- Throws: RzToggle owns its x-data --&gt;
+&lt;RzToggle x-data="{ bold: false }"&gt;B&lt;/RzToggle&gt;
+
+&lt;!-- State on an ancestor --&gt;
+&lt;div x-data="editor"&gt;
+    &lt;RzToggle x-on:click="formatChanged()"&gt;B&lt;/RzToggle&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Reacting with x-on">
+                    Reacting with <em>x-on</em>
+                </RzHeading>
+                <RzParagraph>
+                    An <code>x-on:*</code> handler you put on a component runs alongside the component's own handler for
+                    the same event: the toggle still toggles, the menu item still closes its menu, and your handler runs
+                    too. RizzyUI renders your handler with Alpine's equivalent <code>@@event</code> form, so the two never
+                    replace each other. The expression runs in the component's scope, which includes yours, so it can read
+                    your state. Inside it, <code>$el</code> is the component's element: to run code of yours that works with
+                    its own element, dispatch an event (<code>x-on:click="$dispatch('editor:changed')"</code>) and listen for
+                    it in your component.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="A handler next to the component's own" class="mt-4">
+&lt;div x-data="schedule"&gt;
+    &lt;RzMenubar&gt;
+        &lt;MenubarMenu&gt;
+            &lt;MenubarTrigger&gt;Session&lt;/MenubarTrigger&gt;
+            &lt;MenubarContent&gt;
+                &lt;MenubarItem x-on:click="$dispatch('schedule:publish')"&gt;Publish&lt;/MenubarItem&gt;
+            &lt;/MenubarContent&gt;
+        &lt;/MenubarMenu&gt;
+    &lt;/RzMenubar&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Syncing a value with x-syncprop">
+                    Syncing a value with <em>x-syncprop</em>
+                </RzHeading>
+                <RzParagraph>
+                    When your state should follow a component's value, and the other way round, put
+                    <code>x-syncprop="parent.path -&gt; component.path"</code> on the component. The left side is a path
+                    in your state, the right side a property of the component's state (each component page names its
+                    properties). Changes flow both ways. By default your value wins when the page loads;
+                    <code>x-syncprop.init-child</code> lets the component's value win instead.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Two-way sync with a component" class="mt-4">
+&lt;div x-data="editor"&gt;
+    &lt;!-- editor.bold follows the toggle, and the toggle follows editor.bold --&gt;
+    &lt;RzToggle x-syncprop="bold -&gt; pressed"&gt;B&lt;/RzToggle&gt;
+
+    &lt;!-- The slider's state lives on an inner element: x-syncprop moves there by itself --&gt;
+    &lt;RzSlider Value="@@(new double[] { 30 })" x-syncprop.init-child="volume -&gt; values" /&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzParagraph>
+                    Some components keep their state on an element inside their root (charts, sliders, date pickers).
+                    You do not need to know which: on a component root without its own state, <code>x-syncprop</code>
+                    moves to the element that holds the component's state.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Inside dialogs, sheets and popovers">
+                    Inside dialogs, sheets and popovers
+                </RzHeading>
+                <RzParagraph>
+                    "Parent" means the nearest state around the component that is not a RizzyUI component's. A toggle
+                    inside a dialog therefore syncs with your state around the dialog, not with the dialog's own
+                    <code>open</code> flag, also though the dialog's content is moved to the end of the page. To name the
+                    parent explicitly, add <code>data-syncprop-parent="#selector"</code> next to <code>x-syncprop</code>;
+                    the <code>.direct</code> modifier syncs with the closest state even when it is a RizzyUI component's
+                    (RizzyUI's own sidebar uses it to drive its mobile sheet).
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="A component inside a dialog" class="mt-4">
+&lt;div x-data="editor"&gt;
+    &lt;RzDialog&gt;
+        &lt;DialogTrigger AsChild&gt;&lt;RzButton&gt;Format&lt;/RzButton&gt;&lt;/DialogTrigger&gt;
+        &lt;DialogContent AriaLabel="Format"&gt;
+            &lt;!-- Syncs with editor.bold, not with the dialog's state --&gt;
+            &lt;RzToggle x-syncprop="bold -&gt; pressed"&gt;B&lt;/RzToggle&gt;
+        &lt;/DialogContent&gt;
+    &lt;/RzDialog&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine directives on components">
+                    Alpine directives on components
+                </RzHeading>
+                <RzParagraph>
+                    The rules for directives you put on a RizzyUI component:
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-6 overflow-x-auto rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted text-left font-semibold">
+                            <tr><th scope="col" class="w-1/4 px-4 py-3">Directive</th><th scope="col" class="px-4 py-3">Rule</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-data</code>, <code>x-init</code>, <code>x-load</code></td><td class="px-4 py-3">Reserved; throws. Put your state on an ancestor.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-on:*</code></td><td class="px-4 py-3">Allowed; runs alongside the component's own handlers.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-syncprop</code></td><td class="px-4 py-3">Allowed; moves to the element that holds the component's state.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-bind:*</code> / <code>:attr</code></td><td class="px-4 py-3">Allowed, except for attributes the component computes itself (such as <code>aria-pressed</code> on a toggle): those are dropped, with a warning in Development.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-show</code>, <code>x-cloak</code>, <code>x-transition</code></td><td class="px-4 py-3">Allowed, except on components that manage their own visibility (dialog, sheet, popover and menu content, collapsible content), where they throw.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-ref</code></td><td class="px-4 py-3">Allowed, except the ref names the component uses itself; those throw.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>x-model</code></td><td class="px-4 py-3">Allowed on components that hold a value (form inputs, input-group inputs, <code>CommandInput</code>, <code>RzColorSwatch</code>); elsewhere it throws. Use <code>x-syncprop</code> instead.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

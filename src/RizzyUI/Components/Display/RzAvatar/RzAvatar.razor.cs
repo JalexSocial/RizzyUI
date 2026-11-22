@@ -77,10 +77,23 @@ public partial class RzAvatar : RzComponent<RzAvatar.Slots>
     [Parameter] public bool Border { get; set; }
 
     /// <summary>
-    /// Gets or sets the ARIA label for the avatar container.
-    /// If not set, a default localized label "Avatar" will be used.
+    /// Gets or sets the accessible name of the avatar. With it, the avatar is an image with that name
+    /// (<c>role="img"</c>). Without it, the avatar has no role and its content speaks for it: the
+    /// image's <c>AlternateText</c> or the fallback's text (Summit SF-031).
     /// </summary>
     [Parameter] public string? AriaLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the avatar is decorative (next to the person's name, for example): it is
+    /// hidden from assistive technology (<c>aria-hidden="true"</c>).
+    /// </summary>
+    [Parameter] public bool Decorative { get; set; }
+
+    /// <summary>The root role: an image when the avatar has its own name.</summary>
+    protected string? RootRole => !Decorative && !string.IsNullOrWhiteSpace(AriaLabel) ? "img" : null;
+
+    /// <summary>The root label, when the avatar has its own name.</summary>
+    protected string? RootAriaLabel => RootRole is null ? null : AriaLabel;
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the avatar container. 

@@ -136,7 +136,7 @@
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="x-syncprop: Two-Way State Synchronization"><em>x-syncprop</em>: Two-Way State Synchronization</RzHeading>
                 <RzParagraph>
-                    The <code>x-syncprop</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a **direct child** component.
+                    The <code>x-syncprop</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a child component. On RizzyUI components, "parent" skips the components' own state (so a component inside a dialog syncs with your state), and the directive finds a component's state even when it lives on an inner element; see <RzLink Href="/docs/interactivity/parent-property-sync">Parent Property Synchronization</RzLink>.
                 </RzParagraph>
                 <RzAlert Variant="ThemeVariant.Information" class="my-4">
                     <AlertTitle>What Problem Does <code>x-syncprop</code> Solve?</AlertTitle>

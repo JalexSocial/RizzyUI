@@ -1,0 +1,15 @@
+@page "/_tests/head-content"
+@layout HarnessLayout
+@* Summit SF-034: a page with its own HeadContent keeps the RzThemeProvider theme, which renders through
+   RzThemeHeadOutlet instead of HeadContent. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>HeadContent harness</PageTitle>
+
+<HeadContent>
+    <meta name="harness-head-content" content="present" />
+</HeadContent>
+
+<div class="p-6">
+    <h1 class="text-2xl font-semibold">HeadContent harness</h1>
+    <RzButton id="themed-button">Themed</RzButton>
+</div>

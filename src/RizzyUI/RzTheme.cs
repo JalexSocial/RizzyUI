@@ -147,6 +147,8 @@ public partial class RzTheme
 
         // RzDarkModeToggle Family
         RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
+        RzGetForm = RizzyUI.RzGetForm.DefaultDescriptor;
+        RzFocusFirstInvalid = RizzyUI.RzFocusFirstInvalid.DefaultDescriptor;
 
         // RzDateEdit Family
         RzDateEdit = RizzyUI.RzDateEdit.DefaultDescriptor;

@@ -73,7 +73,7 @@
                 <RzParagraph>Here’s how you’d use it with an <code>&lt;RzButton&gt;</code>:</RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20" 
-                         x-data="{ count: 0, increment() { this.count++ } }">
+                         x-data="@Data("{ count: 0, increment() { this.count++ } }", "fundamentalsCounter")">
                         <RzButton x-on:click="increment">Increment</RzButton>
                         <span class="text-foreground">Count: <span x-text="count"></span></span>
                     </div>
@@ -127,7 +127,7 @@
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20"
-                         x-data="{ updateMessage() { this.$refs.output.innerText = 'Updated Directly!' } }">
+                         x-data="@Data("{ updateMessage() { this.$refs.output.innerText = 'Updated Directly!' } }", "fundamentalsRefs")">
                         <p class="text-foreground">The message is: <strong x-ref="output">Hello!</strong></p>
                         <RzButton x-on:click="updateMessage">Update via $refs</RzButton>
                     </div>
@@ -156,7 +156,7 @@
                 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-40"
-                         x-data="{ isSaved: false, save() { this.isSaved = true; setTimeout(() => this.isSaved = false, 2000) } }">
+                         x-data="@Data("{ isSaved: false, save() { this.isSaved = true; setTimeout(() => this.isSaved = false, 2000) } }", "fundamentalsSave")">
                         <RzButton
                             x-on:click="save"
                             :aria-busy="isSaved ? 'true' : 'false'"
@@ -243,3 +243,10 @@
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
+
+@code {
+    // SF-083: the CSP build cannot evaluate inline object literals with methods, so under the docs site's
+    // Content Security Policy the live examples use the same data registered with Alpine.data (site.js).
+    private static string Data(string inline, string registered) =>
+        App.UseContentSecurityPolicy ? registered : inline;
+}

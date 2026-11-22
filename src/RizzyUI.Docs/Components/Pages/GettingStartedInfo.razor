@@ -129,7 +129,7 @@ dotnet run
                             </tr>
                             <tr class="align-top">
                                 <td class="p-4"><code>Components/Layout/AppLayout.razor</code></td>
-                                <td class="p-4">The HTML document: the stylesheet, <code>&lt;RzHeadOutlet /&gt;</code>, <code>&lt;RzScripts /&gt;</code> (htmx and Rizzy), <code>rizzyui.js</code>, and <code>RzThemeProvider</code>.</td>
+                                <td class="p-4">The HTML document: the stylesheet, <code>&lt;RzHeadOutlet /&gt;</code>, <code>&lt;RzThemeHeadOutlet /&gt;</code> (the theme's CSS variables), <code>&lt;RzScripts /&gt;</code> (htmx and Rizzy), <code>rizzyui.js</code>, and <code>RzThemeProvider</code>.</td>
                             </tr>
                             <tr class="align-top">
                                 <td class="p-4"><code>Components/Layout/MainLayout.razor</code></td>
@@ -311,6 +311,35 @@ npm run watch:css
                 <RzParagraph>
                     To build without Node.js (for example in a .NET-only CI step that already has the compiled CSS), pass
                     <code>-p:SkipTailwind=true</code>.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Widget Libraries">
+                    Widget Libraries
+                </RzHeading>
+                <RzParagraph>
+                    Some components load a third-party library the first time they appear: Chart.js (charts), Tom Select
+                    (comboboxes), flatpickr (date edit), vanilla-calendar-pro (calendar), Coloris (color picker), Embla
+                    (carousel) and rough-notation (highlighter). By default they come from jsDelivr, pinned to exact versions
+                    with Subresource Integrity hashes. To serve them from your own site (no CDN at run time, a strict CSP),
+                    copy the files <code>RizzyUIAssets.Vendor</code> lists into a folder under <code>wwwroot</code> and set
+                    <code>LocalAssetPath</code>:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-4">
+builder.Services.AddRizzyUI(config =&gt;
+{
+    // Loads /lib/chart.js@@4.6.1/dist/chart.umd.js and so on: jsDelivr's layout, the same hashes.
+    config.LocalAssetPath = "/lib";
+});
+
+// RizzyUIAssets.Vendor: Key, CdnUrl, Integrity and LocalPath for every file, for a copy script.
+foreach (var asset in RizzyUIAssets.Vendor)
+    Console.WriteLine($"{asset.CdnUrl} -&gt; wwwroot/lib/{asset.LocalPath}");
+                </RzCodeViewer>
+                <RzParagraph>
+                    A copy that is not byte-identical to the pinned file fails its integrity check, so the browser refuses it
+                    rather than running a different version. Entries you set in <code>AssetUrls</code> still win.
                 </RzParagraph>
             </section>
 

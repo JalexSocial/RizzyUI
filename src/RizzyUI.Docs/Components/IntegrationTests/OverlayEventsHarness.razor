@@ -1,0 +1,33 @@
+@page "/_tests/overlay-events"
+@layout HarnessLayout
+@* Decision D-29 and Summit SF-002, SF-003, SF-032: one close event per overlay kind with an optional
+   target id, sheets opened and closed by window events, rz:sheet:open/close notifications, and an
+   initial-focus selector. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>Overlay events harness</PageTitle>
+
+<div class="space-y-6 p-6" x-data="{ sheetEvents: [] }"
+     x-on:rz:sheet:open.window="sheetEvents.push('open:' + $event.detail.id)"
+     x-on:rz:sheet:close.window="sheetEvents.push('close:' + $event.detail.id)">
+    <h1 class="text-2xl font-semibold">Overlay events harness</h1>
+
+    <RzDialog Id="dialog-a" EventTriggerName="harness:open-a">
+        <DialogContent AriaLabel="Dialog A"><p>Dialog A</p><RzButton id="a-first">First</RzButton></DialogContent>
+    </RzDialog>
+    <RzDialog Id="dialog-b" EventTriggerName="harness:open-b" InitialFocus="#b-second">
+        <DialogContent AriaLabel="Dialog B">
+            <p>Dialog B</p>
+            <RzButton id="b-first">First</RzButton>
+            <RzButton id="b-second">Second</RzButton>
+        </DialogContent>
+    </RzDialog>
+
+    <RzSheet Id="sheet-a" EventTriggerName="harness:open-sheet" InitialFocus="#sheet-save">
+        <SheetContent AriaLabel="Sheet A">
+            <RzButton id="sheet-first">First</RzButton>
+            <RzButton id="sheet-save">Save</RzButton>
+        </SheetContent>
+    </RzSheet>
+
+    <p>Sheet events: <span id="sheet-events" x-text="sheetEvents.join(',')"></span></p>
+</div>

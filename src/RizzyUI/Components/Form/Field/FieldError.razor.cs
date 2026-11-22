@@ -35,6 +35,14 @@ public partial class FieldError : RzComponent<FieldError.Slots>
     /// </summary>
     protected RenderFragment? Content { get; private set; }
 
+    /// <summary>
+    /// <c>alert</c> when the component renders <see cref="Errors"/> itself, so the messages are announced.
+    /// Child content (a validation message component) is usually empty until the form has errors, and is
+    /// tied to its input with <c>aria-describedby</c>, so it gets no role: a form would otherwise carry one
+    /// empty alert per field (Summit SF-026).
+    /// </summary>
+    protected string? Role => ChildContent is null ? "alert" : null;
+
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {

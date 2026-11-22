@@ -79,7 +79,7 @@
                 <div class="not-prose mb-6 rounded-lg border bg-muted/50 p-8">
                     <RzConfetti Trigger="ConfettiTrigger.CustomEvent" EventName="order:success" Preset="ConfettiPreset.DualCannons">
                         <div class="flex flex-wrap items-center gap-3">
-                            <RzButton type="button" onclick="window.dispatchEvent(new CustomEvent('order:success'))">Dispatch order:success</RzButton>
+                            <span x-data class="contents"><RzButton type="button" x-on:click="$dispatch('order:success')">Dispatch order:success</RzButton></span>
                             <RzParagraph class="m-0 text-sm text-muted-foreground">Trigger the custom browser event to fire confetti.</RzParagraph>
                         </div>
                     </RzConfetti>

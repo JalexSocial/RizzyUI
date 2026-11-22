@@ -4,15 +4,17 @@
     classes, and inline style attributes are blocked by a strict style-src. Instead each track gets a
     class with a CSS variable, in a nonced <style>: .track-web { --track: #6d5efc }.
 
-    Rendered directly in the layout's <head>, not through <HeadContent>: Blazor renders only the last
-    HeadContent, and RzThemeProvider uses one for the theme variables (summit-findings.md SF-034).
+    Rendered through <HeadContent>, the standard Blazor way; RzThemeProvider's theme has its own outlet
+    (<RzThemeHeadOutlet />), so the two do not replace each other.
 *@
-<style nonce="@NonceProvider.GetNonce()">
-    @foreach (var track in Tracks)
-    {
-        @($".track-{track.Slug}{{--track:{SafeColor(track.Color)}}}")
-    }
-</style>
+<HeadContent>
+    <style nonce="@NonceProvider.GetNonce()">
+        @foreach (var track in Tracks)
+        {
+            @($".track-{track.Slug}{{--track:{SafeColor(track.Color)}}}")
+        }
+    </style>
+</HeadContent>
 
 @code {
     [Inject] private Summit.Web.Features.ConferenceInfo Info { get; set; } = null!;

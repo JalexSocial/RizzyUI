@@ -5,7 +5,8 @@
     it starts from comes from AttendeeTableState (SF-001).
 *@
 <div id="attendee-table">
-    <RzDataTable TItem="AttendeeRow" Id="attendees" Items="Model.Rows" Config="Config" RowIdSelector="x => x.Id">
+    <RzDataTable TItem="AttendeeRow" Id="attendees" Items="Model.Rows" Config="Config" RowIdSelector="x => x.Id"
+                 StateInputName="TableState" IncludeSelectionInState="true">
         <div class="flex flex-wrap items-end gap-3 pb-4">
             <div class="flex min-w-60 flex-1 flex-col gap-1.5">
                 <label for="attendee-search" class="text-sm font-medium">Search attendees</label>
@@ -64,11 +65,9 @@
                                         <DataTableSelectAllCheckbox Scope="DataTableSelectionScope.Page" AriaLabel="Select all attendees on this page" />
                                     </template>
                                     <template x-if="sort.can(header) && !header.isPlaceholder">
-                                        @* SF-053: the toggle's own name ("Sort ascending") leaves out the column and hides
-                                           its visible text (WCAG 2.5.3). aria-labelledby names it after its label;
-                                           the header's aria-sort carries the direction. *@
-                                        <DataTableSortToggle HeaderExpr="header" x-bind:aria-labelledby="'attendees-sort-' + header.id">
-                                            <span x-bind:id="'attendees-sort-' + header.id" x-flexrender="_flex.header(header)"></span>
+                                        @* Named by its label; the header's aria-sort carries the direction. *@
+                                        <DataTableSortToggle HeaderExpr="header">
+                                            <span x-flexrender="_flex.header(header)"></span>
                                         </DataTableSortToggle>
                                     </template>
                                     <template x-if="!sort.can(header) && header.column.id !== 'select' && !header.isPlaceholder">
@@ -111,13 +110,14 @@
                                         </span>
                                     </template>
                                     <template x-if="cell.column.id === 'actions'">
-                                        @* hx-get cannot be used here: rows are rendered by Alpine after htmx processed the
-                                           page (SF-048), so the click goes through AttendeeTableState.edit(). *@
+                                        @* RzDataTable processes hx-* in rows it renders; the click also remembers the row,
+                                           so focus can return to it after a save. *@
                                         @* row is RizzyUI's row view ({ id, row, cells }); the TanStack row is row.row, and
                                            its original is serialized in camelCase although column ids keep the C# names (SF-050). *@
                                         <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small"
                                                   x-bind:data-edit-id="row.id"
                                                   x-bind:aria-label="'Edit ' + row.row.original.name"
+                                                  x-bind:hx-get="row.row.original.editUrl" hx-target="#attendee-editor" hx-swap="innerHTML"
                                                   x-on:click="edit(row.id)">
                                             Edit
                                         </RzButton>

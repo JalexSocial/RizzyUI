@@ -6,8 +6,11 @@
     <RzArticle ProseWidth="ProseWidth.Wide">
         <MainContent>
             <RzBreadcrumb>
-                <BreadcrumbItem Href="/" Label="Home" />
-                <BreadcrumbItem Label="Command Demo" />
+                <BreadcrumbList>
+                    <BreadcrumbItem><BreadcrumbLink Href="/">Home</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbPage>Command Demo</BreadcrumbPage></BreadcrumbItem>
+                </BreadcrumbList>
             </RzBreadcrumb>
 
             <RzHeading Level="HeadingLevel.H1">Command Demo</RzHeading>

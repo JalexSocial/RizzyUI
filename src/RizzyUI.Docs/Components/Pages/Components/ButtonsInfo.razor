@@ -180,6 +180,32 @@
                 </RzCodeViewer>
             </section>
 
+            <!-- Button as a link -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Button as a Link" class="scroll-mt-20">
+                    Button as a Link
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    For navigation, style a link as a button: with <code>AsChild</code> the button renders its single child element
+                    instead of a <code>&lt;button&gt;</code>, with the button's classes and attributes merged into it (the child's own
+                    attributes win, classes are merged). <code>Element="a"</code> with an <code>href</code> does the same for simple links.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex min-h-[10rem] items-center justify-center gap-4 p-8">
+                        <RzButton AsChild Variant="ThemeVariant.Primary">
+                            <a href="#">Back to the dashboard</a>
+                        </RzButton>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;RzButton AsChild Variant="ThemeVariant.Primary"&gt;
+    &lt;a href="/"&gt;Back to the dashboard&lt;/a&gt;
+&lt;/RzButton&gt;
+                </RzCodeViewer>
+            </section>
+
             <!-- Button Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Button Component Parameters" class="scroll-mt-20">
@@ -197,46 +223,52 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AssistiveLabel</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">AssistiveLabel</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – Accessible label for screen readers.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"Action Button"</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Variant</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Variant</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>ThemeVariant</code> – Determines the button style. Options: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Primary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Secondary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Accent</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Inverse</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Information</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Destructive</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Warning</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Success</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Ghost</code>.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ThemeVariant</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ThemeVariant.Primary</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Size</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Size</code> – Specifies the size of the button. Options: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraSmall</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Small</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Medium</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Large</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraLarge</code>.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Size</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Size.Medium</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Outline</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Outline</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If set to <code>true</code>, renders the button with an outline style instead of a solid background.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Animate</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Animate</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Controls whether the button animations (such as active scaling) are enabled.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Label</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Label</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – Optional text label if no child content is provided.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">string.Empty</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The content displayed inside the button.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">AsChild</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Renders the single child element (for example a link) instead of a <code>&lt;button&gt;</code>, with the button's classes and attributes merged into it.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
                         </tbody>
                     </table>

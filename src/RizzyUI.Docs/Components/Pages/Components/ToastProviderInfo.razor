@@ -161,7 +161,7 @@ toastService.Success("Message archived.", "Archived", new RzToastOptions
                 <RzAlert Variant="ThemeVariant.Warning" class="my-6">
                     <AlertTitle>HTMX request-scope limitation</AlertTitle>
                     <AlertDescription>
-                        <code>UseRzToast()</code> emits commands only for HTMX responses. Commands queued during normal non-HTMX requests, redirects, or later requests are not persisted by this middleware. Use application-defined stable string ids for cross-request updates, and do not store <code>RzToastHandle</code> beyond the current request scope. Redirect persistence requires a separate TempData, session, distributed cache, or application-specific store.
+                        <code>UseRzToast()</code> emits commands only for HTMX responses. Commands queued during normal non-HTMX requests, redirects, or later requests are not persisted by this middleware. Use application-defined stable string ids for cross-request updates, and do not store <code>RzToastHandle</code> beyond the current request scope. Redirect persistence requires a separate TempData, session, distributed cache, or application-specific store. In Development the middleware logs a Warning when it drops queued toasts (a normal request, or a redirect that the browser follows), so a lost "Saved" toast shows up in the log. With htmx, answer the request in place and use <code>HX-Push-Url</code> or <code>HX-Location</code> instead of a redirect (post/redirect/get), and the toast arrives.
                     </AlertDescription>
                 </RzAlert>
             </section>
@@ -607,7 +607,11 @@ for (let index = 1; index &lt;= 7; index += 1) {
         new("CloseOnEscape", "Whether Escape dismisses a focused toast.", "bool", "true"),
         new("PreventDuplicates", "Whether duplicate requests update instead of stacking.", "bool", "false"),
         new("CloseButtonAriaLabel", "Accessible label for close buttons.", "string?", "localized"),
-        new("RegionAriaLabel", "Accessible label for the provider region.", "string?", "localized")
+        new("RegionAriaLabel", "Accessible label for the provider region.", "string?", "localized"),
+        new("ServerErrorToasts", "Shows an error toast when an htmx request fails: rz:server-error (raised by Rizzy's UseHtmxErrorHandling for a 5xx) and htmx:error (the request could not be sent).", "bool", "false"),
+        new("ServerErrorTitle", "Title of the server-error toast.", "string?", "localized"),
+        new("ServerErrorText", "Text of the toast for rz:server-error.", "string?", "localized"),
+        new("NetworkErrorText", "Text of the toast for a request that could not be sent.", "string?", "localized")
     ];
 
     private static readonly IReadOnlyList<TableRow> ToastOptions =
@@ -691,7 +695,7 @@ for (let index = 1; index &lt;= 7; index += 1) {
                 @foreach (var row in rows)
                 {
                     <tr class="align-top">
-                        <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">@row.First</code></td>
+                        <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">@row.First</code></td>
                         <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">@row.Second</td>
                         <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">@row.Third</code></td>
                         <td class="px-4 py-4 text-zinc-500">@row.Fourth</td>

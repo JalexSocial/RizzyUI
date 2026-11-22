@@ -35,7 +35,8 @@ public static class InputGroupButtonStyles
     /// The default TvDescriptor for the InputGroupButton component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<InputGroupButtonSlots>, InputGroupButtonSlots> DefaultDescriptor = new(
-        @base: "text-sm shadow-none flex gap-2 items-center",
+        // shrink-0: a button in a narrow input group keeps its size (an icon button squeezed to 14 px failed target-size).
+        @base: "text-sm shadow-none flex shrink-0 gap-2 items-center",
         variants: new()
         {
             [c => ((IHasInputGroupButtonStylingProperties)c).Size] = new Variant<InputGroupButtonSize, InputGroupButtonSlots>

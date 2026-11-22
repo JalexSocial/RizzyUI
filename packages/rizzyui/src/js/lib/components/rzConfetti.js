@@ -263,11 +263,15 @@ export default function rzConfetti() {
                 return this.confettiFactory;
             }
 
-            if (typeof confetti === 'function') {
-                this.confettiFactory = confetti;
-            } else {
-                this.confettiFactory = moduleOrWindowConfetti;
+            // canvas-confetti's default instance always draws in a blob: worker when the browser
+            // supports it, which a Content Security Policy without worker-src blob: blocks, and it
+            // ignored UseWorker="false" (SF-083). One shared full-page instance per setting.
+            const shared = (globalThis.__rzConfettiInstances ??= {});
+            const key = this.useWorker ? 'worker' : 'main';
+            if (!shared[key] && typeof moduleOrWindowConfetti.create === 'function') {
+                shared[key] = moduleOrWindowConfetti.create(null, { resize: true, useWorker: this.useWorker });
             }
+            this.confettiFactory = shared[key] || (typeof confetti === 'function' ? confetti : moduleOrWindowConfetti);
 
             return this.confettiFactory;
         },

@@ -58,14 +58,14 @@ public sealed class ScheduleBuilderController(ScheduleBuilder builder, IHtmxSwap
 
         if (!ModelState.IsValid)
         {
-            Response.ValidationFailedForAnyRequest();
+            Response.Htmx().ValidationFailed();
             return PartialView<SessionEditor>(new { Context = await builder.ContextAsync(id) });
         }
 
         var savedId = await builder.SaveAsync(id, model, User.Identity?.Name ?? "Organizer");
         swaps.AddSwappableComponent<SessionList>("session-list", new { Items = await builder.ItemsAsync(), SelectedId = (int?)savedId });
         toasts.Success($"“{model.Title}” was saved.", "Saved");
-        Response.HtmxIfRequested(h => h.PushUrl($"{Base}/sessions/{savedId}"));
+        Response.Htmx(h => h.PushUrl($"{Base}/sessions/{savedId}"));
         return PartialView<SessionEditor>(new { Initial = await builder.ModelAsync(savedId), Context = await builder.ContextAsync(savedId), Saved = true });
     }
 
@@ -78,7 +78,7 @@ public sealed class ScheduleBuilderController(ScheduleBuilder builder, IHtmxSwap
 
         swaps.AddSwappableContent($"session-item-{id}", new Microsoft.AspNetCore.Components.MarkupString(""), SwapStyle.delete);
         toasts.Success($"“{title}” was deleted.", "Deleted");
-        Response.HtmxIfRequested(h => h.PushUrl(Base));
+        Response.Htmx(h => h.PushUrl(Base));
         return PartialView<SessionEditorEmpty>();
     }
 
@@ -88,8 +88,8 @@ public sealed class ScheduleBuilderController(ScheduleBuilder builder, IHtmxSwap
         var count = await builder.PublishAllAsync(User.Identity?.Name ?? "Organizer");
         swaps.AddSwappableComponent<SessionList>("session-list", new { Items = await builder.ItemsAsync() });
         toasts.Success(count == 0 ? "There were no drafts to publish." : $"{count} {(count == 1 ? "session" : "sessions")} published.", "Publish all");
-        // Close only this dialog (SF-003).
-        Response.Htmx(h => h.Trigger("builder:publish-close"));
+        // D-29: close only this dialog.
+        Response.Htmx(h => h.Trigger("rz:dialog-close", new { id = "publish-confirm" }));
         return PartialView<Components.Shared.Nothing>();
     }
 }

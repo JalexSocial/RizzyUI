@@ -15,11 +15,14 @@ public sealed class ErrorsController : RzController
         return View<ErrorPage>(new { RequestId = HttpContext.TraceIdentifier });
     }
 
-    // UseStatusCodePagesWithReExecute("/not-found") re-executes 404s here.
-    [Route("/not-found")]
-    public IResult NotFoundPage()
+    // UseStatusPages (StatusPages.cs) re-executes empty error responses here. The status code is kept:
+    // a 400 stays a 400 instead of becoming "page not found".
+    [Route("/status/{code:int}")]
+    public IResult Status(int code)
     {
-        Response.StatusCode = StatusCodes.Status404NotFound;
-        return View<NotFoundPage>();
+        Response.StatusCode = code;
+        return code == StatusCodes.Status404NotFound
+            ? View<NotFoundPage>()
+            : View<StatusPage>(new { StatusCode = code });
     }
 }

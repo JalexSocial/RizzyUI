@@ -126,7 +126,22 @@ export default function rzCalendar() {
         dispatchCalendarEvent(eventName, detail) {
             // Dispatch with prefix 'rz:calendar:'
             // Resulting events: 'rz:calendar:click-day', 'rz:calendar:change-time', etc.
-            this.$dispatch(`rz:calendar:${eventName}`, detail);
+            const type = `rz:calendar:${eventName}`;
+            this.$dispatch(type, detail);
+
+            // SF-057: in a popover the calendar is teleported to <body>, so its events never bubble to
+            // the provider around the popover. Alpine keeps the provider in the calendar's scope, so
+            // dispatch on the provider's element as well when it is not an ancestor.
+            const provider = typeof this.rzCalendarProviderElement === 'function'
+                ? this.rzCalendarProviderElement()
+                : null;
+            if (provider && provider.isConnected && !provider.contains(this.$el)) {
+                const event = new CustomEvent(type, { detail, bubbles: true, composed: true });
+                // The provider answers on the calendar too (range-complete), so it can reach listeners
+                // inside the popover, around the teleported calendar.
+                Object.defineProperty(event, 'rzCalendarSource', { value: this.$el });
+                provider.dispatchEvent(event);
+            }
         },
 
         /**

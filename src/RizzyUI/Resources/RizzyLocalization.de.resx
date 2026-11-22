@@ -51,12 +51,6 @@
   <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
     <value>Dunkelmodus umschalten</value>
   </data>
-  <data name="RzDateEdit.AriaLabel" xml:space="preserve">
-    <value>Datumsauswahl</value>
-  </data>
-  <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
-    <value>Datum auswählen</value>
-  </data>
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
     <value>Seitenmenü umschalten</value>
   </data>
@@ -194,5 +188,14 @@
   </data>
   <data name="RzToastProvider.RegionAriaLabel" xml:space="preserve">
     <value>Benachrichtigungen</value>
+  </data>
+  <data name="RzToastProvider.ServerErrorTitle" xml:space="preserve">
+    <value>Etwas ist schiefgelaufen</value>
+  </data>
+  <data name="RzToastProvider.ServerErrorText" xml:space="preserve">
+    <value>Der Server konnte die Anfrage nicht ausführen. Bitte versuche es erneut.</value>
+  </data>
+  <data name="RzToastProvider.NetworkErrorText" xml:space="preserve">
+    <value>Der Server ist nicht erreichbar. Prüfe deine Verbindung.</value>
   </data>
 </root>

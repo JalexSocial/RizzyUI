@@ -22,7 +22,7 @@
         {
             @* RzTable's container scrolls sideways on narrow cards but cannot take focus, so keyboard users
                could not scroll it (axe scrollable-region-focusable, SF-063). *@
-            <RzTable tabindex="0" role="region" aria-label="Recent orders table">
+            <RzTable AriaLabel="Recent orders table">
                 <TableCaption class="sr-only">Recent orders, page @Orders.Page of @Orders.Pages</TableCaption>
                 <TableHeader>
                     <TableRow>

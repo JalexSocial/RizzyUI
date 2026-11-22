@@ -1,8 +1,0 @@
-@attribute [RzAlpineCodeBehind]
-@*
-    Makes command palette items navigate. RzCommand items have a Value but no link: choosing one with
-    Enter or a click dispatches rz:command:execute (summit-findings.md SF-016). Every Summit palette uses
-    the page URL as the item value; this component follows it with htmx (body swap, pushed URL), the
-    same as a boosted link.
-*@
-<RzAlpineComponent For="this" class="hidden" />

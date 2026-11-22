@@ -10,15 +10,18 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/css/app.css" />
 
-    @* The htmx-config meta tag and page head content, then htmx 4, rizzy.js and its extensions. *@
+    @* The htmx-config meta tag and page head content, the theme's CSS variables (from RzThemeProvider),
+       then htmx 4, rizzy.js and its extensions. *@
     <RzHeadOutlet />
+    <RzThemeHeadOutlet />
     <RzScripts />
 
     @* RizzyUI's runtime: Alpine.js and the component behaviors. *@
     <script type="module" nonce="@NonceProvider.GetNonce()" src="/_content/RizzyUI/js/rizzyui.min.js"></script>
 </head>
-@* hx-boost turns links and forms into htmx requests that swap the page body without a full reload. *@
-<body class="bg-background text-foreground antialiased" hx-boost="true">
+@* hx-boost turns links and forms into htmx requests that swap the page body without a full reload.
+   htmx 4 inherits an attribute only when it says so: hx-boost:inherited, not hx-boost. *@
+<body class="bg-background text-foreground antialiased" hx-boost:inherited="true">
     <RzThemeProvider>
         @Body
     </RzThemeProvider>

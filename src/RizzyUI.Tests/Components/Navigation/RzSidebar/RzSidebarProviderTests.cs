@@ -102,9 +102,10 @@ public class RzSidebarProviderTests : BunitAlbaContext, IClassFixture<WebAppFixt
 
         var template = cut.Find("template").OuterHtml;
 
-        Assert.Contains("x-syncprop=\"openMobile -> open\"", cut.Markup);
+        Assert.Contains("x-syncprop.direct=\"openMobile -> open\"", cut.Markup);
         Assert.Contains("x-bind:open=\"openMobile\"", cut.Markup);
-        Assert.Contains("x-on:close=\"close\"", cut.Markup);
+        // D-24: handlers passed to a component render as @event, alongside the component's own x-on:event.
+        Assert.Contains("@close=\"close\"", cut.Markup);
         Assert.Contains("data-sidebar=\"sidebar\"", template);
         Assert.Contains("data-mobile=\"true\"", template);
         Assert.Contains("x-bind:role=\"modal ? 'dialog' : 'complementary'\"", template);

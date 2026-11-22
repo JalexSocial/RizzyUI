@@ -205,6 +205,13 @@
                 </RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="RzTable" class="scroll-mt-20 mt-6">RzTable</RzHeading>
+                <RzParagraph>
+                    <code>class</code> and other attributes on <code>RzTable</code> go on its scroll container (the element that
+                    scrolls sideways), not on the <code>&lt;table&gt;</code>: <code>class="max-h-64"</code> limits the scrolling area.
+                    Inside a flex layout, the container scrolls only when its parent can shrink (<code>min-w-0</code>);
+                    <code>SidebarInset</code> already can. The container is focusable, so a scrolling table can be scrolled with the
+                    keyboard; <code>AriaLabel</code> names it, which also makes it a region.
+                </RzParagraph>
                 <div class="not-prose mt-4 mb-8 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -217,19 +224,19 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Table sections and rows rendered inside the table element.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500">Required</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Border</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Border</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Adds table chrome (border and rounded container).</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FixedHeader</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">FixedHeader</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Applies sticky styling to the table header and fixed footer styling when present.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
@@ -250,42 +257,42 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableCaption</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableCaption</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;caption&gt;</code> content for table context.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableHeader</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableHeader</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;thead&gt;</code> and receives fixed-header styling from <code>RzTable</code>.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableBody</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableBody</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;tbody&gt;</code> rows.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableFooter</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableFooter</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;tfoot&gt;</code> for totals or controls.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableRow</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableRow</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Represents a semantic <code>&lt;tr&gt;</code>.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Selected</code>, <code class="font-mono">HoverableOverride</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableHeaderCell</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableHeaderCell</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Semantic <code>&lt;th&gt;</code>; sets <code>scope=&quot;col&quot;</code> by default.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableCell</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TableCell</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Semantic <code>&lt;td&gt;</code> for row content.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code>, <code class="font-mono">Colspan</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TablePagination</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">TablePagination</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Layout wrapper for pagination controls inside a table cell.</td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
                             </tr>

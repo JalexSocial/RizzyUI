@@ -14,7 +14,8 @@ test.describe('DataTable accessibility contract', () => {
       await expect(page.locator('[role="grid"]')).toHaveCount(0);
 
       await expect(page.locator('#name-header')).toHaveAttribute('aria-sort', 'none');
-      await expect(page.getByRole('button', { name: 'Sort ascending' }).first()).toBeVisible();
+      // Sort buttons are named after their column; the header's aria-sort carries the direction (SF-053).
+      await expect(page.getByRole('button', { name: 'Name', exact: true })).toBeVisible();
       await expect(page.getByRole('checkbox', { name: 'Select visible rows' })).toBeVisible();
       await expect(page.getByRole('checkbox', { name: 'Select row Ada Lovelace' })).toBeVisible();
       await expect(page.getByRole('searchbox', { name: 'Filter users' })).toHaveAttribute('aria-controls', 'users-table');
@@ -52,13 +53,13 @@ test.describe('DataTable accessibility contract', () => {
       await sortName.focus();
       await pressKey(page, 'Enter');
       await expect(nameHeader).toHaveAttribute('aria-sort', 'ascending');
-      await expect(sortName).toHaveAttribute('aria-label', 'Sort descending');
+      await expect(sortName).toHaveAccessibleName('Name');
       await expectActiveElement(page, sortName);
       await expect(page.locator('#datatable-announcement')).toHaveText('Sorted by name ascending.');
 
       await pressKey(page, 'Space');
       await expect(nameHeader).toHaveAttribute('aria-sort', 'descending');
-      await expect(sortName).toHaveAttribute('aria-label', 'Clear sort');
+      await expect(sortName).toHaveAccessibleName('Name');
       await expectActiveElement(page, sortName);
       await expect.poll(() => page.evaluate(() => window['dataTableEvents'].filter((event: { type: string }) => event.type === 'rz:datatable:sort-changed').length)).toBe(2);
     });

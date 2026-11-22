@@ -2,7 +2,8 @@
 @namespace RizzyUI
 @inherits RzComponent<CommandSeparator.Slots>
 
-<div data-slot="command-separator" role="separator" @attributes="AdditionalAttributes"
+@* Decorative: a listbox may contain only options and groups, not a separator (Summit SF-079). *@
+<div data-slot="command-separator" aria-hidden="true" @attributes="AdditionalAttributes"
      id="@Id"
      class="@SlotClasses.GetBase()">
 </div>

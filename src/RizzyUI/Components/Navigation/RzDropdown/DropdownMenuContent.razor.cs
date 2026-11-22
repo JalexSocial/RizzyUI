@@ -41,7 +41,7 @@ public partial class DropdownMenuContent : RzComponent<DropdownMenuContent.Slots
     /// <summary>
     /// Gets the ID of the trigger element that controls this content.
     /// </summary>
-    protected string TriggerId => $"{ParentDropdownMenu?.Id}-trigger";
+    protected string TriggerId => ParentDropdownMenu?.AsChildTriggerId ?? $"{ParentDropdownMenu?.Id}-trigger";
 
     /// <inheritdoc/>
     protected override void OnInitialized()

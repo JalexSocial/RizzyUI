@@ -50,6 +50,10 @@ public partial class PopoverTrigger : RzAsChildComponent<PopoverTrigger.Slots>
         {
             throw new InvalidOperationException($"{nameof(PopoverTrigger)} must be used within an {nameof(RzPopover)}.");
         }
+
+        // D-26: a child with its own id keeps it, and the content references it.
+        if (AsChild && ChildRootId(ChildContent) is { } childId)
+            ParentPopover.AsChildTriggerId = childId;
     }
 
     /// <inheritdoc/>

@@ -75,11 +75,19 @@ test('organizer quick actions open with Ctrl+J and navigate with the keyboard', 
   const dialog = page.getByRole('dialog', { name: 'Quick actions' });
   await expect(dialog).toBeVisible();
 
+  // Enter right after typing runs the match: RzCommand applies the pending search first (SF-025).
   await page.keyboard.type('check-in');
-  // RzCommand filters after a 50 ms debounce; Enter before that runs the previous item (SF-025).
-  await expect(dialog.getByRole('option', { name: 'Check-in desk' })).toHaveAttribute('aria-selected', 'true');
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/organizer\/check-in/);
   await expect(page.getByRole('heading', { level: 1, name: 'Check-in desk' })).toBeVisible();
   await expect(dialog).toBeHidden();
+});
+
+test('the theme and the track colors are both in <head>, each through its own outlet', async ({ page }) => {
+  // TrackStyles uses HeadContent; RzThemeProvider renders through RzThemeHeadOutlet. Before SF-034 was
+  // fixed the theme also used HeadContent, and the later one replaced the other.
+  await page.goto('/schedule');
+  const styles = await page.evaluate(() => [...document.head.querySelectorAll('style')].map(s => s.textContent ?? ''));
+  expect(styles.filter(css => css.includes('--primary:'))).toHaveLength(1);
+  expect(styles.filter(css => css.includes('--track:')).length).toBeGreaterThan(0);
 });

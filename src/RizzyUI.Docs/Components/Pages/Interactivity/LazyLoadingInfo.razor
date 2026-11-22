@@ -190,9 +190,9 @@ export default () =&gt; ({
 &lt;/RzAlpineComponent&gt;
 
 &lt;!-- A simple button to trigger the event --&gt;
-&lt;RzButton x-data onclick=&quot;window.dispatchEvent(new Event('loadPromo'))&quot;&gt;
+&lt;span x-data class=&quot;contents&quot;&gt;&lt;RzButton x-on:click=&quot;$dispatch('loadPromo')&quot;&gt;
     Show Promo
-&lt;/RzButton&gt;
+&lt;/RzButton&gt;&lt;/span&gt;
                 </RzCodeViewer>
 
                 <RzHeading Level="HeadingLevel.H4" QuickReferenceTitle="Generic async-alpine:load Event" class="mt-6">Method 2: Using the Generic `async-alpine:load` Event</RzHeading>

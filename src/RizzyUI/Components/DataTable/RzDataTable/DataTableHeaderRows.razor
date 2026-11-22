@@ -1,0 +1,49 @@
+@namespace RizzyUI
+@* SF-056: the standard header markup of an RzDataTable, for use inside TableHeader. *@
+<template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+    <TableRow>
+        @if (Selection)
+        {
+            <DataTableSelectionHeaderCell Scope="SelectionScope" AriaLabel="@SelectionAriaLabel" />
+        }
+        <template x-for="header in headerGroup.headers" :key="header.id">
+            @if (Sortable)
+            {
+                @* The toggle wraps the header's label, so it is named by it; aria-sort only on sortable columns. *@
+                <TableHeaderCell x-bind:colspan="header.colSpan" x-bind:data-column-id="header.column.id"
+                                 x-bind:aria-sort="sort.can(header) ? sort.ariaSort(header) : null">
+                    <template x-if="sort.can(header) && !header.isPlaceholder">
+                        <DataTableSortToggle HeaderExpr="header">
+                            <span x-flexrender="_flex.header(header)"></span>
+                        </DataTableSortToggle>
+                    </template>
+                    <template x-if="!sort.can(header) && !header.isPlaceholder">
+                        <span x-flexrender="_flex.header(header)"></span>
+                    </template>
+                </TableHeaderCell>
+            }
+            else
+            {
+                <TableHeaderCell x-bind:colspan="header.colSpan" x-bind:data-column-id="header.column.id">
+                    <template x-if="!header.isPlaceholder">
+                        <span x-flexrender="_flex.header(header)"></span>
+                    </template>
+                </TableHeaderCell>
+            }
+        </template>
+    </TableRow>
+</template>
+
+@code {
+    /// <summary>Whether headers get a sort toggle and <c>aria-sort</c>. Defaults to true.</summary>
+    [Parameter] public bool Sortable { get; set; } = true;
+
+    /// <summary>Whether the rows start with a select-all checkbox cell (pair with <c>DataTableBodyRows Selection</c>).</summary>
+    [Parameter] public bool Selection { get; set; }
+
+    /// <summary>What the select-all checkbox selects: the visible page (default) or all rows.</summary>
+    [Parameter] public DataTableSelectionScope SelectionScope { get; set; } = DataTableSelectionScope.Page;
+
+    /// <summary>The select-all checkbox's accessible name; a localized default when not set.</summary>
+    [Parameter] public string? SelectionAriaLabel { get; set; }
+}

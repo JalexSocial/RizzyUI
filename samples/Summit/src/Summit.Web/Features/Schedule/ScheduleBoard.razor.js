@@ -10,17 +10,14 @@ export default () => ({
     this.onSwap = () => this.applyLevels({ announce: false });
     this.$el.addEventListener('htmx:after:swap', this.onSwap);
 
-    // Level toggles: RzToggle replaces any x-on:click put on it with its own and dispatches no change
-    // event (summit-findings.md SF-030), so listen for clicks on the board instead.
-    this.onClick = (/** @type {MouseEvent} */ event) => {
-      if (/** @type {Element} */ (event.target).closest('[data-level-toggle]')) this.applyLevels();
-    };
-    this.$el.addEventListener('click', this.onClick);
+    // Level toggles report their state with rz:toggle:change.
+    this.onLevels = () => this.applyLevels();
+    this.$el.addEventListener('rz:toggle:change', this.onLevels);
   },
 
   destroy() {
     this.$el.removeEventListener('htmx:after:swap', this.onSwap);
-    this.$el.removeEventListener('click', this.onClick);
+    this.$el.removeEventListener('rz:toggle:change', this.onLevels);
   },
 
   /** Keeps the selected day in the filter form, so the next server filter returns the same tab. */

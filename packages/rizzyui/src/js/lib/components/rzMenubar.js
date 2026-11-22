@@ -1,6 +1,27 @@
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
 export default function rzMenubar() {
+    // The menubar's own element: menu content is teleported to <body>, so change events are also
+    // dispatched here, where listeners around the menubar can hear them (SF-067).
+    let menubarElement = null;
+
+    /**
+     * Dispatches `rz:menubar:checked-change` ({ type, value, checked, group }) on the item and on the
+     * menubar element.
+     */
+    const dispatchCheckedChange = (item, type, checked) => {
+        const detail = {
+            type,
+            value: item.dataset.value ?? item.dataset.radioValue ?? item.textContent.trim(),
+            checked,
+            group: item.dataset.radioGroup ?? null,
+        };
+        item.dispatchEvent(new CustomEvent('rz:menubar:checked-change', { bubbles: true, detail }));
+        if (menubarElement && menubarElement.isConnected && !menubarElement.contains(item)) {
+            menubarElement.dispatchEvent(new CustomEvent('rz:menubar:checked-change', { bubbles: true, detail }));
+        }
+    };
+
     return {
         currentMenuValue: '',
         currentTrigger: null,
@@ -9,6 +30,7 @@ export default function rzMenubar() {
         closeDelayMs: 220,
 
         init() {
+            menubarElement = this.$el;
             this.onDocumentPointerDown = this.handleDocumentPointerDown.bind(this);
             this.onWindowBlur = this.handleWindowBlur.bind(this);
             this.onDocumentFocusIn = this.handleDocumentFocusIn.bind(this);
@@ -200,12 +222,14 @@ export default function rzMenubar() {
             const checked = item.getAttribute('data-state') === 'checked';
             item.setAttribute('data-state', checked ? 'unchecked' : 'checked');
             item.setAttribute('aria-checked', checked ? 'false' : 'true');
+            dispatchCheckedChange(item, 'checkbox', !checked);
         },
 
         selectRadioItem(event) {
             const item = event.currentTarget;
             const group = item.getAttribute('data-radio-group');
             if (!group) return;
+            const wasChecked = item.getAttribute('aria-checked') === 'true';
             const groupEl = this.$el.closest(`[role="group"][data-radio-group="${group}"]`);
             const allItems = groupEl?.querySelectorAll(`[role="menuitemradio"][data-radio-group="${group}"]`) ?? [];
 
@@ -215,6 +239,7 @@ export default function rzMenubar() {
             });
             item.setAttribute('data-state', 'checked');
             item.setAttribute('aria-checked', 'true');
+            if (!wasChecked) dispatchCheckedChange(item, 'radio', true);
         },
 
         buildPathToSubTrigger(element) {

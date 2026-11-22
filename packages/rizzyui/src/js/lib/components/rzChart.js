@@ -1,9 +1,14 @@
 import { require } from '../../runtime/rizzyRequire.js';
 
 export default function rzChart() {
+    // SF-062: Chart.js does not work through Alpine's reactive proxy (update() and destroy() on a
+    // proxied instance throw or leave the real chart registered), so the instance, the unresolved
+    // configuration and the theme listener live in this closure, outside the component's data.
+    let chart = null;
+    let configSource = null;
+    let onThemeChange = null;
+
     return {
-        chartInstance: null,
-        themeChangeHandler: null,
 
         init() {
             const assetsToLoad = JSON.parse(this.$el.dataset.assets || '[]');
@@ -33,20 +38,10 @@ export default function rzChart() {
                 return;
             }
 
-            let rawConfig = {};
-            try {
-                rawConfig = JSON.parse(configEl.textContent || '{}');
-            } catch (error) {
-                console.error('[rzChart] Failed to parse JSON configuration.', error);
+            configSource = configEl.textContent || '{}';
+            const config = this.buildConfig();
+            if (!config) {
                 return;
-            }
-
-            this.resolveColorValues(rawConfig);
-            this.resolveCallbacks(rawConfig);
-
-            if (rawConfig.options) {
-                rawConfig.options.responsive = rawConfig.options.responsive ?? true;
-                rawConfig.options.maintainAspectRatio = rawConfig.options.maintainAspectRatio ?? false;
             }
 
             const canvas = this.$refs.canvas;
@@ -55,15 +50,76 @@ export default function rzChart() {
                 return;
             }
 
-            this.chartInstance = new window.Chart(canvas, rawConfig);
+            chart = new window.Chart(canvas, config);
 
-            this.themeChangeHandler = () => {
-                if (this.chartInstance) {
-                    this.chartInstance.update();
+            // SF-005: CSS variable colors are resolved when the configuration is built, so a theme
+            // change resolves them again from the unresolved source.
+            onThemeChange = () => this.applyTheme();
+            window.addEventListener('rz:theme-change', onThemeChange);
+        },
+
+        /** The Chart.js instance (not proxied), or null before the chart is created. */
+        getChart() {
+            return chart;
+        },
+
+        /** Parses the configuration source and resolves colors, callbacks, type and defaults. */
+        buildConfig() {
+            let config;
+            try {
+                config = JSON.parse(configSource || '{}');
+            } catch (error) {
+                console.error('[rzChart] Failed to parse JSON configuration.', error);
+                return null;
+            }
+
+            // SF-059: Chart.js applies a chart type's defaults (a doughnut's legend, tooltips and
+            // interaction) from the config's type, so default it to the first dataset's type.
+            if (!config.type) {
+                const firstType = config.data?.datasets?.find((dataset) => dataset?.type)?.type;
+                if (firstType) {
+                    config.type = firstType;
                 }
-            };
+            }
 
-            window.addEventListener('rz:theme-change', this.themeChangeHandler);
+            this.resolveColorValues(config);
+            this.resolveCallbacks(config);
+
+            if (config.options) {
+                config.options.responsive = config.options.responsive ?? true;
+                config.options.maintainAspectRatio = config.options.maintainAspectRatio ?? false;
+            }
+
+            return config;
+        },
+
+        /** Re-resolves theme colors and redraws without animation. */
+        applyTheme() {
+            if (!chart) {
+                return;
+            }
+
+            const config = this.buildConfig();
+            if (!config) {
+                return;
+            }
+
+            if (config.options) {
+                chart.options = config.options;
+            }
+
+            const datasets = config.data?.datasets ?? [];
+            chart.data.datasets.forEach((dataset, index) => {
+                const fresh = datasets[index];
+                if (!fresh) return;
+                for (const key of Object.keys(fresh)) {
+                    if (key.toLowerCase().includes('color')) {
+                        dataset[key] = fresh[key];
+                    }
+                }
+            });
+
+            chart.update('none');
         },
 
 
@@ -170,14 +226,14 @@ export default function rzChart() {
         },
 
         destroy() {
-            if (this.themeChangeHandler) {
-                window.removeEventListener('rz:theme-change', this.themeChangeHandler);
-                this.themeChangeHandler = null;
+            if (onThemeChange) {
+                window.removeEventListener('rz:theme-change', onThemeChange);
+                onThemeChange = null;
             }
 
-            if (this.chartInstance) {
-                this.chartInstance.destroy();
-                this.chartInstance = null;
+            if (chart) {
+                chart.destroy();
+                chart = null;
             }
         }
     };

@@ -26,7 +26,7 @@ public sealed class DashboardController(DashboardQuery query, IHtmxSwapService s
         swaps.AddSwappableComponent<RecentOrders>("recent-orders", new { Orders = panels.Orders });
         // The filter form asks for a pushed URL (hx-vals); the first load does not add a history entry.
         if (push)
-            Response.HtmxIfRequested(h => h.PushUrl($"/organizer?{filter.Query()}"));
+            Response.Htmx(h => h.PushUrl($"/organizer?{filter.Query()}"));
         return PartialView<DashboardCharts>(new { Panels = panels });
     }
 

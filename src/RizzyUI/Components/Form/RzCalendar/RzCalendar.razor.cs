@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TailwindVariants.NET;
@@ -45,7 +46,8 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             // Grid Layouts
             [s => s.Grid] = "w-full border-collapse space-y-1",
             [s => s.Weekdays] = "flex",
-            [s => s.Weekday] = "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem] flex justify-center items-center",
+            // SF-077: important, over vanilla-calendar-pro's own (unlayered) weekend color.
+            [s => s.Weekday] = "text-muted-foreground! rounded-md w-9 font-normal text-[0.8rem] flex justify-center items-center",
             [s => s.Dates] = "grid grid-cols-7 gap-y-1 w-full",
             [s => s.Months] = "grid grid-cols-3 gap-2 w-full sm:w-64",
             [s => s.Years] = "grid grid-cols-4 gap-2 w-full sm:w-64",
@@ -66,8 +68,9 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
                 // Selected (self has aria-selected="true")
                 "aria-selected:bg-primary aria-selected:text-primary-foreground aria-selected:hover:bg-primary aria-selected:hover:text-primary-foreground aria-selected:focus:bg-primary aria-selected:focus:text-primary-foreground " +
                 // Outside Month (parent has data-vc-date-month="prev" or "next")
-                "group-data-[vc-date-month=prev]:text-muted-foreground group-data-[vc-date-month=prev]:opacity-50 " +
-                "group-data-[vc-date-month=next]:text-muted-foreground group-data-[vc-date-month=next]:opacity-50 " +
+                // (SF-077: no opacity, the muted color alone meets 4.5:1)
+                "group-data-[vc-date-month=prev]:text-muted-foreground! " +
+                "group-data-[vc-date-month=next]:text-muted-foreground! " +
                 // Disabled
                 "group-data-[vc-date-disabled]:text-muted-foreground group-data-[vc-date-disabled]:opacity-50 group-data-[vc-date-disabled]:line-through " +
                 // Range Middle
@@ -166,6 +169,9 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
     /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
     protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCalendar.DefaultAriaLabel"];
 
+    /// <summary>The request culture's name, or "en" for the invariant culture.</summary>
+    private static string CurrentLocale => string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name) ? "en" : CultureInfo.CurrentCulture.Name;
+
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
@@ -181,7 +187,9 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             // Our CSS variables will handle the actual light/dark switching because 
             // RizzyUI themes update CSS variables on the :root/.dark element.
             SelectedTheme = "light",
-            ThemeAttrDetect = ""
+            ThemeAttrDetect = "",
+            // SF-073: month and weekday names follow the request culture unless Options.Locale is set.
+            Locale = CurrentLocale
         };
 
         if (Options != null)

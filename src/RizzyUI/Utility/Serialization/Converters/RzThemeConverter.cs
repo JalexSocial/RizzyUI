@@ -92,12 +92,13 @@ public class RzThemeConverter : JsonConverter<RzTheme>
             SidebarRing = CreateColor(variantVars, "sidebar-ring", CreateColor(variantVars, "ring")),
 
             // Status Colors (with fallbacks to theme colors)
-            Success = CreateColor(variantVars, "success", isDark ? Colors.Green.L500 : Colors.Green.L600),
-            SuccessForeground = CreateColor(variantVars, "success-foreground", Colors.White),
-            Warning = CreateColor(variantVars, "warning", isDark ? Colors.Amber.L400 : Colors.Amber.L500),
-            WarningForeground = CreateColor(variantVars, "warning-foreground", Colors.Black),
-            Info = CreateColor(variantVars, "info", isDark ? Colors.Sky.L500 : Colors.Sky.L600),
-            InfoForeground = CreateColor(variantVars, "info-foreground", Colors.White),
+            // SF-036: defaults that meet AA as text on a tint of themselves and behind their foreground.
+            Success = CreateColor(variantVars, "success", isDark ? Colors.Green.L400 : Colors.Green.L800),
+            SuccessForeground = CreateColor(variantVars, "success-foreground", isDark ? Colors.Black : Colors.White),
+            Warning = CreateColor(variantVars, "warning", isDark ? Colors.Amber.L400 : Colors.Amber.L800),
+            WarningForeground = CreateColor(variantVars, "warning-foreground", isDark ? Colors.Black : Colors.White),
+            Info = CreateColor(variantVars, "info", isDark ? Colors.Blue.L400 : Colors.Blue.L700),
+            InfoForeground = CreateColor(variantVars, "info-foreground", isDark ? Colors.Black : Colors.White),
 
             // Fonts
             FontSans = GetValue("font-sans", "sans-serif"),

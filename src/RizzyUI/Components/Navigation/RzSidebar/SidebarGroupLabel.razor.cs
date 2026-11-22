@@ -39,6 +39,12 @@ public partial class SidebarGroupLabel : RzAsChildComponent<SidebarGroupLabel.Sl
         {
             throw new InvalidOperationException($"{nameof(SidebarGroupLabel)} must be used within a {nameof(SidebarGroup)}.");
         }
+        // SF-075: the group references the label's id only when that id renders. With AsChild, a child
+        // that declares its own id keeps it (D-26), and a component child may compute one (a collapsible
+        // trigger), so only a declared id can be referenced.
+        var renderedId = AsChild ? ChildRootId(ChildContent) ?? (ChildRootIsElement(ChildContent) ? ParentGroup.LabelId : null) : ParentGroup.LabelId;
+        if (renderedId is not null)
+            ParentGroup.RegisterLabel(renderedId);
     }
 
     /// <inheritdoc/>

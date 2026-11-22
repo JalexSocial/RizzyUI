@@ -58,6 +58,13 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     public string CloseEventName { get; set; } = Constants.Events.DialogClose;
 
     /// <summary>
+    /// Gets or sets a CSS selector, inside the dialog, for the element that takes focus when it opens
+    /// (Summit SF-032). Without it, the first focusable element does.
+    /// </summary>
+    [Parameter]
+    public string? InitialFocus { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the dialog should close when the Escape key is pressed.
     /// Defaults to true.
     /// </summary>

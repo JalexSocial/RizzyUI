@@ -20,7 +20,8 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
         @base: "relative flex items-center gap-2 has-disabled:opacity-50",
         slots: new()
         {
-            [s => s.Input] = "disabled:cursor-not-allowed"
+            // SF-013: visually hidden by classes (an inline style is blocked by a strict style-src).
+            [s => s.Input] = "pointer-events-none absolute size-px opacity-0 disabled:cursor-not-allowed"
         }
     );
 
@@ -183,7 +184,15 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     internal string GetInputClasses() => string.IsNullOrWhiteSpace(Class) ? (SlotClasses.GetInput() ?? string.Empty) : $"{SlotClasses.GetInput()} {Class}";
 
-    internal string GetNameAttribute() => string.IsNullOrWhiteSpace(Name) ? _fieldIdentifier.FieldName : Name;
+    // D-28: the model path (Model.Code), as Blazor's inputs post; Name keeps a bare name.
+    internal string GetNameAttribute() => string.IsNullOrWhiteSpace(Name) ? (For is null ? _fieldIdentifier.FieldName : RzFieldNames.For(For)) : Name;
+
+    /// <summary>
+    /// Gets or sets attributes for the real <c>&lt;input&gt;</c> (hidden behind the slots), such as
+    /// <c>autofocus</c>, <c>autocapitalize</c> or <c>enterkeyhint</c> (Summit SF-064). Unmatched
+    /// attributes go on the container instead.
+    /// </summary>
+    [Parameter] public Dictionary<string, object>? InputAttributes { get; set; }
 
     internal string GetInputModeValue() => InputMode ?? (OtpType == InputOtpType.Numeric ? "numeric" : "text");
 

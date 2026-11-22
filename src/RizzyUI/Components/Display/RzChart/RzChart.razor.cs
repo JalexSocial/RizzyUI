@@ -16,10 +16,12 @@ public partial class RzChart : RzComponent<RzChart.Slots>
     /// Defines the default styling for the RzChart component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "w-full",
+        @base: "h-full w-full",
         slots: new()
         {
-            [s => s.Container] = "relative h-full min-h-[300px] w-full",
+            // SF-061: the chart fills a parent with a height; without one, height:100% is auto and
+            // the 2:1 aspect ratio (Chart.js's default) applies instead.
+            [s => s.Container] = "relative aspect-[2/1] h-full w-full",
             [s => s.Canvas] = "h-full w-full"
         }
     );
@@ -76,6 +78,8 @@ public partial class RzChart : RzComponent<RzChart.Slots>
     {
         var builder = new ChartBuilder();
         Configure(builder);
+        // SF-059: Chart.js takes a chart type's defaults from the config's type, not the datasets'.
+        builder.Chart.Type ??= builder.Chart.Data?.Datasets.FirstOrDefault(d => d.Type is not null)?.Type;
 
         _serializedConfig = JsonSerializer.Serialize(builder.Chart, new JsonSerializerOptions
         {

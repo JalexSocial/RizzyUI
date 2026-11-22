@@ -15,7 +15,7 @@
         <EditForm Model="Discount" FormName="Discount" novalidate class="flex flex-col gap-3"
                   hx-post="/tickets/checkout/discount" hx-target="#discount-field" hx-swap="outerHTML">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
             <Field>
                 <FieldLabel For="@(() => Discount!.Code)">Discount code (optional)</FieldLabel>
                 <div class="flex flex-wrap items-center gap-3">

@@ -90,6 +90,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpContextAccessor();
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
         services.TryAddScoped<RzToastCommandQueue>();
+        services.TryAddScoped<RzThemeHeadState>();
         services.TryAddScoped<IRzToastService, RzToastService>();
         services.TryAddSingleton<RzAlpineModuleResolver>();
 
@@ -110,8 +111,12 @@ public static class ServiceCollectionExtensions
             // Add default asset URLs, allowing users to override them. CDN defaults are pinned to
             // exact versions and carry Subresource Integrity hashes (keyed by URL, so an override
             // with a different URL does not inherit the default hash).
-            foreach (var (key, url, integrity) in DefaultCdnAssets)
+            // flatpickr's locale files are keyed FlatpickrLocale.{file}; RzDateEdit loads the one the
+            // request culture needs (SF-073).
+            // With LocalAssetPath, the same files load from the app's own site (SF-012), same hashes.
+            foreach (var (key, cdnUrl, integrity) in DefaultCdnAssets.Concat(FlatpickrLocales.CdnAssets))
             {
+                var url = string.IsNullOrWhiteSpace(config.LocalAssetPath) ? cdnUrl : RizzyUIAssets.LocalUrl(config.LocalAssetPath, cdnUrl);
                 config.AssetUrls.TryAdd(key, url);
                 config.AssetIntegrity.TryAdd(url, integrity);
             }

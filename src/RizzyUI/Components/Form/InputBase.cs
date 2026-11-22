@@ -17,6 +17,9 @@ namespace RizzyUI;
 public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     where TSlots : class, ISlots, new()
 {
+    /// <inheritdoc />
+    protected internal override bool AcceptsXModel => true;
+
     /// <summary>
     /// Gets or sets the bound model expression used for validation metadata.
     /// </summary>

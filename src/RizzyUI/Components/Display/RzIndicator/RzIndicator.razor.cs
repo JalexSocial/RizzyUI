@@ -89,6 +89,13 @@ public partial class RzIndicator : RzComponent<RzIndicator.Slots>
     /// </summary>
     protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzIndicator.DefaultAriaLabel"];
 
+    /// <summary>
+    /// With an <see cref="AriaLabel"/> the indicator is an image with that name (<c>role="img"</c>);
+    /// without one it is decorative (<c>aria-hidden</c>). A label on a role-less element is ignored by
+    /// assistive technology (Summit SF-066).
+    /// </summary>
+    protected bool IsLabeled => !string.IsNullOrWhiteSpace(AriaLabel);
+
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzIndicator;
 

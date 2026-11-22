@@ -2,9 +2,8 @@
 @using RizzyUI.Charts
 @*
     The charts region (the main target of the panels request). Each RzChart is replaced on every filter
-    change, so the old Chart.js instance must be destroyed with its element. Every chart has an
-    AriaLabel and a visually hidden table with the same numbers. Each chart has class="h-full" inside a
-    wrapper with a fixed height: without it the canvas grows past its card (SF-061).
+    change; RzChart destroys its Chart.js instance with its element. Every chart has an AriaLabel and a
+    visually hidden table with the same numbers. Each chart fills a wrapper with a fixed height.
 *@
 <div id="dashboard-charts" class="grid grid-cols-1 gap-4 lg:grid-cols-3">
     @if (Panels.IsEmpty)
@@ -30,7 +29,7 @@
             </CardHeader>
             <CardContent>
                 <div class="h-80">
-                    <RzChart id="chart-daily" class="h-full" AriaLabel="Line chart of tickets sold per day" Configure="@(c => c
+                    <RzChart id="chart-daily" AriaLabel="Line chart of tickets sold per day" Configure="@(c => c
                         .Data(d => d
                             .Labels(Panels.Daily.Select(p => DashboardFormat.Day(p.Day)).ToArray())
                             .Datasets(ds => ds.Line()
@@ -59,7 +58,7 @@
             </CardHeader>
             <CardContent>
                 <div class="h-64">
-                    <RzChart id="chart-tickets" class="h-full" AriaLabel="Doughnut chart of tickets by type" Configure="@(c => c
+                    <RzChart id="chart-tickets" AriaLabel="Doughnut chart of tickets by type" Configure="@(c => c
                         .Data(d => d
                             .Labels(Panels.ByTicket.Select(t => t.Name).ToArray())
                             .Datasets(ds => ds.Doughnut()
@@ -72,8 +71,8 @@
                             .MaintainAspectRatio(false)
                             .Plugins(p => p.Legend(l => l.Display(false)))))" />
                 </div>
-                @* An HTML legend: without a chart type, Chart.js's own legend shows the dataset label instead
-                   of one entry per slice (SF-059). *@
+                @* An HTML legend with counts, easier to read and to translate than Chart.js's canvas legend
+                   (a design choice; since SF-059 was fixed Chart.js's own legend would also list each slice). *@
                 <ul class="mt-4 flex flex-col gap-1 text-sm" aria-hidden="true">
                     @for (var i = 0; i < Panels.ByTicket.Count; i++)
                     {
@@ -95,7 +94,7 @@
             </CardHeader>
             <CardContent>
                 <div class="h-80">
-                    <RzChart id="chart-countries" class="h-full" AriaLabel="Bar chart of orders by country" Configure="@(c => c
+                    <RzChart id="chart-countries" AriaLabel="Bar chart of orders by country" Configure="@(c => c
                         .Data(d => d
                             .Labels(Panels.ByCountry.Select(x => x.Name).ToArray())
                             .Datasets(ds => ds.Bar()

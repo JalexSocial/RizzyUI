@@ -121,13 +121,19 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the collapsible component, which should include a <code>CollapsibleTrigger</code> and a <code>CollapsibleContent</code>.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
                                 <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DefaultOpen</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">AsChild</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Puts the collapsible's behavior on its single child instead of a wrapping <code>div</code>, for example on a <code>SidebarMenuItem</code> so the list keeps its items: <code>&lt;RzCollapsible AsChild&gt;&lt;SidebarMenuItem&gt;...&lt;/SidebarMenuItem&gt;&lt;/RzCollapsible&gt;</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">DefaultOpen</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the collapsible content will be open by default.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
@@ -149,13 +155,13 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be rendered as the trigger element.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
                                 <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AsChild</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">AsChild</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the component will merge its properties and behavior into its first child element instead of rendering its own wrapper.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
@@ -177,7 +183,7 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be displayed inside the collapsible panel.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
                                 <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
@@ -207,12 +213,12 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggle</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">toggle</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles the collapsible open/closed state.</td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">state</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">state</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Returns the current state string as <code>open</code> or <code>closed</code>.</td>
                             </tr>

@@ -11,6 +11,30 @@ namespace RizzyUI;
 public partial class RzTabs : RzComponent<RzTabs.Slots>
 {
     /// <summary>
+    /// Ids of <c>AsChild</c> triggers' children by tab value, when they declare one (decision D-26);
+    /// each panel references its trigger's id.
+    /// </summary>
+    internal Dictionary<string, string> AsChildTriggerIds { get; } = new(StringComparer.Ordinal);
+
+    private readonly List<TabsContent> _contents = [];
+
+    internal void RegisterContent(TabsContent content) => _contents.Add(content);
+
+    /// <summary>
+    /// Records an <c>AsChild</c> trigger's child id. Triggers sit inside TabsList and initialize after
+    /// the panels have rendered, so the panels render again to reference it.
+    /// </summary>
+    internal void SetAsChildTriggerId(string value, string id)
+    {
+        AsChildTriggerIds[value] = id;
+        foreach (var content in _contents)
+        {
+            if (string.Equals(content.Value, value, StringComparison.Ordinal))
+                content.Refresh();
+        }
+    }
+
+    /// <summary>
     /// Defines the default styling for the RzTabs component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(

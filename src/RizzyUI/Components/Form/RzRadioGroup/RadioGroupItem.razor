@@ -10,6 +10,7 @@
        aria-disabled=@Disabled>
     <RzInputRadioBase TValue="TValue"
                       @ref="_elem"
+                      Id="@($"{Id}-input")"
                       Value="@Value"
                       class="@SlotClasses.GetInput()"
                       data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Input)"

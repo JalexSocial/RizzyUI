@@ -23,6 +23,26 @@ public partial class SidebarGroup : RzComponent<SidebarGroup.Slots>
     public string LabelId => $"{Id}-label";
 
     /// <summary>
+    /// Gets or sets the accessible name of a group without a <see cref="SidebarGroupLabel"/>. With a
+    /// label, the group is named by it (<c>aria-labelledby</c>).
+    /// </summary>
+    [Parameter] public string? AriaLabel { get; set; }
+
+    private string? _labelledBy;
+
+    /// <summary>
+    /// Called by a <see cref="SidebarGroupLabel"/> in this group with the id its element renders: the
+    /// group then references it. A group without one renders no <c>aria-labelledby</c>, which would point
+    /// at nothing (Summit SF-075).
+    /// </summary>
+    internal void RegisterLabel(string labelId)
+    {
+        if (_labelledBy == labelId) return;
+        _labelledBy = labelId;
+        StateHasChanged();
+    }
+
+    /// <summary>
     /// The content of the group, which typically includes a SidebarGroupLabel and SidebarGroupContent.
     /// </summary>
     [Parameter]

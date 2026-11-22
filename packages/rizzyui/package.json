@@ -33,6 +33,7 @@
     "dist",
     "types",
     "testing",
+    "src/js/package.json",
     "src/js/lib/alpineProps.js",
     "src/js/lib/codeBehindLifecycle.js"
   ],

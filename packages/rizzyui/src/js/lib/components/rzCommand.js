@@ -106,7 +106,10 @@ export default function rzCommand() {
             this.itemsUrl = this.$el.dataset.itemsUrl || null;
             this.fetchTrigger = this.$el.dataset.fetchTrigger || 'immediate';
             this.serverFiltering = this.$el.dataset.serverFiltering === 'true';
-            this.dataItemTemplateId = this.$el.dataset.templateId || null;
+            // RzCommand always renders the id its CommandItemTemplate uses; a command without a
+            // template has no such element (SF-040).
+            const templateId = this.$el.dataset.templateId || null;
+            this.dataItemTemplateId = templateId && document.getElementById(templateId) ? templateId : null;
             this.maxRender = Number.parseInt(this.$el.dataset.maxRender || '100', 10);
 
             const itemsScriptId = this.$el.dataset.itemsId;
@@ -477,7 +480,7 @@ export default function rzCommand() {
                 const item = this.filteredItems[index];
                 if (item && !item.disabled) {
                     this.selectedIndex = index;
-                    this.$dispatch('rz:command:execute', { value: item.value });
+                    this.executeItem(item);
                 }
             }
         },
@@ -499,6 +502,26 @@ export default function rzCommand() {
                 if (item && !item.disabled && this.selectedIndex !== index) {
                     this.selectedIndex = index;
                 }
+            }
+        },
+
+        /**
+         * Dispatches `rz:command:execute` and, for an item with an `href`, navigates to it: through
+         * htmx (boosted, the URL pushed) when the page has htmx, otherwise as a normal navigation
+         * (Summit SF-016).
+         * @param {object} item The item to execute.
+         * @returns {void}
+         */
+        executeItem(item) {
+            this.$dispatch('rz:command:execute', { value: item.value, href: item.href ?? null });
+            if (!item.href) return;
+            // Leaving the page: close open dialogs (a command dialog among them) first, so their
+            // scroll lock and focus trap end before the body is replaced.
+            window.dispatchEvent(new CustomEvent('rz:dialog-close'));
+            if (window.htmx && typeof window.htmx.ajax === 'function') {
+                window.htmx.ajax('GET', item.href, { target: 'body', swap: 'innerHTML', push: 'true' });
+            } else {
+                window.location.assign(item.href);
             }
         },
 
@@ -528,9 +551,15 @@ export default function rzCommand() {
                     break;
                 case 'Enter': {
                     e.preventDefault();
+                    // SF-025: the input's x-model is debounced; apply what was typed before choosing.
+                    const typed = e.target?.matches?.('input') ? e.target.value : null;
+                    if (typed !== null && typed !== this.search && !this.serverFiltering) {
+                        this.search = typed;
+                        this.filterAndSortItems();
+                    }
                     const item = this.filteredItems[this.selectedIndex];
                     if (item && !item.disabled) {
-                        this.$dispatch('rz:command:execute', { value: item.value });
+                        this.executeItem(item);
                     }
                     break;
                 }

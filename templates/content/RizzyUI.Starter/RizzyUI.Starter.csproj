@@ -23,11 +23,13 @@
     <Content Remove="node_modules/**" />
   </ItemGroup>
 
-  <Target Name="NpmInstall" BeforeTargets="Build" Condition="'$(SkipTailwind)' != 'true' and !Exists('node_modules/.package-lock.json')">
+  <!-- BeforeBuild, not Build: Build runs after CoreBuild, and the TypeScript code-behind bundling
+       (RizzyUICodeBehindBuild=esbuild) runs inside CoreBuild and needs node_modules. -->
+  <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="'$(SkipTailwind)' != 'true' and !Exists('node_modules/.package-lock.json')">
     <Exec Command="npm install --no-audit --no-fund" />
   </Target>
 
-  <Target Name="TailwindBuild" BeforeTargets="Build" AfterTargets="NpmInstall" Condition="'$(SkipTailwind)' != 'true'">
+  <Target Name="TailwindBuild" BeforeTargets="BeforeBuild" AfterTargets="NpmInstall" Condition="'$(SkipTailwind)' != 'true'">
     <Exec Command="npm run build:css" />
   </Target>
 

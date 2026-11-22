@@ -10,6 +10,7 @@
              data-pressed="@PressedAttributeValue"
              data-disabled="@Disabled.ToString().ToLowerInvariant()"
              aria-pressed="@SsrAriaPressed"
+             data-value="@Value"
              data-alpine-root="@Id"
              x-data="rzToggle" x-load="@LoadStrategyOrNull"
              x-on:click="toggle"
@@ -17,4 +18,9 @@
              x-bind:aria-pressed="ariaPressed"
              x-bind:data-disabled="dataDisabled">
     @ChildContent
+    @if (!string.IsNullOrEmpty(Name))
+    {
+        @* Posted while pressed (SF-015); rzToggle enables and disables it with the state. *@
+        <input type="hidden" data-toggle-input name="@Name" value="@(Value ?? "true")" disabled="@(!InitiallyPressed)" />
+    }
 </HtmlElement>

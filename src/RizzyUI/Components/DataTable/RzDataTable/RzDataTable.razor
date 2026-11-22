@@ -15,6 +15,12 @@
         <script type="application/json"
                 id="@ConfigScriptId"
                 nonce="@Nonce">@((MarkupString)_configJson)</script>
+        @if (_stateJson is not null)
+        {
+            @* D-31: the table's state as versioned JSON, kept in step by rzDataTable. *@
+            <input type="hidden" name="@StateInputName" id="@StateInputId" value="@_stateJson"
+                   data-datatable-state data-include-selection="@(IncludeSelectionInState ? "true" : null)" />
+        }
         <CascadingValue Value="this" Name="ParentRzDataTable" IsFixed="true">
             @ChildContent
         </CascadingValue>

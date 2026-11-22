@@ -29,7 +29,7 @@ public class RzInputColorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // RZUI-032: CSP-safe bindings; x-model would compile to a property assignment.
         Assert.False(input.HasAttribute("x-model"));
         Assert.Equal("colorPicker.value", input.GetAttribute("x-bind:value"));
-        Assert.Equal("setValueFromInput", input.GetAttribute("x-on:input"));
+        Assert.Equal("setValueFromInput", input.GetAttribute("@input"));
         Assert.Equal("Pick a color", input.GetAttribute("placeholder"));
 
         // The input passes its thumbnail slot name to the swatch it renders (data-slot is caller-overridable).

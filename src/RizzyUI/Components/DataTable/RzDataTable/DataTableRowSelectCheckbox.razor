@@ -2,7 +2,7 @@
 @inherits RzComponent<DataTableRowSelectCheckbox.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             id="@Id"
+             id="@(HasExplicitId ? Id : null)"
              data-slot="data-table-row-select-checkbox" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
              aria-label="@EffectiveAriaLabel"

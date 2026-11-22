@@ -378,7 +378,7 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCarousel"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzCarousel.Slots>, RzCarousel.Slots> RzCarousel { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCollapsible"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<RzCollapsible.Slots>, RzCollapsible.Slots> RzCollapsible { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<RzCollapsible.Slots>, RzCollapsible.Slots> RzCollapsible { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzItem"/> component. </summary>
     public virtual TvDescriptor<RzAsChildComponent<RzItem.Slots>, RzItem.Slots> RzItem { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzItemGroup"/> component. </summary>
@@ -565,6 +565,12 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDarkModeToggle"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDarkModeToggle.Slots>, RzDarkModeToggle.Slots> RzDarkModeToggle { get; set; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzGetForm"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzGetForm.Slots>, RzGetForm.Slots> RzGetForm { get; set; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFocusFirstInvalid"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzFocusFirstInvalid.Slots>, RzFocusFirstInvalid.Slots> RzFocusFirstInvalid { get; set; }
 
     #endregion
 

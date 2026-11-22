@@ -41,9 +41,12 @@ public partial class RzCommand : RzComponent<RzCommand.Slots>
     protected string DataScriptId => $"{Id}-data";
 
     /// <summary>
-    /// Internal property to hold the ID of the CommandItemTemplate.
+    /// The id of the <see cref="CommandItemTemplate"/>'s template element. Derived from the command's id
+    /// rather than reported by the template: the template initializes after this component has
+    /// rendered its root element, so a reported id never reached the markup (Summit SF-040). The
+    /// client checks that the element exists.
     /// </summary>
-    internal string? DataItemTemplateId { get; set; }
+    internal string DataItemTemplateId => $"{Id}-data-item-template";
 
     /// <summary>
     /// Gets or sets the child content, which should include the various Command components like CommandInput and CommandList.

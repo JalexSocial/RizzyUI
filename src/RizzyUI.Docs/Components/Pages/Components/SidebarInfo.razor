@@ -575,7 +575,7 @@
                                         <SidebarMenu>
                                             @foreach (var item in _navMain)
                                             {
-                                                <RzCollapsible class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
+                                                <RzCollapsible AsChild class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
                                                     <SidebarMenuItem>
                                                         <CollapsibleTrigger AsChild>
                                                             <SidebarMenuButton>
@@ -617,7 +617,7 @@
                         </RzSidebarProvider>
                     </div>
                 </RzBrowser>
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzCollapsible class=&quot;group/collapsible&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzCollapsible AsChild class=&quot;group/collapsible&quot;&gt;
     &lt;SidebarMenuItem&gt;
         &lt;CollapsibleTrigger AsChild&gt;
             &lt;SidebarMenuButton&gt;
@@ -668,20 +668,22 @@
                                         <SidebarMenu>
                                             @foreach (var item in _navMain)
                                             {
-                                                <RzDropdownMenu Anchor="AnchorPoint.BottomEnd" Offset="0">
-                                                    <DropdownMenuTrigger AsChild>
-                                                        <SidebarMenuButton>
-                                                            @item.Title
-                                                            <Blazicon Svg="MdiIcon.DotsHorizontal" class="ml-auto" />
-                                                        </SidebarMenuButton>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent Side="right" Align="start">
-                                                        @foreach (var subItem in item.Items)
-                                                        {
-                                                            <DropdownMenuItem>@subItem.Title</DropdownMenuItem>
-                                                        }
-                                                    </DropdownMenuContent>
-                                                </RzDropdownMenu>
+                                                <SidebarMenuItem>
+                                                    <RzDropdownMenu Anchor="AnchorPoint.BottomEnd" Offset="0">
+                                                        <DropdownMenuTrigger AsChild>
+                                                            <SidebarMenuButton>
+                                                                @item.Title
+                                                                <Blazicon Svg="MdiIcon.DotsHorizontal" class="ml-auto" />
+                                                            </SidebarMenuButton>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent Side="right" Align="start">
+                                                            @foreach (var subItem in item.Items)
+                                                            {
+                                                                <DropdownMenuItem>@subItem.Title</DropdownMenuItem>
+                                                            }
+                                                        </DropdownMenuContent>
+                                                    </RzDropdownMenu>
+                                                </SidebarMenuItem>
                                             }
                                         </SidebarMenu>
                                     </SidebarGroup>
@@ -726,20 +728,22 @@
                 &lt;SidebarMenu&gt;
                     @@foreach (var item in _navMain)
                     {
-                        &lt;RzDropdownMenu Anchor="AnchorPoint.BottomEnd"&gt;
-                            &lt;DropdownMenuTrigger AsChild&gt;
-                                &lt;SidebarMenuButton&gt;
-                                    @@item.Title
-                                    &lt;Blazicon Svg=&quot;MdiIcon.DotsHorizontal&quot; class=&quot;ml-auto&quot; /&gt;
-                                &lt;/SidebarMenuButton&gt;
-                            &lt;/DropdownMenuTrigger&gt;
-                            &lt;DropdownMenuContent Side=&quot;right&quot; Align=&quot;start&quot;&gt;
-                                @@foreach (var subItem in item.Items)
-                                {
-                                    &lt;DropdownMenuItem&gt;@@subItem.Title&lt;/DropdownMenuItem&gt;
-                                }
-                            &lt;/DropdownMenuContent&gt;
-                        &lt;/RzDropdownMenu&gt;
+                        &lt;SidebarMenuItem&gt;
+                            &lt;RzDropdownMenu Anchor="AnchorPoint.BottomEnd"&gt;
+                                &lt;DropdownMenuTrigger AsChild&gt;
+                                    &lt;SidebarMenuButton&gt;
+                                        @@item.Title
+                                        &lt;Blazicon Svg=&quot;MdiIcon.DotsHorizontal&quot; class=&quot;ml-auto&quot; /&gt;
+                                    &lt;/SidebarMenuButton&gt;
+                                &lt;/DropdownMenuTrigger&gt;
+                                &lt;DropdownMenuContent Side=&quot;right&quot; Align=&quot;start&quot;&gt;
+                                    @@foreach (var subItem in item.Items)
+                                    {
+                                        &lt;DropdownMenuItem&gt;@@subItem.Title&lt;/DropdownMenuItem&gt;
+                                    }
+                                &lt;/DropdownMenuContent&gt;
+                            &lt;/RzDropdownMenu&gt;
+                        &lt;/SidebarMenuItem&gt;
                     }
                 &lt;/SidebarMenu&gt;
             &lt;/SidebarGroup&gt;
@@ -1069,8 +1073,8 @@
                                     </RzBreadcrumb>
                                     <div class="ml-auto">
                                         <RzPopover>
-                                            <PopoverTrigger>
-                                                <RzButton Variant="ThemeVariant.Ghost" Size="Size.ExtraSmall" class="h-7 w-7"><Blazicon Svg="MdiIcon.DotsHorizontal" /></RzButton>
+                                            <PopoverTrigger AsChild>
+                                                <RzButton Variant="ThemeVariant.Ghost" Size="Size.ExtraSmall" class="h-7 w-7" AssistiveLabel="More"><Blazicon Svg="MdiIcon.DotsHorizontal" /></RzButton>
                                             </PopoverTrigger>
                                             <PopoverContent>
                                                 <p>Popover Content</p>
@@ -1161,7 +1165,7 @@
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="relative h-[600px] w-full overflow-hidden rounded-md p-8">
-                        <RzButton onclick="window.dispatchEvent(new CustomEvent('show-settings-modal'))">Open Settings</RzButton>
+                        <span x-data class="contents"><RzButton x-on:click="$dispatch('show-settings-modal')">Open Settings</RzButton></span>
                         <RzDialog EventTriggerName="show-settings-modal">
                             <DialogContent Size="ModalSize.FourXL" class="p-0 overflow-hidden">
                                 <RzSidebarProvider class="items-start">
@@ -1303,7 +1307,7 @@
                 <RzAlert Variant="ThemeVariant.Warning" class="my-5">
                     <AlertTitle>Limitations</AlertTitle>
                     <AlertDescription>
-                        The sidebar does not infer the current route. Provide <code>IsActive</code> or your own <code>aria-current</code> value on menu buttons and links when representing the current page. Desktop collapse state is persisted with the configured cookie name only when persistence is enabled.
+                        The sidebar does not infer the current route. Provide <code>IsActive</code> or your own <code>aria-current</code> value on menu buttons and links when representing the current page. Desktop collapse state is persisted with the configured cookie name only when persistence is enabled. A <code>SidebarGroup</code> is named by its <code>SidebarGroupLabel</code>; give a group without a label an <code>AriaLabel</code>.
                     </AlertDescription>
                 </RzAlert>
             </section>
@@ -1325,7 +1329,7 @@
                         </thead>
                         <tbody class="divide-y">
                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the provider, which should include a <code>Sidebar</code>.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>DefaultOpen</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">The initial open state of the sidebar on desktop.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>DefaultOpen</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">The initial open state of the sidebar on desktop, when the request has no persistence cookie. With the cookie, the server renders the persisted state, so a collapsed sidebar does not render open first.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Collapsible</code></td><td class="p-4"><code>SidebarCollapsible</code></td><td class="p-4"><code>OffCanvas</code></td><td class="p-4">The collapsible behavior of the sidebar.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>KeyboardShortcut</code></td><td class="p-4"><code>string</code></td><td class="p-4"><code>b</code></td><td class="p-4">The keyboard key for the open/close shortcut (Cmd/Ctrl + key).</td></tr>
                             <tr class="align-top"><td class="p-4"><code>PersistenceCookieName</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>sidebar_state</code></td><td class="p-4">The name of the cookie to persist the sidebar's state. Null or empty disables persistence.</td></tr>
@@ -1343,7 +1347,7 @@
                             <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
                         </thead>
                         <tbody class="divide-y">
-                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the sidebar.</td></tr>
+                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the sidebar. It is rendered twice, once for the mobile sheet and once for the desktop panel, so avoid fixed <code>id</code> attributes inside it.</td></tr>
                              <tr class="align-top"><td class="p-4"><code>Side</code></td><td class="p-4"><code>SidebarSide</code></td><td class="p-4"><code>Left</code></td><td class="p-4">The side of the screen where the sidebar appears.</td></tr>
                              <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>SidebarVariant</code></td><td class="p-4"><code>Sidebar</code></td><td class="p-4">The visual variant of the sidebar.</td></tr>
                              <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">Localized "Sidebar navigation"</td><td class="p-4">Accessible label for the sidebar.</td></tr>
@@ -1365,12 +1369,12 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggle</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles sidebar state based on viewport mode.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">setOpen</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the desktop expanded/collapsed state and updates the persistence cookie when enabled.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">setOpenMobile</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the mobile offcanvas open state.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">close</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the mobile sidebar when the runtime is in mobile mode.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">isMobileOpen</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Returns whether the mobile sidebar is open.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">destroy</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Removes global keydown and resize listeners when Alpine tears down the component.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">toggle</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles sidebar state based on viewport mode.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">setOpen</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the desktop expanded/collapsed state and updates the persistence cookie when enabled.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">setOpenMobile</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the mobile offcanvas open state.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">close</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the mobile sidebar when the runtime is in mobile mode.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">isMobileOpen</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Returns whether the mobile sidebar is open.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">destroy</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Removes global keydown and resize listeners when Alpine tears down the component.</td></tr>
                         </tbody>
                     </table>
                 </div>

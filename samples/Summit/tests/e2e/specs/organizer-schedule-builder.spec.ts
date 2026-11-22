@@ -57,9 +57,8 @@ test('the server refuses a room clash and a capacity above the room', async ({ p
 
   await editor(page).getByLabel('Room').selectOption({ label: 'Main Hall (900 seats)' });
   await editor(page).getByLabel('Capacity').fill('950');
-  // Not getByLabel('Starts at'): RzDateEdit's input is named "Select date", which overrides its field
-  // label (SF-068).
-  const start = editor(page).locator('[data-slot=date-edit] input[name="Model.StartsAt"]');
+  // The date input is named by its field label (SF-068).
+  const start = editor(page).getByLabel('Starts at');
   await start.fill('2027-06-15 09:15');
   await start.press('Enter');
   await editor(page).getByRole('button', { name: 'Save changes' }).click();

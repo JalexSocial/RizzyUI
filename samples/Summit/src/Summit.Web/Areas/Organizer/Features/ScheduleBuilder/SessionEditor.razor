@@ -14,7 +14,7 @@
                   hx-post="@(Context.SessionId is { } id ? $"/organizer/schedule-builder/sessions/{id}" : "/organizer/schedule-builder/sessions")"
                   hx-target="#session-editor" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
 
             <Field>
                 <FieldLabel For="@(() => Model!.Title)" />
@@ -25,10 +25,8 @@
             <div class="grid gap-5 sm:grid-cols-2">
                 <Field>
                     <FieldLabel For="@(() => Model!.StartsAt)" />
-                    @* German month and day names need flatpickr's l10n file, which RizzyUI neither ships nor
-                       loads; Summit registers it as an asset key (vendor.json) and asks for it (SF-073). *@
-                    <RzDateEdit For="@(() => Model!.StartsAt)" Name="Model.StartsAt" ComponentAssetKeys="@DateAssets"
-                                Options="@(new FlatpickrOptions { EnableTime = true, Time24Hr = true, AllowInput = true, DateFormat = "Y-m-d H:i", Locale = FlatpickrLocale, MinuteIncrement = 15 })" />
+                    <RzDateEdit For="@(() => Model!.StartsAt)"
+                                Options="@(new FlatpickrOptions { EnableTime = true, Time24Hr = true, AllowInput = true, DateFormat = "Y-m-d H:i", MinuteIncrement = 15 })" />
                     <FieldError><RzValidationMessageBase For="@(() => Model!.StartsAt)" /></FieldError>
                 </Field>
                 <Field>
@@ -40,9 +38,8 @@
 
             <Field>
                 <span id="session-length-label" class="text-sm font-medium">Length</span>
-                @* RzSlider is not an EditForm input: it takes a value array and a name, not For (SF-070). *@
-                <RzSlider Name="Model.LengthMinutes" UseIndexedNames="false" Value="@([Model!.LengthMinutes])" Min="15" Max="240" Step="15"
-                          AriaLabelledBy="session-length-label" ValueFormat="{0} min" />
+                <RzInputSlider For="@(() => Model!.LengthMinutes)" Min="15" Max="240" Step="15"
+                               AriaLabelledBy="session-length-label" ValueFormat="{0} min" />
                 <FieldDescription>@Model.LengthMinutes minutes now; 15 to 240 in steps of 15.</FieldDescription>
                 <FieldError><RzValidationMessageBase For="@(() => Model!.LengthMinutes)" /></FieldError>
             </Field>
@@ -93,7 +90,7 @@
 
         @if (Context.SessionId is { } sessionId)
         {
-            <RzAlertDialog EventTriggerName="builder:delete-confirm" CloseEventName="builder:delete-close" CloseOnEscape>
+            <RzAlertDialog EventTriggerName="builder:delete-confirm" CloseOnEscape>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Delete this session?</AlertDialogTitle>
@@ -122,11 +119,6 @@
     [Parameter, EditorRequired] public EditorContext Context { get; set; } = null!;
     /// <summary>Rendered after a successful save: show the saved values, not the posted ones.</summary>
     [Parameter] public bool Saved { get; set; }
-
-    // Flatpickr's locale names are two-letter codes; "en" is built in, others need their l10n file.
-    private static string FlatpickrLocale => CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
-    private static string[] DateAssets => FlatpickrLocale == "de" ? ["FlatpickrCore", "FlatpickrDe"] : ["FlatpickrCore"];
 
     protected override void OnInitialized()
     {

@@ -22,6 +22,7 @@ shift $(( $# < 3 ? $# : 3 ))
 frameworks=("$@")
 if [[ ${#frameworks[@]} -eq 0 ]]; then frameworks=(net10.0); fi
 port="${TEMPLATE_TEST_PORT:-5198}"
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 work="$(mktemp -d)"
 server_pid=""
@@ -135,6 +136,15 @@ http_checks() {
   expect_status 404 /does-not-exist || return 1
   expect_text 'Page not found' || return 1
   expect_text 'data-slot="sidebar"' || return 1
+  # ...but not into an htmx partial request's target (SF-020): the 404 stays empty.
+  expect_status 404 /does-not-exist "${partial[@]}" || return 1
+  expect_no_text 'Page not found' || return 1
+  # Other error statuses keep their code instead of becoming "page not found" (SF-020).
+  expect_status 400 /settings -X POST --data-urlencode "_handler=Profile" || return 1
+  expect_text 'Bad request' || return 1
+  # Body-level boosting: htmx 4 inherits only hx-boost:inherited (SF-021).
+  expect_status 200 / || return 1
+  expect_text 'hx-boost:inherited="true"' || return 1
 
   # The stylesheet holds RizzyUI's component classes (from the npm package's safelist), not only
   # the classes the app's own markup uses.
@@ -231,6 +241,19 @@ EOF
     echo "--- server log ---"
     cat "$work/server.log"
     exit 1
+  fi
+
+  # Browser checks: boosted navigation and the 404 page's link button. They use the docs app's
+  # Playwright install (src/RizzyUI.Docs: npm ci && npx playwright install chromium).
+  if [[ -d "$repo_root/src/RizzyUI.Docs/node_modules/@playwright/test" ]]; then
+    echo "==> Browser checks"
+    if ! (cd "$repo_root/src/RizzyUI.Docs" && TEMPLATE_BASE_URL="http://127.0.0.1:$port" npx playwright test -c playwright.template.config.ts); then
+      echo "--- server log ---"
+      cat "$work/server.log"
+      exit 1
+    fi
+  else
+    echo "==> Browser checks skipped (no Playwright in src/RizzyUI.Docs/node_modules)"
   fi
 
   kill "$server_pid" 2>/dev/null || true

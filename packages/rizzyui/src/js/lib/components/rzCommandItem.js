@@ -62,7 +62,8 @@ export default function rzCommandItem() {
                 group: this.$el.dataset.group || null,
                 templateContent,
                 disabled: this.$el.dataset.disabled === 'true',
-                forceMount: this.$el.dataset.forceMount === 'true'
+                forceMount: this.$el.dataset.forceMount === 'true',
+                href: this.$el.dataset.href || null
             };
 
             this.parent.registerItem(this.itemData);

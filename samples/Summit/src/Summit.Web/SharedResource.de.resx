@@ -35,8 +35,6 @@
   <data name="Language," xml:space="preserve"><value>Sprache,</value></data>
   <data name="Search" xml:space="preserve"><value>Suchen</value></data>
   <data name="Something went wrong" xml:space="preserve"><value>Etwas ist schiefgelaufen</value></data>
-  <data name="The server could not complete that request. Please try again." xml:space="preserve"><value>Der Server konnte die Anfrage nicht ausführen. Bitte versuche es noch einmal.</value></data>
-  <data name="Could not reach the server. Check your connection." xml:space="preserve"><value>Der Server ist nicht erreichbar. Prüfe deine Verbindung.</value></data>
   <data name="Organizer" xml:space="preserve"><value>Veranstalter</value></data>
   <data name="Overview" xml:space="preserve"><value>Überblick</value></data>
   <data name="Event" xml:space="preserve"><value>Veranstaltung</value></data>

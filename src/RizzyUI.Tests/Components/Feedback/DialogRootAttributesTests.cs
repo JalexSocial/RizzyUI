@@ -19,7 +19,6 @@ public class DialogRootAttributesTests : BunitAlbaContext, IClassFixture<WebAppF
             .Add(x => x.Id, "settings-dialog")
             .AddUnmatched("data-testid", "settings")
             .AddUnmatched("aria-describedby", "settings-help")
-            .AddUnmatched("x-data", "notAllowed")
             .AddUnmatched("x-ref", "settings"));
 
         var root = cut.Find("[data-slot='dialog']");

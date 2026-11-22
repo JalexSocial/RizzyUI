@@ -21,6 +21,9 @@ import { registerAsyncComponent } from '../runtime/asyncComponentRegistrar.js';
 import { installCodeBehindLoader } from '../runtime/codeBehindLoader.js';
 import { mergeIntoRizzyGlobal } from '../runtime/rizzyGlobal.js';
 import { installHtmxTeleportBridge } from '../runtime/htmxTeleportBridge.js';
+import { installAlpineOrphanCleanup } from '../runtime/alpineOrphanCleanup.js';
+import { installServerErrorToasts } from '../runtime/serverErrorToasts.js';
+import { installLazyEventBuffer, componentsReady, announceReady } from '../runtime/lazyEvents.js';
 
 let cachedRizzyUI;
 
@@ -66,6 +69,8 @@ export function bootstrapRizzyUI(Alpine) {
         $data,
         props,
         ready,
+        // SF-039: resolves when the page's eager components have started (rz:ready on the document).
+        componentsReady: () => componentsReady(window),
         theme: themeController,
         loadComponent: componentName => loadComponentDefinition(Alpine, componentName),
         registerAsyncComponent,
@@ -89,6 +94,10 @@ export function bootstrapRizzyUI(Alpine) {
         window.Alpine = Alpine;
         window.Rizzy = mergeIntoRizzyGlobal(window.Rizzy, cachedRizzyUI);
         installHtmxTeleportBridge(window);
+        installAlpineOrphanCleanup(window, Alpine);
+        installServerErrorToasts(window, toast);
+        installLazyEventBuffer(window);
+        announceReady(window);
 
         document.dispatchEvent(new CustomEvent('rz:init', {
             detail: { Rizzy: window.Rizzy },

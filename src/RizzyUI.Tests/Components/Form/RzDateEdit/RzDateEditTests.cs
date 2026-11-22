@@ -140,7 +140,7 @@ public class RzDateEditTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var root = cut.Find("[x-data='rzDateEdit']");
         var input = cut.Find("input[data-input]");
         Assert.Equal(root.GetAttribute("data-uid") + "-input", input.Id);
-        Assert.Equal("Select date", input.GetAttribute("aria-label"));
+        Assert.False(input.HasAttribute("aria-label"));
         Assert.Equal("", input.GetAttribute("value") ?? "");
         Assert.Equal(JsonValueKind.Array, JsonDocument.Parse(root.GetAttribute("data-assets")!).RootElement.ValueKind);
     }

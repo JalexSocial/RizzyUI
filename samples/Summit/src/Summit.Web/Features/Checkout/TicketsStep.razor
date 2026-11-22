@@ -10,11 +10,11 @@
     <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-8"
               hx-post="/tickets/checkout/tickets" hx-target="#checkout-step" hx-swap="outerHTML">
         <RzModelStateProvider />
-        <FocusFirstError />
+        <RzFocusFirstInvalid />
         <TicketEstimate Culture="@CultureInfo.CurrentCulture.Name">
             <Field>
                 @* Name set explicitly: group inputs default to the bare property name (SF-009). *@
-                <RzRadioGroup For="@(() => Model!.Ticket)" Name="Model.Ticket" DisplayName="Ticket" ShowIndicators="false" class="grid gap-3 sm:grid-cols-2">
+                <RzRadioGroup For="@(() => Model!.Ticket)" DisplayName="Ticket" ShowIndicators="false" class="grid gap-3 sm:grid-cols-2">
                     @foreach (var offer in View.Offers)
                     {
                         <RadioGroupItem TValue="string" Value="@offer.Ticket.Slug" Disabled="!offer.Available">
@@ -69,7 +69,7 @@
 
             <div class="flex flex-col gap-2">
                 <span class="text-sm font-medium" aria-hidden="true">Add-ons</span>
-                <RzCheckboxGroup For="@(() => Model!.AddOns)" Name="Model.AddOns" DisplayName="Add-ons" class="flex flex-col gap-3">
+                <RzCheckboxGroup For="@(() => Model!.AddOns)" DisplayName="Add-ons" class="flex flex-col gap-3">
                     @foreach (var addOn in CheckoutCatalog.AddOns)
                     {
                         <RzCheckboxGroupItem TValue="string" Value="@addOn.Id">

@@ -75,7 +75,7 @@
                 <RzItemGroup class="not-prose">
                     @foreach (var speaker in Session.Speakers.OrderBy(s => s.Order).Select(s => s.Speaker))
                     {
-                        <RzItem role="listitem" Variant="ItemVariant.Outline" class="items-start">
+                        <RzItem Variant="ItemVariant.Outline" class="items-start">
                             <ItemMedia><SpeakerAvatar Speaker="speaker" Size="Size.Large" /></ItemMedia>
                             <ItemContent>
                                 <ItemTitle>@speaker.Name</ItemTitle>

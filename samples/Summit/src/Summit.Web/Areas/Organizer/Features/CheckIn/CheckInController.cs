@@ -40,7 +40,7 @@ public sealed class CheckInController(CheckInDesk desk, IHtmxSwapService swaps, 
             }
         }
 
-        Response.ValidationFailedForAnyRequest();
+        Response.Htmx().ValidationFailed();
         return PartialView<CheckInForm>();
     }
 

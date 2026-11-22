@@ -34,7 +34,7 @@ public partial class TabsContent : RzComponent<TabsContent.Slots>
     /// <summary>
     /// Gets the unique ID for the trigger element associated with this content.
     /// </summary>
-    protected string TriggerId => $"{ParentTabs?.Id}-{RzTabs.IdSegment(Value)}-trigger";
+    protected string TriggerId => ParentTabs?.AsChildTriggerIds.GetValueOrDefault(Value) ?? $"{ParentTabs?.Id}-{RzTabs.IdSegment(Value)}-trigger";
 
     /// <summary>
     /// Gets the unique ID for the content element.
@@ -47,7 +47,11 @@ public partial class TabsContent : RzComponent<TabsContent.Slots>
         base.OnInitialized();
         if (ParentTabs == null)
             throw new InvalidOperationException($"{nameof(TabsContent)} must be used within an {nameof(RzTabs)} component.");
+        ParentTabs.RegisterContent(this);
     }
+
+    /// <summary>Renders again after an <c>AsChild</c> trigger registered its child's id (D-26).</summary>
+    internal void Refresh() => StateHasChanged();
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.TabsContent;

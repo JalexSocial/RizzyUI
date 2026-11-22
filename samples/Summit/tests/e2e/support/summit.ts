@@ -101,13 +101,10 @@ export async function resetDatabase(baseURL: string) {
  * a component's listeners (for example a dialog's open event) exist only after its chunk has loaded.
  */
 export async function waitForRuntime(page: Page) {
-  await expect.poll(() => page.evaluate(() => {
-    const w = window as any;
-    if (typeof w.Alpine?.version !== 'string' || typeof w.Rizzy?.toast !== 'object') return 'runtime';
-    const pending = [...document.querySelectorAll('[x-data]')].filter(el =>
-      !el.closest('template') && (el.getAttribute('x-load') ?? 'eager') === 'eager' && !(el as any)._x_dataStack);
-    return pending.length === 0 ? 'ready' : `${pending.length} components`;
-  }), { message: 'RizzyUI components initialized' }).toBe('ready');
+  // RizzyUI resolves componentsReady() once the page's eager components have started (SF-039).
+  await expect.poll(() => page.evaluate(() => typeof (window as any).Rizzy?.componentsReady === 'function'),
+    { message: 'RizzyUI runtime loaded' }).toBe(true);
+  expect(await page.evaluate(() => (window as any).Rizzy.componentsReady()), 'RizzyUI components initialized').toBe(true);
 }
 
 // The release gate is WCAG 2.x A/AA, the tags the RizzyUI docs suite uses. Best-practice rules are
@@ -142,43 +139,17 @@ export async function expectNoDanglingAriaReferences(page: Page) {
   expect(dangling).toEqual([]);
 }
 
-/**
- * No duplicate ids on the page (invalid HTML, and it breaks aria references and htmx targets).
- * Three known library defects are reported as annotations instead of failures, so the check still
- * catches everything else: the fixed ids of Material Design icons (summit-findings.md SF-023), the
- * empty id="" Rizzy's radio inputs render (SF-047), and the ids RizzyUI components render inside an
- * Alpine x-for template, which Alpine copies into every row (SF-054). Only ids that appear in a
- * <template> are treated as the last kind.
- */
+/** No duplicate or empty ids on the page (invalid HTML, and it breaks aria references and htmx targets). */
 export async function expectUniqueIds(page: Page) {
-  const { duplicates, mdiIcons, emptyIds, templated } = await page.evaluate(() => {
+  const problems = await page.evaluate(() => {
     const seen = new Map<string, number>();
-    const inTemplates = new Set<string>();
-    const collect = (root: ParentNode) => {
-      for (const template of root.querySelectorAll('template')) {
-        for (const element of template.content.querySelectorAll('[id]')) if (element.id) inTemplates.add(element.id);
-        collect(template.content);
-      }
-    };
-    collect(document);
-    let mdiIcons = 0;
     let emptyIds = 0;
     for (const element of document.querySelectorAll('[id]')) {
       if (element.id === '') { emptyIds++; continue; }
-      if (element.id.startsWith('mdi-') && element.tagName.toLowerCase() === 'svg') { mdiIcons++; continue; }
       seen.set(element.id, (seen.get(element.id) ?? 0) + 1);
     }
-    const repeated = [...seen].filter(([, count]) => count > 1);
-    return {
-      duplicates: repeated.filter(([id]) => !inTemplates.has(id)).map(([id, count]) => `${id} ×${count}`),
-      templated: repeated.filter(([id]) => inTemplates.has(id)).length,
-      mdiIcons,
-      emptyIds,
-    };
+    const duplicates = [...seen].filter(([, count]) => count > 1).map(([id, count]) => `${id} ×${count}`);
+    return emptyIds > 0 ? [...duplicates, `${emptyIds} elements with id=""`] : duplicates;
   });
-  const info = test.info();
-  if (emptyIds > 0) info.annotations.push({ type: 'known-defect', description: `SF-047: ${emptyIds} elements with id=""` });
-  if (templated > 0) info.annotations.push({ type: 'known-defect', description: `SF-054: ${templated} ids copied from x-for templates` });
-  if (mdiIcons > 1) info.annotations.push({ type: 'known-defect', description: `SF-023: ${mdiIcons} Material Design icons with fixed ids` });
-  expect(duplicates).toEqual([]);
+  expect(problems).toEqual([]);
 }

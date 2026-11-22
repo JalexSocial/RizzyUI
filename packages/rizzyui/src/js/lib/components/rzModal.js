@@ -1,11 +1,12 @@
 import { createFocusScope } from '../../runtime/a11y/focusScope.js';
 import { createDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
+import { takeBufferedEvent } from '../../runtime/lazyEvents.js';
 
 export default function rzModal() {
     return {
         modalOpen: false,
         eventTriggerName: '',
-        closeEventName: 'rz:modal-close',
+        closeEventName: 'rz:dialog-close',
         closeOnEscape: true,
         closeOnClickOutside: true,
         modalId: '',
@@ -33,9 +34,15 @@ export default function rzModal() {
             if (this.eventTriggerName) {
                 this._openListener = (e) => this.openModal(e);
                 window.addEventListener(this.eventTriggerName, this._openListener);
+                // SF-039: an open event sent before this dialog started.
+                const buffered = takeBufferedEvent(this.eventTriggerName);
+                if (buffered) this.$nextTick(() => this.openModal(new CustomEvent(this.eventTriggerName, { detail: buffered.detail })));
             }
 
-            this._closeEventListener = () => {
+            // D-29: one close event; with detail.id it closes only the dialog with that id.
+            this._closeEventListener = (event) => {
+                const target = event?.detail?.id;
+                if (target && target !== this.modalId && target !== this.$el.id) return;
                 if (this.modalOpen) this.closeModalInternally('event');
             };
             window.addEventListener(this.closeEventName, this._closeEventListener);
@@ -99,6 +106,8 @@ export default function rzModal() {
             this._focusScope?.deactivate();
             this._focusScope = createFocusScope(dialogElement, {
                 fallbackFocus: dialogElement,
+                // SF-032: a selector for the element that takes focus when the dialog opens.
+                initialFocus: this.$el.dataset.initialFocus || null,
             });
             this._focusScope.activate();
 

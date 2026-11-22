@@ -2,7 +2,10 @@
 @inherits RzComponent<RzTableSlots>
 
 <CascadingValue Value="this" Name="ParentRzTable" IsFixed="true">
-    <HtmlElement Element="div" id="@Id" data-slot="table-container" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
+    @* SF-063: the container scrolls, so it is focusable (keyboard scrolling) and, with AriaLabel, a named region. *@
+    <HtmlElement Element="div" id="@Id" data-slot="table-container" tabindex="0"
+                 role="@(string.IsNullOrWhiteSpace(AriaLabel) ? null : "region")" aria-label="@AriaLabel"
+                 @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
         <table id="@TableId" class="@SlotClasses.GetTable()" data-slot="table">
             @ChildContent
         </table>

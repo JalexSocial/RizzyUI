@@ -10,6 +10,7 @@ export default function rzToggle() {
          */
         init() {
             this.disabled = this.$el.dataset.disabled === 'true';
+            this.initChangeEvent();
             const pressedValue = this.$el.dataset.pressed;
             this.controlled = pressedValue === 'true' || pressedValue === 'false';
 
@@ -19,6 +20,21 @@ export default function rzToggle() {
             }
 
             this.pressed = this.$el.dataset.defaultPressed === 'true';
+        },
+
+        /**
+         * Dispatches `rz:toggle:change` ({ pressed, value }) when the pressed state changes, and
+         * enables the hidden input (Name/Value) only while pressed (Summit SF-015, decision D-24).
+         */
+        initChangeEvent() {
+            this.$watch('pressed', (pressed) => {
+                const input = this.$el.querySelector(':scope > input[data-toggle-input]');
+                if (input) input.disabled = !pressed;
+                this.$el.dispatchEvent(new CustomEvent('rz:toggle:change', {
+                    bubbles: true,
+                    detail: { pressed, value: this.$el.dataset.value ?? null },
+                }));
+            });
         },
 
         /**

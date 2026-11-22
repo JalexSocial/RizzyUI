@@ -2,7 +2,7 @@
 @inherits RzComponent<TableRowSlots>
 
 <CascadingValue Value="this" Name="ParentTableRow" IsFixed="true">
-    <tr id="@Id"
+    <tr id="@(HasExplicitId ? Id : null)"
         data-slot="table-row" @attributes="@AdditionalAttributes"
         class="@SlotClasses.GetBase()"
         data-state="@(IsSelected ? "selected" : null)">

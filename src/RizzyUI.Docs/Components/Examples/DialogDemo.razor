@@ -1,9 +1,9 @@
 @namespace RizzyUI.Docs.Examples
 @using RizzyUI
 
-<RzButton Variant="ThemeVariant.Default" Outline onclick="window.dispatchEvent(new Event('dialog-demo'))">
+<span x-data class="contents"><RzButton Variant="ThemeVariant.Default" Outline x-on:click="$dispatch('dialog-demo')">
     Open Dialog
-</RzButton>
+</RzButton></span>
 
 <RzDialog EventTriggerName="dialog-demo">
     <DialogContent Size="ModalSize.Small">

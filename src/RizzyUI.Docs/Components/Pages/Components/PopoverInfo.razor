@@ -88,8 +88,8 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzPopover&gt;
-    &lt;PopoverTrigger&gt;
-        &lt;RzButton Variant="ThemeVariant.Primary" AsChild&gt;Open Popover&lt;/RzButton&gt;
+    &lt;PopoverTrigger AsChild&gt;
+        &lt;RzButton Variant="ThemeVariant.Primary"&gt;Open Popover&lt;/RzButton&gt;
     &lt;/PopoverTrigger&gt;
     &lt;PopoverContent&gt;
         &lt;div class="grid gap-4"&gt;
@@ -144,68 +144,68 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PopoverTrigger</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">PopoverTrigger</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The trigger element users interact with to open the popover.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
                                 <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PopoverContent</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">PopoverContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – Content displayed inside the floating popover panel.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
                                 <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Anchor</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Anchor</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AnchorPoint</code> – Preferred placement (top, bottom, etc.) relative to the trigger.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorPoint</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AnchorPoint.BottomStart</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Offset</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Offset</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Pixel offset along the anchor axis.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">4</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CrossAxisOffset</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">CrossAxisOffset</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Pixel offset on the cross axis (perpendicular to anchor).</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AlignmentAxisOffset</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">AlignmentAxisOffset</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Pixel offset for alignment axis, if used.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Strategy</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">Strategy</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AnchorStrategy</code> – Positioning mode. Use <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">fixed</code> if your trigger is in a scrollable container.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorStrategy</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AnchorStrategy.Absolute</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EnableFlip</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">EnableFlip</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, popover will "flip" sides when needed to stay visible.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EnableShift</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">EnableShift</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, popover will shift along its axis to stay in the viewport.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShiftPadding</code></td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">ShiftPadding</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Viewport padding in pixels before shifting kicks in.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">8</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Accessible label for the popover container.</td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Accessible name of the popover content (the dialog) when <code>PopoverContent</code> has no <code>AriaLabel</code>; without either, the trigger names it.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
@@ -273,8 +273,8 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggle</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles popover visibility.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">updatePosition</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Recomputes popover placement.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">toggle</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles popover visibility.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-700 dark:text-sky-400">updatePosition</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Recomputes popover placement.</td></tr>
                         </tbody>
                     </table>
                 </div>

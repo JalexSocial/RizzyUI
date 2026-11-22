@@ -6,8 +6,10 @@
      data-alpine-root="@Id"
      id="@Id"
      class="@SlotClasses.GetBase()"
-     aria-label="@EffectiveAriaLabel"
-     :aria-hidden="notVisible"
+     role="@(IsLabeled ? "img" : null)"
+     aria-label="@(IsLabeled ? AriaLabel : null)"
+     aria-hidden="@(IsLabeled ? null : "true")"
+     x-bind:aria-hidden="@(IsLabeled ? "notVisible" : null)"
      x-show="visible"
      data-visible="@Visible.ToString().ToLowerInvariant()"
      x-cloak>
