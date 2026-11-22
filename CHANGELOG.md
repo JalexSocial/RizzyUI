@@ -42,6 +42,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`CommandItem.Href`** (Summit SF-016): an item that navigates when chosen, like a boosted link; data items take `href` (`ICommandItemData.Href`, default `null`).
 - **`RzCommandDialog` remote items and `Shortcut`** (Summit SF-007): `ItemsUrl`, `FetchTrigger` and `ServerFiltering` reach the inner `RzCommand`; `Shortcut="k"` opens the dialog with Ctrl+K / Cmd+K.
 - **`RzAlertLiveRegionMode.None`** (Summit SF-022) for static callouts; **`RzCheckboxGroup.LegendVisible`** and a legend from `[Display(Name)]` (SF-029); **`RzAvatar.Decorative`** (SF-031); **`SidebarGroup.AriaLabel`** (SF-075).
+- **`RzCollapsible.AsChild`** (Summit SF-080): the collapsible's behavior goes on its child, so `<RzCollapsible AsChild><SidebarMenuItem>` keeps a sidebar menu a list of items.
 
 ### Changed
 
@@ -81,6 +82,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Tab leaves a multiple `RzCombobox`** (Summit SF-055): its option checkboxes are out of the tab order, so focus no longer falls to `<body>`.
 - **Calendar weekday headers and days outside the month meet contrast** (Summit SF-077).
 - **ARIA fixes** found by axe (Summit SF-035, SF-038, SF-071, SF-075, SF-076, SF-079, SF-084): `RzAuroraText` renders its label as hidden text and needs no inline style by default; `RzItem` is a list item inside `RzItemGroup`; `RzClipboard` is at least 24 px; `SidebarGroup` no longer points at a missing label; `RzPopover`'s label names its content; an empty `CommandList` is not a listbox; Markdown code blocks are focusable.
+- **Sidebar action buttons meet the 24 px target size** (Summit SF-080): `SidebarMenuAction` and `SidebarGroupAction` are `w-6`.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

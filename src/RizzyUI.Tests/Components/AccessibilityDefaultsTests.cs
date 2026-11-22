@@ -148,6 +148,18 @@ public class AccessibilityDefaultsTests : BunitAlbaContext, IClassFixture<WebApp
     }
 
     [Fact]
+    public void A_collapsible_as_child_puts_its_behavior_on_the_menu_item()
+    {
+        // SF-080: <RzCollapsible AsChild><SidebarMenuItem> renders the li itself, not a div inside the list.
+        var cut = Render<RzCollapsible>(p => p.Add(x => x.AsChild, true)
+            .AddChildContent<SidebarMenuItem>(i => i.AddChildContent("Item")));
+        var item = cut.Find("li");
+        Assert.Equal("menu-item", item.GetAttribute("data-sidebar"));
+        Assert.Equal("rzCollapsible", item.GetAttribute("x-data"));
+        Assert.Empty(cut.FindAll("div"));
+    }
+
+    [Fact]
     public void Markdown_code_blocks_are_focusable()
     {
         var cut = Render<RzMarkdown>(p => p.Add(x => x.Content, "```\nvery long line\n```"));

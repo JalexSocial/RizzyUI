@@ -24,9 +24,6 @@ export const knownDefects: KnownDefect[] = [
   },
   { finding: 'SF-047', kind: 'duplicate-id', rule: 'empty-id', pages: ['/'] },
   { finding: 'SF-063', kind: 'axe', rule: 'scrollable-region-focusable', target: /data-slot="table-container"/, pages: ['/components/table'] },
-  { finding: 'SF-080', kind: 'axe', rule: 'aria-required-children', target: /data-slot="sidebar-menu"/, pages: ['/components/sidebar'] },
-  { finding: 'SF-080', kind: 'axe', rule: 'listitem', target: /data-slot="sidebar-menu-item"/, pages: ['/components/sidebar'] },
-  { finding: 'SF-080', kind: 'axe', rule: 'target-size', target: /text-sidebar-foreground|text-sidebar-foregro/, pages: ['/components/sidebar'] },
 
   // Docs-site defects (styling and example content), fixed in W11.
   // The docs site's own pages and examples still use Material Design icons, whose fixed ids repeat

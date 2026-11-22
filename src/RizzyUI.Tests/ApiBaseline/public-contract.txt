@@ -1447,6 +1447,7 @@ RizzyUI.RzCodeViewer
   ViewerTitle: System.String
 RizzyUI.RzCollapsible
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AsChild: System.Boolean
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
   Classes: RizzyUI.RzCollapsible.Slots
   ConfigureClasses: System.Action<RizzyUI.RzCollapsible.Slots>

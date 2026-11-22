@@ -467,8 +467,8 @@
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
-  .top-1\.5 {
-    top: calc(var(--spacing) * 1.5);
+  .top-1 {
+    top: calc(var(--spacing) * 1);
   }
   .top-1\/2 {
     top: calc(1 / 2 * 100%);
@@ -476,8 +476,8 @@
   .top-2\.5 {
     top: calc(var(--spacing) * 2.5);
   }
-  .top-3\.5 {
-    top: calc(var(--spacing) * 3.5);
+  .top-3 {
+    top: calc(var(--spacing) * 3);
   }
   .top-4 {
     top: calc(var(--spacing) * 4);
@@ -1105,6 +1105,9 @@
   }
   .w-5 {
     width: calc(var(--spacing) * 5);
+  }
+  .w-6 {
+    width: calc(var(--spacing) * 6);
   }
   .w-7 {
     width: calc(var(--spacing) * 7);
@@ -3935,6 +3938,11 @@
       color: var(--sidebar-accent-foreground);
     }
   }
+  .peer-data-\[size\=default\]\/menu-button\:top-1 {
+    &:is(:where(.peer\/menu-button)[data-size="default"] ~ *) {
+      top: calc(var(--spacing) * 1);
+    }
+  }
   .peer-data-\[size\=default\]\/menu-button\:top-1\.5 {
     &:is(:where(.peer\/menu-button)[data-size="default"] ~ *) {
       top: calc(var(--spacing) * 1.5);
@@ -3943,6 +3951,16 @@
   .peer-data-\[size\=lg\]\/menu-button\:top-2\.5 {
     &:is(:where(.peer\/menu-button)[data-size="lg"] ~ *) {
       top: calc(var(--spacing) * 2.5);
+    }
+  }
+  .peer-data-\[size\=lg\]\/menu-button\:top-3 {
+    &:is(:where(.peer\/menu-button)[data-size="lg"] ~ *) {
+      top: calc(var(--spacing) * 3);
+    }
+  }
+  .peer-data-\[size\=sm\]\/menu-button\:top-0\.5 {
+    &:is(:where(.peer\/menu-button)[data-size="sm"] ~ *) {
+      top: calc(var(--spacing) * 0.5);
     }
   }
   .peer-data-\[size\=sm\]\/menu-button\:top-1 {

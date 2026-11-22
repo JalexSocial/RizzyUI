@@ -123,7 +123,7 @@ tracks how much application code exists only to compensate.
 | SF-077 | RizzyUI | RzCalendar | A11y | Medium | Calendar weekend column headers and some day buttons fail WCAG AA contrast in RizzyUI's calendar styles | Works | Fixed in 1.0.0-preview.4 | docs scan (calendar pages, color-contrast entry removed) |
 | SF-078 | RizzyUI | Default theme | A11y | Medium | In the docs theme, `text-primary` links, primary and outline buttons, the Steps labels, command shortcuts and event-viewer entries measure below 4.5:1 | n/a | Fixed in 1.0.0-preview.4 | bUnit: ThemeContrastTests (every token pair of the built-in theme, light and dark) (defect); docs scan (color-contrast entries removed) |
 | SF-079 | RizzyUI | RzCommand | A11y | Low | An `RzCommand` list with no matching items is still a `listbox` with no `option` children (axe `aria-required-children`) | n/a | Fixed in 1.0.0-preview.4 | docs scan (command page entry removed) |
-| SF-080 | RizzyUI docs | RzSidebar preview | A11y | Low | In the sidebar docs preview, menu items are not inside a list (`listitem`, `aria-required-children`) and the rail buttons are under 24 px; to triage between the example and the components | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
+| SF-080 | RizzyUI docs | RzSidebar preview | A11y | Low | In the sidebar docs preview, menu items are not inside a list (`listitem`, `aria-required-children`) and the rail buttons are under 24 px; to triage between the example and the components | n/a | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a collapsible AsChild puts its behavior on the menu item) (defect); docs scan (sidebar entries removed) |
 | SF-081 | RizzyUI docs | Docs site styling | A11y | Medium | The docs site's own styles fail contrast: parameter names in the API tables (`text-sky-600`), prose links and inline code | n/a (docs site) | Open | docs scan (known-defect list) |
 | SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a (docs site) | Open | docs scan (known-defect list) |
 | SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a (docs site) | Open | docs scan (known-defect list) |
@@ -1299,6 +1299,7 @@ finding on its own.
   list, a `SidebarMenu` without list items, and 16 px targets. Summit's organizer sidebar, built from the
   same components, passes axe, so the example markup is the first suspect.
 - **Fix:** triage; then fix the example, or the components if the example is a supported pattern.
+- **Fixed in 1.0.0-preview.4:** triaged as both: the components gained `AsChild` on `RzCollapsible` (the examples already used `<RzCollapsible AsChild><SidebarMenuItem>`, shadcn's pattern, which rendered a `div` between the list and its items), and `SidebarMenuAction`/`SidebarGroupAction` are 24 px (`w-6`) instead of 20 px; the dropdown example now puts each dropdown in a `SidebarMenuItem`.
 
 ### SF-081 The docs site's own text colors fail contrast
 

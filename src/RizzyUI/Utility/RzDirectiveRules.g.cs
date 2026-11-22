@@ -36,7 +36,6 @@ internal static partial class RzDirectiveRules
         ["RzModalPrimitive"] = new(true, [], ["rzModalPanel"]),
         ["CarouselContent"] = new(false, [], ["container", "viewport"]),
         ["CollapsibleContent"] = new(true, [], []),
-        ["RzCollapsible"] = new(false, ["data-state"], []),
         ["CommandEmpty"] = new(true, [], []),
         ["CommandInput"] = new(false, ["aria-activedescendant", "aria-expanded"], []),
         ["CommandItem"] = new(false, [], ["template"]),

@@ -575,7 +575,7 @@
                                         <SidebarMenu>
                                             @foreach (var item in _navMain)
                                             {
-                                                <RzCollapsible class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
+                                                <RzCollapsible AsChild class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
                                                     <SidebarMenuItem>
                                                         <CollapsibleTrigger AsChild>
                                                             <SidebarMenuButton>
@@ -617,7 +617,7 @@
                         </RzSidebarProvider>
                     </div>
                 </RzBrowser>
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzCollapsible class=&quot;group/collapsible&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzCollapsible AsChild class=&quot;group/collapsible&quot;&gt;
     &lt;SidebarMenuItem&gt;
         &lt;CollapsibleTrigger AsChild&gt;
             &lt;SidebarMenuButton&gt;
@@ -668,20 +668,22 @@
                                         <SidebarMenu>
                                             @foreach (var item in _navMain)
                                             {
-                                                <RzDropdownMenu Anchor="AnchorPoint.BottomEnd" Offset="0">
-                                                    <DropdownMenuTrigger AsChild>
-                                                        <SidebarMenuButton>
-                                                            @item.Title
-                                                            <Blazicon Svg="MdiIcon.DotsHorizontal" class="ml-auto" />
-                                                        </SidebarMenuButton>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent Side="right" Align="start">
-                                                        @foreach (var subItem in item.Items)
-                                                        {
-                                                            <DropdownMenuItem>@subItem.Title</DropdownMenuItem>
-                                                        }
-                                                    </DropdownMenuContent>
-                                                </RzDropdownMenu>
+                                                <SidebarMenuItem>
+                                                    <RzDropdownMenu Anchor="AnchorPoint.BottomEnd" Offset="0">
+                                                        <DropdownMenuTrigger AsChild>
+                                                            <SidebarMenuButton>
+                                                                @item.Title
+                                                                <Blazicon Svg="MdiIcon.DotsHorizontal" class="ml-auto" />
+                                                            </SidebarMenuButton>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent Side="right" Align="start">
+                                                            @foreach (var subItem in item.Items)
+                                                            {
+                                                                <DropdownMenuItem>@subItem.Title</DropdownMenuItem>
+                                                            }
+                                                        </DropdownMenuContent>
+                                                    </RzDropdownMenu>
+                                                </SidebarMenuItem>
                                             }
                                         </SidebarMenu>
                                     </SidebarGroup>
@@ -726,20 +728,22 @@
                 &lt;SidebarMenu&gt;
                     @@foreach (var item in _navMain)
                     {
-                        &lt;RzDropdownMenu Anchor="AnchorPoint.BottomEnd"&gt;
-                            &lt;DropdownMenuTrigger AsChild&gt;
-                                &lt;SidebarMenuButton&gt;
-                                    @@item.Title
-                                    &lt;Blazicon Svg=&quot;MdiIcon.DotsHorizontal&quot; class=&quot;ml-auto&quot; /&gt;
-                                &lt;/SidebarMenuButton&gt;
-                            &lt;/DropdownMenuTrigger&gt;
-                            &lt;DropdownMenuContent Side=&quot;right&quot; Align=&quot;start&quot;&gt;
-                                @@foreach (var subItem in item.Items)
-                                {
-                                    &lt;DropdownMenuItem&gt;@@subItem.Title&lt;/DropdownMenuItem&gt;
-                                }
-                            &lt;/DropdownMenuContent&gt;
-                        &lt;/RzDropdownMenu&gt;
+                        &lt;SidebarMenuItem&gt;
+                            &lt;RzDropdownMenu Anchor="AnchorPoint.BottomEnd"&gt;
+                                &lt;DropdownMenuTrigger AsChild&gt;
+                                    &lt;SidebarMenuButton&gt;
+                                        @@item.Title
+                                        &lt;Blazicon Svg=&quot;MdiIcon.DotsHorizontal&quot; class=&quot;ml-auto&quot; /&gt;
+                                    &lt;/SidebarMenuButton&gt;
+                                &lt;/DropdownMenuTrigger&gt;
+                                &lt;DropdownMenuContent Side=&quot;right&quot; Align=&quot;start&quot;&gt;
+                                    @@foreach (var subItem in item.Items)
+                                    {
+                                        &lt;DropdownMenuItem&gt;@@subItem.Title&lt;/DropdownMenuItem&gt;
+                                    }
+                                &lt;/DropdownMenuContent&gt;
+                            &lt;/RzDropdownMenu&gt;
+                        &lt;/SidebarMenuItem&gt;
                     }
                 &lt;/SidebarMenu&gt;
             &lt;/SidebarGroup&gt;
