@@ -261,6 +261,34 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Empty(plain.FindAll("input[data-datatable-state]"));
     }
 
+    [Fact]
+    public void Header_and_body_helpers_render_the_standard_rows()
+    {
+        // Summit SF-056: composable helpers instead of hand-written templates.
+        var cut = Render<TestableDataTable>(p => p
+            .Add(x => x.Items, CreateRows())
+            .Add(x => x.Config, CreateConfig())
+            .Add(x => x.RowIdSelector, x => x.Id)
+            .Add(x => x.ChildContent, (RenderFragment)(b =>
+            {
+                b.OpenComponent<global::RizzyUI.DataTableHeaderRows>(0);
+                b.AddAttribute(1, "Selection", true);
+                b.CloseComponent();
+                b.OpenComponent<global::RizzyUI.DataTableBodyRows>(2);
+                b.AddAttribute(3, "Selection", true);
+                b.CloseComponent();
+            })));
+
+        var markup = cut.Markup;
+        Assert.Contains("x-for=\"headerGroup in headerGroups\"", markup);
+        Assert.Contains("x-bind:aria-sort=\"sort.can(header) ? sort.ariaSort(header) : null\"", markup);
+        Assert.Contains("data-slot=\"data-table-sort-toggle\"", markup);
+        Assert.Contains("data-slot=\"data-table-select-all-checkbox\"", markup);
+        Assert.Contains("x-for=\"row in rows\"", markup);
+        Assert.Contains("x-flexrender=\"_flex.cell(cell)\"", markup);
+        Assert.Contains("data-slot=\"data-table-row-select-checkbox\"", markup);
+    }
+
     private IRenderedComponent<TestableDataTable> RenderTable()
     {
         return Render<TestableDataTable>(parameters => parameters

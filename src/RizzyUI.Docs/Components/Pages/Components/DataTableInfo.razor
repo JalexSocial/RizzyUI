@@ -96,6 +96,49 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Header and body helpers" class="scroll-mt-20">Header and body helpers</RzHeading>
+                <RzParagraph>
+                    The table stays headless: you write its structure. For the common case, <code>DataTableHeaderRows</code> and
+                    <code>DataTableBodyRows</code> write the standard rows for you: flex-rendered headers with a sort toggle and
+                    <code>aria-sort</code>, flex-rendered cells, and with <code>Selection</code> a checkbox column. Mix them with your own
+                    markup (a custom body with the standard header, for example).
+                </RzParagraph>
+                <div class="not-prose">
+                    <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                        <RzTable Border AriaLabel="Users">
+                            <TableHeader><DataTableHeaderRows Selection="true" /></TableHeader>
+                            <TableBody><DataTableBodyRows Selection="true" /></TableBody>
+                        </RzTable>
+                    </RzDataTable>
+                </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-4">
+&lt;RzDataTable Items="_users" Config="_config" RowIdSelector="x =&gt; x.Id"&gt;
+    &lt;RzTable Border AriaLabel="Users"&gt;
+        &lt;TableHeader&gt;&lt;DataTableHeaderRows Selection="true" /&gt;&lt;/TableHeader&gt;
+        &lt;TableBody&gt;&lt;DataTableBodyRows Selection="true" /&gt;&lt;/TableBody&gt;
+    &lt;/RzTable&gt;
+&lt;/RzDataTable&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Row objects in templates" class="scroll-mt-20">Row objects in templates</RzHeading>
+                <RzParagraph>Inside the templates, these names are in scope:</RzParagraph>
+                <ul class="list-disc pl-6">
+                    <li><code>row</code>: RizzyUI's row view, <code>{ id, row, cells }</code>. <code>row.id</code> is the value of <code>RowIdSelector</code>.</li>
+                    <li><code>row.row</code>: the TanStack row (selection helpers take it: <code>RowExpr="row.row"</code>).</li>
+                    <li><code>row.row.original</code>: your item, serialized with camelCase property names (<code>Name</code> becomes <code>name</code>).</li>
+                    <li><code>cell</code> (in <code>row.cells</code>) and <code>header</code> (in <code>headerGroup.headers</code>): TanStack's cell and header. Column ids
+                        keep the names you gave them in C# (<code>cell.column.id === 'Name'</code>), unlike the item's properties.</li>
+                </ul>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-4">
+&lt;template x-if="cell.column.id === 'Name'"&gt;
+    &lt;a x-bind:href="'/people/' + row.id" x-text="row.row.original.name"&gt;&lt;/a&gt;
+&lt;/template&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Empty state" class="scroll-mt-20">Empty state</RzHeading>
                 <RzParagraph>Empty state is consumer-authored and driven by <code>isEmpty</code>.</RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.Razor">

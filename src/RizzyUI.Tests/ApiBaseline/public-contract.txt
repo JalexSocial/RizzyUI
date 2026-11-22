@@ -397,6 +397,13 @@ RizzyUI.CommandShortcut
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+RizzyUI.DataTableBodyRows
+  Selection: System.Boolean
+RizzyUI.DataTableHeaderRows
+  Selection: System.Boolean
+  SelectionAriaLabel: System.String
+  SelectionScope: RizzyUI.DataTableSelectionScope
+  Sortable: System.Boolean
 RizzyUI.DataTableRowSelectCheckbox
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   AriaLabel: System.String

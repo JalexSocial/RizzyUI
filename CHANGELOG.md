@@ -47,6 +47,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Events sent before a component starts are kept** (Summit SF-039): a dialog's or sheet's `EventTriggerName` event that arrives while its code is still loading opens it once it starts. `Rizzy.componentsReady()` and the `rz:ready` document event tell tests and apps when the page's components have started.
 - **`RzDataTable` state transport** (decision D-31, Summit SF-001): `StateInputName` keeps a hidden input with the table's sorting, page, filters and column visibility (and, with `IncludeSelectionInState`, the selection) as versioned JSON; bind it as `RzDataTableState` and rebuild the table from `ToInitialState()` so it keeps the user's place.
 - **`RzTable.AriaLabel`** (Summit SF-063): the scroll container is focusable for keyboard scrolling, and a named region with `AriaLabel`.
+- **`DataTableHeaderRows` and `DataTableBodyRows`** (Summit SF-056): helpers that write a DataTable's standard header and body rows (sorting, selection, flex rendering) while the table stays headless; the docs also explain the row objects in templates (SF-050).
 
 ### Changed
 
