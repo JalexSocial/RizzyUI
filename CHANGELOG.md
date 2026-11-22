@@ -32,6 +32,7 @@ Finding IDs (RZUI-0xx) refer to the
 
 - **`RzChart` sizing** (Summit SF-061): the chart fills the height of a parent that has one instead of overflowing it, and is 2:1 (width to height) in a parent without a height; the fixed `min-h-[300px]` is gone. Set a height class on the chart or its parent for another size.
 - **Date components follow the request culture** (Summit SF-073). `RzCalendar`, `RzCalendarProvider` and `RzDateEdit` default to `CultureInfo.CurrentCulture` instead of English; `RzDateEdit` loads flatpickr's locale file for it (65 languages, registered as assets `FlatpickrLocale.{file}` with SRI hashes, for example `FlatpickrLocale.de`, so they can be self-hosted). Set `Locale` in the options to keep a fixed language. `VanillaCalendarOptions.Locale` is now `string?` (null means the request culture).
+- **`DataTableSortToggle` is named by its label** (Summit SF-053). Every sort button was named "Sort ascending", leaving out the column and hiding its visible text (WCAG 2.5.3); it is now named by its content, with the direction on the header's `aria-sort`. An icon-only toggle gets the column name from the new `sort.columnName(header)`; `sort.nextLabel(header)` is no longer the button's name.
 
 ### Fixed
 
@@ -45,6 +46,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **Numbers in markup are culture-independent** (Summit SF-060). Under a culture with a decimal comma (de-DE), `RzNumberTicker` wrote `data-value="96356,2"`, which its script read as 0, and `RzShineBorder` and `RzSlider` wrote their sizes, steps and `aria-value*` the same way. They are written with the invariant culture now; a test renders every component with a fractional parameter under de-DE.
 - **A page's own `HeadContent` no longer removes the theme** (Summit SF-034). `RzThemeProvider` injected its CSS variables through `HeadContent`, and Blazor shows only the last `HeadContent`, so any page with its own silently fell back to the default palette. The theme now renders into `RzThemeHeadOutlet`, or at the start of the provider's output when the page has no outlet.
 - **`RzCommand` renders data-driven items** (Summit SF-040). `Items` and `ItemsUrl` with a `CommandItemTemplate` showed nothing ("No data template found"): the template reported its id after the command had rendered `data-template-id`. The command now derives the id itself.
+- **`RzInputTextArea` is styled like the other inputs** (Summit SF-052): it rendered without border, background, padding or focus ring.
+- **Content inside a tinted alert is readable** (Summit SF-065). The Information, Success and Warning alerts colored their content with the status's `*-foreground`, made for a solid fill; on the 10% tint it was near-white on near-white. They use `text-foreground` now.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

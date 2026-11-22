@@ -75,7 +75,8 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("button", toggle.TagName.ToLowerInvariant());
         Assert.Equal("button", toggle.GetAttribute("type"));
         Assert.Equal("!sort.can(header)", toggle.GetAttribute("x-bind:disabled"));
-        Assert.Equal("sort.nextLabel(header)", toggle.GetAttribute("x-bind:aria-label"));
+        // SF-053: named by its label (the column), not "Sort ascending".
+        Assert.False(toggle.HasAttribute("x-bind:aria-label"));
         Assert.Equal("sort.direction(header) || 'none'", toggle.GetAttribute("x-bind:data-sort-direction"));
         Assert.Equal("sort.toggle(header)", toggle.GetAttribute("x-on:click"));
 

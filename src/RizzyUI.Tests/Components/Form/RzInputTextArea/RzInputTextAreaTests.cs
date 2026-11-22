@@ -27,6 +27,22 @@ public class RzInputTextAreaTests : BunitAlbaContext, IClassFixture<WebAppFixtur
     }
 
     [Fact]
+    public void IsStyledLikeTheOtherInputs()
+    {
+        // Summit SF-052: the textarea rendered without a border, background, padding or focus ring.
+        var model = new TextAreaModel();
+
+        var cut = Render<CascadingValue<EditContext>>(ps => ps
+            .Add(p => p.Value, new EditContext(model))
+            .AddChildContent<global::RizzyUI.RzInputTextArea>(tp => tp.Add(p => p.For, () => model.Value)));
+
+        var classes = cut.Find("textarea[data-slot='textarea']").ClassList;
+        foreach (var expected in new[] { "border", "border-input", "rounded-md", "px-3", "py-2", "w-full", "focus-visible:ring-[3px]", "dark:bg-input/30", "min-h-16" })
+            Assert.Contains(expected, classes);
+        Assert.DoesNotContain("h-9", classes);
+    }
+
+    [Fact]
     public void SupportsCustomClassMerging()
     {
         var model = new TextAreaModel();

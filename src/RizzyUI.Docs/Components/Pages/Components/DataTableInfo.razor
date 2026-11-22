@@ -620,7 +620,7 @@
 
                 <RzHeading Level="HeadingLevel.H3">Sorting, selection, pagination, filtering, and visibility</RzHeading>
                 <ul class="list-disc pl-6 space-y-2">
-                    <li><strong>Sorting:</strong> <code>DataTableSortToggle</code> renders a native <code>button</code>, binds disabled state to <code>!sort.can(header)</code>, binds its accessible name to <code>sort.nextLabel(header)</code>, exposes <code>data-sort-direction</code>, and calls <code>sort.toggle(header)</code>.</li>
+                    <li><strong>Sorting:</strong> <code>DataTableSortToggle</code> renders a native <code>button</code>, binds disabled state to <code>!sort.can(header)</code>, is named by its visible label (the column; give the header cell <code>aria-sort</code> for the direction, and an icon-only toggle gets the column name from <code>sort.columnName(header)</code>), exposes <code>data-sort-direction</code>, and calls <code>sort.toggle(header)</code>.</li>
                     <li><strong>Selection:</strong> selection helpers render native checkboxes with <code>aria-label</code>, checked/disabled bindings, indeterminate state effects, and change handlers that update TanStack row selection state.</li>
                     <li><strong>Pagination:</strong> the runtime exposes page state and methods. Examples bind unavailable links with <code>aria-disabled</code>, remove them from the tab order with <code>tabindex="-1"</code>, and mark the active page with <code>aria-current="page"</code>.</li>
                     <li><strong>Filtering:</strong> the runtime exposes <code>filter.globalFilter</code> and <code>filter.setGlobalFilter(value)</code>. Authors must provide the visible label or accessible name for filter inputs.</li>
@@ -792,7 +792,8 @@
                     <li><code>sort.direction(header)</code> — current sort direction for the header.</li>
                     <li><code>sort.toggle(header)</code> — toggles sorting for the header. <a href="https://tanstack.com/table/latest/docs/api/features/sorting#togglesorting" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
                     <li><code>sort.ariaSort(header)</code> — mapped ARIA value from current sort state.</li>
-                    <li><code>sort.nextLabel(header)</code> — convenience label for the next sort action.</li>
+                    <li><code>sort.columnName(header)</code> — the column's display name (its header text, or its id).</li>
+                    <li><code>sort.nextLabel(header)</code> — English text for the next sort action ("Sort ascending"), for a tooltip; not used as the button's name.</li>
                 </ul>
 
                 <RzHeading Level="HeadingLevel.H3">Selection API (<code>selection.*</code>)</RzHeading>

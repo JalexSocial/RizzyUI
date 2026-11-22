@@ -419,6 +419,16 @@ function createSortApi(component) {
             return 'none';
         },
 
+        /**
+         * The column's display name: its header when that is a string, otherwise its id. Names an
+         * icon-only sort toggle (a toggle with a visible label is named by it, SF-053).
+         */
+        columnName: header => {
+            const column = header?.column;
+            const title = column?.columnDef?.header;
+            return typeof title === 'string' && title ? title : (column?.id ?? '');
+        },
+
         nextLabel: header => {
             if (!header?.column?.getCanSort?.()) {
                 return 'Sorting unavailable';

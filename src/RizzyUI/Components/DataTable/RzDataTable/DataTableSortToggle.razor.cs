@@ -45,7 +45,9 @@ public partial class DataTableSortToggle : RzComponent<DataTableSortToggle.Slots
 
     private string HeaderFlexExpr => $"_flex.header({HeaderExpr})";
     private string DisabledExpr => $"!sort.can({HeaderExpr})";
-    private string AriaLabelExpr => $"sort.nextLabel({HeaderExpr})";
+    // SF-053: the button is named by its visible content (the column label); the header's aria-sort
+    // carries the direction. Only an icon-only toggle gets a name, the column's.
+    private string? AriaLabelExprOrNull => ChildContent is null && !RenderLabel ? $"sort.columnName({HeaderExpr})" : null;
     private string DirectionExpr => $"sort.direction({HeaderExpr}) || 'none'";
     private string ClickExpr => $"sort.toggle({HeaderExpr})";
 

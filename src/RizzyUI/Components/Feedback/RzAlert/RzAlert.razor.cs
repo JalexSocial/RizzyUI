@@ -40,9 +40,9 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
                 [ThemeVariant.Primary] = new() { [s => s.Base] = "border-primary/50 bg-primary/10 text-primary", [s => s.IconContainer] = "text-primary", [s => s.IconPulse] = "bg-primary/15" },
                 [ThemeVariant.Secondary] = new() { [s => s.Base] = "border-secondary/50 bg-secondary/10 text-secondary-foreground", [s => s.IconContainer] = "text-secondary-foreground", [s => s.IconPulse] = "bg-secondary/15" },
                 [ThemeVariant.Accent] = new() { [s => s.Base] = "border-accent/50 bg-accent/10 text-accent-foreground", [s => s.IconContainer] = "text-accent-foreground", [s => s.IconPulse] = "bg-accent/15" },
-                [ThemeVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-info-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
-                [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
-                [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
+                [ThemeVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
+                [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
+                [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
                 [ThemeVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" },
 
                 // Ghost

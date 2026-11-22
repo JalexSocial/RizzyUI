@@ -64,11 +64,9 @@
                                         <DataTableSelectAllCheckbox Scope="DataTableSelectionScope.Page" AriaLabel="Select all attendees on this page" />
                                     </template>
                                     <template x-if="sort.can(header) && !header.isPlaceholder">
-                                        @* SF-053: the toggle's own name ("Sort ascending") leaves out the column and hides
-                                           its visible text (WCAG 2.5.3). aria-labelledby names it after its label;
-                                           the header's aria-sort carries the direction. *@
-                                        <DataTableSortToggle HeaderExpr="header" x-bind:aria-labelledby="'attendees-sort-' + header.id">
-                                            <span x-bind:id="'attendees-sort-' + header.id" x-flexrender="_flex.header(header)"></span>
+                                        @* Named by its label; the header's aria-sort carries the direction. *@
+                                        <DataTableSortToggle HeaderExpr="header">
+                                            <span x-flexrender="_flex.header(header)"></span>
                                         </DataTableSortToggle>
                                     </template>
                                     <template x-if="!sort.can(header) && header.column.id !== 'select' && !header.isPlaceholder">

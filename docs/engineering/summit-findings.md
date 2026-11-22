@@ -95,8 +95,8 @@ tracks how much application code exists only to compensate.
 | SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works (workaround: `min-w-0`) | Open | Manual (page width checked in the browser) |
 | SF-050 | RizzyUI | RzDataTable | DX | Low | In row templates, `row` is RizzyUI's view object (`{ id, row, cells }`), and the row data is camelCase while column ids keep the C# names | Works (uses `row.id`, `row.row.original.name`) | Open | e2e: attendees S-03 |
 | SF-051 | Summit | Attendees | Bug | Low | A hidden input named `Filter` matched the action parameter `filter`, so MVC bound `AttendeeServerFilter` with the prefix `filter.` and lost Status and Ticket | Fixed (renamed to `Search`) | n/a | e2e: attendees server filters |
-| SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works (workaround: `SummitClasses.TextArea`) | Open | None (visual; checked in the browser) |
-| SF-053 | RizzyUI | RzDataTable | Bug | Medium | `DataTableSortToggle` is named "Sort ascending" / "Clear sort" with no column, hiding its visible text (WCAG 2.5.3, axe `label-content-name-mismatch`); the strings are English-only | Works (workaround: `aria-labelledby`) | Open | e2e: attendees S-03 (axe) |
+| SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzInputTextAreaTests.IsStyledLikeTheOtherInputs (defect); e2e: axe over the contact, checkout and attendee forms (workflow) |
+| SF-053 | RizzyUI | RzDataTable | Bug | Medium | `DataTableSortToggle` is named "Sort ascending" / "Clear sort" with no column, hiding its visible text (WCAG 2.5.3, axe `label-content-name-mismatch`); the strings are English-only | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: datatable.spec.ts and the datatable accessibility fixtures (toggle named after its column) (defect); e2e: attendees (workflow) |
 | SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
 | SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` sends focus to `<body>`: the `checkbox_options` plugin RizzyUI adds puts a tabbable checkbox in every option, and Tom Select hides the list on blur | Affected (keyboard users); test uses a click | Open | None (test clicks elsewhere) |
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
@@ -108,7 +108,7 @@ tracks how much application code exists only to compensate.
 | SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
 | SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe; docs scan (known-defect list) |
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
-| SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works (workaround: `text-foreground` on the content) | Open | e2e: check-in S-05 (axe) |
+| SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzAlertTests.TintedStatusAlerts_UseTheForegroundColorForContent (defect); e2e: check-in axe (workflow) |
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (no default name, AriaLabel) (defect); e2e: schedule builder finds the field by its label (workflow) |
@@ -155,13 +155,11 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Components/Shared/FocusFirstError.razor(.js)`, one line per form | ~25 JS | SF-045 | A form-level "focus the first invalid field" behavior |
 | a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
 | `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
-| `AttendeeTable.razor`: `aria-labelledby` on sort toggles | 3 | SF-053 | Sort toggles named after their column |
-| `Components/Shared/SummitClasses.cs` (`TextArea`), one attribute per text area | ~15 C# | SF-052 | Styled `RzInputTextArea` |
 | `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
 | `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: hidden range inputs and `send()` | ~35 TS | SF-058 | A provider that is a form participant |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | `CheckIn/CheckInForm.razor.js` (focus the badge input) | ~5 JS | SF-064 | An input attribute or `AutoFocus` on RzInputOTP |
-| `text-foreground` in alerts, `role="img"` on indicators | 1 per use | SF-065, SF-066 | Correct defaults |
+| `role="img"` on indicators | 1 per use | SF-066 | Correct defaults |
 | `ScheduleBuilder/ScheduleBuilderPage.razor.js` (menubar view options) | ~20 JS | SF-067 | Change events from menubar checkbox and radio items |
 | `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
@@ -859,6 +857,7 @@ finding on its own.
   text areas pass `class="@SummitClasses.TextArea"`.
 - **Library fix:** repeat the form-input classes in the textarea's base (minus `h-9`), or fix the merge.
 - **Regression test (library):** bUnit: `RzInputTextArea` output contains `border-input`.
+- **Fixed in 1.0.0-preview.4:** the textarea's classes are spelled out (the form-input classes with `py-2`, `min-h-16` and `field-sizing-content`, no fixed height) instead of extending `FormInputStyles` with a base of its own, which replaced the shared classes. Summit's `SummitClasses.TextArea` is deleted.
 
 ### SF-053 Sort buttons do not say which column they sort
 
@@ -874,6 +873,7 @@ finding on its own.
 - **Library fix:** name the button after its column and put the action in a description, or build the
   label as "{column}, sort ascending" from localized resources.
 - **Regression test (library):** axe over the DataTable docs page (it would have failed).
+- **Fixed in 1.0.0-preview.4:** `DataTableSortToggle` no longer binds `aria-label` to `sort.nextLabel(header)`: a toggle is named by its visible label, the column, and the header's `aria-sort` carries the direction. An icon-only toggle (no label rendered) is named by the new `sort.columnName(header)`. `sort.nextLabel` stays as English text for a tooltip. Summit's `aria-labelledby` is deleted.
 
 ### SF-054 Components in row templates duplicate their ids
 
@@ -1062,6 +1062,7 @@ finding on its own.
 - **Library fix:** use `text-foreground` (or `text-card-foreground`) as the alert's base color for
   tinted variants; keep `*-foreground` only for solid fills.
 - **Regression test (library):** axe over an alert of every variant containing plain text.
+- **Fixed in 1.0.0-preview.4:** the tinted Information, Success and Warning alerts use `text-foreground` for their content; the status color stays on the border, the tint and the icon. Summit's `text-foreground` on the check-in item is deleted.
 
 ### SF-066 RzIndicator labels a div without a role
 

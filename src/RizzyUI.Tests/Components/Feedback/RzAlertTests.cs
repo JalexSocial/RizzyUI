@@ -142,4 +142,19 @@ public class RzAlertTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Assert
         Assert.NotNull(cut.Find("[data-slot='alert-icon-pulse']"));
     }
+    [Theory]
+    [InlineData(ThemeVariant.Information, "info")]
+    [InlineData(ThemeVariant.Success, "success")]
+    [InlineData(ThemeVariant.Warning, "warning")]
+    public void TintedStatusAlerts_UseTheForegroundColorForContent(ThemeVariant variant, string status)
+    {
+        // Summit SF-065: text-{status}-foreground is for solid fills; on a 10% tint it was near-white on
+        // near-white for any content other than AlertTitle and AlertDescription.
+        var cut = Render<RzAlert>(p => p.Add(x => x.Variant, variant).AddChildContent("<p>Plain content</p>"));
+
+        var root = cut.Find("[data-slot='alert']");
+        Assert.Contains("text-foreground", root.ClassList);
+        Assert.DoesNotContain($"text-{status}-foreground", root.ClassList);
+        Assert.Contains($"bg-{status}/10", root.ClassList);
+    }
 }
