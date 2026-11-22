@@ -40,6 +40,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **A doughnut or pie chart lists each slice in its legend** (Summit SF-059): the chart type now reaches Chart.js.
 - **Components inside a removed wrapper are destroyed.** Alpine only cleans up removed elements it initialized, so components inside a plain element that was removed (an htmx swap of a region) never ran `destroy()` and kept their listeners and third-party instances. RizzyUI now destroys those trees.
 - **A calendar inside a popover works with its `RzCalendarProvider`** (Summit SF-057). The popover teleports its content to `<body>`, so the calendar's events never reached the provider around the popover: picking days changed nothing, and the docs "Range Popover" example did not work. The calendar now finds its provider through Alpine's scope, and `rz:calendar:range-complete` also reaches markup around a teleported calendar.
+- **Numbers in markup are culture-independent** (Summit SF-060). Under a culture with a decimal comma (de-DE), `RzNumberTicker` wrote `data-value="96356,2"`, which its script read as 0, and `RzShineBorder` and `RzSlider` wrote their sizes, steps and `aria-value*` the same way. They are written with the invariant culture now; a test renders every component with a fractional parameter under de-DE.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

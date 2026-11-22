@@ -1,4 +1,5 @@
 @namespace RizzyUI
+@using System.Globalization
 @inherits RzComponent<RzShineBorder.Slots>
 
 <HtmlElement Element="@EffectiveElement"
@@ -11,8 +12,8 @@
          x-data="rzShineBorder" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
-         data-border-width="@BorderWidth"
-         data-duration="@Duration"
+         data-border-width="@BorderWidth.ToString(CultureInfo.InvariantCulture)"
+         data-duration="@Duration.ToString(CultureInfo.InvariantCulture)"
          data-shine-color="@ShineColor"
          data-shine-colors="@_serializedShineColors"
          x-bind:style="computedStyle"

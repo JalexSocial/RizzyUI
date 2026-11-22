@@ -1,4 +1,5 @@
 @namespace RizzyUI
+@using System.Globalization
 @using RizzyUI.Extensions
 @inherits RzComponent<RzNumberTicker.Slots>
 
@@ -13,10 +14,10 @@
          x-data="rzNumberTicker" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
-         data-value="@Value"
-         data-start-value="@StartValue"
+         data-value="@Value.ToString(CultureInfo.InvariantCulture)"
+         data-start-value="@StartValue.ToString(CultureInfo.InvariantCulture)"
          data-direction="@Direction.ToString().ToKebabCase()"
-         data-delay="@EffectiveDelay"
+         data-delay="@EffectiveDelay.ToString(CultureInfo.InvariantCulture)"
          data-decimal-places="@EffectiveDecimalPlaces"
          data-culture="@EffectiveCultureName"
          data-use-grouping="@UseGrouping.ToString().ToLowerInvariant()"
