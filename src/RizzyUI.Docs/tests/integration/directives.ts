@@ -38,6 +38,38 @@ export function defineDirectiveSpecs(runtime: string) {
       expect(errors).toEqual([]);
     });
 
+    test('RzToggle dispatches rz:toggle:change and posts its value while pressed (SF-015)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.evaluate(() => {
+        (window as any).__toggleEvents = [];
+        document.getElementById('events-section')!.addEventListener('rz:toggle:change', (e: any) => (window as any).__toggleEvents.push(e.detail));
+      });
+      const formValue = () => page.evaluate(() => new FormData(document.getElementById('toggle-form') as HTMLFormElement).get('featured'));
+      expect(await formValue()).toBeNull();
+      await page.locator('#named-toggle').click();
+      await expect.poll(() => page.evaluate(() => (window as any).__toggleEvents)).toEqual([{ pressed: true, value: 'yes' }]);
+      expect(await formValue()).toBe('yes');
+      await page.locator('#named-toggle').click();
+      expect(await formValue()).toBeNull();
+      expect(errors).toEqual([]);
+    });
+
+    test('menubar checkbox and radio items dispatch rz:menubar:checked-change on the menubar (SF-067)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.evaluate(() => {
+        (window as any).__menuEvents = [];
+        document.getElementById('view-menubar')!.addEventListener('rz:menubar:checked-change', (e: any) => (window as any).__menuEvents.push(e.detail));
+      });
+      await page.locator('#view-menu').click();
+      await page.locator('#drafts-item').click();
+      await page.locator('#compact-item').click();
+      await expect.poll(() => page.evaluate(() => (window as any).__menuEvents)).toEqual([
+        { type: 'checkbox', value: 'drafts', checked: true, group: null },
+        { type: 'radio', value: 'compact', checked: true, group: 'density' },
+      ]);
+      expect(errors).toEqual([]);
+    });
+
     test('x-syncprop on a component inside a dialog syncs with the app state, not the dialog (D-24)', async ({ page }) => {
       const errors = collectPageErrors(page);
       await page.locator('#open-dialog').click();

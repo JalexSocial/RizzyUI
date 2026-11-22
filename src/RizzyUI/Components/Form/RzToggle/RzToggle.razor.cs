@@ -66,6 +66,23 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a form field name. When set, the toggle posts <see cref="Value"/> under this name
+    /// while it is pressed, so it can drive a form or an htmx request (Summit SF-015).
+    /// </summary>
+    [Parameter]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value posted under <see cref="Name"/> while pressed, and reported in the
+    /// <c>rz:toggle:change</c> event's <c>value</c>. Defaults to <c>"true"</c> for the posted value.
+    /// </summary>
+    [Parameter]
+    public string? Value { get; set; }
+
+    /// <summary>Whether the toggle renders pressed.</summary>
+    private bool InitiallyPressed => Pressed ?? DefaultPressed;
+
+    /// <summary>
     /// Gets the serialized value used by Alpine for controlled mode.
     /// </summary>
     protected string? PressedAttributeValue => Pressed.HasValue ? Pressed.Value.ToString().ToLowerInvariant() : null;

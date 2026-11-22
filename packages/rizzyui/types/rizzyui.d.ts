@@ -83,6 +83,26 @@ export interface RzModuleErrorDetail {
     error: unknown;
 }
 
+/** Detail of `rz:toggle:change`, dispatched by `RzToggle` when its pressed state changes. */
+export interface RzToggleChangeDetail {
+    pressed: boolean;
+    /** The toggle's `Value`, or null. */
+    value: string | null;
+}
+
+/**
+ * Detail of `rz:menubar:checked-change`, dispatched by `MenubarCheckboxItem` and `MenubarRadioItem`
+ * on the item and on the menubar element.
+ */
+export interface RzMenubarCheckedChangeDetail {
+    type: 'checkbox' | 'radio';
+    /** The item's `Value` (its text when not set). */
+    value: string;
+    checked: boolean;
+    /** The radio group's `Name`; null for checkbox items. */
+    group: string | null;
+}
+
 /** An asset for `Rizzy.require`: a URL, or a URL with its Subresource Integrity hash. */
 export type RizzyAsset = string | { src: string; integrity?: string };
 
@@ -114,5 +134,11 @@ declare global {
     }
     interface DocumentEventMap {
         'rz:module-error': CustomEvent<RzModuleErrorDetail>;
+        'rz:toggle:change': CustomEvent<RzToggleChangeDetail>;
+        'rz:menubar:checked-change': CustomEvent<RzMenubarCheckedChangeDetail>;
+    }
+    interface HTMLElementEventMap {
+        'rz:toggle:change': CustomEvent<RzToggleChangeDetail>;
+        'rz:menubar:checked-change': CustomEvent<RzMenubarCheckedChangeDetail>;
     }
 }

@@ -197,6 +197,21 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Events and forms" class="scroll-mt-20">Events and forms</RzHeading>
+                <RzParagraph>
+                    When its pressed state changes, the toggle dispatches <code>rz:toggle:change</code> (it bubbles) with
+                    <code>detail.pressed</code> and <code>detail.value</code>. With <code>Name</code>, the toggle also posts
+                    <code>Value</code> (default <code>true</code>) while it is pressed, so it can drive a form or an htmx request.
+                    An <code>x-on:click</code> you put on the toggle runs alongside its own click handler.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;form hx-get="/sessions" hx-trigger="rz:toggle:change" hx-target="#results"&gt;
+    &lt;RzToggle Name="level" Value="advanced"&gt;Advanced&lt;/RzToggle&gt;
+&lt;/form&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzToggle Parameters" class="scroll-mt-20">RzToggle Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
@@ -209,6 +224,18 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Name</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Form field name; the toggle posts <code>Value</code> under it while pressed.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Value</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Value posted while pressed (default <code>true</code>) and reported in <code>rz:toggle:change</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
                             <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Variant</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>ToggleVariant</code> – Selects the visual style of the toggle (<code>Default</code> or <code>Outline</code>).</td>

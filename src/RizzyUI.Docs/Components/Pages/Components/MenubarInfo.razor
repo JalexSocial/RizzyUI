@@ -292,6 +292,29 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Events" class="scroll-mt-20">Events</RzHeading>
+                <RzParagraph>
+                    Checkbox and radio items dispatch <code>rz:menubar:checked-change</code> when they change, with
+                    <code>detail.type</code> (<code>checkbox</code> or <code>radio</code>), <code>detail.value</code> (the item's
+                    <code>Value</code>, or its text), <code>detail.checked</code> and <code>detail.group</code> (the radio group's
+                    <code>Name</code>). The event is dispatched on the item and on the menubar element, so a listener around the
+                    menubar hears it although the menu content is moved to the end of the page.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div x-data="board" x-on:rz:menubar:checked-change="applyView($event.detail)"&gt;
+    &lt;RzMenubar&gt;
+        &lt;MenubarMenu&gt;
+            &lt;MenubarTrigger&gt;View&lt;/MenubarTrigger&gt;
+            &lt;MenubarContent&gt;
+                &lt;MenubarCheckboxItem Value="drafts-only"&gt;Drafts only&lt;/MenubarCheckboxItem&gt;
+            &lt;/MenubarContent&gt;
+        &lt;/MenubarMenu&gt;
+    &lt;/RzMenubar&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
                 <RzParagraph>
                     Menubar interactivity is implemented with Alpine.js. The root menubar uses <code>rzMenubar</code>,

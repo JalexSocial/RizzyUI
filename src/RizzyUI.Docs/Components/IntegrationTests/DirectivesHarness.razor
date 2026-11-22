@@ -39,6 +39,22 @@
         <p>Shares: <span id="shares" x-text="shares"></span></p>
     </section>
 
+    <section class="space-y-2" id="events-section">
+        @* SF-015, SF-067: semantic change events. *@
+        <form id="toggle-form"><RzToggle id="named-toggle" Name="featured" Value="yes" aria-label="Featured">F</RzToggle></form>
+        <RzMenubar id="view-menubar">
+            <MenubarMenu>
+                <MenubarTrigger id="view-menu">View</MenubarTrigger>
+                <MenubarContent>
+                    <MenubarCheckboxItem id="drafts-item" Value="drafts">Drafts only</MenubarCheckboxItem>
+                    <MenubarRadioGroup Name="density">
+                        <MenubarRadioItem id="compact-item" Value="compact">Compact</MenubarRadioItem>
+                    </MenubarRadioGroup>
+                </MenubarContent>
+            </MenubarMenu>
+        </RzMenubar>
+    </section>
+
     <section class="space-y-2">
         <p>App bold: <span id="app-bold" x-text="bold"></span></p>
         <RzDialog>

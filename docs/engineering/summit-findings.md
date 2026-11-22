@@ -58,7 +58,7 @@ tracks how much application code exists only to compensate.
 | SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
 | SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Reported, not enforced | Open | CSP report-only annotations; docs scan (known-defect list) |
 | SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works (designed around: the dashboard range uses RzCalendar, SF-057/SF-058) | Open | n/a |
-| SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works (workaround) | Open | e2e: level toggles (workflow) |
+| SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (posts its value while pressed) (defect) |
 | SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works (workaround) | Open | e2e: quick actions, search palette (workflow) |
 | SF-017 | Rizzy, template | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: ExtensionTests (script URL with and without a path base) (defect); template test (slice 15 adds a nested URL check) |
 | SF-018 | RizzyUI, template | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Works | Fixed in 1.0.0-preview.4 | bUnit: RzButtonTests.AsChild_* (defect); the starter template's 404 page (slice 10 adds a browser check) |
@@ -73,7 +73,7 @@ tracks how much application code exists only to compensate.
 | SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
 | SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works (workaround) | Open | e2e: schedule filters, speaker search (workflow) |
 | SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
-| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works (workaround) | Open (decided: D-24 (handlers in code)) | e2e: level toggles (workflow) |
+| SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click and rz:toggle:change), both builds (defect); e2e: schedule level toggles (workflow) |
 | SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
 | SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
 | SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open (decided: D-26 (consumer ids adopted)) | axe label checks (defect) |
@@ -110,7 +110,7 @@ tracks how much application code exists only to compensate.
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works (workaround: code-behind focuses the input) | Open | e2e: check-in S-05 (focus after reset) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzAlertTests.TintedStatusAlerts_UseTheForegroundColorForContent (defect); e2e: check-in axe (workflow) |
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
-| SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
+| SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (checked-change on the menubar), both builds (defect); e2e: schedule builder view menu (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (no default name, AriaLabel) (defect); e2e: schedule builder finds the field by its label (workflow) |
 | SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click on a menubar item), both builds (defect); e2e: schedule builder publish all (workflow) |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
@@ -159,7 +159,6 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | `CheckIn/CheckInForm.razor.js` (focus the badge input) | ~5 JS | SF-064 | An input attribute or `AutoFocus` on RzInputOTP |
 | `role="img"` on indicators | 1 per use | SF-066 | Correct defaults |
-| `ScheduleBuilder/ScheduleBuilderPage.razor.js` (menubar view options) | ~20 JS | SF-067 | Change events from menubar checkbox and radio items |
 | `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
 
@@ -371,6 +370,7 @@ finding on its own.
 - **What:** `RzToggle` is an `aria-pressed` button with client state only; it cannot drive a server
   filter without custom code.
 - **Summit design:** level filters on the schedule are client-side, through a code-behind.
+- **Fixed in 1.0.0-preview.4:** `RzToggle` takes `Name` and `Value`: it posts the value while pressed (a hidden input it enables with its state), so it can drive a form or `hx-trigger="rz:toggle:change"`.
 
 ### SF-016 Command items cannot navigate
 
@@ -565,6 +565,7 @@ finding on its own.
   or the component can call a consumer-supplied handler), or at least log a development-time warning
   when a consumer attribute is overwritten.
 - **Handlers fixed in 1.0.0-preview.4 (D-24):** a caller's `x-on:click` on `RzToggle` runs alongside the toggle's own (directives.spec.ts, both builds); Summit's level toggles use `x-on:click="applyLevels()"` and its delegated click listener is deleted. The change event (`rz:toggle:change`) is slice 18.
+- **Fixed in 1.0.0-preview.4:** with slice 16 a caller's `x-on:click` runs alongside the toggle's (D-24), and `RzToggle` dispatches `rz:toggle:change` ({ pressed, value }) when its state changes. Summit's schedule board listens for that event.
 
 ### SF-031 Every avatar is announced as "Avatar"
 
@@ -1099,6 +1100,7 @@ finding on its own.
   an htmx form.
 - **Observed working:** radio items stay exclusive; checkbox and radio items keep the menu open, and
   arrow keys, Enter and Escape follow the APG menubar pattern.
+- **Fixed in 1.0.0-preview.4:** checkbox and radio items dispatch `rz:menubar:checked-change` ({ type, value, checked, group }) on the item and on the menubar element (the content is teleported); `MenubarCheckboxItem` takes `Value`. Summit's document click listener and microtask are replaced by an event listener on the page root.
 
 ### SF-068 RzDateEdit hides its field label
 

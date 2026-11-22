@@ -872,6 +872,7 @@ RizzyUI.MenubarCheckboxItem
   Id: System.String
   LoadStrategy: System.String
   ShortcutContent: Microsoft.AspNetCore.Components.RenderFragment
+  Value: System.String
 RizzyUI.MenubarContent
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
@@ -2344,8 +2345,10 @@ RizzyUI.RzToggle
   Element: System.String
   Id: System.String
   LoadStrategy: System.String
+  Name: System.String
   Pressed: System.Boolean?
   Size: RizzyUI.ToggleSize
+  Value: System.String
   Variant: RizzyUI.ToggleVariant
 RizzyUI.RzTooltip
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]

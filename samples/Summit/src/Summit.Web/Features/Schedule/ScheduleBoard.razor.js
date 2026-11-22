@@ -10,15 +10,14 @@ export default () => ({
     this.onSwap = () => this.applyLevels({ announce: false });
     this.$el.addEventListener('htmx:after:swap', this.onSwap);
 
-    // The level toggles dispatch this from their x-on:click (an event rather than a method call, so
-    // applyLevels runs with this component's $el, not the toggle's).
+    // Level toggles report their state with rz:toggle:change.
     this.onLevels = () => this.applyLevels();
-    this.$el.addEventListener('summit:levels-changed', this.onLevels);
+    this.$el.addEventListener('rz:toggle:change', this.onLevels);
   },
 
   destroy() {
     this.$el.removeEventListener('htmx:after:swap', this.onSwap);
-    this.$el.removeEventListener('summit:levels-changed', this.onLevels);
+    this.$el.removeEventListener('rz:toggle:change', this.onLevels);
   },
 
   /** Keeps the selected day in the filter form, so the next server filter returns the same tab. */

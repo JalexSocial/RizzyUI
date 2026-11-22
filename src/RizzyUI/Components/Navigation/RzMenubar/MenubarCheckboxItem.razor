@@ -9,6 +9,7 @@
              tabindex="-1"
              aria-checked="@(Checked.ToString().ToLowerInvariant())"
              data-state="@(Checked ? "checked" : "unchecked")"
+             data-value="@Value"
              x-on:click="toggleCheckboxItem"
              x-on:mouseenter="handleItemMouseEnter"
              x-on:mouseleave="handleItemMouseLeave">

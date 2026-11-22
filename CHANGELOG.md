@@ -30,6 +30,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`<RzThemeHeadOutlet />`** renders the theme of `RzThemeProvider` in `<head>` (Summit SF-034). Place it next to `<RzHeadOutlet />` when `RzThemeProvider` wraps the page body; the starter template does.
 - **`RzButton AsChild`** (Summit SF-018): renders its single child, typically `<a href>`, with the button's styling and attributes instead of a `<button>`. Before, `AsChild` became an unknown attribute and the link was nested inside a button (invalid, two tab stops); the starter template's 404 page did this.
 - **`RzToastProvider ServerErrorToasts`** (Summit SF-041): shows a localized error toast when an htmx request fails, for Rizzy's `rz:server-error` (a 5xx that `UseHtmxErrorHandling` did not swap) and htmx's `htmx:error` (the request could not be sent). Without it, every app needed its own listener, or the user saw nothing. The messages can be set with `ServerErrorTitle`, `ServerErrorText` and `NetworkErrorText`.
+- **`rz:toggle:change` and `RzToggle Name`/`Value`** (Summit SF-015, SF-030; decision D-24): the toggle reports its pressed state with a bubbling event and can post a value while pressed.
+- **`rz:menubar:checked-change`** (Summit SF-067): menubar checkbox and radio items report changes with `{ type, value, checked, group }`, on the item and on the menubar element (the menu content is teleported). `MenubarCheckboxItem` gains `Value`. The events are declared in `rizzyui.d.ts`.
 
 ### Changed
 
