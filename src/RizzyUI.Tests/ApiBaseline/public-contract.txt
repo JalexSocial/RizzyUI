@@ -2318,6 +2318,7 @@ RizzyUI.RzToastProvider
   Id: System.String
   LoadStrategy: System.String
   MaxVisible: System.Int32
+  NetworkErrorText: System.String
   NewestOnTop: System.Boolean
   OverflowStrategy: RizzyUI.ToastOverflowStrategy
   PauseOnFocus: System.Boolean
@@ -2326,6 +2327,9 @@ RizzyUI.RzToastProvider
   Position: RizzyUI.ToastPosition
   PreventDuplicates: System.Boolean
   RegionAriaLabel: System.String
+  ServerErrorText: System.String
+  ServerErrorTitle: System.String
+  ServerErrorToasts: System.Boolean
   ShowIcon: System.Boolean
   ShowProgress: System.Boolean
   Speed: System.Int32

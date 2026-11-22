@@ -189,4 +189,13 @@
   <data name="RzToastProvider.RegionAriaLabel" xml:space="preserve">
     <value>Notificaciones</value>
   </data>
+  <data name="RzToastProvider.ServerErrorTitle" xml:space="preserve">
+    <value>Algo salió mal</value>
+  </data>
+  <data name="RzToastProvider.ServerErrorText" xml:space="preserve">
+    <value>El servidor no pudo completar la solicitud. Inténtalo de nuevo.</value>
+  </data>
+  <data name="RzToastProvider.NetworkErrorText" xml:space="preserve">
+    <value>No se pudo conectar con el servidor. Comprueba tu conexión.</value>
+  </data>
 </root>

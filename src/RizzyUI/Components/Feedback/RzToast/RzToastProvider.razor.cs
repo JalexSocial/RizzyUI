@@ -112,6 +112,27 @@ public partial class RzToastProvider : RzComponent<RzToastProviderSlots>, IHasRz
     [Parameter]
     public string? RegionAriaLabel { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether a failed htmx request shows an error toast: <c>rz:server-error</c> (Rizzy's
+    /// <c>UseHtmxErrorHandling</c> raises it for a 5xx instead of swapping the error page) and htmx's
+    /// <c>htmx:error</c> (the request could not be sent). Off by default; without it a failed request
+    /// leaves the page unchanged and the user sees nothing (Summit SF-041).
+    /// </summary>
+    [Parameter]
+    public bool ServerErrorToasts { get; set; }
+
+    /// <summary>Title of the server-error toast; defaults to a localized "Something went wrong".</summary>
+    [Parameter]
+    public string? ServerErrorTitle { get; set; }
+
+    /// <summary>Text of the toast for <c>rz:server-error</c>; localized by default.</summary>
+    [Parameter]
+    public string? ServerErrorText { get; set; }
+
+    /// <summary>Text of the toast for a request that could not be sent; localized by default.</summary>
+    [Parameter]
+    public string? NetworkErrorText { get; set; }
+
     ToastStatus IHasRzToastProviderStylingProperties.Status => DefaultStatus;
 
     ToastPosition IHasRzToastProviderStylingProperties.Position => Position;
@@ -152,7 +173,13 @@ public partial class RzToastProvider : RzComponent<RzToastProviderSlots>, IHasRz
             Animations = _classMap.Animations,
             States = _classMap.States,
             Icons = _classMap.Icons,
-            Aliases = _classMap.Aliases
+            Aliases = _classMap.Aliases,
+            ServerErrors = ServerErrorToasts
+                ? new RzToastServerErrorMessages(
+                    ResolveLocalizedString(ServerErrorTitle, "RzToastProvider.ServerErrorTitle", "Something went wrong"),
+                    ResolveLocalizedString(ServerErrorText, "RzToastProvider.ServerErrorText", "The server could not complete that request. Please try again."),
+                    ResolveLocalizedString(NetworkErrorText, "RzToastProvider.NetworkErrorText", "Could not reach the server. Check your connection."))
+                : null
         };
 
         _serializedConfig = JsonSerializer.Serialize(config, SerializerOptions);
@@ -206,8 +233,11 @@ public partial class RzToastProvider : RzComponent<RzToastProviderSlots>, IHasRz
         return localized.ResourceNotFound || string.Equals(localized.Value, key, StringComparison.Ordinal) ? fallback : localized.Value;
     }
 
+    private sealed record RzToastServerErrorMessages(string Title, string Text, string NetworkText);
+
     private sealed record RzToastProviderConfig
     {
+        public RzToastServerErrorMessages? ServerErrors { get; init; }
         public int Version { get; init; } = 1;
 
         public string ProviderId { get; init; } = string.Empty;

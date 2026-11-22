@@ -607,7 +607,11 @@ for (let index = 1; index &lt;= 7; index += 1) {
         new("CloseOnEscape", "Whether Escape dismisses a focused toast.", "bool", "true"),
         new("PreventDuplicates", "Whether duplicate requests update instead of stacking.", "bool", "false"),
         new("CloseButtonAriaLabel", "Accessible label for close buttons.", "string?", "localized"),
-        new("RegionAriaLabel", "Accessible label for the provider region.", "string?", "localized")
+        new("RegionAriaLabel", "Accessible label for the provider region.", "string?", "localized"),
+        new("ServerErrorToasts", "Shows an error toast when an htmx request fails: rz:server-error (raised by Rizzy's UseHtmxErrorHandling for a 5xx) and htmx:error (the request could not be sent).", "bool", "false"),
+        new("ServerErrorTitle", "Title of the server-error toast.", "string?", "localized"),
+        new("ServerErrorText", "Text of the toast for rz:server-error.", "string?", "localized"),
+        new("NetworkErrorText", "Text of the toast for a request that could not be sent.", "string?", "localized")
     ];
 
     private static readonly IReadOnlyList<TableRow> ToastOptions =

@@ -30,8 +30,7 @@
     <RzThemeProvider Theme="Themes.Current">
         <TrackStyles />
         @Body
-        <RzToastProvider Position="ToastPosition.BottomRight" />
-        <AppNotifications />
+        <RzToastProvider Position="ToastPosition.BottomRight" ServerErrorToasts="true" />
         <CommandNavigation />
         <SearchPalette />
     </RzThemeProvider>

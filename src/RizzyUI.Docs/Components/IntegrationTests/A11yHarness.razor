@@ -306,6 +306,11 @@
             <RzButton id="toast-success" hx-post="/_tests/toast" hx-swap="none">Save (server toast)</RzButton>
             break;
 
+        case "toast-server-errors":
+            @* SF-041: a failed htmx request shows an error toast. *@
+            <RzToastProvider ServerErrorToasts="true" />
+            break;
+
         case "file-input":
             <label id="file-input-label" class="block">Attachments</label>
             <RzFileInput Name="attachments" Variant="FileInputVariant.Button" aria-labelledby="file-input-label" />

@@ -565,4 +565,13 @@
   <data name="RzToastProvider.RegionAriaLabel" xml:space="preserve">
     <value>Notifications</value>
   </data>
+  <data name="RzToastProvider.ServerErrorTitle" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="RzToastProvider.ServerErrorText" xml:space="preserve">
+    <value>The server could not complete that request. Please try again.</value>
+  </data>
+  <data name="RzToastProvider.NetworkErrorText" xml:space="preserve">
+    <value>Could not reach the server. Check your connection.</value>
+  </data>
 </root>
