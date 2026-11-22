@@ -1612,6 +1612,7 @@ RizzyUI.RzDataTable<TItem>
   RowIdSelector: System.Linq.Expressions.Expression<System.Func<TItem, System.Object>> [EditorRequired]
 RizzyUI.RzDateEdit
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
   Classes: RizzyUI.RzDateEdit.Slots
   ComponentAssetKeys: System.String[]
   ConfigureClasses: System.Action<RizzyUI.RzDateEdit.Slots>

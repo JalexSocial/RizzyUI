@@ -18,6 +18,10 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Breaking
+
+- **`RzDateEdit` has no default accessible name** (Summit SF-068). Its input had `aria-label="Select date"`, which screen readers announced instead of the field's `FieldLabel`, and the wrapper was a group labelled "Date picker". A labelled field now gets its name from the label. Migration: set the new `AriaLabel` parameter on a date field without a visible label.
+
 ### Added
 
 - **`ChartBuilder.Type(...)`** sets a chart's type; without it `RzChart` uses the first dataset's type (Summit SF-059).
@@ -25,6 +29,7 @@ Finding IDs (RZUI-0xx) refer to the
 ### Changed
 
 - **`RzChart` sizing** (Summit SF-061): the chart fills the height of a parent that has one instead of overflowing it, and is 2:1 (width to height) in a parent without a height; the fixed `min-h-[300px]` is gone. Set a height class on the chart or its parent for another size.
+- **Date components follow the request culture** (Summit SF-073). `RzCalendar`, `RzCalendarProvider` and `RzDateEdit` default to `CultureInfo.CurrentCulture` instead of English; `RzDateEdit` loads flatpickr's locale file for it (65 languages, registered as assets `FlatpickrLocale.{file}` with SRI hashes, for example `FlatpickrLocale.de`, so they can be self-hosted). Set `Locale` in the options to keep a fixed language. `VanillaCalendarOptions.Locale` is now `string?` (null means the request culture).
 
 ### Fixed
 

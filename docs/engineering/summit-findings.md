@@ -111,12 +111,12 @@ tracks how much application code exists only to compensate.
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works (workaround: `text-foreground` on the content) | Open | e2e: check-in S-05 (axe) |
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
-| SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Affected (no workaround) | Open | e2e: locator by name documents it |
+| SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (no default name, AriaLabel) (defect); e2e: schedule builder finds the field by its label (workflow) |
 | SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open (decided: D-24 (handlers in code)) | e2e: schedule builder publish all |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
-| SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works (workaround: culture passed by hand; flatpickr `de` registered as an asset key) | Open | e2e: culture S-12 |
+| SF-073 | RizzyUI | RzCalendar, RzDateEdit | Gap | Medium | Date components default to English instead of the request culture: RzCalendar's `Locale` defaults to "en", and RzDateEdit cannot show another language because flatpickr's locale files are neither shipped nor loaded (a `Locale = "de"` silently falls back to English) | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (culture mapping, locale file after flatpickr) (defect); e2e: culture S-12 (workflow) |
 | SF-074 | RizzyUI | RzSheet | Bug | High | A sheet opened from its trigger leaves focus on the trigger and does not trap Tab: the focus scope activates while the panel is still hidden, and its key handler listens on the panel | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: sheet focus trap, both builds (defect); e2e: mobile S-16 (focus stays in the navigation sheet) |
 | SF-075 | RizzyUI | RzSidebar | Bug | Medium | `SidebarGroup` always renders `aria-labelledby` pointing at its label's id, also when the group has no `SidebarGroupLabel`: a reference to an element that does not exist (20 groups on every docs page) | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
 | SF-076 | RizzyUI | RzPopover | Bug | Low | `RzPopover`'s `AriaLabel` lands on its wrapper `div`, which has no role (axe `aria-prohibited-attr`), instead of the trigger or the content | n/a (found by the docs scan) | Open | docs scan (known-defect list) |
@@ -167,7 +167,6 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `ScheduleBuilder/ScheduleBuilderPage.razor.js` (menubar view options) | ~20 JS | SF-067 | Change events from menubar checkbox and radio items |
 | `x-on:click.capture` on a menubar item; slider `Name`/`UseIndexedNames`/`AriaLabelledBy` | 1 per use | SF-069, SF-070 | Merged handlers; a model-bound slider |
 | Plain read-only input in `RzInputGroup`; `size-8` on `RzClipboard` | 2 | SF-028, SF-071 | An input-group control without a model; a minimum target size |
-| Calendar `Locale` from the culture; `FlatpickrDe` asset key and `ComponentAssetKeys` on German pages | ~6 | SF-073 | Date components that follow the request culture |
 
 ### Application-specific code (would exist anyway)
 
@@ -1099,6 +1098,7 @@ finding on its own.
 - **Summit workaround:** none without script; the attribute is written after the caller's attributes.
 - **Library fix:** no `aria-label` when the input has a label (or `aria-labelledby` pointing at the
   field label); an `AriaLabel` parameter for the rare unlabeled case; localize the defaults.
+- **Fixed in 1.0.0-preview.4:** the input has no default `aria-label` (its `FieldLabel` names it) and a new `AriaLabel` parameter names an unlabeled input; the wrapper no longer renders `role="group" aria-label="Date picker"`. The unused English resource strings are removed. Summit's test finds the date input with `getByLabel('Starts at')`.
 
 ### SF-069 A menubar item's click handler replaces the caller's
 
@@ -1176,6 +1176,7 @@ finding on its own.
 - **Observed working:** with the locale loaded, German dates post as `yyyy-MM-dd HH:mm` and bind on a
   de-DE request; capacity (an `int`) binds; the culture cookie survives navigation; RizzyUI's own
   German strings are used.
+- **Fixed in 1.0.0-preview.4:** `RzCalendar` and `RzCalendarProvider` default to `CultureInfo.CurrentCulture`, and `RzDateEdit` sets flatpickr's `locale` from it and loads the matching locale file. flatpickr 4.6.13's 65 locale files are default assets (`FlatpickrLocale.{file}`, pinned with SRI hashes), so an application can self-host them under the same key. Summit's `FlatpickrDe` key, `ComponentAssetKeys` and explicit calendar `Locale` are deleted; `vendor.json` self-hosts `FlatpickrLocale.de`.
 
 ### SF-074 Sheets opened from a trigger do not take focus
 

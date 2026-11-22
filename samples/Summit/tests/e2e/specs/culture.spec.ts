@@ -45,7 +45,7 @@ test.describe('organizer pages in German', () => {
     await waitForRuntime(page);
     const editor = page.locator('#session-editor');
     const start = editor.locator('[data-slot=date-edit] input[name="Model.StartsAt"]');
-    // The picker speaks German (flatpickr's l10n, loaded as an asset: SF-073).
+    // The picker speaks German: RzDateEdit loads flatpickr's locale for the request culture.
     await start.click();
     await expect(page.locator('.flatpickr-calendar.open')).toContainText('Juni');
     await expect(page.locator('.flatpickr-calendar.open')).toContainText('Mo');

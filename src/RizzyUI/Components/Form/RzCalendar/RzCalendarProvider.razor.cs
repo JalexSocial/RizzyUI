@@ -51,9 +51,14 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
 
     /// <summary>
     /// The BCP 47 language tag to use for client-side date formatting (e.g., "en-US", "fr-FR").
-    /// Defaults to "en-US".
+    /// Defaults to the request culture (<see cref="System.Globalization.CultureInfo.CurrentCulture"/>).
     /// </summary>
     [Parameter] public string? Locale { get; set; }
+
+    /// <summary><see cref="Locale"/>, or the request culture's name ("en-US" for the invariant culture).</summary>
+    protected string EffectiveLocale => !string.IsNullOrWhiteSpace(Locale)
+        ? Locale
+        : string.IsNullOrEmpty(System.Globalization.CultureInfo.CurrentCulture.Name) ? "en-US" : System.Globalization.CultureInfo.CurrentCulture.Name;
 
     /// <summary>
     /// Configuration object for Intl.DateTimeFormat.

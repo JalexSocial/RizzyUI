@@ -51,12 +51,6 @@
   <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
     <value>Alternar modo oscuro</value>
   </data>
-  <data name="RzDateEdit.AriaLabel" xml:space="preserve">
-    <value>Selector de fecha</value>
-  </data>
-  <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
-    <value>Seleccionar fecha</value>
-  </data>
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
     <value>Alternar navegación lateral</value>
   </data>

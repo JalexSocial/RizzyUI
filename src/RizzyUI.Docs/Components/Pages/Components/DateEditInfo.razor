@@ -44,7 +44,9 @@
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
                     The component renders <code>x-data="rzDateEdit"</code> with the serialized options in <code>data-config</code>. On
-                    initialization it loads the <code>FlatpickrCore</code> asset (see <code>ComponentAssetKeys</code>) and calls
+                    initialization it loads the <code>FlatpickrCore</code> asset (see <code>ComponentAssetKeys</code>), and for a request
+                    culture other than English flatpickr's locale file for it (asset key <code>FlatpickrLocale.{file}</code>, for example
+                    <code>FlatpickrLocale.de</code>, which an application can point at a self-hosted copy), and calls
                     <code>flatpickr(input, options)</code> with a copy of those options. When the element is removed, for example by an htmx swap,
                     the Alpine <code>destroy()</code> hook destroys the Flatpickr instance, which removes its calendar element and document
                     listeners.
@@ -174,7 +176,8 @@
                     Accessibility
                 </RzHeading>
                 <RzParagraph>
-                    The component renders a <code>role="group"</code> container labelled "Date picker" around a text input labelled "Select date".
+                    The input is named by its <code>FieldLabel</code> (or any <code>&lt;label for&gt;</code>); for a field without a visible
+                    label, set <code>AriaLabel</code>. The calendar's month and day names follow the request culture.
                     Keyboard support comes from Flatpickr. By default Flatpickr makes the input read-only; set <code>AllowInput = true</code> in
                     <code>FlatpickrOptions</code> to let users type a date.
                 </RzParagraph>
@@ -196,10 +199,8 @@
                 <RzAlert Variant="ThemeVariant.Warning" class="mb-6">
                     <AlertTitle>Known limitations</AlertTitle>
                     <AlertDescription>
-                        The input has <code>aria-label="Select date"</code>, which screen readers use instead of the text of a
-                        <code>FieldLabel</code> (the label still points at the input and focuses it on click). <kbd>Tab</kbd> from a calendar day moves focus
-                        out of the calendar (it is appended to the end of the page) while it stays open. The labels are fixed English strings, and
-                        the calendar has not been tested with screen readers.
+                        <kbd>Tab</kbd> from a calendar day moves focus out of the calendar (it is appended to the end of the page) while it
+                        stays open, and the calendar has not been tested with screen readers.
                     </AlertDescription>
                 </RzAlert>
             </section>
@@ -229,7 +230,13 @@
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Options</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Flatpickr configuration (for example <code>DateFormat</code>, <code>MinDate</code>, <code>MaxDate</code>, <code>EnableTime</code>, <code>AllowInput</code>). Dates are sent as ISO strings and converted to local dates before Flatpickr reads them, so they work with any <code>DateFormat</code>. <code>DefaultDate</code> is filled from the bound value when not set; the <code>Options</code> instance itself is not modified.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">FlatpickrOptions</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">new() { Locale = "en" }</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">new()</code> (<code>Locale</code> from the request culture)</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Accessible name for an input without a visible label. A field with a <code>FieldLabel</code> needs none: the label names the input.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
                             <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Placeholder</code></td>

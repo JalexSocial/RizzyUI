@@ -17,7 +17,7 @@
       "path": "lib/flatpickr/flatpickr.min.js"
     },
     {
-      "key": "FlatpickrDe",
+      "key": "FlatpickrLocale.de",
       "url": "https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/de.js",
       "path": "lib/flatpickr/l10n/de.js"
     },

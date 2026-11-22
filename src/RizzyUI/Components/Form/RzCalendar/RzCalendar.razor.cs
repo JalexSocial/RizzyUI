@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TailwindVariants.NET;
@@ -166,6 +167,9 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
     /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
     protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCalendar.DefaultAriaLabel"];
 
+    /// <summary>The request culture's name, or "en" for the invariant culture.</summary>
+    private static string CurrentLocale => string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name) ? "en" : CultureInfo.CurrentCulture.Name;
+
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
@@ -181,7 +185,9 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             // Our CSS variables will handle the actual light/dark switching because 
             // RizzyUI themes update CSS variables on the :root/.dark element.
             SelectedTheme = "light",
-            ThemeAttrDetect = ""
+            ThemeAttrDetect = "",
+            // SF-073: month and weekday names follow the request culture unless Options.Locale is set.
+            Locale = CurrentLocale
         };
 
         if (Options != null)

@@ -392,11 +392,12 @@ public record VanillaCalendarOptions
     public string ThemeAttrDetect { get; init; } = "html[data-theme]";
 
     /// <summary>
-    /// Sets the language localization of the calendar using a BCP 47 language tag (e.g., "en-US", "de-AT"). Defaults to "en".
+    /// Sets the language localization of the calendar using a BCP 47 language tag (e.g., "en-US", "de-AT").
+    /// When not set, <see cref="RzCalendar"/> uses the request culture (<see cref="System.Globalization.CultureInfo.CurrentCulture"/>).
     /// </summary>
     [JsonPropertyName("locale")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string Locale { get; init; } = "en";
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Locale { get; init; }
 
     /// <summary>
     /// Defines which day is considered "today". Can be a specific date or <see cref="DateAny.Today"/>. Defaults to <see cref="DateAny.Today"/>.

@@ -176,15 +176,6 @@
     <value>Toggle dark mode</value>
     <comment>Aria-label for the button that toggles between light and dark themes.</comment>
   </data>
-  <!-- RzDateEdit -->
-  <data name="RzDateEdit.AriaLabel" xml:space="preserve">
-    <value>Date picker</value>
-    <comment>Aria-label for the overall date picker component wrapper.</comment>
-  </data>
-  <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
-    <value>Select date</value>
-    <comment>Aria-label specifically for the date input field.</comment>
-  </data>
   <!-- RzNavbar -->
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
     <value>Toggle side navigation</value>
