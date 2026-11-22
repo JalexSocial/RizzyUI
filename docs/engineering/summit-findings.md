@@ -112,7 +112,7 @@ tracks how much application code exists only to compensate.
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works (workaround: `role="img"` and a real label) | Open | e2e: check-in S-05 (axe); docs scan (known-defect list) |
 | SF-067 | RizzyUI | RzMenubar | Gap | Medium | Menubar checkbox and radio items change only their own `aria-checked`: no event, no value posted, no way to bind them to state | Works (workaround: delegated click listener) | Open | e2e: schedule builder menubar (workflow) |
 | SF-068 | RizzyUI | RzDateEdit | Bug | Medium | RzDateEdit's input carries `aria-label="Select date"` (and its group `aria-label="Date picker"`), which overrides the field's `<label for>`: the input is announced as "Select date", not "Starts at" | Works | Fixed in 1.0.0-preview.4 | bUnit: DateCultureTests (no default name, AriaLabel) (defect); e2e: schedule builder finds the field by its label (workflow) |
-| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works (workaround: `x-on:click.capture`) | Open (decided: D-24 (handlers in code)) | e2e: schedule builder publish all |
+| SF-069 | RizzyUI | RzMenubar | Bug | Medium | `MenubarItem` writes its own `x-on:click` after the caller's attributes, so a caller's `x-on:click` is silently dropped (another instance of pattern 1) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click on a menubar item), both builds (defect); e2e: schedule builder publish all (workflow) |
 | SF-070 | RizzyUI | RzSlider | DX | Low | RzSlider is not an `EditForm` input: it takes `Value` as a `double[]` and a `Name` (indexed by default), has no `For`, so no field label association, no validation state and no model binding | Works (`Name`, `UseIndexedNames="false"`, `AriaLabelledBy`) | Open | e2e: schedule builder slider |
 | SF-071 | RizzyUI | RzClipboard | Bug | Low | RzClipboard renders a bare button the size of its content (14 px with an icon), under WCAG 2.2's 24 px target size (axe `target-size`) | Works (workaround: `size-8` class) | Open | e2e: settings API keys (axe) |
 | SF-072 | RizzyUI (npm) | Packaging | DX | Low | `@jalexsocial/rizzyui/testing` is an ES module but the package has no `"type": "module"`, so every code-behind test run prints Node's MODULE_TYPELESS_PACKAGE_JSON warning and reparses the file | Works (warning only) | Open | `npm test` in Summit.Web shows it |
@@ -564,6 +564,7 @@ finding on its own.
   merge rather than replace (Alpine allows several `x-on:click` handlers through different modifiers,
   or the component can call a consumer-supplied handler), or at least log a development-time warning
   when a consumer attribute is overwritten.
+- **Handlers fixed in 1.0.0-preview.4 (D-24):** a caller's `x-on:click` on `RzToggle` runs alongside the toggle's own (directives.spec.ts, both builds); Summit's level toggles use `x-on:click="applyLevels()"` and its delegated click listener is deleted. The change event (`rz:toggle:change`) is slice 18.
 
 ### SF-031 Every avatar is announced as "Avatar"
 
@@ -1124,6 +1125,7 @@ finding on its own.
 - **Library fix:** merge handlers (call the caller's expression from `handleItemClick`, or use a
   different attribute for the component's own handler such as `x-on:click.self`), and document which
   attributes each component reserves.
+- **Fixed in 1.0.0-preview.4:** decision D-24: a caller's `x-on:*` on any RizzyUI component is rendered as Alpine's `@event` form, so it runs alongside the component's own `x-on:event` instead of being replaced. Summit's `x-on:click.capture` is now a plain `x-on:click`.
 
 ### SF-070 RzSlider does not bind to a model
 

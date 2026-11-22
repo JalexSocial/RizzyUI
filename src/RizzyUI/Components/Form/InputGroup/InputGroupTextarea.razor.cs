@@ -10,6 +10,9 @@ namespace RizzyUI;
 /// </summary>
 public partial class InputGroupTextarea : RzComponent<InputGroupTextarea.Slots>
 {
+    /// <inheritdoc />
+    protected internal override bool AcceptsXModel => true;
+
     /// <summary>
     /// Defines the default styling for the InputGroupTextarea component.
     /// </summary>

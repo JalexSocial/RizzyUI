@@ -1,0 +1,45 @@
+@page "/_tests/directives"
+@layout HarnessLayout
+@* Decisions D-24 and D-27 (Summit SF-030, SF-069): caller x-on:* runs alongside a component's own
+   handler, and x-syncprop reaches a component's state, also inside a dialog and when the state lives on
+   an inner element. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>Directives harness</PageTitle>
+
+<div class="space-y-8 p-6" x-data="{ clicks: 0, menuClicks: 0, bold: false, volume: [30] }">
+    <h1 class="text-2xl font-semibold">Directives harness</h1>
+
+    <section class="space-y-2">
+        <RzToggle id="toggle" x-on:click="clicks++" aria-label="Bold">B</RzToggle>
+        <p>Toggle clicks: <span id="toggle-clicks" x-text="clicks"></span></p>
+    </section>
+
+    <section class="space-y-2">
+        <RzMenubar>
+            <MenubarMenu>
+                <MenubarTrigger id="file-menu">File</MenubarTrigger>
+                <MenubarContent>
+                    <MenubarItem id="publish-item" x-on:click="menuClicks++">Publish</MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+        </RzMenubar>
+        <p>Menu clicks: <span id="menu-clicks" x-text="menuClicks"></span></p>
+    </section>
+
+    <section class="space-y-2">
+        <p>App bold: <span id="app-bold" x-text="bold"></span></p>
+        <RzDialog>
+            <DialogTrigger AsChild><RzButton id="open-dialog">Format</RzButton></DialogTrigger>
+            <DialogContent AriaLabel="Format">
+                @* Inside the dialog: "parent" is the app's state, not the dialog's. *@
+                <RzToggle id="dialog-toggle" x-syncprop="bold -> pressed" aria-label="Bold in dialog">B</RzToggle>
+            </DialogContent>
+        </RzDialog>
+    </section>
+
+    <section class="space-y-2">
+        <p>App volume: <span id="app-volume" x-text="volume[0]"></span></p>
+        @* The slider's state lives on an inner element: x-syncprop moves there. *@
+        <RzSlider id="volume-slider" Value="@(new double[] { 30 })" x-syncprop.init-child="volume -> values" AriaLabel="Volume" />
+    </section>
+</div>

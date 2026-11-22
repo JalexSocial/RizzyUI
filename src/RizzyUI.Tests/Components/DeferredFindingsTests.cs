@@ -113,7 +113,8 @@ public class DeferredFindingsTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         Assert.Equal("img", root.GetAttribute("role"));
         Assert.Equal("Saving", root.GetAttribute("aria-label"));
 
-        var dropdown = Render<RzDropdownMenu>(p => p.AddUnmatched("x-data", "somethingElse"));
+        // x-data from a caller is no longer silently replaced: it throws (D-24, DirectiveRulesTests).
+        var dropdown = Render<RzDropdownMenu>();
         Assert.Equal("rzDropdownMenu", dropdown.Find("[x-data]").GetAttribute("x-data"));
     }
 

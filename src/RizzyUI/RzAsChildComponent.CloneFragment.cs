@@ -162,6 +162,16 @@ public abstract partial class RzAsChildComponent : RzComponent
 
         // Drain any original attributes (they “win” over baseAttrs)
         CopyAttributesWithPrecedence(b, frames, ref originalRootIndex, baseAttrs);
+
+        // D-25: directives this component forwards to a component child (RzClipboard's own x-data on
+        // an RzButton) are the library's, not the caller's: mark them so the child's reserved-directive
+        // check lets them through. baseAttrs now holds exactly the attributes that were appended.
+        if (!rootIsElement)
+        {
+            var forwarded = baseAttrs.Keys.Where(k => k.StartsWith("x-", StringComparison.OrdinalIgnoreCase)).ToArray();
+            if (forwarded.Length > 0)
+                b.AddAttribute(int.MaxValue - 1, RzDirectiveRules.ForwardedAttribute, string.Join(',', forwarded));
+        }
         // originalRootIndex is now the first child/frame after attributes
 
         // Compute exactly how many child‐frames remain under this root:

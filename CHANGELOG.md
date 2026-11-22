@@ -21,6 +21,7 @@ Finding IDs (RZUI-0xx) refer to the
 ### Breaking
 
 - **`RzDateEdit` has no default accessible name** (Summit SF-068). Its input had `aria-label="Select date"`, which screen readers announced instead of the field's `FieldLabel`, and the wrapper was a group labelled "Date picker". A labelled field now gets its name from the label. Migration: set the new `AriaLabel` parameter on a date field without a visible label.
+- **Alpine directive rules on components** (decisions D-24 and D-27). `x-data`, `x-init` and `x-load` passed to a RizzyUI component throw a descriptive exception instead of being silently replaced: put application state on an ancestor element. `x-model` throws on components without a model value (form inputs, input-group inputs, `CommandInput` and `RzColorSwatch` accept it); `x-show`, `x-cloak` and `x-transition` throw on components that manage their own visibility (overlay and collapsible content); `x-ref` throws for the ref names a component uses itself; an `x-bind` of an attribute the component computes (for example `aria-pressed` on `RzToggle`) is dropped with a Development warning. Migration: move `x-data` to a wrapper element (`<span x-data class="contents">`), and use `x-syncprop` or the component's events instead of `x-model`. See the new docs page "Parent Property Synchronization".
 
 ### Added
 
@@ -34,6 +35,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzChart` sizing** (Summit SF-061): the chart fills the height of a parent that has one instead of overflowing it, and is 2:1 (width to height) in a parent without a height; the fixed `min-h-[300px]` is gone. Set a height class on the chart or its parent for another size.
 - **Date components follow the request culture** (Summit SF-073). `RzCalendar`, `RzCalendarProvider` and `RzDateEdit` default to `CultureInfo.CurrentCulture` instead of English; `RzDateEdit` loads flatpickr's locale file for it (65 languages, registered as assets `FlatpickrLocale.{file}` with SRI hashes, for example `FlatpickrLocale.de`, so they can be self-hosted). Set `Locale` in the options to keep a fixed language. `VanillaCalendarOptions.Locale` is now `string?` (null means the request culture).
 - **`DataTableSortToggle` is named by its label** (Summit SF-053). Every sort button was named "Sort ascending", leaving out the column and hiding its visible text (WCAG 2.5.3); it is now named by its content, with the direction on the header's `aria-sort`. An icon-only toggle gets the column name from the new `sort.columnName(header)`; `sort.nextLabel(header)` is no longer the button's name.
+- **A caller's `x-on:*` runs alongside the component's own handler** (decision D-24, Summit SF-030, SF-069). It was silently replaced when the component used the same event (`RzToggle`, `MenubarItem`); it now renders as Alpine's `@event` form, which Alpine binds as a separate listener.
+- **`x-syncprop` on RizzyUI components** (decision D-24). On a component root without its own state (`RzSlider`, `RzChart`, ...) the directive moves to the element that holds the component's state, and "parent" is the nearest state that is not a RizzyUI component's, so a component inside a dialog or sheet syncs with the application's state. `data-syncprop-parent="#selector"` names the parent, and `.direct` keeps the closest state (RizzyUI's sidebar uses it).
 
 ### Fixed
 

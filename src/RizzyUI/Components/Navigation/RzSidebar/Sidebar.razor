@@ -18,7 +18,8 @@ else
 	     data-slot="sidebar">
 
 		<div class="md:hidden">
-			<RzSheet x-syncprop="openMobile -> open">
+			@* .direct: sync with the sidebar's own state (a RizzyUI component), not the app's (D-24). *@
+			<RzSheet x-syncprop.direct="openMobile -> open">
 				<SheetContent Side="@(Side == SidebarSide.Left ? SheetSide.Left : SheetSide.Right)"
 				              class="bg-sidebar text-sidebar-foreground w-[var(--sidebar-mobile-width)] p-0 [&>button]:hidden"
 				              x-bind:open="openMobile"

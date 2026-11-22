@@ -1,12 +1,15 @@
 @* Organizer quick actions: RzCommandDialog with static items, opened by the button or Ctrl+J.
    Item values are paths; CommandNavigation follows them. *@
+@* The Alpine scope is on a wrapper: a RizzyUI component owns its own (D-24). *@
+<span x-data class="contents">
 <RzButton Variant="ThemeVariant.Secondary" Outline Size="Size.Small" class="hidden gap-2 sm:inline-flex"
-          x-data x-on:click="$dispatch('summit:quick-actions')"
+          x-on:click="$dispatch('summit:quick-actions')"
           x-on:keydown.ctrl.j.window.prevent="$dispatch('summit:quick-actions')">
     <Blazicon Svg="Lucide.Zap" class="size-4" />
     Quick actions
     <RzKbdGroup class="ml-1"><RzKbd>Ctrl</RzKbd><RzKbd>J</RzKbd></RzKbdGroup>
 </RzButton>
+</span>
 
 <RzCommandDialog EventTriggerName="summit:quick-actions" Title="Quick actions" Description="Jump to a page or start a task.">
     <CommandInput Placeholder="Type a command…" />

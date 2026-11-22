@@ -10,6 +10,9 @@ namespace RizzyUI;
 /// </summary>
 public partial class InputGroupInput : RzComponent<InputGroupInput.Slots>
 {
+    /// <inheritdoc />
+    protected internal override bool AcceptsXModel => true;
+
     /// <summary>
     /// Defines the default styling for the InputGroupInput component.
     /// </summary>

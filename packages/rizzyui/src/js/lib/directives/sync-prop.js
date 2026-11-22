@@ -62,9 +62,71 @@
 //
 // ──────────────────────────────────────────────────────────────────────────────
 
+// ──────────────────────────────────────────────────────────────────────────────
+// ON RIZZYUI COMPONENTS (decision D-24, docs: "Parent property synchronization")
+// ──────────────────────────────────────────────────────────────────────────────
+// - On a component whose state lives on an inner element (RzChart, RzSlider, ...), the directive
+//   moves to that element: <RzSlider x-syncprop="filters.price -> values" /> binds the slider's state.
+// - "Parent" is the nearest ancestor state that is not a RizzyUI component, so a component inside a
+//   dialog, sheet or popover syncs with the application's state, not the overlay's.
+// - data-syncprop-parent="#selector" on the same element names the parent explicitly, and the
+//   .direct modifier keeps the closest ancestor state even when it is a RizzyUI component's.
+
+/** A RizzyUI component's own state element (data-alpine-root, or an rzXxx x-data name). */
+function isRizzyComponentElement(element) {
+    if (!element?.hasAttribute) return false;
+    if (element.hasAttribute('data-alpine-root')) return true;
+    return /^rz[A-Z]/.test(element.getAttribute('x-data') || '');
+}
+
+/**
+ * The element whose state a component root's x-syncprop refers to: the element itself when it has
+ * its own x-data, otherwise the component's state element inside it.
+ */
+function resolveStateElement(el) {
+    if (el.hasAttribute('x-data')) return el;
+    if (el.id) {
+        const byId = el.querySelector(`[data-alpine-root="${CSS.escape(el.id)}"]`);
+        if (byId) return byId;
+    }
+    return el.querySelector('[data-alpine-root]') || el;
+}
+
+/** The data objects of every RizzyUI component state on the page (to skip them as "parent"). */
+function rizzyComponentData() {
+    const set = new Set();
+    document.querySelectorAll('[x-data]').forEach((element) => {
+        if (isRizzyComponentElement(element) && element._x_dataStack?.[0]) set.add(element._x_dataStack[0]);
+    });
+    return set;
+}
+
 export default function registerSyncDirective(Alpine) {
-    const handler = (el, { expression, modifiers }, { cleanup, effect }) => {
+    const handler = (el, directive, utilities) => {
+        const { expression, modifiers } = directive;
         if (!expression || typeof expression !== 'string') return;
+
+        // On a component root without its own x-data: move to the component's state element.
+        const target = resolveStateElement(el);
+        if (target !== el) {
+            const name = directive.original || ('x-syncprop' + (modifiers.length ? '.' + modifiers.join('.') : ''));
+            const parentSelector = el.getAttribute('data-syncprop-parent');
+            if (!target._x_dataStack) {
+                // Not initialized yet (x-load): Alpine runs the directive there when it does.
+                Alpine.mutateDom(() => {
+                    target.setAttribute(name, expression);
+                    if (parentSelector && !target.hasAttribute('data-syncprop-parent')) target.setAttribute('data-syncprop-parent', parentSelector);
+                });
+                return;
+            }
+            sync(target, expression, modifiers, utilities, parentSelector);
+            return;
+        }
+
+        sync(el, expression, modifiers, utilities, el.getAttribute('data-syncprop-parent'));
+    };
+
+    const sync = (el, expression, modifiers, { cleanup, effect }, parentSelector) => {
 
         // Minimal path setter (supports dot + bracket notation, e.g. a.b[0].c)
         const setAtPath = (obj, path, value) => {
@@ -79,10 +141,23 @@ export default function registerSyncDirective(Alpine) {
             cur[last] = value;
         };
 
-        // Resolve direct parent/child component data stacks
+        // Resolve the child (this element's state) and the parent: an explicit data-syncprop-parent,
+        // otherwise the nearest ancestor state that is not a RizzyUI component's.
         const stack = Alpine.closestDataStack(el) || [];
         const childData = stack[0] || null;
-        const parentData = stack[1] || null;
+        let parentData = null;
+        if (parentSelector) {
+            const parentEl = document.querySelector(parentSelector);
+            parentData = parentEl ? (Alpine.closestDataStack(parentEl) || [])[0] || null : null;
+        } else if (modifiers.includes('direct')) {
+            // .direct: the closest ancestor state, also a RizzyUI component's (the library's own wiring).
+            parentData = stack[1] || null;
+        } else {
+            const rizzy = rizzyComponentData();
+            // Skip RizzyUI components' state and scopes without state of their own (teleport and
+            // proxy scopes in overlays).
+            parentData = stack.slice(1).find((data) => !rizzy.has(data) && Object.keys(data).length > 0) || null;
+        }
 
         if (!childData || !parentData) {
             if (import.meta?.env?.DEV) {

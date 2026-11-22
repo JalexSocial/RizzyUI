@@ -8,6 +8,9 @@ namespace RizzyUI;
 /// </summary>
 public partial class RzColorSwatch : RzComponent<RzColorSwatch.Slots>
 {
+    /// <inheritdoc />
+    protected internal override bool AcceptsXModel => true;
+
     /// <summary>
     /// Defines the default styling for <see cref="RzColorSwatch"/>.
     /// </summary>

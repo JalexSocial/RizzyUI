@@ -52,7 +52,7 @@
                     <span class="text-sm font-medium">Level</span>
                     @foreach (var level in Enum.GetValues<SessionLevel>())
                     {
-                        <RzToggle Variant="ToggleVariant.Outline" Size="ToggleSize.Small" data-level-toggle="@level">
+                        <RzToggle Variant="ToggleVariant.Outline" Size="ToggleSize.Small" data-level-toggle="@level" x-on:click="$dispatch('summit:levels-changed')">
                             @level
                         </RzToggle>
                     }

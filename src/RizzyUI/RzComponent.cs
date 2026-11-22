@@ -130,9 +130,31 @@ public abstract partial class RzComponent : ComponentBase
     /// applied to the root element rendered by the component. Use the `class` attribute here
     /// for additional CSS classes; they will be merged with the component's base classes.
     /// </summary>
+    /// <remarks>
+    /// Alpine directives follow decisions D-24 and D-27 (<see cref="RzDirectiveRules"/>): <c>x-data</c>,
+    /// <c>x-init</c> and <c>x-load</c> are reserved and throw; <c>x-on:*</c> runs alongside the
+    /// component's own handlers; <c>x-model</c>, visibility directives, reserved <c>x-ref</c> names and
+    /// bindings of computed attributes have per-component rules.
+    /// </remarks>
     [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Required by Blazor for parameter capture.")]
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    public Dictionary<string, object>? AdditionalAttributes
+    {
+        get => _additionalAttributes;
+        set => _additionalAttributes = RzDirectiveRules.Apply(this, value, DirectiveServices);
+    }
+
+    private Dictionary<string, object>? _additionalAttributes;
+
+    /// <summary>Services for the directive rules' Development warnings.</summary>
+    [Inject]
+    private IServiceProvider? DirectiveServices { get; set; }
+
+    /// <summary>
+    /// Whether callers may put <c>x-model</c> on this component (decision D-27): true for components
+    /// that hold a value, such as form inputs.
+    /// </summary>
+    protected internal virtual bool AcceptsXModel => false;
 
     /// <summary>
     /// Gets the effective theme instance being used by this component. It prioritizes the

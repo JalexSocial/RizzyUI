@@ -18,9 +18,7 @@
             <MenubarContent>
                 <MenubarItem Icon="Lucide.Plus" hx-get="/organizer/schedule-builder/new" hx-target="#session-editor" hx-swap="outerHTML">New session</MenubarItem>
                 <MenubarSeparator />
-                @* x-on:click.capture, not x-on:click: MenubarItem writes its own x-on:click after the
-                   caller's attributes, which replaces ours (SF-069). The modifier makes it a separate attribute. *@
-                <MenubarItem Icon="Lucide.Send" x-on:click.capture="$dispatch('builder:publish-confirm')">Publish all drafts…</MenubarItem>
+                <MenubarItem Icon="Lucide.Send" x-on:click="$dispatch('builder:publish-confirm')">Publish all drafts…</MenubarItem>
             </MenubarContent>
         </MenubarMenu>
         <MenubarMenu Value="view">
