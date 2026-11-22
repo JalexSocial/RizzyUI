@@ -641,7 +641,7 @@ public async Task&lt;IResult&gt; Table(string? status, [FromQuery(Name = "TableS
                 </RzCodeViewer>
                 <RzParagraph class="mt-4">
                     MVC binds the input with the parameter's name; minimal APIs bind it through <code>RzDataTableState.TryParse</code>.
-                    A missing or unreadable value binds <code>null</code>. <code>TableRequestModel</code> is obsolete and will be removed after 1.0.
+                    A missing or unreadable value binds <code>null</code>. <code>TableRequestModel</code> is obsolete and will be removed after 1.0. Pick a <code>StateInputName</code> that is not also the name of a complex action parameter: MVC would bind that parameter with the name as a prefix (a field named <code>Filter</code> next to a parameter <code>filter</code> loses the parameter's values).
                 </RzParagraph>
             </section>
 

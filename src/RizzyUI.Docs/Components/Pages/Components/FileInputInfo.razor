@@ -87,6 +87,12 @@
     &lt;RzButton class=&quot;mt-4&quot; type=&quot;submit&quot;&gt;Upload&lt;/RzButton&gt;
 &lt;/form&gt;
                 </RzCodeViewer>
+                <RzParagraph>
+                    <strong>Upload progress.</strong> htmx 4 sends requests with <code>fetch()</code>, which reports no upload progress,
+                    so <code>RzFileInput</code> shows none. Show that the upload is running with an indeterminate <code>RzProgress</code> as
+                    the request indicator (<code>hx-indicator</code>), and keep uploads small enough for that to be enough; for large files,
+                    upload with your own <code>XMLHttpRequest</code> code, which reports progress.
+                </RzParagraph>
             </section>
 
             <section class="my-8 py-2">

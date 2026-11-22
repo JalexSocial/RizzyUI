@@ -90,7 +90,7 @@
                                     <NavigationMenuContent>
                                         <ul class="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                                             <li class="row-span-3">
-                                                <NavigationMenuLink>
+                                                <NavigationMenuLink AsChild>
                                                     <RzLink class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                                         <img src="/images/rizzy-logo-wb.svg" class="h-12 w-12" alt="RizzyUI Logo" />
                                                         <div class="mt-4 mb-2 text-lg font-medium">
@@ -192,7 +192,7 @@
                                     &lt;NavigationMenuContent&gt;
                                         &lt;ul class=&quot;grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]&quot;&gt;
                                             &lt;li class=&quot;row-span-3&quot;&gt;
-                                                &lt;NavigationMenuLink&gt;
+                                                &lt;NavigationMenuLink AsChild&gt;
                                                     &lt;RzLink class=&quot;flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md&quot;&gt;
                                                         &lt;img src=&quot;/images/rizzy-logo-wb.svg&quot; class=&quot;h-12 w-12&quot; alt=&quot;RizzyUI Logo&quot; /&gt;
                                                         &lt;div class=&quot;mt-4 mb-2 text-lg font-medium&quot;&gt;
@@ -262,7 +262,7 @@
     };
 
     private RenderFragment ListItem(string title, string href, RenderFragment childContent) =&gt; @@&lt;li&gt;
-        &lt;NavigationMenuLink&gt;
+        &lt;NavigationMenuLink AsChild&gt;
             &lt;RzLink Href=&quot;@@href&quot; class=&quot;block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
                 &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@title&lt;/div&gt;
                 &lt;p class=&quot;line-clamp-2 text-sm leading-snug text-muted-foreground&quot;&gt;
@@ -273,7 +273,7 @@
     &lt;/li&gt;;
     
     private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) =&gt; @@&lt;li&gt;
-        &lt;NavigationMenuLink&gt;
+        &lt;NavigationMenuLink AsChild&gt;
             &lt;RzLink Href=&quot;#&quot; class=&quot;flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
                 &lt;span class=&quot;size-5 text-2xl mt-px text-muted-foreground&quot; aria-hidden=&quot;true&quot;&gt;
                     &lt;Blazicon Svg=&quot;@@icon&quot;/&gt;
@@ -465,7 +465,7 @@
     };
 
     private RenderFragment ListItem(string title, string href, RenderFragment childContent) => @<li>
-        <NavigationMenuLink>
+        <NavigationMenuLink AsChild>
             <RzLink Href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                 <div class="text-sm font-medium leading-none">@title</div>
                 <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -476,7 +476,7 @@
     </li>;
     
     private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) => @<li>
-        <NavigationMenuLink>
+        <NavigationMenuLink AsChild>
             <RzLink Href="#" class="flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                 <span class="size-5 text-2xl mt-px text-muted-foreground" aria-hidden="true">
                     <Blazicon Svg="@icon"/>

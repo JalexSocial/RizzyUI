@@ -49,9 +49,9 @@ tracks how much application code exists only to compensate.
 | SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (close by id, close all), both builds (defect); e2e: attendees S-04 (workflow) |
 | SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
-| SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
+| SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works | Fixed in 1.0.0-preview.4 | bUnit: RzToastMiddlewareLoggingTests (Warning in Development for a normal request and an htmx redirect, Debug elsewhere) (defect) |
 | SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works | Fixed in 1.0.0-preview.4 | e2e: search palette, quick actions (workflow) |
-| SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
+| SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works | Fixed in 1.0.0-preview.4 | bUnit: ModelPathNameTests (the five components post the model path like Blazor's InputText) (defect); e2e: contact upload, schedule filters (workflow) |
 | SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works | Fixed in 1.0.0-preview.4 | bUnit: RzSidebarProviderTests (persisted state from the request cookie) (defect) |
 | SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
@@ -62,7 +62,7 @@ tracks how much application code exists only to compensate.
 | SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (an item with Href navigates), both builds (defect); e2e: quick actions, search palette (workflow) |
 | SF-017 | Rizzy, template | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Works | Fixed in Rizzy 6.0.0-preview.4 | Rizzy: ExtensionTests (script URL with and without a path base) (defect); template test (slice 15 adds a nested URL check) |
 | SF-018 | RizzyUI, template | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Works | Fixed in 1.0.0-preview.4 | bUnit: RzButtonTests.AsChild_* (defect); the starter template's 404 page (slice 10 adds a browser check) |
-| SF-019 | RizzyUI docs | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Works (workaround) | Open | e2e: unique-id check (defect) |
+| SF-019 | RizzyUI docs | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Works | Fixed in 1.0.0-preview.4 | docs scan (navigation menu page) |
 | SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works (workaround) | Open | Summit.Tests: htmx redirect, antiforgery 400 (defect) |
 | SF-021 | Template | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Works | Fixed in 1.0.0-preview.4 | template test: hx-boost:inherited in the markup and a Playwright check that a sidebar link navigates without a reload (defect); e2e: shell boosted navigation (workflow) |
 | SF-022 | RizzyUI | RzAlert | A11y | Medium | Always a live region (`role="alert"` by default): a static callout on page load is announced as an alert | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a static alert has no live region) (defect) |
@@ -70,7 +70,7 @@ tracks how much application code exists only to compensate.
 | SF-024 | htmx, Rizzy docs | htmx boost | DX | Low | Boosted navigation swaps only `<body>`: `<html lang>` (and anything else on `<html>`) keeps the old value after a language switch | Works (documented pattern) | Fixed in docs | n/a (documentation) |
 | SF-025 | RizzyUI | RzCommand | Bug | Medium | Typing then pressing Enter quickly runs the item highlighted before the 50 ms search debounce, not the match | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (Enter right after typing), both builds (defect); e2e: quick actions without a wait (workflow) |
 | SF-026 | RizzyUI | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a field error around child content is not an alert) (defect) |
-| SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
+| SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Fixed in 1.0.0-preview.4 | docs scan (five new pages) |
 | SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzGetForm cascades an EditContext and renders a GET form (defect); e2e: schedule and speaker filters (workflow) |
 | SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (a checkbox group is named by [Display]) (defect); e2e: getByRole group name (workflow) |
 | SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click and rz:toggle:change), both builds (defect); e2e: schedule level toggles (workflow) |
@@ -287,6 +287,7 @@ finding on its own.
   instead of a redirect.
 - **Library fix:** log at Warning in Development; consider carrying queued toasts across a redirect
   (TempData-style) as an opt-in.
+- **Fixed in 1.0.0-preview.4:** the toast middleware logs a Warning in Development when it drops queued toasts (a non-htmx request, or an htmx response that redirects, whose headers the browser never sees), naming HX-Push-Url/HX-Location as the fix; the toast page documents the pattern. Carrying toasts across a redirect stays out of scope (the page names TempData or a session store for that). Summit already answers in place.
 
 ### SF-007 RzCommandDialog cannot use a remote item source (planning)
 
@@ -304,6 +305,7 @@ finding on its own.
 - **What:** `RzFileInput` has no progress display, and htmx 4 sends requests with `fetch()`, which
   reports no upload progress.
 - **Summit design:** an indeterminate `RzProgress` as the request indicator.
+- **Fixed in 1.0.0-preview.4:** documented on the file input page: htmx 4's `fetch()` reports no upload progress, so the pattern is an indeterminate `RzProgress` as the request indicator (what Summit does), or an application `XMLHttpRequest` for large files.
 
 ### SF-009 Components name their form fields differently (planning)
 
@@ -420,6 +422,7 @@ finding on its own.
   link (the HTML parser splits nested anchors). Keyboard users get an extra, empty tab stop.
 - **Summit workaround:** `<NavigationMenuLink Href="…" class="…">` with the content directly inside.
 - **Library fix:** correct the example (or use `AsChild`, as the "Docs" item in the same example does).
+- **Fixed in 1.0.0-preview.4:** the navigation menu example's `ListItem` and `IconListItem` (and the logo card) use `NavigationMenuLink AsChild` around `RzLink`, so they render one anchor.
 
 ### SF-020 Status code pages break htmx redirects and mislabel every 4xx
 
@@ -529,6 +532,7 @@ finding on its own.
   any page. Summit had to read their source to use them. (`RzIdScope` in particular solves a real htmx
   problem, stable ids in re-rendered fragments, and nobody will find it.)
 - **Library fix:** add the pages, or at least an example on a related page.
+- **Fixed in 1.0.0-preview.4:** docs pages with a live example and parameters for `RzIdScope`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle` and `RzEmbeddedPreview`, in the component list and the navigation.
 
 ### SF-028 Inputs require an EditContext, even in GET forms
 
@@ -870,6 +874,7 @@ finding on its own.
   silently ignored. Found in the browser: the request carried `Status=Registered`, the pushed URL did not.
 - **Fix:** the field is now `Search`. Not a library defect, but relevant if a built-in state transport
   (SF-001) is added: its field names should be prefixed.
+- **Library guidance (1.0.0-preview.4):** not a library defect. The built-in state transport (D-31) is one input named by the application, and the DataTable page warns against a name that matches a complex action parameter.
 
 ### SF-052 Text areas are unstyled
 

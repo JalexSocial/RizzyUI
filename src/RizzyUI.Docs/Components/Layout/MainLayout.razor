@@ -258,6 +258,31 @@
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/dark-mode-toggle")'>
+                                    <a href="/components/dark-mode-toggle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Dark Mode Toggle</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/embedded-preview")'>
+                                    <a href="/components/embedded-preview" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Embedded Preview</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/form-section")'>
+                                    <a href="/components/form-section" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Form Section</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/id-scope")'>
+                                    <a href="/components/id-scope" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Id Scope</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/search-button")'>
+                                    <a href="/components/search-button" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Search Button</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
                                 <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/focus-first-invalid")'>
                                     <a href="/components/focus-first-invalid" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Focus First Invalid</span></a>
                                 </SidebarMenuButton>

@@ -61,6 +61,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **The Arctic theme meets WCAG AA contrast** (Summit SF-078, SF-036): darker light-mode `--primary`, `--destructive` and `--muted-foreground`, lighter dark-mode `--primary` and `--destructive` with dark text on them, and status colors that keep 4.5:1 as text on their own tint (also the theme JSON defaults). Apps that relied on the exact old values may see slightly different shades. The status theme keys are documented.
 - **Accessibility defaults** (Summit SF-026, SF-031, SF-037, SF-066): `FieldError` around child content has no `role="alert"`; `RzAvatar` has no role or "Avatar" label unless `AriaLabel` is set (and takes `Decorative`); the file input's trigger is named by its visible text unless `AriaLabel` is set; `RzIndicator` is `role="img"` with an `AriaLabel` and decorative without one. Tests that found these elements by the old names need updating.
 - **Built-in icons are Lucide icons** (Summit SF-023): Material Design icons rendered fixed ids (`id="mdi-..."`), duplicated on every page with two of them. `RzCheckboxGroup.CheckedIcon` defaults to `Lucide.Check`.
+- **Dropped toasts are a Warning in Development** (Summit SF-006): `UseRzToast()` logs when toasts queued on a normal request or an htmx redirect cannot be delivered.
 
 ### Deprecated
 
@@ -95,6 +96,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **No MODULE_TYPELESS_PACKAGE_JSON warning** from `@jalexsocial/rizzyui/testing` (Summit SF-072): the package's ES module folders declare `"type": "module"`.
 - **`hx-*` in DataTable row templates works** (Summit SF-048): the table processes the rows Alpine renders.
 - **No repeated ids in DataTable rows** (Summit SF-054): row-template helpers render an id only when given one, and the table drops generated ids copied from its `x-for` templates.
+- **Docs** (Summit SF-008, SF-019, SF-027, SF-051): pages for `RzIdScope`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle` and `RzEmbeddedPreview`; the navigation menu example renders one link per item; upload progress with htmx 4 and the state input's name are documented.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

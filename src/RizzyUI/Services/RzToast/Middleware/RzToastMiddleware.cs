@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Rizzy.Htmx;
 using RizzyUI.Services.RzToast.Internal;
@@ -40,8 +41,13 @@ public sealed class RzToastMiddleware
 
             // Toasts travel in an htmx response header; a normal request cannot carry them
             // (RZUI-052: they used to disappear without a trace).
-            if (context.RequestServices.GetService<RzToastCommandQueue>() is { IsEmpty: false } && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("Discarded RizzyUI toast commands queued during a non-htmx request to {Path}. IRzToastService delivers toasts only in htmx responses.", context.Request.Path);
+            // SF-006: a Warning in Development, where a lost "Saved" toast is a bug to see; Debug elsewhere.
+            if (context.RequestServices.GetService<RzToastCommandQueue>() is { IsEmpty: false })
+            {
+                var level = IsDevelopment(context) ? LogLevel.Warning : LogLevel.Debug;
+                if (_logger.IsEnabled(level))
+                    _logger.Log(level, "Discarded RizzyUI toast commands queued during a non-htmx request to {Path}. IRzToastService delivers toasts only in htmx responses; answer the htmx request in place (HX-Push-Url or HX-Location instead of a redirect).", context.Request.Path);
+            }
             return;
         }
 
@@ -54,6 +60,9 @@ public sealed class RzToastMiddleware
             await EmitToastBatchAsync(context);
         }
     }
+
+    private static bool IsDevelopment(HttpContext context) =>
+        context.RequestServices.GetService<IHostEnvironment>()?.IsDevelopment() == true;
 
     private Task AddToastTriggerCallback(object state)
     {
@@ -82,6 +91,14 @@ public sealed class RzToastMiddleware
             {
                 _logger.LogTrace("No RizzyUI toast commands were queued for this HTMX response.");
                 return Task.CompletedTask;
+            }
+
+            // SF-006: fetch follows a redirect and drops its headers, so toasts on a 3xx never arrive.
+            if (httpContext.Response.StatusCode is >= 300 and < 400)
+            {
+                var level = IsDevelopment(httpContext) ? LogLevel.Warning : LogLevel.Debug;
+                if (_logger.IsEnabled(level))
+                    _logger.Log(level, "RizzyUI toast commands were queued on a redirect ({StatusCode}) from {Path}; the browser follows it and the toasts are lost. Use HX-Location or HX-Redirect, or answer in place.", httpContext.Response.StatusCode, httpContext.Request.Path);
             }
 
             var batch = new RzToastTransportBatch
