@@ -38,7 +38,7 @@
 
     @* Opened by a window event; its body is a form the server replaces. A new dialog body starts from
        the empty form each time the panel loads. *@
-    <RzDialog EventTriggerName="settings:create-key" CloseEventName="settings:create-key-close">
+    <RzDialog Id="create-key-dialog" EventTriggerName="settings:create-key">
         <DialogContent class="sm:max-w-lg">
             <DialogHeader>
                 <DialogTitle>Create an API key</DialogTitle>

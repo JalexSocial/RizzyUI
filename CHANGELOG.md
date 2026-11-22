@@ -37,6 +37,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzFocusFirstInvalid`** (Summit SF-045): placed in a form, focuses the first invalid field when the form renders with validation errors (after a 422 swap), including composite controls.
 - **`RzInputSlider<TValue>`** (Summit SF-070): a single-value slider bound to a numeric model property with `For`, posting the model path like the other inputs.
 - **`RzInputOTP InputAttributes`** (Summit SF-064): attributes for the real input, such as `autofocus` (htmx 4 honors it after a swap).
+- **Sheet events** (Summit SF-002, SF-032): `RzSheet` takes `EventTriggerName`, `CloseEventName` (default `rz:sheet-close`) and `InitialFocus`, and dispatches `rz:sheet:open` and `rz:sheet:close`; `RzDialog` takes `InitialFocus`.
 
 ### Changed
 
@@ -46,6 +47,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **A caller's `x-on:*` runs alongside the component's own handler** (decision D-24, Summit SF-030, SF-069). It was silently replaced when the component used the same event (`RzToggle`, `MenubarItem`); it now renders as Alpine's `@event` form, which Alpine binds as a separate listener.
 - **`x-syncprop` on RizzyUI components** (decision D-24). On a component root without its own state (`RzSlider`, `RzChart`, ...) the directive moves to the element that holds the component's state, and "parent" is the nearest state that is not a RizzyUI component's, so a component inside a dialog or sheet syncs with the application's state. `data-syncprop-parent="#selector"` names the parent, and `.direct` keeps the closest state (RizzyUI's sidebar uses it).
 - **`AsChild` children keep their handlers and ids** (decisions D-25 and D-26). The component's `x-on:*` handlers go onto the child in Alpine's `@event` form, so a handler the child declares (`<PopoverTrigger AsChild><button x-on:click="track()">`) runs alongside instead of replacing the trigger's. A binding the component computes (`x-bind:aria-expanded`) wins over the child's, with a Development warning. A child that declares an `id` keeps it, and `PopoverContent`, `DropdownMenuContent` and `TabsContent` reference it in `aria-labelledby` instead of the generated trigger id.
+- **`rz:dialog-close` and `rz:sheet-close` take an optional target id** (decision D-29, Summit SF-003): `HX-Trigger: {"rz:dialog-close": {"id": "edit"}}` closes only the dialog with that id; without an id every open dialog closes, as before.
 
 ### Fixed
 
@@ -66,6 +68,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **Starter template: a clean build with TypeScript code-behind** (Summit SF-042). The npm and Tailwind targets ran `BeforeTargets="Build"`, after the code-behind bundling that needs `node_modules`; they run before `BeforeBuild` now.
 - **A caller's `id` on `InputGroupInput` and `InputGroupTextarea` is kept** (decision D-26, Summit SF-033), so a hand-written `<label for>` reaches the input; radio items give their input an id.
 - **`RzInputOTP` works under a strict `style-src`** (Summit SF-013): its hidden input used an inline style.
+- **`RzSidebarProvider` renders the persisted state** (Summit SF-010): it reads its cookie on the server, so a collapsed sidebar no longer renders open and then collapses. `SidebarInset` has `min-w-0` (SF-049), so wide content scrolls inside it.
+- **Dialog docs name the real close event** (Summit SF-004): `rz:dialog-close` (`Constants.Events.DialogClose`), not `rz:modal-close`.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

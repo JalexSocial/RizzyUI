@@ -11,7 +11,10 @@
                  data-alpine-root="@Id"
                  data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
                  data-modal="@Modal.ToString().ToLowerInvariant()"
-                 data-dismiss-on-outside-click="@DismissOnOutsideClick.ToString().ToLowerInvariant()">
+                 data-dismiss-on-outside-click="@DismissOnOutsideClick.ToString().ToLowerInvariant()"
+                 data-event-trigger-name="@EventTriggerName"
+                 data-close-event-name="@CloseEventName"
+                 data-initial-focus="@InitialFocus">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

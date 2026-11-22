@@ -80,7 +80,8 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
 
         // The sheet's form posts with hx-swap="none": everything changes out of band.
         swaps.AddSwappableComponent<AttendeeTable>("attendee-table", new { Model = await TableAsync(filter, state) });
-        swaps.AddSwappableContent("attendee-editor", new Microsoft.AspNetCore.Components.MarkupString(""), SwapStyle.innerHTML);
+        // D-29: close the editor sheet by id; it animates out and returns focus.
+        Response.Htmx(h => h.Trigger("rz:sheet-close", new { id = AttendeeEditor.SheetId }));
         toasts.Success($"{attendee.Name} was updated.", "Saved");
         return PartialView<Components.Shared.Nothing>();
     }
@@ -115,8 +116,8 @@ public sealed class AttendeesController(SummitDbContext db, AttendeeQuery query,
         state.Selected = null;
         swaps.AddSwappableComponent<AttendeeTable>("attendee-table", new { Model = await TableAsync(filter, state) });
         toasts.Success(message, "Done");
-        // Close only this dialog: the default close event would close every dialog on the page (SF-003).
-        Response.Htmx(h => h.Trigger("attendees:bulk-close"));
+        // D-29: the one close event with this dialog's id closes only this dialog.
+        Response.Htmx(h => h.Trigger("rz:dialog-close", new { id = "bulk-confirm" }));
         return PartialView<Components.Shared.Nothing>();
     }
 

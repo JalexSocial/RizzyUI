@@ -223,8 +223,26 @@
                                 <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
                             </tr>
                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EventTriggerName</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">A window event that opens the sheet (from <code>HX-Trigger</code> or <code>$dispatch</code>). With <code>{ id }</code> in its detail it opens only the sheet with that id.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseEventName</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The window event that closes the sheet. Without a detail it closes every open sheet; with <code>{ id }</code> only the sheet with that id: <code>HX-Trigger: {"rz:sheet-close": {"id": "editor"}}</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">rz:sheet-close</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">InitialFocus</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">A CSS selector, inside the sheet, for the element that takes focus when it opens. Without it, the first focusable element does.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DefaultOpen</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the sheet will be open by default.</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the sheet will be open by default. Content loaded on demand (an <code>hx-get</code> into an empty container) can render its sheet open this way.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
@@ -272,6 +290,9 @@
                         </tbody>
                     </table>
                 </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Events</RzHeading>
+                <RzParagraph>The sheet dispatches <code>rz:sheet:open</code> and <code>rz:sheet:close</code> (bubbling, <code>detail: { id }</code>) when it opens, also when it is rendered open, and closes. <code>rz:sheet:close</code> fires after focus has returned to where it was before the sheet opened, so a listener can move it elsewhere.</RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">SheetHeader, SheetFooter, SheetTitle, SheetDescription</RzHeading>
                 <RzParagraph>These components primarily accept <code>ChildContent</code> and pass through any additional attributes. They have no unique parameters beyond standard HTML attributes.</RzParagraph>

@@ -1637,6 +1637,7 @@ RizzyUI.RzDialog
   Element: System.String
   EventTriggerName: System.String
   Id: System.String
+  InitialFocus: System.String
   LoadStrategy: System.String
 RizzyUI.RzDropdownMenu
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
@@ -2210,11 +2211,14 @@ RizzyUI.RzSheet
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
   Classes: RizzyUI.RzSheet.Slots
+  CloseEventName: System.String
   ConfigureClasses: System.Action<RizzyUI.RzSheet.Slots>
   DefaultOpen: System.Boolean
   DismissOnOutsideClick: System.Boolean
   Element: System.String
+  EventTriggerName: System.String
   Id: System.String
+  InitialFocus: System.String
   LoadStrategy: System.String
   Modal: System.Boolean
 RizzyUI.RzShineBorder

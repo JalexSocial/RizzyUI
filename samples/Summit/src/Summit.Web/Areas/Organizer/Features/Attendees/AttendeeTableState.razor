@@ -7,12 +7,12 @@
       inputs below, which every server request includes (hx-include="#attendee-table-state"), so a
       rebuilt table starts where the organizer left it;
     - SF-048: rows are rendered by Alpine, so their buttons cannot use hx-get; edit() calls htmx;
-    - SF-002: the editor sheet is opened by a swap and closed by removal, so focus is returned to the
+    - the editor sheet is closed by the server, but the row that opened it is rebuilt, so focus is returned to the
       row's Edit button by hand.
     Application behavior: the bulk-action bar and its confirmation text.
 *@
 <RzAlpineComponent For="this" class="flex flex-col gap-4"
-                   Props="@(new { TableId = "attendees", EditUrl = "/organizer/attendees" })">
+                   Props="@(new { TableId = "attendees", EditUrl = "/organizer/attendees", EditorSheetId = AttendeeEditor.SheetId })">
     <div id="attendee-table-state" hidden>
         <input type="hidden" name="Sort" x-bind:value="sort" />
         <input type="hidden" name="Desc" x-bind:value="desc" />

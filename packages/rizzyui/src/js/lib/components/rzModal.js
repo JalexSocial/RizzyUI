@@ -5,7 +5,7 @@ export default function rzModal() {
     return {
         modalOpen: false,
         eventTriggerName: '',
-        closeEventName: 'rz:modal-close',
+        closeEventName: 'rz:dialog-close',
         closeOnEscape: true,
         closeOnClickOutside: true,
         modalId: '',
@@ -35,7 +35,10 @@ export default function rzModal() {
                 window.addEventListener(this.eventTriggerName, this._openListener);
             }
 
-            this._closeEventListener = () => {
+            // D-29: one close event; with detail.id it closes only the dialog with that id.
+            this._closeEventListener = (event) => {
+                const target = event?.detail?.id;
+                if (target && target !== this.modalId && target !== this.$el.id) return;
                 if (this.modalOpen) this.closeModalInternally('event');
             };
             window.addEventListener(this.closeEventName, this._closeEventListener);
@@ -99,6 +102,8 @@ export default function rzModal() {
             this._focusScope?.deactivate();
             this._focusScope = createFocusScope(dialogElement, {
                 fallbackFocus: dialogElement,
+                // SF-032: a selector for the element that takes focus when the dialog opens.
+                initialFocus: this.$el.dataset.initialFocus || null,
             });
             this._focusScope.activate();
 

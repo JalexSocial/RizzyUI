@@ -23,7 +23,7 @@
             </RzInputGroup>
             <RzCodeViewer Language="@CodeLanguage.Bash" ViewerTitle="Try it" Source="@Curl" />
             <div class="flex justify-end">
-                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('settings:create-key-close')">Done</RzButton>
+                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('rz:dialog-close', { id: 'create-key-dialog' })">Done</RzButton>
             </div>
         </div>
     }
@@ -52,7 +52,7 @@
                 <FieldError><RzValidationMessageBase For="@(() => Key!.Scopes)" /></FieldError>
             </Field>
             <div class="flex justify-end gap-3">
-                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('settings:create-key-close')">Cancel</RzButton>
+                <RzButton type="button" Variant="ThemeVariant.Secondary" Outline x-on:click="$dispatch('rz:dialog-close', { id: 'create-key-dialog' })">Cancel</RzButton>
                 <RzButton type="submit" Variant="ThemeVariant.Primary">Create key</RzButton>
             </div>
         </EditForm>

@@ -205,6 +205,12 @@
                 </RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="RzTable" class="scroll-mt-20 mt-6">RzTable</RzHeading>
+                <RzParagraph>
+                    <code>class</code> and other attributes on <code>RzTable</code> go on its scroll container (the element that
+                    scrolls sideways), not on the <code>&lt;table&gt;</code>: <code>class="max-h-64"</code> limits the scrolling area.
+                    Inside a flex layout, the container scrolls only when its parent can shrink (<code>min-w-0</code>);
+                    <code>SidebarInset</code> already can.
+                </RzParagraph>
                 <div class="not-prose mt-4 mb-8 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">

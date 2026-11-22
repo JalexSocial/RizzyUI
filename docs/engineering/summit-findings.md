@@ -45,16 +45,16 @@ tracks how much application code exists only to compensate.
 | Id | Owner | Area | Tag | Severity | Summary | Application | Library | Regression test |
 |---|---|---|---|---|---|---|---|---|
 | SF-001 | RizzyUI | RzDataTable | Gap | High | Client-side only: no way to carry table state into a request, no row update | Works (workaround: `AttendeeTableState`) | Open (decided: D-31) | e2e: attendees S-03, filters (workflow) |
-| SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works (workaround) | Open | e2e: schedule details sheet, attendees S-03 (workflow) |
-| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works (own `CloseEventName`) | Open (decided: D-29) | e2e: attendees S-04 (workflow) |
-| SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Open (decided: D-29) | n/a |
+| SF-002 | RizzyUI | RzSheet | Gap | Medium | No open/close event names (RzDialog has both); the server cannot close a sheet | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (sheet opened and closed by window events, rz:sheet:open/close), both builds (defect); e2e: attendees S-03 (workflow) |
+| SF-003 | RizzyUI | RzDialog | DX | Medium | The default close event is global: closing one dialog from the server closes all of them | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (close by id, close all), both builds (defect); e2e: attendees S-04 (workflow) |
+| SF-004 | RizzyUI docs | RzDialog docs | Docs | Medium | Docs name `rz:modal-close` and `Constants.Events.ModalClose`, which do not exist | n/a | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-005 | RizzyUI | RzChart | Bug | Medium | Colors from CSS variables are not re-read on theme change | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
 | SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
 | SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
 | SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works | Fixed in 1.0.0-preview.4 | bUnit: ModelPathNameTests (the five components post the model path like Blazor's InputText) (defect); e2e: contact upload, schedule filters (workflow) |
-| SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works (workaround) | Open | None |
-| SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works (designed around) | Open | e2e: unique-id check (defect) |
+| SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works | Fixed in 1.0.0-preview.4 | bUnit: RzSidebarProviderTests (persisted state from the request cookie) (defect) |
+| SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works | Fixed in 1.0.0-preview.4 | n/a (docs) |
 | SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
 | SF-013 | RizzyUI | RzInputOTP | Bug | Low | Inline `style` attribute breaks a strict `style-src` | Works | Fixed in 1.0.0-preview.4 | bUnit: no style attribute on the OTP input (defect); docs scan CSP build |
 | SF-014 | RizzyUI | RzDateEdit | Gap | Low | `Mode.Range` cannot bind to the single `DateTime?` it requires | Works (designed around: the dashboard range uses RzCalendar, SF-057/SF-058) | Open | n/a |
@@ -75,7 +75,7 @@ tracks how much application code exists only to compensate.
 | SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
 | SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click and rz:toggle:change), both builds (defect); e2e: schedule level toggles (workflow) |
 | SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
-| SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
+| SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: overlay-events.spec.ts (InitialFocus on a dialog and a sheet), both builds (defect); e2e: schedule session details (workflow) |
 | SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works | Fixed in 1.0.0-preview.4 | bUnit: input-group controls keep a caller id (defect); e2e: speakers search label (workflow) |
 | SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: head-content.spec.ts (a page with its own HeadContent keeps the theme in <head>), both builds; bUnit: RzThemeProviderTests (defect); e2e: shell, theme and track colors in <head> (workflow) |
 | SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
@@ -92,7 +92,7 @@ tracks how much application code exists only to compensate.
 | SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Affected (fast typists); test waits | Open | None (test waits for the match) |
 | SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
 | SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works (workaround: `edit()` calls `htmx.ajax`) | Open | e2e: attendees S-03 (workflow) |
-| SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works (workaround: `min-w-0`) | Open | Manual (page width checked in the browser) |
+| SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works | Fixed in 1.0.0-preview.4 | Manual (page width checked in the browser) |
 | SF-050 | RizzyUI | RzDataTable | DX | Low | In row templates, `row` is RizzyUI's view object (`{ id, row, cells }`), and the row data is camelCase while column ids keep the C# names | Works (uses `row.id`, `row.row.original.name`) | Open | e2e: attendees S-03 |
 | SF-051 | Summit | Attendees | Bug | Low | A hidden input named `Filter` matched the action parameter `filter`, so MVC bound `AttendeeServerFilter` with the prefix `filter.` and lost Status and Ticket | Fixed (renamed to `Search`) | n/a | e2e: attendees server filters |
 | SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzInputTextAreaTests.IsStyledLikeTheOtherInputs (defect); e2e: axe over the contact, checkout and attendee forms (workflow) |
@@ -142,17 +142,14 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Infrastructure/StatusPages.cs` | ~35 C# | SF-020 | Rizzy disabling status pages for htmx redirects and partial requests |
 | `Infrastructure/SelfHostedAssets.cs`, `vendor.json`, `scripts/fetch-vendor.mjs` | ~90 C#/JS/JSON | SF-012 | A RizzyUI option to serve its widget libraries locally |
 | `Program.cs`: absolute `ClientScriptUrl`; `AppLayout`: `"/@Assets[...]"` | 3 | SF-017 | Absolute default URLs |
-| `Infrastructure/Theming.cs`: `SidebarState` + `OrganizerLayout` `DefaultOpen` | ~10 C# | SF-010 | `RzSidebarProvider` reading its own cookie |
 | `Components/Shared/CommandNavigation.razor(.js)` | ~30 JS | SF-016 | `CommandItem.Href` |
 | `Components/Shared/SearchPalette.razor`: RzDialog + RzCommand instead of RzCommandDialog | ~10 Razor | SF-007 | `RzCommandDialog` with remote items |
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
-| `SessionDetails` sheet opened by swap with `DefaultOpen` | pattern | SF-002 | Sheet open/close events |
 | `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
 | a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
 | `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
-| `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
 | `Areas/Organizer/Features/Dashboard/DashboardFilters.razor.ts`: hidden range inputs and `send()` | ~35 TS | SF-058 | A provider that is a form participant |
 | `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
 | `role="img"` on indicators | 1 per use | SF-066 | Correct defaults |
@@ -250,6 +247,7 @@ finding on its own.
 - **Summit workaround:** the editor sheet is swapped in with `DefaultOpen="true"` and closed by
   swapping its container empty (an out-of-band swap).
 - **Library fix:** the same `EventTriggerName`/`CloseEventName` parameters as `RzDialog`.
+- **Fixed in 1.0.0-preview.4:** `RzSheet` takes `EventTriggerName` and `CloseEventName` (default `rz:sheet-close`, with an optional target id, D-29) and dispatches `rz:sheet:open` and `rz:sheet:close` (also for a sheet rendered open; close fires after focus returned). Summit's attendee editor is closed by `HX-Trigger: {"rz:sheet-close": {"id": "attendee-sheet"}}` instead of being removed; content loaded on demand still renders its sheet open with `DefaultOpen`, now documented.
 
 ### SF-003 Closing one dialog from the server closes all dialogs (planning)
 
@@ -260,6 +258,7 @@ finding on its own.
 - **Summit workaround:** every dialog sets its own `CloseEventName`.
 - **Library fix:** document it prominently; consider scoping the default name to the dialog id
   (`rz:dialog-close:{id}`) or accepting an id in the event detail.
+- **Fixed in 1.0.0-preview.4:** decision D-29: `rz:dialog-close` with `detail.id` closes only the dialog with that id; without one it closes every dialog. Summit's named close events (`attendees:bulk-close`, `builder:publish-close`, `settings:revoke-close`, `settings:create-key-close`, `summit:close-search`) are replaced by the one event with an id.
 
 ### SF-004 Dialog docs use an event and a constant that do not exist (planning)
 
@@ -268,6 +267,7 @@ finding on its own.
   shows `RizzyUI.Constants.Events.ModalClose`. The constant does not exist (the code would not compile)
   and the real default is `Constants.Events.DialogClose` = `rz:dialog-close`.
 - **Library fix:** correct both lines.
+- **Fixed in 1.0.0-preview.4:** the dialog page names `rz:dialog-close` and `Constants.Events.DialogClose` and shows a close by id; the JavaScript fallback `rz:modal-close` is gone.
 
 ### SF-005 RzChart keeps light-mode colors after switching to dark mode (planning)
 
@@ -327,6 +327,7 @@ finding on its own.
   it, so a collapsed sidebar renders open and then collapses.
 - **Summit workaround:** the layout reads the cookie and passes `DefaultOpen`.
 - **Library fix:** read the cookie in `RzSidebarProvider` when `PersistenceCookieName` is set.
+- **Fixed in 1.0.0-preview.4:** `RzSidebarProvider` renders the state in its persistence cookie when the request has one. Summit's `SidebarState` is deleted.
 
 ### SF-011 Sidebar content is rendered twice (planning)
 
@@ -335,6 +336,7 @@ finding on its own.
   container, so any fixed `id` inside it is duplicated.
 - **Summit workaround:** no fixed ids inside the sidebar.
 - **Library fix:** document it on the sidebar page.
+- **Fixed in 1.0.0-preview.4:** the sidebar page says that `Sidebar`'s `ChildContent` renders twice (mobile sheet and desktop panel) and to avoid fixed ids in it.
 
 ### SF-012 Widget libraries load from a CDN by default (planning)
 
@@ -586,6 +588,7 @@ finding on its own.
 - **Summit workaround:** put a control at the top of the content.
 - **Library fix:** focus the panel itself (with `tabindex="-1"`) or the title when there is no focusable
   element before the footer, or add an `InitialFocus` selector parameter as Radix (`onOpenAutoFocus`) does.
+- **Fixed in 1.0.0-preview.4:** `RzDialog` and `RzSheet` take `InitialFocus`, a selector for the element that takes focus when they open. Summit's session details sheet focuses its session page link with it instead of relying on element order.
 
 ### SF-033 You cannot choose an input's id
 
@@ -831,6 +834,7 @@ finding on its own.
   `RzTable` (its own container scrolls).
 - **Library fix:** add `min-w-0` to `SidebarInset`'s base classes; document which element `RzTable`'s
   `class` styles.
+- **Fixed in 1.0.0-preview.4:** `SidebarInset` has `min-w-0`, so a wide table scrolls inside it. `RzTable`'s `class` stays on the scroll container, now documented on the table page. Summit's `class="min-w-0"` is removed.
 
 ### SF-050 Two naming schemes in one DataTable template
 

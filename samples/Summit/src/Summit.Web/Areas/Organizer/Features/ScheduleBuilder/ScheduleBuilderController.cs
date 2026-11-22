@@ -88,8 +88,8 @@ public sealed class ScheduleBuilderController(ScheduleBuilder builder, IHtmxSwap
         var count = await builder.PublishAllAsync(User.Identity?.Name ?? "Organizer");
         swaps.AddSwappableComponent<SessionList>("session-list", new { Items = await builder.ItemsAsync() });
         toasts.Success(count == 0 ? "There were no drafts to publish." : $"{count} {(count == 1 ? "session" : "sessions")} published.", "Publish all");
-        // Close only this dialog (SF-003).
-        Response.Htmx(h => h.Trigger("builder:publish-close"));
+        // D-29: close only this dialog.
+        Response.Htmx(h => h.Trigger("rz:dialog-close", new { id = "publish-confirm" }));
         return PartialView<Components.Shared.Nothing>();
     }
 }

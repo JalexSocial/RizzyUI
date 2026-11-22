@@ -35,8 +35,17 @@ public static class Constants
         /// <summary>Fired by RizzyUI immediately before Alpine initializes.</summary>
         public const string Initialize = "rz:init";
 
-        /// <summary>The default event name for dialog closing.</summary>
+        /// <summary>
+        /// The default event name for closing dialogs. Without a detail it closes every open dialog;
+        /// with <c>{ "id": "..." }</c> only the dialog with that id (decision D-29).
+        /// </summary>
         public const string DialogClose = "rz:dialog-close";
+
+        /// <summary>
+        /// The default event name for closing sheets. Without a detail it closes every open sheet;
+        /// with <c>{ "id": "..." }</c> only the sheet with that id (decision D-29).
+        /// </summary>
+        public const string SheetClose = "rz:sheet-close";
 
         /// <summary>Fired when dialog is initialized.</summary>
         public const string DialogInitialized = "rz:dialog-initialized";

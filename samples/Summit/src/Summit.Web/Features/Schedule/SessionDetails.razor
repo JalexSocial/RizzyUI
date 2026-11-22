@@ -1,8 +1,9 @@
 @*
-    Session details in a side sheet, loaded with hx-get into #session-sheet and opened by rendering the
-    sheet with DefaultOpen. RzSheet has no event to open it from code or from the server (SF-002).
+    Session details in a side sheet, loaded with hx-get into #session-sheet and rendered open
+    (DefaultOpen): content loaded on demand opens as it arrives. InitialFocus puts focus on the session
+    page link, wherever it sits in the sheet.
 *@
-<RzSheet DefaultOpen="true">
+<RzSheet DefaultOpen="true" InitialFocus="#session-page-link">
     <SheetContent Side="SheetSide.Right" class="@($"track-{Session.Track.Slug} w-full overflow-y-auto sm:max-w-lg")">
         <SheetHeader>
             <p class="flex items-center gap-2 text-sm font-medium">
@@ -18,8 +19,7 @@
         </SheetHeader>
 
         <div class="flex flex-col gap-6 px-6 pb-6">
-            @* First focusable element: RzSheet focuses it on open, so it must be at the top (SF-032). *@
-            <RzButton Element="a" href="@($"/sessions/{Session.Slug}")" Variant="ThemeVariant.Primary" Size="Size.Small" class="w-fit">
+            <RzButton Element="a" id="session-page-link" href="@($"/sessions/{Session.Slug}")" Variant="ThemeVariant.Primary" Size="Size.Small" class="w-fit">
                 Open the session page
             </RzButton>
             <div class="flex flex-wrap gap-1.5">

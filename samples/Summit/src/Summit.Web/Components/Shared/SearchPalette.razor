@@ -9,7 +9,7 @@
 <div x-data class="contents"
      x-on:keydown.window.ctrl.k.prevent="$dispatch('summit:open-search')"
      x-on:keydown.window.meta.k.prevent="$dispatch('summit:open-search')">
-    <RzDialog EventTriggerName="summit:open-search" CloseEventName="summit:close-search">
+    <RzDialog EventTriggerName="summit:open-search">
         <DialogContent Size="ModalSize.Large" ShowCloseButton="false" class="overflow-hidden p-0" AriaLabel="Search Summit">
             <RzCommand Id="@CommandId" ItemsUrl="/api/search" ServerFiltering="true" FetchTrigger="FetchTrigger.OnOpen" ShouldFilter="false"
                        AriaLabel="Search sessions, speakers and pages" class="rounded-none border-0">

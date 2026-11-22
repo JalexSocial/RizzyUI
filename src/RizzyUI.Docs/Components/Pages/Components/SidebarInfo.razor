@@ -1325,7 +1325,7 @@
                         </thead>
                         <tbody class="divide-y">
                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the provider, which should include a <code>Sidebar</code>.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>DefaultOpen</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">The initial open state of the sidebar on desktop.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>DefaultOpen</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">The initial open state of the sidebar on desktop, when the request has no persistence cookie. With the cookie, the server renders the persisted state, so a collapsed sidebar does not render open first.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Collapsible</code></td><td class="p-4"><code>SidebarCollapsible</code></td><td class="p-4"><code>OffCanvas</code></td><td class="p-4">The collapsible behavior of the sidebar.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>KeyboardShortcut</code></td><td class="p-4"><code>string</code></td><td class="p-4"><code>b</code></td><td class="p-4">The keyboard key for the open/close shortcut (Cmd/Ctrl + key).</td></tr>
                             <tr class="align-top"><td class="p-4"><code>PersistenceCookieName</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>sidebar_state</code></td><td class="p-4">The name of the cookie to persist the sidebar's state. Null or empty disables persistence.</td></tr>
@@ -1343,7 +1343,7 @@
                             <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
                         </thead>
                         <tbody class="divide-y">
-                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the sidebar.</td></tr>
+                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the sidebar. It is rendered twice, once for the mobile sheet and once for the desktop panel, so avoid fixed <code>id</code> attributes inside it.</td></tr>
                              <tr class="align-top"><td class="p-4"><code>Side</code></td><td class="p-4"><code>SidebarSide</code></td><td class="p-4"><code>Left</code></td><td class="p-4">The side of the screen where the sidebar appears.</td></tr>
                              <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>SidebarVariant</code></td><td class="p-4"><code>Sidebar</code></td><td class="p-4">The visual variant of the sidebar.</td></tr>
                              <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">Localized "Sidebar navigation"</td><td class="p-4">Accessible label for the sidebar.</td></tr>

@@ -47,6 +47,18 @@ public partial class RzSidebarProvider : RzComponent<RzSidebarProvider.Slots>
     public string? PersistenceCookieName { get; set; } = "sidebar_state";
 
     /// <summary>
+    /// The open state to render: the persistence cookie's value when the request has one (the sidebar
+    /// writes it in the browser), otherwise <see cref="DefaultOpen"/>. Reading it on the server keeps a
+    /// collapsed sidebar from rendering open and then collapsing (Summit SF-010).
+    /// </summary>
+    protected bool EffectiveDefaultOpen =>
+        !string.IsNullOrEmpty(PersistenceCookieName)
+        && CurrentHttpContext?.Request.Cookies[PersistenceCookieName] is { } value
+        && bool.TryParse(value, out var open)
+            ? open
+            : DefaultOpen;
+
+    /// <summary>
     /// The width of the sidebar on desktop. Defaults to "16rem".
     /// </summary>
     [Parameter]

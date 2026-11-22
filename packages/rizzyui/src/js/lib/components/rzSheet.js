@@ -15,15 +15,34 @@ export default function rzSheet() {
             this.modal = this.$el.dataset.modal !== 'false';
             this.dismissOnOutsideClick = this.$el.dataset.dismissOnOutsideClick !== 'false';
 
+            // SF-002, D-29: open and close from window events (HX-Trigger, $dispatch). A detail id
+            // targets one sheet; without one, every sheet listening for the event reacts.
+            const targets = (event) => {
+                const id = event?.detail?.id;
+                return !id || id === this.$el.id;
+            };
+            const openEvent = this.$el.dataset.eventTriggerName || '';
+            const closeEvent = this.$el.dataset.closeEventName || 'rz:sheet-close';
+            this._onOpenEvent = (event) => { if (targets(event)) this.show(); };
+            this._onCloseEvent = (event) => { if (targets(event)) this.close(); };
+            if (openEvent) window.addEventListener(openEvent, this._onOpenEvent);
+            window.addEventListener(closeEvent, this._onCloseEvent);
+            this._eventNames = { openEvent, closeEvent };
+
+            // D-24: rz:sheet:open and rz:sheet:close notify state changes. Close fires after focus has
+            // returned to where it was, so a listener can move it elsewhere.
+            const notify = (isOpen) => this.$el.dispatchEvent(new CustomEvent(isOpen ? 'rz:sheet:open' : 'rz:sheet:close', { bubbles: true, detail: { id: this.$el.id } }));
             this.$watch('open', (isOpen) => {
                 if (isOpen) {
                     this.registerInteractions();
                     this.applyClosedState(false);
+                    notify(true);
                     return;
                 }
 
                 this.teardownInteractions();
                 this.applyClosedState(true);
+                notify(false);
             });
 
             // The panel is teleported, and its x-ref is registered only after this init() runs.
@@ -35,6 +54,8 @@ export default function rzSheet() {
                 this.applyClosedState(!this.open);
                 if (this.open) {
                     this.registerInteractions();
+                    // A sheet rendered open (DefaultOpen) opened too.
+                    notify(true);
                 }
             });
         },
@@ -64,7 +85,11 @@ export default function rzSheet() {
                 // Activate once the panel is shown.
                 this.$nextTick(() => {
                     if (!this.open || this.focusScope || !panel.isConnected) return;
-                    this.focusScope = createFocusScope(panel, { fallbackFocus: panel });
+                    this.focusScope = createFocusScope(panel, {
+                        fallbackFocus: panel,
+                        // SF-032: a selector for the element that takes focus when the sheet opens.
+                        initialFocus: this.$el.dataset.initialFocus || null,
+                    });
                     this.focusScope.activate();
                 });
             }
@@ -75,6 +100,8 @@ export default function rzSheet() {
             // swap). Without this, an open sheet would leave its dismissable layer, and that
             // layer's document listeners, registered after the DOM is gone.
             this.teardownInteractions();
+            if (this._eventNames?.openEvent) window.removeEventListener(this._eventNames.openEvent, this._onOpenEvent);
+            if (this._eventNames) window.removeEventListener(this._eventNames.closeEvent, this._onCloseEvent);
         },
 
         teardownInteractions() {

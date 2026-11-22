@@ -45,8 +45,8 @@
     <AttendeeTable Model="Table" />
 
     @* Opened by confirmBulk() with a window event; closed by the server's HX-Trigger after the action
-       (a named close event, so it closes only this dialog: SF-003). *@
-    <RzAlertDialog EventTriggerName="attendees:bulk-confirm" CloseEventName="attendees:bulk-close" CloseOnEscape>
+       (rz:dialog-close with this dialog's id, D-29). *@
+    <RzAlertDialog Id="bulk-confirm" EventTriggerName="attendees:bulk-confirm" CloseOnEscape>
         <AlertDialogContent>
             <AlertDialogHeader>
                 <AlertDialogTitle>Confirm bulk action</AlertDialogTitle>

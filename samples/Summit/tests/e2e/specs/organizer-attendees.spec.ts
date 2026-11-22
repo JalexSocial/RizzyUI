@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 
 // Organizer › Attendees: an RzDataTable whose client state (sort, page, search, hidden columns,
 // selection) survives every server rebuild of the table (SF-001), an editor in a sheet opened by a
-// swap and closed by removal (SF-002), and bulk actions confirmed in an alert dialog (SF-003).
+// swap and closed by rz:sheet-close (SF-002), and bulk actions confirmed in an alert dialog (SF-003).
 // Scenarios S-03 and S-04 in summit-demo-plan.md. The plan's S-03 opens the editor from a row menu;
 // Summit uses a row button because Alpine-rendered rows cannot carry hx-get (SF-048).
 
