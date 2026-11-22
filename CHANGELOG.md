@@ -26,6 +26,7 @@ Finding IDs (RZUI-0xx) refer to the
 
 - **`ChartBuilder.Type(...)`** sets a chart's type; without it `RzChart` uses the first dataset's type (Summit SF-059).
 - **`<RzThemeHeadOutlet />`** renders the theme of `RzThemeProvider` in `<head>` (Summit SF-034). Place it next to `<RzHeadOutlet />` when `RzThemeProvider` wraps the page body; the starter template does.
+- **`RzButton AsChild`** (Summit SF-018): renders its single child, typically `<a href>`, with the button's styling and attributes instead of a `<button>`. Before, `AsChild` became an unknown attribute and the link was nested inside a button (invalid, two tab stops); the starter template's 404 page did this.
 
 ### Changed
 

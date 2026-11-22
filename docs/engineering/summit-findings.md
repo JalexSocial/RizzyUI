@@ -61,7 +61,7 @@ tracks how much application code exists only to compensate.
 | SF-015 | RizzyUI | RzToggle | DX | Low | Posts nothing; filters built from toggles need custom code | Works (workaround) | Open | e2e: level toggles (workflow) |
 | SF-016 | RizzyUI | RzCommand | Gap | Medium | Command items have no link or href: Enter on an item does nothing unless the app handles `rz:command:execute` | Works (workaround) | Open | e2e: quick actions, search palette (workflow) |
 | SF-017 | Rizzy, template | Asset URLs | DX | Medium | `Assets[...]` and Rizzy's default `ClientScriptUrl` are relative; without `<base href="/">` styles and scripts 404 on nested URLs, and with it in-page links break | Works (workaround) | Open | Summit.Tests: absolute asset URLs (defect) |
-| SF-018 | RizzyUI, template | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Works (workaround) | Open | axe nested-interactive (defect) |
+| SF-018 | RizzyUI, template | RzButton | Bug | High | No `AsChild`: `<RzButton AsChild><a>` renders a link inside a button (invalid, two tab stops). The starter template's 404 page and the docs do this | Works | Fixed in 1.0.0-preview.4 | bUnit: RzButtonTests.AsChild_* (defect); the starter template's 404 page (slice 10 adds a browser check) |
 | SF-019 | RizzyUI docs | RzNavigationMenu docs | Docs | Medium | The docs' `ListItem` example puts `RzLink` inside `NavigationMenuLink`, which already renders an `<a>`: nested anchors | Works (workaround) | Open | e2e: unique-id check (defect) |
 | SF-020 | Rizzy, template | Rizzy + starter | Bug | High | `UseStatusCodePagesWithReExecute` (starter template) swallows `UseHtmxRedirects`' 401 + `HX-Redirect`, and turns every empty 4xx (antiforgery 400, 401, 405) into "Page not found" with status 404 | Works (workaround) | Open | Summit.Tests: htmx redirect, antiforgery 400 (defect) |
 | SF-021 | Template | Starter template | Bug | High | `<body hx-boost="true">` boosts nothing in htmx 4 (no implicit inheritance): every link is a full page load | Works (fixed in Summit) | Open | e2e: boosted navigation keeps window (defect) |
@@ -413,6 +413,7 @@ finding on its own.
 - **Summit workaround:** `<RzButton Element="a" href="…">`.
 - **Library fix:** support `AsChild` on `RzButton` (merge classes into the child, as triggers do), or
   fail loudly when an unknown `AsChild` attribute is passed; fix the template and docs.
+- **Fixed in 1.0.0-preview.4:** `RzButton` has an `AsChild` parameter: it renders its single child (a link) with the button's classes, `data-slot`, accessible name and attributes merged in (the child's own attributes win, classes merge). It renders through an internal `AsChildHost` (an `RzAsChildComponent`), so `RzButton` keeps its base class and its public descriptor type. The starter template's 404 page works as written; the Popover docs snippet put `AsChild` on the button instead of the trigger and is corrected. Summit keeps `Element="a"`, which is a supported way to render a link button.
 
 ### SF-019 NavigationMenuLink docs example nests links
 

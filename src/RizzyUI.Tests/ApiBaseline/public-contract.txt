@@ -1302,6 +1302,7 @@ RizzyUI.RzBrowser
 RizzyUI.RzButton
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   Animate: System.Boolean
+  AsChild: System.Boolean
   AssistiveLabel: System.String
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
   Classes: RizzyUI.RzButton.Slots
