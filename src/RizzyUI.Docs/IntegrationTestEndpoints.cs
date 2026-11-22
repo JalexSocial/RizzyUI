@@ -45,6 +45,12 @@ public static class IntegrationTestEndpoints
 
         group.MapGet("/datatable/empty", () => Results.Content(string.Empty, "text/html"));
 
+        // RzCommand remote items (Summit SF-040), filtered by ?q= when the command filters on the server.
+        group.MapGet("/command/items", (string? q) => Results.Json(
+            new[] { "Alpha", "Bravo", "Charlie", "Delta" }
+                .Where(name => string.IsNullOrEmpty(q) || name.Contains(q, StringComparison.OrdinalIgnoreCase))
+                .Select(name => new { value = name.ToLowerInvariant(), name })));
+
         // Code-behind harness (/_tests/codebehind): code-behind components in an htmx swap.
         group.MapGet("/codebehind/fragment", (IRizzyService rizzy) =>
             rizzy.PartialView<CodeBehindFragment>(new { Round = Interlocked.Increment(ref _round) }));

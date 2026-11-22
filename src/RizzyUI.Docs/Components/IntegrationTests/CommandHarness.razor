@@ -1,0 +1,37 @@
+@page "/_tests/command"
+@layout HarnessLayout
+@* RzCommand data-driven items (Summit SF-040): Items rendered through CommandItemTemplate, and
+   ItemsUrl loaded from /_tests/command/items. Mapped only when Docs:EnableTestPages is true. *@
+
+<PageTitle>Command harness</PageTitle>
+
+<div class="grid gap-8 p-6 md:grid-cols-2">
+    <RzCommand Id="command-items" class="rounded-lg border" Items="@_items" AriaLabel="Static commands">
+        <CommandInput Placeholder="Search static items" />
+        <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandItemTemplate>
+                <span x-text="item.name"></span>
+            </CommandItemTemplate>
+        </CommandList>
+    </RzCommand>
+
+    <RzCommand Id="command-remote" class="rounded-lg border" ItemsUrl="/_tests/command/items" AriaLabel="Remote commands">
+        <CommandInput Placeholder="Search remote items" />
+        <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandItemTemplate>
+                <span x-text="item.name"></span>
+            </CommandItemTemplate>
+        </CommandList>
+    </RzCommand>
+</div>
+
+@code {
+    private readonly List<CommandItemData> _items =
+    [
+        new() { Value = "open", Name = "Open file" },
+        new() { Value = "save", Name = "Save file" },
+        new() { Value = "close", Name = "Close window" },
+    ];
+}

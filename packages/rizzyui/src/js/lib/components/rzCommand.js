@@ -106,7 +106,10 @@ export default function rzCommand() {
             this.itemsUrl = this.$el.dataset.itemsUrl || null;
             this.fetchTrigger = this.$el.dataset.fetchTrigger || 'immediate';
             this.serverFiltering = this.$el.dataset.serverFiltering === 'true';
-            this.dataItemTemplateId = this.$el.dataset.templateId || null;
+            // RzCommand always renders the id its CommandItemTemplate uses; a command without a
+            // template has no such element (SF-040).
+            const templateId = this.$el.dataset.templateId || null;
+            this.dataItemTemplateId = templateId && document.getElementById(templateId) ? templateId : null;
             this.maxRender = Number.parseInt(this.$el.dataset.maxRender || '100', 10);
 
             const itemsScriptId = this.$el.dataset.itemsId;

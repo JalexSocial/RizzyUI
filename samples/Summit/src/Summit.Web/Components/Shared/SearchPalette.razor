@@ -1,4 +1,3 @@
-@attribute [RzAlpineCodeBehind]
 @*
     The site-wide search palette (Ctrl+K / Cmd+K, or the search button in the header).
 
@@ -6,13 +5,10 @@
     ServerFiltering through (summit-findings.md SF-007). Items come from /api/search as JSON; each
     item's value is a URL, which CommandNavigation follows. The keyboard shortcut is a window listener
     on this wrapper, since RzCommand has none built in.
-
-    The code-behind (SearchPalette.razor.js) works around SF-040: RzCommand never renders the id of its
-    CommandItemTemplate, so data-driven items would not render at all.
 *@
-<RzAlpineComponent For="this" Props="@(new { CommandId })"
-                   x-on:keydown.window.ctrl.k.prevent="$dispatch('summit:open-search')"
-                   x-on:keydown.window.meta.k.prevent="$dispatch('summit:open-search')">
+<div x-data class="contents"
+     x-on:keydown.window.ctrl.k.prevent="$dispatch('summit:open-search')"
+     x-on:keydown.window.meta.k.prevent="$dispatch('summit:open-search')">
     <RzDialog EventTriggerName="summit:open-search" CloseEventName="summit:close-search">
         <DialogContent Size="ModalSize.Large" ShowCloseButton="false" class="overflow-hidden p-0" AriaLabel="Search Summit">
             <RzCommand Id="@CommandId" ItemsUrl="/api/search" ServerFiltering="true" FetchTrigger="FetchTrigger.OnOpen" ShouldFilter="false"
@@ -31,7 +27,7 @@
             </RzCommand>
         </DialogContent>
     </RzDialog>
-</RzAlpineComponent>
+</div>
 
 @code {
     private const string CommandId = "site-search";

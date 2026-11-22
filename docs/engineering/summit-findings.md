@@ -83,7 +83,7 @@ tracks how much application code exists only to compensate.
 | SF-037 | RizzyUI | RzFileInput | A11y | Medium | The dropzone is a `role="button"` named "File input" while it shows "Drag and drop files here or click to upload" (WCAG 2.5.3), and the name says nothing about which file | Works (workaround) | Open | axe label-content-name-mismatch (defect) |
 | SF-038 | RizzyUI | RzItemGroup | A11y | Medium | `RzItemGroup` is `role="list"` but `RzItem` has no `listitem` role (axe: aria-required-children, critical) | Works (workaround) | Open | axe aria-required-children (defect) |
 | SF-039 | RizzyUI | Lazy components | DX | Low | Window events sent before a lazily loaded component has initialized are lost (a dialog's `EventTriggerName`, Ctrl+K right after load) | Affected (early keypresses) | Open | None (tests wait for components) |
-| SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works (workaround) | Open | e2e: search palette (workflow) |
+| SF-040 | RizzyUI | RzCommand | Bug | High | Data-driven items (`Items` or `ItemsUrl` with `CommandItemTemplate`) never render: `data-template-id` is always empty, so the client reports "No data template found" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: command.spec.ts (Items and ItemsUrl with CommandItemTemplate), both builds (defect); e2e: site search (workflow) |
 | SF-041 | Rizzy, RizzyUI | Error feedback | Gap | Low | `UseHtmxErrorHandling` raises `rz:server-error`, but nothing shows it: every app writes the same listener to turn it (and htmx network errors) into a toast | Works (workaround) | Open | e2e: dashboard failed request (toast) |
 | SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works (workaround) | Open | CI: summit job builds from a clean checkout (defect) |
 | SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works (workaround) | Open (decided: D-30) | e2e: checkout entry link (workflow) |
@@ -144,7 +144,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Program.cs`: absolute `ClientScriptUrl`; `AppLayout`: `"/@Assets[...]"` | 3 | SF-017 | Absolute default URLs |
 | `Infrastructure/Theming.cs`: `SidebarState` + `OrganizerLayout` `DefaultOpen` | ~10 C# | SF-010 | `RzSidebarProvider` reading its own cookie |
 | `Components/Shared/CommandNavigation.razor(.js)` | ~30 JS | SF-016 | `CommandItem.Href` |
-| `Components/Shared/SearchPalette.razor.js` | ~20 JS | SF-040 (and composition for SF-007) | A fixed `RzCommand` template id; `RzCommandDialog` with remote items |
+| `Components/Shared/SearchPalette.razor`: RzDialog + RzCommand instead of RzCommandDialog | ~10 Razor | SF-007 | `RzCommandDialog` with remote items |
 | `Components/Shared/AppNotifications.razor(.js)` | ~25 JS | SF-041 | A built-in server-error toast |
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
@@ -686,6 +686,7 @@ finding on its own.
 - **Library fix:** compute the template id from the command's id in `RzCommand` itself (it is
   deterministic), instead of waiting for the child to report it; add an integration test for
   `ItemsUrl` and `Items`.
+- **Fixed in 1.0.0-preview.4:** `RzCommand` derives the template id from its own id (`{id}-data-item-template`) and always renders it; `CommandItemTemplate` takes the same id, and the client treats the id as absent when no template element exists. Summit's `SearchPalette.razor.js` is deleted (the palette keeps its RzDialog + RzCommand composition for SF-007).
 
 ### SF-041 Every app needs the same server-error listener
 
