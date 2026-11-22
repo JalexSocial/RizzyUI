@@ -2,7 +2,7 @@
 @inherits RzComponent<DataTableSortToggle.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             id="@Id"
+             id="@(HasExplicitId ? Id : null)"
              data-slot="data-table-sort-toggle" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
              x-bind:disabled="@DisabledExpr"

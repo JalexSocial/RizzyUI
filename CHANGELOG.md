@@ -46,6 +46,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RizzyUIConfig.LocalAssetPath` and `RizzyUIAssets.Vendor`** (Summit SF-012): serve the widget libraries (Chart.js, Tom Select, flatpickr, vanilla-calendar-pro, Coloris, Embla, rough-notation) from your own site, in jsDelivr's `{package}@{version}/{file}` layout, with the same integrity hashes.
 - **Events sent before a component starts are kept** (Summit SF-039): a dialog's or sheet's `EventTriggerName` event that arrives while its code is still loading opens it once it starts. `Rizzy.componentsReady()` and the `rz:ready` document event tell tests and apps when the page's components have started.
 - **`RzDataTable` state transport** (decision D-31, Summit SF-001): `StateInputName` keeps a hidden input with the table's sorting, page, filters and column visibility (and, with `IncludeSelectionInState`, the selection) as versioned JSON; bind it as `RzDataTableState` and rebuild the table from `ToInitialState()` so it keeps the user's place.
+- **`RzTable.AriaLabel`** (Summit SF-063): the scroll container is focusable for keyboard scrolling, and a named region with `AriaLabel`.
 
 ### Changed
 
@@ -91,6 +92,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **ARIA fixes** found by axe (Summit SF-035, SF-038, SF-071, SF-075, SF-076, SF-079, SF-084): `RzAuroraText` renders its label as hidden text and needs no inline style by default; `RzItem` is a list item inside `RzItemGroup`; `RzClipboard` is at least 24 px; `SidebarGroup` no longer points at a missing label; `RzPopover`'s label names its content; an empty `CommandList` is not a listbox; Markdown code blocks are focusable.
 - **Sidebar action buttons meet the 24 px target size** (Summit SF-080): `SidebarMenuAction` and `SidebarGroupAction` are `w-6`.
 - **No MODULE_TYPELESS_PACKAGE_JSON warning** from `@jalexsocial/rizzyui/testing` (Summit SF-072): the package's ES module folders declare `"type": "module"`.
+- **`hx-*` in DataTable row templates works** (Summit SF-048): the table processes the rows Alpine renders.
+- **No repeated ids in DataTable rows** (Summit SF-054): row-template helpers render an id only when given one, and the table drops generated ids copied from its `x-for` templates.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

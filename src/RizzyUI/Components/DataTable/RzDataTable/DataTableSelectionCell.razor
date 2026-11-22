@@ -2,7 +2,7 @@
 @inherits RzComponent<DataTableSelectionCell.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             id="@Id"
+             id="@(HasExplicitId ? Id : null)"
              data-slot="data-table-selection-cell" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()">
     <div class="@SlotClasses.GetContent()" data-slot="@DataTableSelectionCell.SlotNames.NameOf(SlotTypes.Content)">

@@ -51,4 +51,24 @@
             </RzTable>
         </RzDataTable>
     </section>
+
+    @* Summit SF-048: hx-* attributes in a row template work (rows are rendered by Alpine after htmx ran). *@
+    <section aria-labelledby="actions-heading" class="space-y-3">
+        <h2 id="actions-heading" class="text-lg font-medium">Row actions</h2>
+        <RzDataTable TItem="ProductRow" Id="actions-table" Items="Products" Config="ProductsConfig" RowIdSelector="x => x.Id">
+            <RzTable Border AriaLabel="Row actions">
+                <TableBody>
+                    <template x-for="row in rows" :key="row.id">
+                        <TableRow>
+                            <TableCell>
+                                <button type="button" class="underline" name="id" x-bind:value="row.id" data-row-action
+                                        hx-get="/_tests/datatable/row-action" hx-target="#row-action-result" hx-swap="innerHTML">Open</button>
+                            </TableCell>
+                        </TableRow>
+                    </template>
+                </TableBody>
+            </RzTable>
+        </RzDataTable>
+        <p>Last action: <span id="row-action-result">none</span></p>
+    </section>
 </div>

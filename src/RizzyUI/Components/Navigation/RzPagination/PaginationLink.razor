@@ -2,7 +2,7 @@
 @inherits RzComponent<PaginationLink.Slots>
 
 <HtmlElement Element="@EffectiveElement" data-slot="@PaginationLink.SlotNames.NameOf(SlotTypes.Base)" @attributes="@AdditionalAttributes"
-             id="@Id"
+             id="@(HasExplicitId ? Id : null)"
              href="@Href"
              class="@SlotClasses.GetBase()"
              aria-label="@AriaLabel"

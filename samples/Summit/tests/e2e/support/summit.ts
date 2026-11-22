@@ -141,37 +141,22 @@ export async function expectNoDanglingAriaReferences(page: Page) {
 
 /**
  * No duplicate ids on the page (invalid HTML, and it breaks aria references and htmx targets).
- * Two known library defects are reported as annotations instead of failures, so the check still
- * catches everything else: the empty id="" Rizzy's radio inputs render (summit-findings.md SF-047), and
- * the ids RizzyUI components render inside an
- * Alpine x-for template, which Alpine copies into every row (SF-054). Only ids that appear in a
- * <template> are treated as the last kind.
+ * One known library defect is reported as an annotation instead of a failure, so the check still
+ * catches everything else: the empty id="" Rizzy's radio inputs render (summit-findings.md SF-047).
  */
 export async function expectUniqueIds(page: Page) {
-  const { duplicates, emptyIds, templated } = await page.evaluate(() => {
+  const { duplicates, emptyIds } = await page.evaluate(() => {
     const seen = new Map<string, number>();
-    const inTemplates = new Set<string>();
-    const collect = (root: ParentNode) => {
-      for (const template of root.querySelectorAll('template')) {
-        for (const element of template.content.querySelectorAll('[id]')) if (element.id) inTemplates.add(element.id);
-        collect(template.content);
-      }
-    };
-    collect(document);
     let emptyIds = 0;
     for (const element of document.querySelectorAll('[id]')) {
       if (element.id === '') { emptyIds++; continue; }
       seen.set(element.id, (seen.get(element.id) ?? 0) + 1);
     }
-    const repeated = [...seen].filter(([, count]) => count > 1);
     return {
-      duplicates: repeated.filter(([id]) => !inTemplates.has(id)).map(([id, count]) => `${id} ×${count}`),
-      templated: repeated.filter(([id]) => inTemplates.has(id)).length,
+      duplicates: [...seen].filter(([, count]) => count > 1).map(([id, count]) => `${id} ×${count}`),
       emptyIds,
     };
   });
-  const info = test.info();
-  if (emptyIds > 0) info.annotations.push({ type: 'known-defect', description: `SF-047: ${emptyIds} elements with id=""` });
-  if (templated > 0) info.annotations.push({ type: 'known-defect', description: `SF-054: ${templated} ids copied from x-for templates` });
+  if (emptyIds > 0) test.info().annotations.push({ type: 'known-defect', description: `SF-047: ${emptyIds} elements with id=""` });
   expect(duplicates).toEqual([]);
 }

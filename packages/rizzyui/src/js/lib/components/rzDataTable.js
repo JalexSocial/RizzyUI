@@ -780,13 +780,102 @@ export default function rzDataTable() {
             this._lastStatePayload = normalizeStatePayload(this.table.getState(), componentId, this.table);
             writeStateInput(this.$el, this.table.getState());
             this.bindGeneratedSelectionCells(componentId);
+            this.processHtmxInRows();
 
             this.dispatchEvent('rz:datatable:ready', {
                 componentId,
             });
         },
 
+        /**
+         * Rows are rendered by Alpine (x-for) after htmx processed the page, so hx-* attributes in a row
+         * template would do nothing. Process the elements Alpine adds (Summit SF-048). Ids that come from
+         * the table's own templates (a component's generated id) would repeat in every row, so the copies
+         * lose them (SF-054).
+         */
+        processHtmxInRows() {
+            if (typeof MutationObserver !== 'function' || !this.$el || typeof this.$el.querySelectorAll !== 'function') {
+                return;
+            }
+
+            // Ids inside x-for templates (copied once per row), including templates nested in them.
+            const templateIds = new Set();
+            const collect = (root, inLoop) => {
+                for (const template of root.querySelectorAll('template')) {
+                    const loop = inLoop || template.hasAttribute('x-for');
+                    if (loop) {
+                        for (const element of template.content.querySelectorAll('[id]')) {
+                            templateIds.add(element.id);
+                        }
+                    }
+                    collect(template.content, loop);
+                }
+            };
+            collect(this.$el, false);
+            const dropTemplateIds = (node) => {
+                if (templateIds.size === 0) {
+                    return;
+                }
+                if (node.id && templateIds.has(node.id)) {
+                    node.removeAttribute('id');
+                }
+                for (const element of node.querySelectorAll('[id]')) {
+                    if (templateIds.has(element.id)) {
+                        element.removeAttribute('id');
+                    }
+                }
+            };
+
+            const process = (root) => {
+                const htmx = window.htmx;
+                if (!htmx || typeof htmx.process !== 'function') {
+                    return;
+                }
+                htmx.process(root);
+            };
+
+            let pending = new Set();
+            let scheduled = false;
+            this._rowObserver = new MutationObserver((mutations) => {
+                for (const mutation of mutations) {
+                    for (const node of mutation.addedNodes) {
+                        if (node.nodeType === 1) {
+                            dropTemplateIds(node);
+                            pending.add(node);
+                        }
+                    }
+                }
+                if (scheduled || pending.size === 0) {
+                    return;
+                }
+                scheduled = true;
+                // After Alpine has bound the clone's attributes (x-bind:hx-get) in the same tick.
+                queueMicrotask(() => {
+                    scheduled = false;
+                    const nodes = pending;
+                    pending = new Set();
+                    for (const node of nodes) {
+                        if (node.isConnected) {
+                            process(node);
+                        }
+                    }
+                });
+            });
+            this._rowObserver.observe(this.$el, { childList: true, subtree: true });
+            // Rows Alpine rendered before the observer started.
+            for (const template of this.$el.querySelectorAll('template')) {
+                let sibling = template.nextElementSibling;
+                while (sibling && sibling.tagName !== 'TEMPLATE') {
+                    dropTemplateIds(sibling);
+                    sibling = sibling.nextElementSibling;
+                }
+            }
+            process(this.$el);
+        },
+
         destroy() {
+            this._rowObserver?.disconnect();
+            this._rowObserver = null;
             if (this._boundSelectionChange) {
                 this.$el?.removeEventListener?.('change', this._boundSelectionChange);
                 this._boundSelectionChange = null;

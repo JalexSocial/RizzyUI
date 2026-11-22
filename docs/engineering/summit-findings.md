@@ -91,13 +91,13 @@ tracks how much application code exists only to compensate.
 | SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: focus moves to the first invalid field (defect); e2e: forms after a 422 (workflow) |
 | SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Works | Fixed in 1.0.0-preview.4 | e2e: checkout attendee countries without a wait (workflow) |
 | SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
-| SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works (workaround: `edit()` calls `htmx.ajax`) | Open | e2e: attendees S-03 (workflow) |
+| SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: datatable.spec.ts (hx-get in a row template issues its request), both builds (defect); e2e: attendees S-03 (workflow) |
 | SF-049 | RizzyUI | RzSidebar, RzTable | DX | Low | `SidebarInset` grows to the width of a wide table instead of letting it scroll (no `min-w-0`); `RzTable`'s `class` goes on the scroll container, not the `<table>` | Works | Fixed in 1.0.0-preview.4 | Manual (page width checked in the browser) |
 | SF-050 | RizzyUI | RzDataTable | DX | Low | In row templates, `row` is RizzyUI's view object (`{ id, row, cells }`), and the row data is camelCase while column ids keep the C# names | Works (uses `row.id`, `row.row.original.name`) | Open | e2e: attendees S-03 |
 | SF-051 | Summit | Attendees | Bug | Low | A hidden input named `Filter` matched the action parameter `filter`, so MVC bound `AttendeeServerFilter` with the prefix `filter.` and lost Status and Ticket | Fixed (renamed to `Search`) | n/a | e2e: attendees server filters |
 | SF-052 | RizzyUI | RzInputTextArea | Bug | Medium | `RzInputTextArea` renders without the shared input styles (no border, background, padding or focus ring) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzInputTextAreaTests.IsStyledLikeTheOtherInputs (defect); e2e: axe over the contact, checkout and attendee forms (workflow) |
 | SF-053 | RizzyUI | RzDataTable | Bug | Medium | `DataTableSortToggle` is named "Sort ascending" / "Clear sort" with no column, hiding its visible text (WCAG 2.5.3, axe `label-content-name-mismatch`); the strings are English-only | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: datatable.spec.ts and the datatable accessibility fixtures (toggle named after its column) (defect); e2e: attendees (workflow) |
-| SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Affected (invalid HTML); check annotates | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
+| SF-054 | RizzyUI | RzDataTable, RzTable | Bug | Medium | RizzyUI components inside a DataTable `x-for` template render a fixed server id, which Alpine copies into every row (one id 90 times on a 10-row page) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: datatable.spec.ts (no repeated ids after rows render) (defect); docs scan (template-id entry removed); e2e: unique-id check without the template exception |
 | SF-055 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Pressing Tab in a multiple `RzCombobox` sends focus to `<body>`: the `checkbox_options` plugin RizzyUI adds puts a tabbable checkbox in every option, and Tom Select hides the list on blur | Works | Fixed in 1.0.0-preview.4 | e2e: attendee tags, Tab moves on to Notes (workflow) |
 | SF-056 | RizzyUI | RzDataTable | DX | Medium | A standard table (sorting, selection, search, column menu, paging, empty state) takes about 130 lines of headless markup with string expressions; there is no default rendering | Works | Open | n/a |
 | SF-057 | RizzyUI | RzCalendar, RzPopover | Bug | High | In the documented "Range Popover" pattern (provider around a popover) the calendar is teleported to `<body>`, so its events never reach `RzCalendarProvider`: the provider never sees the calendar or a click | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: calendar-popover.spec.ts (the docs Range Popover example), both builds (defect); e2e: dashboard calendar range (workflow) |
@@ -106,7 +106,7 @@ tracks how much application code exists only to compensate.
 | SF-060 | RizzyUI | RzNumberTicker | Bug | High | `data-value` is written with the current culture, so a decimal is `96356,2` under de-DE; the script parses it as 0 and the ticker shows €0,00 | Works | Fixed in 1.0.0-preview.4 | bUnit: InvariantMarkupTests (every component with a fractional parameter under de-DE) (defect); e2e: culture S-12 revenue with cents (workflow) |
 | SF-061 | RizzyUI | RzChart | Bug | Low | The chart's base element has no height and its container has `min-h-[300px]`, so in a sized parent the canvas grows past it (484 px in a 224 px box) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts (fixed-height parent), both builds (defect) |
 | SF-062 | RizzyUI | RzChart | Bug | High | RzChart keeps the Chart.js instance in Alpine's reactive state: `update()` on a theme change throws ("Maximum call stack size exceeded"), and `destroy()` on the proxy leaves the chart registered, so replacing a chart during its animation throws "reading 'save'" | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: chart.spec.ts, both builds (defect); e2e: dashboard dark mode (workflow) |
-| SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works (workaround: `tabindex`, `role`, `aria-label`) | Open | e2e: dashboard axe; docs scan (known-defect list) |
+| SF-063 | RizzyUI | RzTable | Bug | Low | RzTable's scroll container cannot take focus, so a table without focusable cells cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | Works | Fixed in 1.0.0-preview.4 | docs scan (table entry removed); e2e: axe on dashboard, check-in and settings tables |
 | SF-064 | RizzyUI | RzInputOTP | DX | Low | Extra attributes go to the container, not the input, so `autofocus` (and `autocapitalize`, `enterkeyhint`) cannot be set; a desk that must refocus the badge field needs script | Works | Fixed in 1.0.0-preview.4 | bUnit: InputAttributes reach the native input (defect); e2e: check-in badge field (workflow) |
 | SF-065 | RizzyUI | RzAlert | Bug | Medium | Colored alert variants set the base text to the variant's `*-foreground` (made for a solid fill) on a 10% tint: content without its own color is unreadable (1.14:1 in light mode) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzAlertTests.TintedStatusAlerts_UseTheForegroundColorForContent (defect); e2e: check-in axe (workflow) |
 | SF-066 | RizzyUI | RzIndicator | Bug | Low | RzIndicator puts `aria-label` (default "Indicator") on a `div` without a role (axe `aria-prohibited-attr`) | Works | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (an indicator is an image with a label, decorative without) (defect); docs scan entry removed |
@@ -146,8 +146,7 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
 | `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
-| `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: `edit()`, focus return, selection count | ~50 TS/Razor | SF-048, SF-002 | Processed rows (SF-048); focus return is application behavior |
-| `RecentOrders.razor`: `tabindex`/`role`/`aria-label` on `RzTable` | 1 | SF-063 | A focusable scroll container |
+| `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: focus return after a save, selection count | ~40 TS/Razor | SF-002 | Application behavior (the row that opened the editor is rebuilt) |
 | Plain read-only input in `RzInputGroup` | 1 | SF-028 | An input-group control without a model |
 
 ### Application-specific code (would exist anyway)
@@ -833,6 +832,7 @@ finding on its own.
   last render), the way `rzCommandList` does; document that `hx-*` works in row templates.
 - **Regression test (library):** a DataTable whose row template has a button with `hx-get`; clicking it
   issues the request.
+- **Fixed in 1.0.0-preview.4:** `RzDataTable` processes the rows Alpine renders with `htmx.process`, so `hx-*` in a row template works. Summit's Edit button uses `x-bind:hx-get` (the row carries its editor URL); `edit()` only remembers the row for focus return.
 
 ### SF-049 A wide table widens the whole organizer page
 
@@ -920,6 +920,7 @@ finding on its own.
   should not render an id unless one is given, or should bind one per row (`x-bind:id`). A general
   option: an id scope that suppresses generated ids inside templates.
 - **Regression test (library):** the DataTable docs page has no duplicate ids after rendering.
+- **Fixed in 1.0.0-preview.4:** the row-template helpers (`TableRow`, `TableCell`, `TableHeaderCell`, the DataTable sort, selection and checkbox helpers, pagination items and links, `CommandShortcut`) render an id only when one is given, and `RzDataTable` drops ids copied from its `x-for` templates (a component's generated id) when Alpine renders rows. Summit's unique-id check fails on any duplicate again.
 
 ### SF-055 Tab out of a multiple combobox loses focus
 
@@ -1064,6 +1065,7 @@ finding on its own.
   attributes land on the container).
 - **Library fix:** give the container `tabindex="0"`, a role and a name (from the caption) when it can
   scroll, or always.
+- **Fixed in 1.0.0-preview.4:** `RzTable`'s scroll container is focusable (`tabindex="0"`), and `AriaLabel` names it as a region. Summit's three tables use `AriaLabel` instead of hand-written `tabindex`, `role` and `aria-label`.
 
 ### SF-064 RzInputOTP's input cannot take autofocus
 

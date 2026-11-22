@@ -209,7 +209,8 @@
                     <code>class</code> and other attributes on <code>RzTable</code> go on its scroll container (the element that
                     scrolls sideways), not on the <code>&lt;table&gt;</code>: <code>class="max-h-64"</code> limits the scrolling area.
                     Inside a flex layout, the container scrolls only when its parent can shrink (<code>min-w-0</code>);
-                    <code>SidebarInset</code> already can.
+                    <code>SidebarInset</code> already can. The container is focusable, so a scrolling table can be scrolled with the
+                    keyboard; <code>AriaLabel</code> names it, which also makes it a region.
                 </RzParagraph>
                 <div class="not-prose mt-4 mb-8 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">

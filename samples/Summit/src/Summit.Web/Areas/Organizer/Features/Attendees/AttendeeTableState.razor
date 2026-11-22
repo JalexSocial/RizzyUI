@@ -5,14 +5,13 @@
     The table keeps its own state in an input (RzDataTable StateInputName="TableState", #attendees-state),
     which every server request includes, so a rebuilt table starts where the organizer left it (D-31).
     Compensates for library gaps, each tagged in the module:
-    - SF-048: rows are rendered by Alpine, so their buttons cannot use hx-get; edit() calls htmx;
     - the editor sheet is closed by the server, but the row that opened it is rebuilt, so focus is returned to the
       row's Edit button by hand.
     Application behavior: the bulk-action bar (selection count from rz:datatable:state-changed) and its
     confirmation text; the bulk action's name goes with the form.
 *@
 <RzAlpineComponent For="this" class="flex flex-col gap-4"
-                   Props="@(new { TableId = "attendees", EditUrl = "/organizer/attendees", EditorSheetId = AttendeeEditor.SheetId })">
+                   Props="@(new { TableId = "attendees", EditorSheetId = AttendeeEditor.SheetId })">
     <div id="attendee-table-state" hidden>
         <input type="hidden" name="action" x-bind:value="bulkAction" />
     </div>

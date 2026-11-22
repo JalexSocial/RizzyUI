@@ -17,13 +17,7 @@ export type KnownDefect = {
 
 export const knownDefects: KnownDefect[] = [
   // Library defects (RizzyUI).
-  {
-    finding: 'SF-054', kind: 'duplicate-id', rule: 'template-id',
-    target: /\[(table-head|table-row|table-cell|pagination-item|pagination-link|data-table-sort-toggle|data-table-sort-icon|data-table-row-select-checkbox|data-table-selection-cell|command-shortcut)\]$/,
-    pages: ['/components/datatable', '/components/command', '/command-demo'],
-  },
   { finding: 'SF-047', kind: 'duplicate-id', rule: 'empty-id', pages: ['/'] },
-  { finding: 'SF-063', kind: 'axe', rule: 'scrollable-region-focusable', target: /data-slot="table-container"/, pages: ['/components/table'] },
 
   // Docs-site defects (styling and example content), fixed in W11.
   // The docs site's own pages and examples still use Material Design icons, whose fixed ids repeat

@@ -562,6 +562,17 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="htmx in rows" class="scroll-mt-20">htmx in rows</RzHeading>
+                <RzParagraph>
+                    Rows are rendered by Alpine from the row template, after htmx processed the page. The table processes the rows it
+                    renders, so <code>hx-*</code> attributes in a row template work: bind a per-row URL with
+                    <code>x-bind:hx-get="row.row.original.editUrl"</code> and add <code>hx-target</code> as usual. Components inside an
+                    <code>x-for</code> template would repeat their generated id in every row, so the copies drop it; give an element an
+                    id per row with <code>x-bind:id</code> when you need one.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Keeping the state across server rebuilds" class="scroll-mt-20">Keeping the state across server rebuilds</RzHeading>
                 <RzParagraph>
                     Set <code>StateInputName</code> and the table keeps one hidden input (id <code>{Id}-state</code>) with its sorting,

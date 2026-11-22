@@ -110,13 +110,14 @@
                                         </span>
                                     </template>
                                     <template x-if="cell.column.id === 'actions'">
-                                        @* hx-get cannot be used here: rows are rendered by Alpine after htmx processed the
-                                           page (SF-048), so the click goes through AttendeeTableState.edit(). *@
+                                        @* RzDataTable processes hx-* in rows it renders; the click also remembers the row,
+                                           so focus can return to it after a save. *@
                                         @* row is RizzyUI's row view ({ id, row, cells }); the TanStack row is row.row, and
                                            its original is serialized in camelCase although column ids keep the C# names (SF-050). *@
                                         <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small"
                                                   x-bind:data-edit-id="row.id"
                                                   x-bind:aria-label="'Edit ' + row.row.original.name"
+                                                  x-bind:hx-get="row.row.original.editUrl" hx-target="#attendee-editor" hx-swap="innerHTML"
                                                   x-on:click="edit(row.id)">
                                             Edit
                                         </RzButton>

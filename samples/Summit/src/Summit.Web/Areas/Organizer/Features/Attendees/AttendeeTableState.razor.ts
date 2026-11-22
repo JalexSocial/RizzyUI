@@ -4,7 +4,6 @@ import { plural } from '../../../../Components/Shared/text';
 
 type Props = {
   TableId: string;
-  EditUrl: string;
   /** Id of the editor sheet (AttendeeEditor.SheetId). */
   EditorSheetId: string;
 };
@@ -83,11 +82,9 @@ const attendeeTableState: AlpineCodeBehind<Props> = () => ({
     this.$nextTick(() => (this.$el.querySelector(`[data-edit-id="${CSS.escape(id)}"]`) as HTMLElement | null)?.focus());
   },
 
-  /** SF-048: rows are rendered by Alpine, after htmx processed the page, so they cannot carry hx-get. */
+  /** The row's Edit button loads the editor with hx-get; remember the row to give focus back after a save. */
   edit(rowId: string) {
     this.focusAfterRebuild = rowId;
-    const id = rowId.replace(/^a-/, '');
-    window.htmx.ajax('GET', `${this.$props.EditUrl}/${id}/edit`, { target: '#attendee-editor', swap: 'innerHTML' });
   },
 
   /** Opens the confirmation dialog for a bulk action on the selected rows. */

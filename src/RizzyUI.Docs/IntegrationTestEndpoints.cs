@@ -45,6 +45,10 @@ public static class IntegrationTestEndpoints
 
         group.MapGet("/datatable/empty", () => Results.Content(string.Empty, "text/html"));
 
+        // A row action from a DataTable row template (Summit SF-048).
+        group.MapGet("/datatable/row-action", (string? id) =>
+            Results.Content(System.Net.WebUtility.HtmlEncode($"opened {id}"), "text/html"));
+
         // RzCommand remote items (Summit SF-040), filtered by ?q= when the command filters on the server.
         group.MapGet("/command/items", (string? q) => Results.Json(
             new[] { "Alpha", "Bravo", "Charlie", "Delta" }

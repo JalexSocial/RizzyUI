@@ -77,7 +77,7 @@ export function defineDataTableSpecs(variant: 'standard runtime' | 'CSP build') 
       await expect(page.locator('#people-summary')).toHaveText('Showing 1–10 of 25');
 
       const ready = await events(page, 'rz:datatable:ready');
-      expect(ready.map(e => e.componentId).sort()).toEqual(['people-table', 'products-table']);
+      expect(ready.map(e => e.componentId).sort()).toEqual(['actions-table', 'people-table', 'products-table']);
       const results = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
       expect(results.violations.map(v => v.id)).toEqual([]);
     });
@@ -256,6 +256,28 @@ export function defineDataTableSpecs(variant: 'standard runtime' | 'CSP build') 
       const selection = await events(page, 'rz:datatable:selection-changed', 'products-table');
       expect(selection.at(-1)!.detail.selectedRowIds).toEqual(['p-"><b id="injected">x</b>']);
       expect(await page.evaluate(() => (window as any).__rzXss)).toBeUndefined();
+    });
+
+    test('hx-* attributes in a row template issue their request (SF-048)', async ({ page }) => {
+      const errors = collectPageErrors(page);
+      await page.goto('/_tests/datatable');
+      const buttons = page.locator('#actions-table [data-row-action]');
+      await expect(buttons.first()).toBeVisible();
+      const id = await buttons.nth(1).getAttribute('value');
+      await buttons.nth(1).click();
+      await expect(page.locator('#row-action-result')).toHaveText(`opened ${id}`);
+      expect(errors).toEqual([]);
+    });
+
+    test('rows rendered from a template repeat no ids (SF-054)', async ({ page }) => {
+      await page.goto('/_tests/datatable');
+      await expect(page.locator('#actions-table [data-row-action]').first()).toBeVisible();
+      const duplicates = await page.evaluate(() => {
+        const seen = new Map<string, number>();
+        for (const el of document.querySelectorAll('[id]')) seen.set(el.id, (seen.get(el.id) ?? 0) + 1);
+        return [...seen].filter(([, n]) => n > 1).map(([id]) => id);
+      });
+      expect(duplicates).toEqual([]);
     });
 
     test('htmx insert, replace and remove: one initialization per swap, no duplicate handling or leaked listeners', async ({ page }) => {

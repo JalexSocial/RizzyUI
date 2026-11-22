@@ -2337,6 +2337,7 @@ RizzyUI.RzSwitch
   Value: System.Boolean
 RizzyUI.RzTable
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  AriaLabel: System.String
   Border: System.Boolean
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment [EditorRequired]
   Classes: RizzyUI.RzTableSlots

@@ -2,7 +2,7 @@
 @inherits RzComponent<PaginationItem.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             id="@Id"
+             id="@(HasExplicitId ? Id : null)"
              data-slot="@PaginationItem.SlotNames.NameOf(SlotTypes.Base)" @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()">
     @ChildContent

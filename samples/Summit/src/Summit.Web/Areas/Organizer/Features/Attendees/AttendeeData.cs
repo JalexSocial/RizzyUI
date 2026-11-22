@@ -10,7 +10,8 @@ namespace Summit.Web.Areas.Organizer.Features.Attendees;
 /// One attendee as the table sees it. RzDataTable serializes every property of every row into the page
 /// (RZUI-033), so this DTO carries only what the table shows: no badge code, no accessibility notes.
 /// </summary>
-public sealed record AttendeeRow(string Id, string Name, string Email, string Company, string Country, string Ticket, string Status, string Tags, string Registered);
+/// <param name="EditUrl">The editor's URL, for the row's hx-get (rows are rendered by Alpine; RzDataTable processes their hx-* attributes).</param>
+public sealed record AttendeeRow(string Id, string Name, string Email, string Company, string Country, string Ticket, string Status, string Tags, string Registered, string EditUrl);
 
 /// <summary>
 /// The attendees table's state, posted by RzDataTable's state input (RzDataTableState, decision D-31),
@@ -91,7 +92,7 @@ public sealed class AttendeeQuery(SummitDbContext db)
             .OrderByDescending(a => a.RegisteredAt)
             .Select(a => new AttendeeRow(
                 $"a-{a.Id}", a.Name, a.Email, a.Company ?? "", a.Country, a.TicketType.Name, a.Status.ToString(), a.Tags ?? "",
-                a.RegisteredAt.ToString("yyyy-MM-dd")))
+                a.RegisteredAt.ToString("yyyy-MM-dd"), $"/organizer/attendees/{a.Id}/edit"))
             .ToList();
     }
 
