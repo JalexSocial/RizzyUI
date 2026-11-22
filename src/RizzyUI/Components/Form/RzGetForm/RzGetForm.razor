@@ -1,0 +1,11 @@
+@namespace RizzyUI
+@using Microsoft.AspNetCore.Components.Forms
+@inherits RzComponent<RzGetForm.Slots>
+
+<form method="get" action="@Action" data-slot="get-form" @attributes="AdditionalAttributes"
+      id="@Id"
+      class="@SlotClasses.GetBase()">
+    <CascadingValue Value="_editContext" IsFixed="false">
+        @ChildContent
+    </CascadingValue>
+</form>

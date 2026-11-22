@@ -18,7 +18,7 @@
               hx-post="/tickets/checkout/payment" hx-target="#checkout-step" hx-swap="outerHTML"
               hx-disabled-elt="find button[type=submit]">
         <RzModelStateProvider />
-        <FocusFirstError />
+        <RzFocusFirstInvalid />
 
         <Field>
             <span class="text-sm font-medium" aria-hidden="true">Payment method</span>

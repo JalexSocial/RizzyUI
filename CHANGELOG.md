@@ -33,6 +33,8 @@ Finding IDs (RZUI-0xx) refer to the
 - **`RzToastProvider ServerErrorToasts`** (Summit SF-041): shows a localized error toast when an htmx request fails, for Rizzy's `rz:server-error` (a 5xx that `UseHtmxErrorHandling` did not swap) and htmx's `htmx:error` (the request could not be sent). Without it, every app needed its own listener, or the user saw nothing. The messages can be set with `ServerErrorTitle`, `ServerErrorText` and `NetworkErrorText`.
 - **`rz:toggle:change` and `RzToggle Name`/`Value`** (Summit SF-015, SF-030; decision D-24): the toggle reports its pressed state with a bubbling event and can post a value while pressed.
 - **`rz:menubar:checked-change`** (Summit SF-067): menubar checkbox and radio items report changes with `{ type, value, checked, group }`, on the item and on the menubar element (the menu content is teleported). `MenubarCheckboxItem` gains `Value`. The events are declared in `rizzyui.d.ts`.
+- **`RzGetForm`** (Summit SF-028): a GET form for searches and filters that RizzyUI's inputs work in, without `EditForm`'s antiforgery token and `_handler` field in the query string.
+- **`RzFocusFirstInvalid`** (Summit SF-045): placed in a form, focuses the first invalid field when the form renders with validation errors (after a 422 swap), including composite controls.
 
 ### Changed
 
@@ -60,6 +62,7 @@ Finding IDs (RZUI-0xx) refer to the
 - **Starter template: links and forms are boosted** (Summit SF-021). `<body hx-boost="true">` boosts nothing in htmx 4, which inherits only `hx-boost:inherited`; every link was a full page load.
 - **Starter template: error pages keep their status and leave htmx alone** (Summit SF-020). `UseStatusCodePagesWithReExecute("/not-found")` turned every empty 4xx into "Page not found" (404), swapped a whole error page into htmx partial targets and replaced htmx redirects from an expired session. The template's `UseStatusPages()` renders `/status/{code}` only for full-page requests without `HX-Redirect`.
 - **Starter template: a clean build with TypeScript code-behind** (Summit SF-042). The npm and Tailwind targets ran `BeforeTargets="Build"`, after the code-behind bundling that needs `node_modules`; they run before `BeforeBuild` now.
+- **A caller's `id` on `InputGroupInput` and `InputGroupTextarea` is kept** (decision D-26, Summit SF-033), so a hand-written `<label for>` reaches the input; radio items give their input an id.
 
 ## [1.0.0-preview.3] - 2026-11-20
 

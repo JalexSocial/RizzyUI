@@ -27,7 +27,8 @@ public partial class RzInputColor : InputBase<string, RzInputColor.Slots>
     );
 
     /// <summary>
-    /// Gets the generated input identifier used for the visible text input.
+    /// The id of the visible text input when this component has an explicit <c>Id</c>. Without one, the
+    /// input takes the id registered for the field, so a <c>FieldLabel</c> rendered before it points at it.
     /// </summary>
     public string InputId => $"{Id}-input";
 

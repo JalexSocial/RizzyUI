@@ -15,6 +15,7 @@ export const componentBundleManifest = Object.freeze({
     rzClipboard: 'core-common',
     rzCollapsible: 'core-common',
     rzDarkModeToggle: 'core-common',
+    rzFocusFirstInvalid: 'core-common',
     rzHeading: 'core-common',
     rzIndicator: 'core-common',
     rzInputGroupAddon: 'core-common',

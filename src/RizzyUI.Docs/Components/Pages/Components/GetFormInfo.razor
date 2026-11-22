@@ -1,0 +1,42 @@
+@page "/components/get-form"
+
+<PageTitle>Get Form</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.Wide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem><BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbPage>Get Form</BreadcrumbPage></BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Get Form" class="scroll-mt-20">Get Form</RzHeading>
+            <RzParagraph>A <code>&lt;form method="get"&gt;</code> for searches and filters that RizzyUI inputs work in. The inputs need a cascading <code>EditContext</code>; <code>EditForm</code> provides one but renders a POST form whose antiforgery token and <code>_handler</code> field would end up in the query string. <code>RzGetForm</code> provides the <code>EditContext</code> for its <code>Model</code> and renders a plain GET form.</RzParagraph>
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Usage" class="scroll-mt-20">Usage</RzHeading>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzGetForm Model="Filter" Action="/schedule" hx-get="/schedule/grid" hx-trigger="change" hx-target="#grid"&gt;
+    &lt;RzCheckboxGroup For="@@(() =&gt; Filter.Tracks)"&gt;...&lt;/RzCheckboxGroup&gt;
+    &lt;RzSwitch For="@@(() =&gt; Filter.MyAgenda)" /&gt;
+&lt;/RzGetForm&gt;
+                </RzCodeViewer>
+                <RzParagraph>Other attributes (<code>hx-*</code>, <code>role</code>, <code>class</code>) go on the <code>&lt;form&gt;</code>.</RzParagraph>
+            </section>
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Parameters</RzHeading>
+                <ul class="list-disc pl-6">
+                    <li><code>Model</code> (<code>object</code>, required): the model the inputs bind to with <code>For</code>.</li>
+                    <li><code>Action</code> (<code>string?</code>): the form's <code>action</code>; the current URL when not set.</li>
+                    <li><code>ChildContent</code>: the form content.</li>
+                </ul>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

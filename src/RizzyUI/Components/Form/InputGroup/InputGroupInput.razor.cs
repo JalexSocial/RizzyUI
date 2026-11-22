@@ -40,4 +40,20 @@ public partial class InputGroupInput : RzComponent<InputGroupInput.Slots>
         [Slot("input-group-input")]
         public string? Base { get; set; }
     }
+
+    /// <summary>
+    /// The attributes for the inner control, with the caller's <c>id</c> (decision D-26, Summit SF-033):
+    /// the control registers it as the field's id, so a hand-written <c>&lt;label for&gt;</c> and a
+    /// <c>FieldLabel</c> both point at it.
+    /// </summary>
+    private Dictionary<string, object> ControlAttributes
+    {
+        get
+        {
+            var attributes = AdditionalAttributes is null ? new Dictionary<string, object>() : new Dictionary<string, object>(AdditionalAttributes);
+            if (HasExplicitId)
+                attributes["Id"] = Id;
+            return attributes;
+        }
+    }
 }

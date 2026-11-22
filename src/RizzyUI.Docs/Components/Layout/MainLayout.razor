@@ -258,6 +258,16 @@
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/focus-first-invalid")'>
+                                    <a href="/components/focus-first-invalid" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Focus First Invalid</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/get-form")'>
+                                    <a href="/components/get-form" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Get Form</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
                                 <SidebarMenuButton AsChild IsActive='@IsCurrent("/components/input")'>
                                     <a href="/components/input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:top showTarget:window" x-on:click="close"><span>Input</span></a>
                                 </SidebarMenuButton>

@@ -11,6 +11,7 @@
     <EditForm Model="Model" FormName="Harness" class="flex flex-col gap-4" novalidate
               hx-post="/_tests/form" hx-target="#harness-form-region" hx-swap="outerHTML">
         <DataAnnotationsValidator />
+        <RzFocusFirstInvalid />
         @if (Validate)
         {
             <RzInitialValidator />

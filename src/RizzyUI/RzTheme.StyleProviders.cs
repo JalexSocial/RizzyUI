@@ -566,6 +566,12 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDarkModeToggle"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDarkModeToggle.Slots>, RzDarkModeToggle.Slots> RzDarkModeToggle { get; set; }
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzGetForm"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzGetForm.Slots>, RzGetForm.Slots> RzGetForm { get; set; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFocusFirstInvalid"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzFocusFirstInvalid.Slots>, RzFocusFirstInvalid.Slots> RzFocusFirstInvalid { get; set; }
+
     #endregion
 
     #region Typography Components

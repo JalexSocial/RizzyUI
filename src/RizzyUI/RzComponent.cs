@@ -116,8 +116,17 @@ public abstract partial class RzComponent : ComponentBase
     public string Id
     {
         get => _id ??= IdScope?.NextId() ?? IdGenerator.UniqueId("rz");
-        set => _id = string.IsNullOrEmpty(value) ? null : value;
+        set
+        {
+            _id = string.IsNullOrEmpty(value) ? null : value;
+            _idIsExplicit = _id is not null;
+        }
     }
+
+    private bool _idIsExplicit;
+
+    /// <summary>Whether the caller set <see cref="Id"/> (rather than it being generated).</summary>
+    protected bool HasExplicitId => _idIsExplicit;
 
     /// <summary>
     /// An optional loading strategy for `async-alpine`, corresponding to the `x-load` attribute (e.g., "visible", "idle").

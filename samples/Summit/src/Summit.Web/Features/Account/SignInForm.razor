@@ -15,7 +15,7 @@
         <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-5"
                   hx-post="/account/sign-in" hx-target="#sign-in-form" hx-swap="outerHTML">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
             @if (Error is not null)
             {
                 <RzAlert Variant="ThemeVariant.Destructive" LiveRegionMode="RzAlertLiveRegionMode.Alert">

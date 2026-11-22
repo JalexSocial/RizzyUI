@@ -71,12 +71,12 @@ tracks how much application code exists only to compensate.
 | SF-025 | RizzyUI | RzCommand | Bug | Medium | Typing then pressing Enter quickly runs the item highlighted before the 50 ms search debounce, not the match | Affected (users who type fast) | Open | None (test waits for the match) |
 | SF-026 | RizzyUI | FieldError | A11y | Low | Renders an empty `role="alert"` for every field, even without errors | Affected (accepted) | Open | None |
 | SF-027 | RizzyUI docs | Docs | Docs | Medium | No docs page or example for `RzEmbeddedPreview`, `RzFormSection`, `RzSearchButton`, `RzDarkModeToggle`, `RzIdScope` | n/a | Open | n/a |
-| SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works (workaround) | Open | e2e: schedule filters, speaker search (workflow) |
+| SF-028 | RizzyUI, Rizzy | Forms | DX | Medium | Every RizzyUI input needs an `EditContext`; a GET filter form must cascade one by hand (an `EditForm` adds a token and `_handler` to the query string) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzGetForm cascades an EditContext and renders a GET form (defect); e2e: schedule and speaker filters (workflow) |
 | SF-029 | RizzyUI | RzCheckboxGroup | A11y | Medium | Renders a fieldset with an empty legend (a nameless group) unless `DisplayName` is set; ignores `[Display(Name)]` | Works (workaround) | Open | e2e: getByRole group name (defect) |
 | SF-030 | RizzyUI | Alpine attributes | DX | Medium | A consumer's `x-on:click` on `RzToggle` (and other components that bind the same event) is silently replaced by the component's own; `RzToggle` dispatches no change event | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: directives.spec.ts (caller x-on:click and rz:toggle:change), both builds (defect); e2e: schedule level toggles (workflow) |
 | SF-031 | RizzyUI | RzAvatar | A11y | Medium | Defaults to `role="img" aria-label="Avatar"`, which overrides `AvatarImage`'s alt text: every avatar is announced as "Avatar" | Works (workaround) | Open | None |
 | SF-032 | RizzyUI | RzSheet | A11y | Low | Initial focus goes to the first focusable element; when that is in the footer, a long sheet opens scrolled to the bottom. No initial-focus option | Works (workaround) | Open | e2e: sheet focus (workflow) |
-| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works (workaround) | Open (decided: D-26 (consumer ids adopted)) | axe label checks (defect) |
+| SF-033 | RizzyUI, Rizzy | Inputs | DX | Low | A consumer `id` on `RzInputText`/`InputGroupInput` is replaced by a generated id, so a `<label for>` written by hand points at nothing (a consumer `name` is kept) | Works | Fixed in 1.0.0-preview.4 | bUnit: input-group controls keep a caller id (defect); e2e: speakers search label (workflow) |
 | SF-034 | RizzyUI | RzThemeProvider | Bug | High | The theme's CSS variables are injected with `<HeadContent>`; Blazor renders only one `HeadContent`, so any other `HeadContent` on the page silently removes the whole theme | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: head-content.spec.ts (a page with its own HeadContent keeps the theme in <head>), both builds; bUnit: RzThemeProviderTests (defect); e2e: shell, theme and track colors in <head> (workflow) |
 | SF-035 | RizzyUI | RzAuroraText | A11y | Low | `AriaLabel` puts `aria-label` on a role-less `span` (axe: aria-prohibited-attr); colors come from an inline `style` attribute (blocked by a strict `style-src`) | Works (workaround) | Open | axe aria-prohibited-attr (defect); docs scan (known-defect list) |
 | SF-036 | RizzyUI | Status colors | A11y | Medium | Soft badges and Information/Success/Warning alerts fail WCAG AA contrast (1.9 to 3.6:1) with the default status palette; themes can override it only through undocumented JSON keys | Works (workaround) | Open | axe color-contrast (defect); docs scan (known-defect list) |
@@ -88,7 +88,7 @@ tracks how much application code exists only to compensate.
 | SF-042 | RizzyUI, template | Build | DX | Medium | With `RizzyUICodeBehindBuild=esbuild`, a clean build fails (RZUI1003) when npm runs `BeforeTargets="Build"`, the starter template's pattern: the esbuild step runs earlier, in CoreBuild | Works | Fixed in 1.0.0-preview.4 | template test: a clean `dotnet new rizzyui` build (defect) |
 | SF-043 | Rizzy | HtmxResponse | DX | Medium | Every `Response.Htmx()` setter throws on a non-htmx request, so an action that serves a direct page load and boosted navigation needs a guard around each header (a plain link to it returned 500) | Works (workaround) | Open (decided: D-30) | e2e: checkout entry link (workflow) |
 | SF-044 | Rizzy | RzModelStateProvider | Bug | High | Server validation errors for collection items (`Model.Attendees[0].Name`) are never shown: keys containing `[` map to a non-existent root field, so a 422 for a list form displays no errors at all | Works (workaround) | Open | e2e: checkout attendees 422 (defect) |
-| SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works (workaround) | Open | e2e: checkout attendees 422 focus (workflow) |
+| SF-045 | RizzyUI | Forms | Gap | Medium | Nothing moves focus to the first invalid field after a server validation response; every form needs its own script (WCAG 3.3.1 usability, keyboard users stay where they were) | Works | Fixed in 1.0.0-preview.4 | RizzyUI integration: focus moves to the first invalid field (defect); e2e: forms after a 422 (workflow) |
 | SF-046 | RizzyUI, Tom Select | RzCombobox | Bug | Medium | Typing a search and pressing Enter quickly selects the option highlighted before the search (Tom Select's throttled refresh); `ComboboxOptions` cannot turn the throttle off | Affected (fast typists); test waits | Open | None (test waits for the match) |
 | SF-047 | Rizzy, RizzyUI | RzRadioGroup | Bug | Low | Every radio input renders `id=""`: Rizzy's `RzInputRadioBase` writes its `Id` (default empty) and `RadioGroupItem` never sets it | Affected (invalid HTML) | Open | e2e: unique-id check annotation (defect); docs scan (known-defect list) |
 | SF-048 | RizzyUI | RzDataTable | Gap | Medium | Rows are rendered by Alpine after htmx processed the page, so `hx-*` attributes in a row template do nothing; row actions need script | Works (workaround: `edit()` calls `htmx.ajax`) | Open | e2e: attendees S-03 (workflow) |
@@ -147,11 +147,9 @@ behavior (code a real product would write anyway) is listed separately, so the t
 | `Components/Shared/SearchPalette.razor`: RzDialog + RzCommand instead of RzCommandDialog | ~10 Razor | SF-007 | `RzCommandDialog` with remote items |
 | `Features/Schedule/ScheduleBoard.razor.js`: delegated toggle clicks | ~8 JS | SF-030 | `rz:toggle:change` or merged `x-on:click` |
 | `ScheduleFilters`, `SpeakersPage`: hand-cascaded `EditContext` | ~6 per form | SF-028 | Inputs that work without an `EditContext` |
-| Explicit `Name="Model.X"` on group inputs, `aria-label` instead of `<label for>` | 1 per field | SF-009, SF-033 | Consistent field naming and consumer ids |
 | `SessionDetails` sheet opened by swap with `DefaultOpen` | pattern | SF-002 | Sheet open/close events |
 | `Infrastructure/HtmxResponses.cs` | ~25 C# | SF-043 | `HtmxResponse` setters that are no-ops for normal requests |
 | `Components/Shared/IndexedModelStateProvider.cs` | ~60 C# | SF-044 | `RzModelStateProvider` resolving indexed keys |
-| `Components/Shared/FocusFirstError.razor(.js)`, one line per form | ~25 JS | SF-045 | A form-level "focus the first invalid field" behavior |
 | a11y attribute fixes (`AriaLabel` on avatars, dropzone, `role="listitem"`, status colors in the theme) | 1 per use | SF-031, SF-036, SF-037, SF-038 | Correct defaults |
 | `Areas/Organizer/Features/Attendees/AttendeeTableState.razor(.ts)`: state mirror, hidden inputs, `edit()`, focus return | ~85 TS/Razor | SF-001, SF-048, SF-002 | A DataTable state transport, processed rows, sheet events with focus return |
 | `OrganizerLayout`: `SidebarInset class="min-w-0"` | 1 | SF-049 | `min-w-0` in `SidebarInset` |
@@ -322,7 +320,7 @@ finding on its own.
   `[SupplyParameterFromForm]`, the first group silently does not bind.
 - **Summit workaround:** `Name="Model.X"` on those components.
 - **Library fix:** derive the name from the full `For` expression path, as the Rizzy inputs do.
-- **Fixed in 1.0.0-preview.4:** decision D-28: `RzCheckboxGroup`, `RzRadioGroup`, `RzCombobox`, `RzFileInput` and `RzInputOTP` post the model path (`Model.Country`), computed like Blazor's own inputs (Rizzy's `ExpressionFormatter`, under a cascading `HtmlFieldPrefix`). `Name` keeps a bare name. Summit's `Name="Model.X"` on those components is removed.
+- **Fixed in 1.0.0-preview.4:** decision D-28: `RzCheckboxGroup`, `RzRadioGroup`, `RzCombobox`, `RzFileInput` and `RzInputOTP` post the model path (`Model.Country`), computed like Blazor's own inputs (Rizzy's `ExpressionFormatter`; inside `Editor<T>`, whose prefix type is internal to ASP.NET Core, set `Name`). `Name` keeps a bare name. Summit's `Name="Model.X"` on those components is removed.
 
 ### SF-010 Sidebar collapse state flashes on page load (planning)
 
@@ -539,6 +537,7 @@ finding on its own.
 - **Summit workaround:** exactly that (`Features/Schedule/ScheduleFilters.razor`).
 - **Library fix:** let inputs work without an `EditContext` when given `Name` and `Value`, or ship an
   `RzFilterForm`/`RzGetForm` that provides one without the POST-only parts.
+- **Fixed in 1.0.0-preview.4:** new `RzGetForm`: a `<form method="get">` that provides the `EditContext` for its `Model`, without the antiforgery token and `_handler` field of `EditForm`. Summit's hand-cascaded `EditContext`s are replaced.
 
 ### SF-029 RzCheckboxGroup is a nameless group by default
 
@@ -599,6 +598,7 @@ finding on its own.
 - **Summit workaround:** `aria-label` on the input.
 - **Library fix:** let a consumer `id` win (and register it as the field's id so `FieldLabel` still
   matches), consistent with how `name` behaves.
+- **Fixed in 1.0.0-preview.4:** decision D-26: `InputGroupInput` and `InputGroupTextarea` pass a caller's `id` to their inner input, which registers it as the field's id, so a hand-written `<label for>` and a `FieldLabel` both point at it (RizzyUI inputs already did). Radio items derive their input id from the item's. Summit's speaker search has a real label instead of `aria-label`.
 
 ### SF-034 Any other HeadContent removes the theme
 
@@ -766,6 +766,7 @@ finding on its own.
 - **Library fix:** an opt-in behavior on the form level (for example an `RzForm` wrapper or a
   `FocusFirstInvalid` component) that focuses the first invalid control after a swap, aware of RizzyUI's
   composite controls.
+- **Fixed in 1.0.0-preview.4:** new `RzFocusFirstInvalid`: placed in a form, it focuses the first `aria-invalid="true"` control when the form renders with errors, or the visible control of the same field for comboboxes and visually hidden checkboxes. Summit's `FocusFirstError` (11 forms) is replaced by it.
 
 ### SF-046 A fast Enter in a combobox picks the wrong option
 
@@ -800,6 +801,7 @@ finding on its own.
 - **Library fix:** in Rizzy, only add `id` when it is not empty; in RizzyUI, give each item's input an
   id derived from the group's.
 - **Rizzy fixed in 6.0.0-preview.4:** `RzInputRadioBase` renders no `id=""`. The RizzyUI side (ids derived from the group for each item) is slice 20.
+- **RizzyUI side fixed in 1.0.0-preview.4:** each radio item's input gets an id derived from the item's (`{item}-input`).
 
 ### SF-048 htmx attributes in DataTable rows are never processed
 

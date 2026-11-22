@@ -28,7 +28,7 @@
 
             <InputGroupInput For="@For"
                              class="@SlotClasses.GetInput()"
-                             id="@InputId"
+                             id="@(HasExplicitId ? InputId : null)"
                              placeholder="@EffectivePlaceholder"
                              value="@Value"
                              data-slot="@RzInputColor.SlotNames.NameOf(SlotTypes.Input)"

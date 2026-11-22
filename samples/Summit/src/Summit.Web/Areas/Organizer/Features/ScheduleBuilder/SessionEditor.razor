@@ -14,7 +14,7 @@
                   hx-post="@(Context.SessionId is { } id ? $"/organizer/schedule-builder/sessions/{id}" : "/organizer/schedule-builder/sessions")"
                   hx-target="#session-editor" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]">
             <RzModelStateProvider />
-            <FocusFirstError />
+            <RzFocusFirstInvalid />
 
             <Field>
                 <FieldLabel For="@(() => Model!.Title)" />

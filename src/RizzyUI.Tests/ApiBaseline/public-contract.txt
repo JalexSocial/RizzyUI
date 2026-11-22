@@ -1727,6 +1727,13 @@ RizzyUI.RzFileInput
   Multiple: System.Boolean
   Name: System.String
   Variant: RizzyUI.FileInputVariant
+RizzyUI.RzFocusFirstInvalid
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  Classes: RizzyUI.RzFocusFirstInvalid.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzFocusFirstInvalid.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
 RizzyUI.RzFormSection
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   Classes: RizzyUI.RzFormSection.Slots
@@ -1738,6 +1745,16 @@ RizzyUI.RzFormSection
   Layout: RizzyUI.SectionLayout
   LoadStrategy: System.String
   Title: System.String [EditorRequired]
+RizzyUI.RzGetForm
+  Action: System.String
+  AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Classes: RizzyUI.RzGetForm.Slots
+  ConfigureClasses: System.Action<RizzyUI.RzGetForm.Slots>
+  Element: System.String
+  Id: System.String
+  LoadStrategy: System.String
+  Model: System.Object [EditorRequired]
 RizzyUI.RzHeading
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   ChildContent: Microsoft.AspNetCore.Components.RenderFragment
@@ -3036,7 +3053,9 @@ RizzyUI.RzEventViewer.SlotTypes: ActionIcon=0, Base=1, Console=2, Container=3, C
 RizzyUI.RzFieldGroup.SlotTypes: Base=0
 RizzyUI.RzFieldSet.SlotTypes: Base=0
 RizzyUI.RzFileInput.SlotTypes: Base=0, Container=1, Description=2, FileName=3, FileSize=4, Info=5, Item=6, List=7, NativeInput=8, PreviewImage=9, RemoveButton=10, Status=11, Trigger=12, TriggerContent=13
+RizzyUI.RzFocusFirstInvalid.SlotTypes: Base=0
 RizzyUI.RzFormSection.SlotTypes: Base=0, ContentContainer=1, Description=2, DescriptionContainer=3, Title=4
+RizzyUI.RzGetForm.SlotTypes: Base=0
 RizzyUI.RzHeading.SlotTypes: Base=0
 RizzyUI.RzHighlighter.SlotTypes: Base=0, Content=1
 RizzyUI.RzIndicator.SlotTypes: Base=0

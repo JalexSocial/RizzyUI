@@ -10,7 +10,7 @@
               hx-include="#attendee-filters, #attendee-table-state"
               hx-disabled-elt="find button[type=submit]">
         <RzModelStateProvider />
-        <FocusFirstError />
+        <RzFocusFirstInvalid />
 
         <Field>
             <FieldLabel For="@(() => Model!.Name)" />

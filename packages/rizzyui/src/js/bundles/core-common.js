@@ -6,6 +6,7 @@ export { default as rzBackToTop } from '../lib/components/rzBackToTop.js';
 export { default as rzClipboard } from '../lib/components/rzClipboard.js';
 export { default as rzCollapsible } from '../lib/components/rzCollapsible.js';
 export { default as rzDarkModeToggle } from '../lib/components/rzDarkModeToggle.js';
+export { default as rzFocusFirstInvalid } from '../lib/components/rzFocusFirstInvalid.js';
 export { default as rzHeading } from '../lib/components/rzHeading.js';
 export { default as rzIndicator } from '../lib/components/rzIndicator.js';
 export { default as rzInputGroupAddon } from '../lib/components/rzInputGroupAddon.js';

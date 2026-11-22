@@ -18,7 +18,7 @@
                       hx-target="#checkin-form" hx-swap="outerHTML"
                       hx-indicator="#checkin-spinner" hx-disabled-elt="find button[type=submit]">
                 <RzModelStateProvider />
-                <FocusFirstError />
+                <RzFocusFirstInvalid />
                 <Field>
                     <FieldLabel For="@(() => Model!.BadgeCode)" />
                     @* Name set explicitly: RzInputOTP defaults to the bare property name (SF-009). *@

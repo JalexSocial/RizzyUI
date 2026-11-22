@@ -1,16 +1,14 @@
 @*
-    The filter bar. A plain GET form, not an EditForm: an EditForm would add an antiforgery token and a
-    _handler field to every query string. RzCheckboxGroup and RzSwitch still need an EditContext, so one
-    is cascaded by hand (summit-findings.md SF-028).
+    The filter bar. A GET form (RzGetForm), not an EditForm: an EditForm would add an antiforgery token and
+    a _handler field to every query string. RzGetForm provides the EditContext the inputs need.
 
     Server filters (tracks, length, my agenda) re-render the grid with hx-get. Level toggles filter the
     rendered cards in the browser (ScheduleBoard), because RzToggle posts nothing.
 *@
 <RzCard class="p-4 sm:p-5">
-    <form id="schedule-filters" action="/schedule" method="get" class="flex flex-col gap-5"
-          hx-get="/schedule/grid" hx-trigger="change, submit" hx-target="#schedule-grid" hx-swap="outerHTML"
-          hx-indicator="#schedule-loading">
-        <CascadingValue Value="_editContext" IsFixed="true">
+    <RzGetForm Model="Filter" Id="schedule-filters" Action="/schedule" class="flex flex-col gap-5"
+               hx-get="/schedule/grid" hx-trigger="change, submit" hx-target="#schedule-grid" hx-swap="outerHTML"
+               hx-indicator="#schedule-loading">
             <input type="hidden" name="Filter.Day" value="@Filter.Day" data-schedule-day />
             @if (Filter.Format is not null)
             {
@@ -71,15 +69,11 @@
                     }
                 </div>
             </div>
-        </CascadingValue>
-    </form>
+    </RzGetForm>
 </RzCard>
 
 @code {
     [Parameter, EditorRequired] public ScheduleFilter Filter { get; set; } = null!;
     [Parameter, EditorRequired] public IReadOnlyList<Track> Tracks { get; set; } = [];
 
-    private EditContext _editContext = null!;
-
-    protected override void OnParametersSet() => _editContext = new EditContext(Filter);
 }

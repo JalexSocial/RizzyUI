@@ -10,7 +10,7 @@
     <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-6"
               hx-post="/tickets/checkout/attendees" hx-target="#checkout-step" hx-swap="outerHTML">
         <RzModelStateProvider />
-        <FocusFirstError />
+        <RzFocusFirstInvalid />
         @* Errors for list items (Model.Attendees[i].Name) need this too (SF-044). *@
         <IndexedModelStateProvider />
 

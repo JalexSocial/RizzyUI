@@ -10,7 +10,7 @@
     <EditForm Model="Model" FormName="Model" novalidate class="flex flex-col gap-8"
               hx-post="/tickets/checkout/tickets" hx-target="#checkout-step" hx-swap="outerHTML">
         <RzModelStateProvider />
-        <FocusFirstError />
+        <RzFocusFirstInvalid />
         <TicketEstimate Culture="@CultureInfo.CurrentCulture.Name">
             <Field>
                 @* Name set explicitly: group inputs default to the bare property name (SF-009). *@
