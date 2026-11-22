@@ -183,7 +183,8 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     internal string GetInputClasses() => string.IsNullOrWhiteSpace(Class) ? (SlotClasses.GetInput() ?? string.Empty) : $"{SlotClasses.GetInput()} {Class}";
 
-    internal string GetNameAttribute() => string.IsNullOrWhiteSpace(Name) ? _fieldIdentifier.FieldName : Name;
+    // D-28: the model path (Model.Code), as Blazor's inputs post; Name keeps a bare name.
+    internal string GetNameAttribute() => string.IsNullOrWhiteSpace(Name) ? (For is null ? _fieldIdentifier.FieldName : RzFieldNames.For(For)) : Name;
 
     internal string GetInputModeValue() => InputMode ?? (OtpType == InputOtpType.Numeric ? "numeric" : "text");
 

@@ -52,7 +52,7 @@ tracks how much application code exists only to compensate.
 | SF-006 | RizzyUI | RzToast | DX | Medium | Server toasts are silently dropped on non-htmx requests and redirects | Works (designed around) | Open | e2e: agenda toast (workflow) |
 | SF-007 | RizzyUI | RzCommandDialog | Gap | Medium | Does not pass `ItemsUrl`/`ServerFiltering` through; no Ctrl+K shortcut | Works (workaround) | Open | e2e: search palette (workflow) |
 | SF-008 | RizzyUI, htmx | RzFileInput | Gap | Low | No upload progress (and htmx 4's `fetch` reports none) | Works (designed around) | Open | e2e: contact form (workflow) |
-| SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works (workaround) | Open (decided: D-28) | e2e: contact upload, schedule filters (workflow) |
+| SF-009 | RizzyUI, Rizzy | Forms | DX | High | Field names differ between components (`Country` vs `Model.Country`) | Works | Fixed in 1.0.0-preview.4 | bUnit: ModelPathNameTests (the five components post the model path like Blazor's InputText) (defect); e2e: contact upload, schedule filters (workflow) |
 | SF-010 | RizzyUI | RzSidebar | DX | Low | Persisted collapse state is not read on the server: the sidebar flashes open | Works (workaround) | Open | None |
 | SF-011 | RizzyUI | RzSidebar | DX | Low | `ChildContent` is rendered twice (mobile and desktop), so fixed ids inside it collide | Works (designed around) | Open | e2e: unique-id check (defect) |
 | SF-012 | RizzyUI, Rizzy | Asset URLs | DX | Medium | Widget libraries default to jsDelivr: CI depends on a CDN, strict `style-src` blocks the calendar CSS | Works (workaround) | Open | e2e: external-request guard (defect) |
@@ -322,6 +322,7 @@ finding on its own.
   `[SupplyParameterFromForm]`, the first group silently does not bind.
 - **Summit workaround:** `Name="Model.X"` on those components.
 - **Library fix:** derive the name from the full `For` expression path, as the Rizzy inputs do.
+- **Fixed in 1.0.0-preview.4:** decision D-28: `RzCheckboxGroup`, `RzRadioGroup`, `RzCombobox`, `RzFileInput` and `RzInputOTP` post the model path (`Model.Country`), computed like Blazor's own inputs (Rizzy's `ExpressionFormatter`, under a cascading `HtmlFieldPrefix`). `Name` keeps a bare name. Summit's `Name="Model.X"` on those components is removed.
 
 ### SF-010 Sidebar collapse state flashes on page load (planning)
 

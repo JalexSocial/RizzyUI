@@ -22,7 +22,7 @@
                 <Field>
                     <FieldLabel For="@(() => Model!.BadgeCode)" />
                     @* Name set explicitly: RzInputOTP defaults to the bare property name (SF-009). *@
-                    <RzInputOTP For="@(() => Model!.BadgeCode)" Name="Model.BadgeCode" Length="6" Autocomplete="off"
+                    <RzInputOTP For="@(() => Model!.BadgeCode)" Length="6" Autocomplete="off"
                                 OtpType="InputOtpType.Alphanumeric" TextTransform="InputOtpTextTransform.ToUpper">
                         <InputOTPGroup>
                             <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />

@@ -25,7 +25,7 @@
             <div class="grid gap-5 sm:grid-cols-2">
                 <Field>
                     <FieldLabel For="@(() => Model!.StartsAt)" />
-                    <RzDateEdit For="@(() => Model!.StartsAt)" Name="Model.StartsAt"
+                    <RzDateEdit For="@(() => Model!.StartsAt)"
                                 Options="@(new FlatpickrOptions { EnableTime = true, Time24Hr = true, AllowInput = true, DateFormat = "Y-m-d H:i", MinuteIncrement = 15 })" />
                     <FieldError><RzValidationMessageBase For="@(() => Model!.StartsAt)" /></FieldError>
                 </Field>

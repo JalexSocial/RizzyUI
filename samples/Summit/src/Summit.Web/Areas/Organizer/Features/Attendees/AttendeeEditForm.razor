@@ -48,7 +48,7 @@
         </div>
         <Field>
             <FieldLabel For="@(() => Model!.Tags)" />
-            <RzCombobox TItem="string" TValue="List<string>" For="@(() => Model!.Tags)" Name="Model.Tags" Multiple
+            <RzCombobox TItem="string" TValue="List<string>" For="@(() => Model!.Tags)" Multiple
                         Items="AttendeeQuery.KnownTags" Placeholder="Add tags"
                         Options="@(new ComboboxOptions { Create = true })" />
             <FieldDescription>Pick a tag or type a new one.</FieldDescription>

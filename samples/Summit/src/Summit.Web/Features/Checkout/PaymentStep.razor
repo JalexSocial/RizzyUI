@@ -22,7 +22,7 @@
 
         <Field>
             <span class="text-sm font-medium" aria-hidden="true">Payment method</span>
-            <RzRadioGroup For="@(() => Model!.PaymentMethod)" Name="Model.PaymentMethod" DisplayName="Payment method" class="grid gap-3 sm:grid-cols-2">
+            <RzRadioGroup For="@(() => Model!.PaymentMethod)" DisplayName="Payment method" class="grid gap-3 sm:grid-cols-2">
                 <RadioGroupItem TValue="string" Value="@("demo")">
                     <span class="flex flex-col"><span class="text-sm font-medium">Demo payment</span><span class="text-muted-foreground text-sm">Marked as paid immediately.</span></span>
                 </RadioGroupItem>

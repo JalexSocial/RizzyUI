@@ -82,9 +82,10 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
         _fieldIdentifier = FieldIdentifier.Create(For);
         _currentValue = Value ?? For.Compile().Invoke();
 
+        // D-28: the model path (Model.Country), as Blazor's inputs post; Name keeps a bare name.
         if (string.IsNullOrEmpty(Name))
         {
-            Name = _fieldIdentifier.FieldName;
+            Name = RzFieldNames.For(For);
         }
     }
 

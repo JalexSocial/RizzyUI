@@ -55,7 +55,7 @@
                 <FieldLabel For="@(() => Model!.Attachment)">Attachment (optional)</FieldLabel>
                 @* Name set explicitly: RzFileInput defaults to the bare property name (SF-009). The dropzone's
                    default name ("File input") does not match its visible text (SF-037). *@
-                <RzFileInput For="@(() => Model!.Attachment)" Name="Model.Attachment" Variant="FileInputVariant.Dropzone" Accept=".png,.jpg,.jpeg,.pdf"
+                <RzFileInput For="@(() => Model!.Attachment)" Variant="FileInputVariant.Dropzone" Accept=".png,.jpg,.jpeg,.pdf"
                              AriaLabel="Drag and drop files here or click to upload an attachment" />
                 <FieldDescription>A screenshot or a PDF, up to 2 MB.</FieldDescription>
                 <FieldError><RzValidationMessageBase For="@(() => Model!.Attachment)" /></FieldError>

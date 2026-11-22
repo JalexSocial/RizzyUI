@@ -147,7 +147,8 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     /// </summary>
     public bool IsInvalid { get; private set; }
 
-    private string? FieldName => For is null ? null : FieldIdentifier.Create(For).FieldName;
+    // D-28: the model path (Model.Attachments), as Blazor's inputs post; Name keeps a bare name.
+    private string? FieldName => For is null ? null : RzFieldNames.For(For);
 
     /// <inheritdoc/>
     protected override string DefaultElement => "div";

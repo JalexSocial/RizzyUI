@@ -105,7 +105,8 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     /// </summary>
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["TomSelect"];
 
-    private string NameAttributeValue => Name ?? (For != null ? FieldIdentifier.Create(For).FieldName : string.Empty);
+    // D-28: the model path (Model.Country), as Blazor's inputs post; Name keeps a bare name.
+    private string NameAttributeValue => Name ?? (For != null ? RzFieldNames.For(For) : string.Empty);
 
     // Implements IHasRzComboboxStylingProperties via InputBase.IsInvalid
     bool IHasRzComboboxStylingProperties.Invalid => IsInvalid;

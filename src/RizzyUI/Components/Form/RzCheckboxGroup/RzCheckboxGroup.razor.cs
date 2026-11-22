@@ -59,10 +59,10 @@ public partial class RzCheckboxGroup<TValue> : RzComponent<RzCheckboxGroupSlots>
         if (For == null) throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null) throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
-        var fieldIdentifier = FieldIdentifier.Create(For);
+        // D-28: the model path (Model.Country), as Blazor's inputs post; Name keeps a bare name.
         if (string.IsNullOrEmpty(Name))
         {
-            Name = fieldIdentifier.FieldName;
+            Name = RzFieldNames.For(For);
         }
     }
 

@@ -116,7 +116,7 @@
                             <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
                         </thead>
                         <tbody class="divide-y">
-                            <tr class="align-top"><td class="p-4"><code>Name</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Posted field name for standard form submissions.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Name</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Posted field name for standard form submissions. Defaults to the model path of <code>For</code> (<code>Model.Attachment</code>), as Blazor's own inputs post.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Multiple</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Enables selecting and posting multiple files.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Accept</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Accepted MIME types/extensions (for example <code>image/*</code>).</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>FileInputVariant</code></td><td class="p-4"><code>Default</code></td><td class="p-4">Choose compact button style or dropzone style.</td></tr>
