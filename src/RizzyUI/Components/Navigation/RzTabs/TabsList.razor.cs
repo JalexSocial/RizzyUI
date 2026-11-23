@@ -13,7 +13,16 @@ public partial class TabsList : RzComponent<TabsList.Slots>
     /// Defines the default styling for the TabsList component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]"
+        @base: "group/tabs-list bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
+        variants: new()
+        {
+            // A vertical list is as tall as its triggers, not as tall as the panel next to it.
+            [c => ((TabsList)c).Orientation] = new Variant<Orientation, Slots>
+            {
+                [Orientation.Horizontal] = "",
+                [Orientation.Vertical] = "h-auto flex-col items-stretch justify-start self-start"
+            }
+        }
     );
 
     /// <summary>

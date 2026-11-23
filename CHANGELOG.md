@@ -71,6 +71,9 @@ Finding IDs (RZUI-0xx) refer to the
 
 ### Fixed
 
+- **Vertical tabs stack at their own height** (Summit SF-087). `TabsList Orientation="Vertical"` only set `aria-orientation`; the list kept its horizontal height and every trigger kept `flex-1` and full height, so next to a panel the triggers stretched with it. A vertical list now renders `data-orientation="vertical"`, stacks its triggers and is as tall as they are.
+- **A collapsed icon sidebar shows only icons** (Summit SF-086). `SidebarMenuButton` and `SidebarMenuSubButton` had two classes run together (`truncate[&>svg]:size-4`), so icons were 24px and labels did not truncate, and a sliver of each label showed beside the icon. A unit test now checks every component's classes for this.
+- **The shine border follows rounded corners** (Summit SF-085). `RzShineBorder`'s root did not inherit its parent's radius, so the ring was square and a rounded, `overflow-hidden` card cut off its corners.
 - **A sheet opened from its trigger takes focus and traps Tab** (Summit SF-074). `RzSheet` activated its
   focus scope before the panel was visible, so focus stayed on the trigger behind the overlay and Tab
   walked the page. Sheets opened with `DefaultOpen` were not affected.

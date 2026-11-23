@@ -5,6 +5,77 @@
 
 @plugin "@tailwindcss/forms";
 
+/*
+    Typefaces (Google Fonts, SIL Open Font License; files from Fontsource, licenses next to them in
+    wwwroot/fonts). Self-hosted, so the strict CSP needs no third-party font or style source.
+    Geist for text and UI (the theme's font-sans), Geist Mono for codes (font-mono), Bricolage Grotesque
+    for headings (font-display). Only the Latin and Latin Extended subsets are shipped.
+*/
+@font-face {
+    font-family: "Bricolage Grotesque Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 200 800;
+    src: url("/fonts/bricolage-grotesque/bricolage-grotesque-latin-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+    font-family: "Bricolage Grotesque Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 200 800;
+    src: url("/fonts/bricolage-grotesque/bricolage-grotesque-latin-ext-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+    font-family: "Geist Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url("/fonts/geist/geist-latin-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+    font-family: "Geist Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url("/fonts/geist/geist-latin-ext-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+    font-family: "Geist Mono Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url("/fonts/geist-mono/geist-mono-latin-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+    font-family: "Geist Mono Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url("/fonts/geist-mono/geist-mono-latin-ext-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@theme {
+    --font-display: "Bricolage Grotesque Variable", var(--font-sans);
+}
+
+@layer base {
+    h1, h2, h3 {
+        font-family: var(--font-display);
+        font-optical-sizing: auto;
+    }
+}
+
 /* Summit's brand surfaces. Colors come from the theme, so they follow light/dark and theme changes. */
 @layer components {
     /* A soft aurora wash behind hero sections and the sign-in card. */

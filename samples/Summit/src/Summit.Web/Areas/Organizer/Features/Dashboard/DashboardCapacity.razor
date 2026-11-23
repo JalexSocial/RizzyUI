@@ -1,21 +1,27 @@
 @using System.Globalization
-@* Seats sold per ticket type over the whole sale (out of band with the panels request). *@
+@*
+    Seats sold per ticket type over the whole sale (out of band with the panels request).
+    Each row's name and count sit above its bar. ProgressLabel is text centered on the bar itself, so it
+    is not used here: inside an 8px bar it was clipped. The bar's AriaLabel and ValueText carry the same
+    facts for assistive technology, so the visible row text is hidden from it.
+*@
 <RzCard id="dashboard-capacity">
     <CardHeader>
         <CardTitle>Capacity</CardTitle>
         <CardDescription>Seats sold per ticket type, whole sale</CardDescription>
     </CardHeader>
-    <CardContent class="flex flex-col gap-5">
+    <CardContent class="flex flex-col gap-4">
         @foreach (var row in Rows)
         {
             var percent = row.Capacity == 0 ? 0 : Math.Min(100, row.Sold * 100.0 / row.Capacity);
-            <RzProgress Value="percent" Variant="@(percent >= 90 ? StatusColor.Warning : StatusColor.Primary)"
-                        AriaLabel="@($"{row.Name} capacity")" ValueText="@($"{row.Sold} of {row.Capacity} seats sold")">
-                <ProgressLabel class="flex justify-between text-sm">
-                    <span>@row.Name</span>
-                    <span class="text-muted-foreground tabular-nums">@row.Sold.ToString("N0", CultureInfo.CurrentCulture) / @row.Capacity.ToString("N0", CultureInfo.CurrentCulture)</span>
-                </ProgressLabel>
-            </RzProgress>
+            <div class="flex flex-col gap-1.5">
+                <div class="flex items-baseline justify-between gap-3 text-sm" aria-hidden="true">
+                    <span class="truncate font-medium">@row.Name</span>
+                    <span class="text-muted-foreground shrink-0 tabular-nums">@row.Sold.ToString("N0", CultureInfo.CurrentCulture) / @row.Capacity.ToString("N0", CultureInfo.CurrentCulture)</span>
+                </div>
+                <RzProgress Value="percent" Variant="@(percent >= 90 ? StatusColor.Warning : StatusColor.Primary)"
+                            AriaLabel="@($"{row.Name} capacity")" ValueText="@($"{row.Sold} of {row.Capacity} seats sold")" />
+            </div>
         }
     </CardContent>
 </RzCard>

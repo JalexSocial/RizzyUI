@@ -22,6 +22,10 @@ public class RzShineBorderTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Contains("absolute", root.ClassList);
         Assert.Contains("inset-0", root.ClassList);
         Assert.Contains("size-full", root.ClassList);
+        // The overlay's rounded-[inherit] reads this element's radius, so the root must inherit the
+        // card's radius too; otherwise the ring is square and a rounded, overflow-hidden card cuts off
+        // its corners.
+        Assert.Contains("rounded-[inherit]", root.ClassList);
         var overlay = cut.Find("[data-slot='shine-border-overlay']");
         Assert.Contains("rounded-[inherit]", overlay.ClassList);
         Assert.Contains("will-change-[background-position]", overlay.ClassList);

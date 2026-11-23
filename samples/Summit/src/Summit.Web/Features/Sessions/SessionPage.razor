@@ -16,7 +16,7 @@
             <span class="size-2.5 rounded-full bg-[var(--track)]" aria-hidden="true"></span>
             @Session.Track.Name
         </p>
-        <h1 class="max-w-4xl text-3xl font-semibold tracking-tight sm:text-5xl">@Session.Title</h1>
+        <h1 class="max-w-4xl text-3xl font-bold tracking-tight sm:text-5xl">@Session.Title</h1>
         <p class="text-muted-foreground max-w-3xl text-lg">@Session.Summary</p>
         <div class="text-muted-foreground flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
             <span class="inline-flex items-center gap-1.5"><Blazicon Svg="Lucide.CalendarDays" class="size-4" />@Session.Day.Date.ToString("dddd, MMMM d", CultureInfo.CurrentCulture)</span>

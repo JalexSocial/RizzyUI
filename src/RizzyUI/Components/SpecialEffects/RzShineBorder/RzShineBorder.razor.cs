@@ -15,7 +15,7 @@ public partial class RzShineBorder : RzComponent<RzShineBorder.Slots>
     /// Defines the default styling for the <see cref="RzShineBorder"/> component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "pointer-events-none absolute inset-0 size-full",
+        @base: "pointer-events-none absolute inset-0 size-full rounded-[inherit]",
         slots: new()
         {
             [s => s.Overlay] = "size-full rounded-[inherit] will-change-[background-position]"

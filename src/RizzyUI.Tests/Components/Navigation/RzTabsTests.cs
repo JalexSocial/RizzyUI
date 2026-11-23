@@ -54,6 +54,17 @@ public class RzTabsTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("Account settings tabs", list.GetAttribute("aria-label"));
         Assert.Equal("vertical", list.GetAttribute("aria-orientation"));
         Assert.Equal("onListKeydown", list.GetAttribute("x-on:keydown"));
+
+        // A vertical list stacks its triggers and is as tall as they are: triggers do not grow
+        // (flex-1, full height) with the panel beside the list.
+        Assert.Equal("vertical", list.GetAttribute("data-orientation"));
+        Assert.Contains("flex-col", list.ClassList);
+        Assert.Contains("h-auto", list.ClassList);
+        Assert.Contains("self-start", list.ClassList);
+        Assert.DoesNotContain("h-9", list.ClassList);
+        var trigger = cut.Find("[data-slot='tabs-trigger']");
+        Assert.Contains("group-data-[orientation=vertical]/tabs-list:flex-none", trigger.ClassList);
+        Assert.Contains("group-data-[orientation=vertical]/tabs-list:h-auto", trigger.ClassList);
     }
 
     [Fact]
