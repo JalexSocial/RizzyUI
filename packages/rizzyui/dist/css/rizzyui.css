@@ -3642,6 +3642,21 @@
       opacity: 50%;
     }
   }
+  .group-data-\[orientation\=vertical\]\/tabs-list\:h-auto {
+    &:is(:where(.group\/tabs-list)[data-orientation="vertical"] *) {
+      height: auto;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/tabs-list\:flex-none {
+    &:is(:where(.group\/tabs-list)[data-orientation="vertical"] *) {
+      flex: none;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/tabs-list\:justify-start {
+    &:is(:where(.group\/tabs-list)[data-orientation="vertical"] *) {
+      justify-content: flex-start;
+    }
+  }
   .group-data-\[side\=left\]\:-right-4 {
     &:is(:where(.group)[data-side="left"] *) {
       right: calc(var(--spacing) * -4);

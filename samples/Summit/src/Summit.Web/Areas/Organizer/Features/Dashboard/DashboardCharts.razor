@@ -29,16 +29,15 @@
             </CardHeader>
             <CardContent>
                 <div class="h-80">
-                    <RzChart id="chart-daily" AriaLabel="Line chart of tickets sold per day" Configure="@(c => c
+                    @* Daily counts are separate totals, so bars, not a line (a smoothed line suggested values between days). *@
+                    <RzChart id="chart-daily" AriaLabel="Bar chart of tickets sold per day" Configure="@(c => c
                         .Data(d => d
                             .Labels(Panels.Daily.Select(p => DashboardFormat.Day(p.Day)).ToArray())
-                            .Datasets(ds => ds.Line()
+                            .Datasets(ds => ds.Bar()
                                 .Label("Tickets")
                                 .Data(Panels.Daily.Select(p => p.Tickets).ToArray())
-                                .BorderColor("var(--chart-1)")
                                 .BackgroundColor("var(--chart-1)")
-                                .PointRadius(0)
-                                .Tension(0.3)))
+                                .BorderRadius(3)))
                         .Options(o => o
                             .Responsive(true)
                             .MaintainAspectRatio(false)

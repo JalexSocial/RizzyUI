@@ -12,7 +12,7 @@
 
     <div class="flex flex-col items-center gap-4 text-center">
         <span class="bg-success/15 text-success flex size-14 items-center justify-center rounded-full"><Blazicon Svg="Lucide.PartyPopper" class="size-7" /></span>
-        <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl" tabindex="-1" autofocus="@JustPlaced">You're going to Summit!</h1>
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl" tabindex="-1" autofocus="@JustPlaced">You're going to Summit!</h1>
         <p class="text-muted-foreground max-w-xl">
             Order <strong class="text-foreground font-mono">@Order.Number</strong> is confirmed.
             @(Order.Status == OrderStatus.Invoiced ? "An invoice is on its way" : "Your receipt is on its way") to @Order.BuyerEmail.

@@ -8,6 +8,7 @@
              class="@SlotClasses.GetBase()"
              aria-label="@EffectiveAriaLabel"
              aria-orientation="@Orientation.ToString().ToLowerInvariant()"
+             data-orientation="@Orientation.ToString().ToLowerInvariant()"
              x-on:keydown="onListKeydown">
     @ChildContent
 </HtmlElement>

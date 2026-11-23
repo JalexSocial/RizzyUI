@@ -10,7 +10,7 @@
             @Model.Conference.StartsOn.ToString("MMMM d", CultureInfo.CurrentCulture)–@Model.Conference.EndsOn.ToString("d, yyyy", CultureInfo.CurrentCulture) · @Model.Conference.Venue, @Model.Conference.City
         </RzAnimatedGradientText>
 
-        <h1 id="hero-title" class="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl">
+        <h1 id="hero-title" class="max-w-4xl text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl">
             <RzAuroraText Colors="@(["#a78bfa", "#5eead4", "#fb923c", "#c084fc"])">@Model.Conference.Name</RzAuroraText>
             <span class="mt-2 block text-3xl font-medium text-white/90 sm:text-5xl">
                 Three days to
@@ -55,7 +55,7 @@
 <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6" aria-labelledby="tracks-title">
     <div class="mb-10 flex max-w-2xl flex-col gap-3">
         <p class="text-primary text-sm font-semibold uppercase tracking-wide">Five tracks</p>
-        <h2 id="tracks-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">Pick a lane, or <RzHighlighter Action="HighlighterAction.Underline" Color="#a855f7" StrokeWidth="2">wander between them</RzHighlighter></h2>
+        <h2 id="tracks-title" class="text-3xl font-bold tracking-tight sm:text-4xl">Pick a lane, or <RzHighlighter Action="HighlighterAction.Underline" Color="#a855f7" StrokeWidth="2">wander between them</RzHighlighter></h2>
         <p class="text-muted-foreground text-lg">Talks are 45 minutes with time to switch rooms. Every track runs all three days.</p>
     </div>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
@@ -81,7 +81,7 @@
         <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div class="flex max-w-2xl flex-col gap-3">
                 <p class="text-primary text-sm font-semibold uppercase tracking-wide">Featured speakers</p>
-                <h2 id="speakers-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">People who build things for a living</h2>
+                <h2 id="speakers-title" class="text-3xl font-bold tracking-tight sm:text-4xl">People who build things for a living</h2>
             </div>
             <RzButton Element="a" href="/speakers" Variant="ThemeVariant.Secondary" Outline>All 64 speakers</RzButton>
         </div>
@@ -131,7 +131,7 @@
     </div>
     <div class="flex flex-col gap-5">
         <p class="text-primary text-sm font-semibold uppercase tracking-wide">The venue</p>
-        <h2 id="venue-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">@Model.Conference.Venue, on the @Model.Conference.City waterfront</h2>
+        <h2 id="venue-title" class="text-3xl font-bold tracking-tight sm:text-4xl">@Model.Conference.Venue, on the @Model.Conference.City waterfront</h2>
         <p class="text-muted-foreground text-lg">
             Six rooms, all step-free, five minutes from Central Station. Captions on the big screens, a quiet room
             on every floor, and food that works for every diet.
@@ -173,7 +173,7 @@
         <div class="relative grid gap-8 p-8 sm:p-12 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div class="flex flex-col gap-4">
                 <p class="text-sm font-semibold uppercase tracking-wide text-white/75">Conference pass</p>
-                <h2 id="ticket-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">All three days, every talk, the party on day two.</h2>
+                <h2 id="ticket-title" class="text-3xl font-bold tracking-tight sm:text-4xl">All three days, every talk, the party on day two.</h2>
                 <ul class="flex flex-col gap-1.5 text-white/85">
                     @foreach (var perk in Model.ConferencePass.PerkList)
                     {

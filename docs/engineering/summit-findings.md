@@ -128,6 +128,12 @@ tracks how much application code exists only to compensate.
 | SF-082 | RizzyUI docs | Docs examples | A11y | Medium | Docs examples teach inaccessible markup: icon-only buttons without names, inputs, selects, an OTP and a textarea without labels, an `arialabel` typo, breadcrumb items with unknown parameters, small targets | n/a | Fixed in 1.0.0-preview.4 | docs scan (button-name, label, select-name, listitem and target-size entries removed) |
 | SF-083 | RizzyUI docs | Docs examples (CSP) | Bug | Low | On the CSP build, docs examples use inline handlers and an inline script, load external images, start confetti's blob worker, and the Alpine fundamentals page uses expressions the CSP build cannot parse | n/a | Fixed in 1.0.0-preview.4 | docs scan, CSP project (csp, console and pageerror entries removed) |
 | SF-084 | RizzyUI | Markdown code blocks | A11y | Low | RizzyUI's Markdig extension renders fenced code blocks as `<pre class="border-muted border">` without `tabindex`, so a block wide enough to scroll cannot be scrolled with the keyboard (axe `scrollable-region-focusable`) | n/a | Fixed in 1.0.0-preview.4 | bUnit: AccessibilityDefaultsTests (Markdown code blocks are focusable) (defect); docs scan entry removed |
+| SF-085 | RizzyUI | RzShineBorder | Bug | Low | The shine ring is square: its root does not inherit the parent's radius, so inside a rounded, `overflow-hidden` card the corners of the ring are cut off and stay uncolored | Works | Fixed in 1.0.0-preview.4 | bUnit: RzShineBorderTests (root has `rounded-[inherit]`) (defect) |
+| SF-086 | RizzyUI | Sidebar menu buttons | Bug | Medium | `SidebarMenuButton` and `SidebarMenuSubButton` class strings run two classes together (`truncate[&>svg]:size-4`), so icons render at 24px and labels do not truncate; a collapsed icon sidebar shows a sliver of every label | Works | Fixed in 1.0.0-preview.4 | unit: ThemeClassStringTests (no class runs into an arbitrary variant, all component sources) (defect) |
+| SF-087 | RizzyUI | RzTabs | Bug | Medium | `TabsList Orientation="Vertical"` only sets `aria-orientation`; the list and triggers keep their horizontal styling (`h-9`, `flex-1`, full-height triggers), so next to a panel the triggers stretch and their height changes with the panel | Works | Fixed in 1.0.0-preview.4 | bUnit: RzTabsTests (vertical list and trigger classes, `data-orientation`) (defect) |
+| SF-088 | Summit | Dashboard capacity | Bug | Low | Summit used `ProgressLabel` (text centered on the bar) as a row label above an 8px bar, so the bar clipped it | Fixed (label row above the bar) | n/a | e2e: organizer dashboard (five capacity bars) |
+| SF-089 | Summit | Dashboard daily chart | Bug | Low | Tickets sold per day were drawn as a smoothed line (`Tension(0.3)`), which suggests values between days | Fixed (bar chart) | n/a | e2e: charts follow the dark mode toggle (renders `#chart-daily`) |
+| SF-090 | Summit | Typography | DX | Low | Summit's theme used the system font stack, so the site rendered in Segoe UI on Windows; RizzyUI's built-in themes name Inter and JetBrains Mono but nothing loads them, and the docs do not say an app must load its fonts | Fixed (self-hosted Geist, Geist Mono, Bricolage Grotesque) | Open (docs) | None |
 
 ## Integration code ledger
 
@@ -1365,3 +1371,67 @@ finding on its own.
   docs scan once its entry is removed.
 - **Fixed in 1.0.0-preview.4:** Markdown code blocks render `<pre tabindex="0">`, so a block that scrolls sideways can be scrolled with the keyboard.
 
+### SF-085 The shine border's corners are cut off in a rounded card
+
+- **Tag:** Bug, Low (owner: RizzyUI; found reviewing Summit after the remediation, 2026-11-22)
+- **What:** `RzShineBorder`'s overlay has `rounded-[inherit]`, but its root (`absolute inset-0`) had no
+  radius, so the overlay inherited 0 and drew a square ring. Summit's ticket card is `rounded-3xl
+  overflow-hidden`, which clipped the ring's corners: the border was colored along the sides and empty
+  at the corners.
+- **Library fix:** the root also takes `rounded-[inherit]`, so the ring follows the parent's radius.
+- **Fixed in 1.0.0-preview.4:** the shine border follows its parent's border radius.
+
+### SF-086 Collapsed icon sidebar shows a sliver of every label
+
+- **Tag:** Bug, Medium (owner: RizzyUI; found reviewing Summit after the remediation, 2026-11-22)
+- **What:** `SidebarMenuButton`'s classes ended `[&>span:last-child]:truncate[&>svg]:size-4` and
+  `SidebarMenuSubButton`'s `aria-disabled:opacity-50[&>span:last-child]:truncate`: two classes without a
+  space, which Tailwind reads as one unknown class. Icons inside menu buttons kept their 24px size and
+  labels did not truncate; in a collapsed `icon` sidebar the 24px icon pushed each label to the edge of
+  the 32px button, where a sliver of it showed.
+- **Library fix:** the missing spaces. A unit test now scans every component source for a class that
+  runs into an arbitrary variant (`truncate[&...`).
+- **Fixed in 1.0.0-preview.4:** sidebar menu icons are 16px and labels truncate; a collapsed sidebar shows icons only.
+
+### SF-087 Vertical tabs stretch with the panel
+
+- **Tag:** Bug, Medium (owner: RizzyUI; found reviewing Summit after the remediation, 2026-11-22)
+- **What:** `TabsList` has an `Orientation` parameter, but it only set `aria-orientation` (for the arrow
+  keys). The list kept `h-9 items-center` and every trigger kept `flex-1 h-[calc(100%-1px)]`, so an app
+  had to restyle both. Summit's Settings page made the list a column, and next to the panel the list
+  stretched to the panel's height and the triggers grew with it: the tab heights jumped from section to
+  section.
+- **Library fix:** a vertical `TabsList` renders `data-orientation="vertical"` and stacks its triggers
+  (`flex-col items-stretch h-auto self-start`); triggers in a vertical list do not grow
+  (`flex-none h-auto justify-start`).
+- **Fixed in 1.0.0-preview.4:** vertical tab lists stack their triggers at their own height.
+
+### SF-088 Capacity row labels were clipped
+
+- **Tag:** Bug, Low (owner: Summit)
+- **What:** `DashboardCapacity` put each row's name and count in a `ProgressLabel`, which is text centered
+  on the bar (absolutely positioned inside it), and kept the default 8px bar, whose `overflow-hidden`
+  clipped the text. With child content, `RzProgress` also renders no default indicator. An application
+  mistake: the component documents the label as text on the bar.
+- **Fix (Summit):** the name and count are a row above a plain `RzProgress`; the bar keeps its
+  `AriaLabel` and `ValueText`.
+
+### SF-089 Daily ticket sales drawn as a smoothed line
+
+- **Tag:** Bug, Low (owner: Summit)
+- **What:** separate daily totals were drawn as a line with `Tension(0.3)`, whose curves between days
+  suggest values that do not exist.
+- **Fix (Summit):** a bar chart, like the orders-by-country chart.
+
+### SF-090 No typeface is loaded
+
+- **Tag:** DX, Low (owner: Summit; docs: RizzyUI)
+- **What:** Summit's theme set `font-sans` to the system UI stack, so the site rendered in Segoe UI on
+  Windows and looked plain. RizzyUI's built-in themes name `Inter` and `JetBrains Mono`, but RizzyUI does
+  not ship or load them, so an app that does not load them gets the fallback without noticing.
+- **Fix (Summit):** self-hosted Google Fonts (SIL Open Font License, files from Fontsource, Latin and
+  Latin Extended subsets) in `wwwroot/fonts`: Geist for text (`font-sans`), Geist Mono for codes
+  (`font-mono`), Bricolage Grotesque for headings (`--font-display`). Self-hosting keeps the strict CSP
+  free of third-party sources. The public site's headings are bolder.
+- **Library (docs, open):** the theming docs should say that a theme's font families must be loaded by
+  the app (and how, with a CSP).
