@@ -46,7 +46,7 @@
                     Basic Carousel
                 </RzHeading>
                 <RzParagraph>
-                    This example shows a basic carousel with previous and next navigation buttons. The content of each slide is a simple card.
+                    This example shows a basic carousel with previous and next navigation buttons. The content of each slide is a simple card. As in shadcn/ui, the buttons sit outside the slides, 48px to either side, so leave room for them: here the carousel is narrower than its container.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -151,17 +151,17 @@
                     Spacing
                 </RzHeading>
                 <RzParagraph>
-                    Create space between carousel items using a common pattern: apply a negative margin to the `CarouselContent` and a corresponding positive padding to each `CarouselItem`.
+                    Slides have a 16px gap by default: <code>CarouselContent</code> has a negative margin (<code>-ml-4</code>) and each <code>CarouselItem</code> the same padding (<code>pl-4</code>), so the first slide still lines up with the carousel's edge. To change the gap, set both; this example uses 4px.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 flex items-center justify-center p-8">
                         <RzCarousel class="w-full max-w-sm">
-                            <CarouselContent class="-ml-4">
+                            <CarouselContent class="-ml-1">
                                 @for (int i = 1; i <= 5; i++)
                                 {
                                     var n = i; // Capture loop variable
-                                    <CarouselItem class="pl-4 md:basis-1/2 lg:basis-1/3">
+                                    <CarouselItem class="pl-1 md:basis-1/2 lg:basis-1/3">
                                         <div class="p-1">
                                             <RzCard>
                                                 <CardContent class="flex aspect-square items-center justify-center p-6">
@@ -180,10 +180,10 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCarousel class="w-full max-w-sm"&gt;
-    &lt;CarouselContent class="-ml-4"&gt;
+    &lt;CarouselContent class="-ml-1"&gt;
         @@for (int i = 1; i &lt;= 5; i++)
         {
-            &lt;CarouselItem class="pl-4 md:basis-1/2 lg:basis-1/3"&gt;
+            &lt;CarouselItem class="pl-1 md:basis-1/2 lg:basis-1/3"&gt;
                 &lt;!-- Item Content --&gt;
             &lt;/CarouselItem&gt;
         }
@@ -200,17 +200,17 @@
                     Vertical Carousel
                 </RzHeading>
                 <RzParagraph>
-                    Set the <code>Axis</code> property to <code>"y"</code> in <code>CarouselOptions</code> to create a vertical carousel. You will also need to adjust the styling of the content container to use a vertical flex layout and have a defined height.
+                    Set the <code>Axis</code> property to <code>"y"</code> in <code>CarouselOptions</code> to create a vertical carousel. The slides stack, the gap moves to the top of each slide, and the previous and next buttons sit above and below the carousel, rotated. Give the content a height and leave room above and below.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto mb-5 flex items-center justify-center p-8">
+                    <div class="mx-auto mb-5 flex items-center justify-center px-8 py-16">
                         <RzCarousel Options="@(new CarouselOptions { Axis = "y" })" class="w-full max-w-xs">
-                            <CarouselContent class="-mt-4 h-60 flex-col">
+                            <CarouselContent class="h-60">
                                 @for (int i = 1; i <= 5; i++)
                                 {
                                     var n = i; // Capture loop variable
-                                    <CarouselItem class="pt-4">
+                                    <CarouselItem>
                                         <div class="p-1">
                                             <RzCard>
                                                 <CardContent class="flex items-center justify-center p-6">
@@ -229,10 +229,10 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCarousel Options="@@(new CarouselOptions { Axis = "y" })" class="w-full max-w-xs"&gt;
-    &lt;CarouselContent class="flex-col h-60 -mt-4"&gt;
+    &lt;CarouselContent class="h-60"&gt;
         @@for (int i = 1; i &lt;= 5; i++)
         {
-            &lt;CarouselItem class="pt-4"&gt;
+            &lt;CarouselItem&gt;
                 &lt;!-- Item Content --&gt;
             &lt;/CarouselItem&gt;
         }

@@ -134,6 +134,8 @@ tracks how much application code exists only to compensate.
 | SF-088 | Summit | Dashboard capacity | Bug | Low | Summit used `ProgressLabel` (text centered on the bar) as a row label above an 8px bar, so the bar clipped it | Fixed (label row above the bar) | n/a | e2e: organizer dashboard (five capacity bars) |
 | SF-089 | Summit | Dashboard daily chart | Bug | Low | Tickets sold per day were drawn as a smoothed line (`Tension(0.3)`), which suggests values between days | Fixed (bar chart) | n/a | e2e: charts follow the dark mode toggle (renders `#chart-daily`) |
 | SF-090 | Summit | Typography | DX | Low | Summit's theme used the system font stack, so the site rendered in Segoe UI on Windows; RizzyUI's built-in themes name Inter and JetBrains Mono but nothing loads them, and the docs do not say an app must load its fonts | Fixed (self-hosted Geist, Geist Mono, Bricolage Grotesque) | Open (docs) | None |
+| SF-091 | RizzyUI | RzCarousel | Bug | Medium | `CarouselPrevious` and `CarouselNext` sit at `left-0`/`right-0` of the slide area, on top of the slides, where shadcn/ui puts them 48px outside (above and below in a vertical carousel); slides have no gap (shadcn: `-ml-4` on the content, `pl-4` on each item) | Works | Fixed in 1.0.0-preview.4 | bUnit: RzCarouselTests (button placement, orientation, gap) (defect) |
+| SF-092 | Summit | Featured speakers | Bug | Low | The speaker card's top padding left an empty strip above each portrait | Fixed (`pt-0` on the card) | n/a | None |
 
 ## Integration code ledger
 
@@ -1435,3 +1437,25 @@ finding on its own.
   free of third-party sources. The public site's headings are bolder.
 - **Library (docs, open):** the theming docs should say that a theme's font families must be loaded by
   the app (and how, with a CSP).
+
+### SF-091 Carousel buttons sit on top of the slides
+
+- **Tag:** Bug, Medium (owner: RizzyUI; found reviewing Summit after #101, 2026-11-23)
+- **What:** `CarouselPrevious` and `CarouselNext` were `absolute left-0` and `right-0` inside the carousel's
+  inner wrapper, which is as wide as the slides, so the buttons covered the first and last slide. shadcn/ui
+  places them 48px outside the slides (`-left-12`, `-right-12`), or above and below, rotated, in a vertical
+  carousel. Summit's featured speakers carousel had `px-12` to leave room for the buttons, but they still
+  sat on the portraits. The slides also had no gap: shadcn's content has `-ml-4` and each item `pl-4`, and
+  RizzyUI left that to the app (the docs' spacing example added it by hand).
+- **Library fix:** the carousel root renders `data-orientation` (`vertical` when `CarouselOptions.Axis` is
+  `"y"`) and is a `group/carousel`; the buttons are placed outside the slides by orientation, and the content
+  and items have shadcn's 16px gap (`-mt-4`/`pt-4` and `flex-col` when vertical). The docs' spacing and
+  vertical examples are updated.
+- **Fixed in 1.0.0-preview.4:** the carousel buttons sit outside the slides, and slides have a 16px gap.
+
+### SF-092 Empty strip above the speaker portraits
+
+- **Tag:** Bug, Low (owner: Summit)
+- **What:** each featured speaker is an `RzCard` whose first child is the portrait; the card's top padding
+  (`py-6`) left an empty strip above it.
+- **Fix (Summit):** `pt-0` on the card, so the portrait reaches the card's top edge.
