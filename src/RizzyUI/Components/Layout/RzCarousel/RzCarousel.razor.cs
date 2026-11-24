@@ -19,7 +19,8 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
     /// Defines the default styling for the RzCarousel component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative",
+        // The group lets CarouselPrevious and CarouselNext place themselves by the carousel's orientation.
+        @base: "group/carousel relative",
         slots: new()
         {
             [s => s.Wrapper] = "relative"
@@ -62,6 +63,12 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
 
     /// <summary>The <see cref="AriaLabel"/> parameter, or its localized default.</summary>
     protected string EffectiveAriaLabel => AriaLabel ?? Localizer["RzCarousel.DefaultAriaLabel"];
+
+    /// <summary>
+    /// The carousel's orientation, <c>vertical</c> when <see cref="CarouselOptions.Axis"/> is <c>"y"</c>, rendered as
+    /// <c>data-orientation</c> on the root so the previous and next buttons can sit above and below the slides.
+    /// </summary>
+    protected string Orientation => string.Equals(Options?.Axis, "y", StringComparison.OrdinalIgnoreCase) ? "vertical" : "horizontal";
 
     /// <inheritdoc/>
     protected override void OnInitialized()

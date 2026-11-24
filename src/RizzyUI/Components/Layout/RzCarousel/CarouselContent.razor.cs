@@ -10,10 +10,12 @@ namespace RizzyUI;
 public partial class CarouselContent : RzComponent<CarouselContent.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the CarouselContent component.
+    /// Defines the default styling for the CarouselContent component. As in shadcn/ui, a negative margin
+    /// (<c>-ml-4</c>, or <c>-mt-4</c> in a vertical carousel) offsets the <c>pl-4</c>/<c>pt-4</c> of each
+    /// <see cref="CarouselItem"/>, so slides have a 16px gap and the first one lines up with the carousel's edge.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex",
+        @base: "flex -ml-4 group-data-[orientation=vertical]/carousel:ml-0 group-data-[orientation=vertical]/carousel:-mt-4 group-data-[orientation=vertical]/carousel:flex-col",
         slots: new()
         {
             [s => s.Viewport] = "overflow-hidden"

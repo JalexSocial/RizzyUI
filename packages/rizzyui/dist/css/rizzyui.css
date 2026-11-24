@@ -497,6 +497,9 @@
   .top-full {
     top: 100%;
   }
+  .-right-12 {
+    right: calc(var(--spacing) * -12);
+  }
   .right-0 {
     right: calc(var(--spacing) * 0);
   }
@@ -529,6 +532,9 @@
   }
   .bottom-full {
     bottom: 100%;
+  }
+  .-left-12 {
+    left: calc(var(--spacing) * -12);
   }
   .-left-\[9999px\] {
     left: calc(9999px * -1);
@@ -671,6 +677,9 @@
   .me-2 {
     margin-inline-end: calc(var(--spacing) * 2);
   }
+  .-mt-4 {
+    margin-top: calc(var(--spacing) * -4);
+  }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
@@ -721,6 +730,9 @@
   }
   .mb-10 {
     margin-bottom: calc(var(--spacing) * 10);
+  }
+  .-ml-4 {
+    margin-left: calc(var(--spacing) * -4);
   }
   .ml-0 {
     margin-left: calc(var(--spacing) * 0);
@@ -2622,6 +2634,9 @@
   .pt-3 {
     padding-top: calc(var(--spacing) * 3);
   }
+  .pt-4 {
+    padding-top: calc(var(--spacing) * 4);
+  }
   .pr-0 {
     padding-right: calc(var(--spacing) * 0);
   }
@@ -3640,6 +3655,73 @@
   .group-data-\[disabled\=true\]\/input-group\:opacity-50 {
     &:is(:where(.group\/input-group)[data-disabled="true"] *) {
       opacity: 50%;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:-top-12 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      top: calc(var(--spacing) * -12);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:top-auto {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      top: auto;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:right-auto {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      right: auto;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:-bottom-12 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      bottom: calc(var(--spacing) * -12);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:left-1\/2 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      left: calc(1 / 2 * 100%);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:-mt-4 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      margin-top: calc(var(--spacing) * -4);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:ml-0 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      margin-left: calc(var(--spacing) * 0);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:-translate-x-1\/2 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:translate-y-0 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      --tw-translate-y: calc(var(--spacing) * 0);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:rotate-90 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      rotate: 90deg;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:flex-col {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      flex-direction: column;
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:pt-4 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      padding-top: calc(var(--spacing) * 4);
+    }
+  }
+  .group-data-\[orientation\=vertical\]\/carousel\:pl-0 {
+    &:is(:where(.group\/carousel)[data-orientation="vertical"] *) {
+      padding-left: calc(var(--spacing) * 0);
     }
   }
   .group-data-\[orientation\=vertical\]\/tabs-list\:h-auto {

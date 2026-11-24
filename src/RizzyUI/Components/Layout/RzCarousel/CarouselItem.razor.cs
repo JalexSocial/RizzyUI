@@ -10,10 +10,11 @@ namespace RizzyUI;
 public partial class CarouselItem : RzComponent<CarouselItem.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the CarouselItem component.
+    /// Defines the default styling for the CarouselItem component. The padding (<c>pl-4</c>, or <c>pt-4</c> in a
+    /// vertical carousel) is the gap between slides; <see cref="CarouselContent"/>'s negative margin offsets it.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "min-w-0 shrink-0 grow-0 basis-full"
+        @base: "min-w-0 shrink-0 grow-0 basis-full pl-4 group-data-[orientation=vertical]/carousel:pl-0 group-data-[orientation=vertical]/carousel:pt-4"
     );
 
     /// <summary>
