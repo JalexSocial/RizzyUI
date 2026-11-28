@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RzAlert.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Melding sluiten</value>
+  </data>
+  <data name="RzAvatar.DefaultAlternateText" xml:space="preserve">
+    <value>Gebruikersavatar</value>
+  </data>
+  <data name="RzBreadcrumb.AriaLabel" xml:space="preserve">
+    <value>broodkruimel</value>
+  </data>
+  <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
+    <value>Desktopweergave</value>
+  </data>
+  <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
+    <value>Tabletweergave</value>
+  </data>
+  <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
+    <value>Telefoonweergave</value>
+  </data>
+  <data name="RzButton.AssistiveLabelDefault" xml:space="preserve">
+    <value>Actieknop</value>
+  </data>
+  <data name="RzCodeViewer.DefaultViewerTitle" xml:space="preserve">
+    <value>Broncode</value>
+  </data>
+  <data name="RzCodeViewer.CopyButtonAriaLabel" xml:space="preserve">
+    <value>Code kopiëren</value>
+  </data>
+  <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
+    <value>Gekopieerd</value>
+  </data>
+  <data name="RzCodeViewer.ExpandButtonAriaLabel" xml:space="preserve">
+    <value>Broncodeweergave vergroten</value>
+  </data>
+  <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
+    <value>Donkere modus in-/uitschakelen</value>
+  </data>
+  <data name="RzDateEdit.AriaLabel" xml:space="preserve">
+    <value>Datumkiezer</value>
+  </data>
+  <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
+    <value>Selecteer datum</value>
+  </data>
+  <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
+    <value>Zijbalk navigatie tonen/verbergen</value>
+  </data>
+  <data name="RzProgress.DefaultAriaLabel" xml:space="preserve">
+    <value>Voortgangsbalk</value>
+  </data>
+  <data name="RzQuickReference.DefaultTitle" xml:space="preserve">
+    <value>Op deze pagina</value>
+  </data>
+  <data name="RzSearchButton.DefaultLabel" xml:space="preserve">
+    <value>Zoeken</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="RzSidebar.FloatingToggleButtonSrText" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
+    <value>stappen voortgang</value>
+  </data>
+  <data name="RzSteps.CompletedStepSrText" xml:space="preserve">
+    <value>afgerond</value>
+  </data>
+  <data name="RzBrowser.ScreenSizeGroupAriaLabel" xml:space="preserve">
+    <value>Selecteer schermgrootte voor voorbeeldweergave </value>
+  </data>
+  <data name="RzQuickReference.DefaultAriaLabel" xml:space="preserve">
+    <value>Navigeren op deze pagina</value>
+  </data>
+  <data name="RzArticle.DefaultAsideAriaLabel" xml:space="preserve">
+    <value>Aanvullende inhoud</value>
+  </data>
+  <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
+    <value>Ingesloten voorbeeld van inhoud</value>
+  </data>
+  <data name="RzSidebar.DefaultAriaLabel" xml:space="preserve">
+    <value>Zijbalk navigatie</value>
+  </data>
+  <data name="RzSidebarTrigger.DefaultAriaLabel" xml:space="preserve">
+    <value>Zijbalk tonen/verbergen</value>
+  </data>
+  <data name="RzPagination.PreviousButtonLabel" xml:space="preserve">
+    <value>Vorige</value>
+  </data>
+  <data name="RzPagination.NextButtonLabel" xml:space="preserve">
+    <value>Volgende</value>
+  </data>
+  <data name="RzPagination.NavigationAriaLabel" xml:space="preserve">
+    <value>Paginatie navigatie</value>
+  </data>
+  <data name="RzTable.SortButtonAriaLabelFormat" xml:space="preserve">
+    <value>Sorteren per {0}, momenteel {1}</value>
+  </data>
+  <data name="RzTable.SortDirectionAscendingLong" xml:space="preserve">
+    <value>alfabetisch oplopende gesorteerd</value>
+  </data>
+  <data name="RzTable.SortDirectionDescendingLong" xml:space="preserve">
+    <value>alfabetisch aflopend gesorteerd</value>
+  </data>
+  <data name="RzTable.SortDirectionNone" xml:space="preserve">
+    <value>niet gesorteerd</value>
+  </data>
+  <data name="RzTable.DefaultEmptyMessage" xml:space="preserve">
+    <value>Geen items om weer te geven</value>
+  </data>
+  <data name="RzIndicator.DefaultAriaLabel" xml:space="preserve">
+    <value>Indicator</value>
+  </data>
+  <data name="RzAvatar.DefaultAriaLabel" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="RzDropdownMenu.TriggerAriaLabel" xml:space="preserve">
+    <value>Menu openen</value>
+  </data>
+  <data name="RzDropdownMenu.ContentAriaLabel" xml:space="preserve">
+    <value>Menuopties</value>
+  </data>
+  <data name="RzDropdownMenu.SubTriggerAriaLabelFormat" xml:space="preserve">
+    <value>Submenu {0} openen</value>
+  </data>
+  <data name="RzDropdownMenu.SubContentAriaLabelFormat" xml:space="preserve">
+    <value>{0} submenuopties</value>
+  </data>
+  <data name="RzPopover.DefaultAriaLabel" xml:space="preserve">
+    <value>Popover</value>
+  </data>
+  <data name="RzPopover.TriggerAriaLabel" xml:space="preserve">
+    <value>Popover openen</value>
+  </data>
+  <data name="RzPopover.ContentAriaLabel" xml:space="preserve">
+    <value>Popover inhoud</value>
+  </data>
+  <data name="RzTooltip.DefaultAriaLabel" xml:space="preserve">
+    <value>Tooltip</value>
+  </data>
+  <data name="RzNavigationMenu.DefaultAriaLabel" xml:space="preserve">
+    <value>Hoofdnavigatie</value>
+  </data>
+  <data name="RzSheet.CloseButtonText" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="RzSidebarRail.DefaultAriaLabel" xml:space="preserve">
+    <value>Zijbalk tonen/verbergen</value>
+  </data>
+  <data name="RzCarousel.DefaultAriaLabel" xml:space="preserve">
+    <value>Carrousel</value>
+  </data>
+  <data name="RzCarousel.PreviousButtonAriaLabel" xml:space="preserve">
+    <value>Vorige slide</value>
+  </data>
+  <data name="RzCarousel.NextButtonAriaLabel" xml:space="preserve">
+    <value>Volgende slide</value>
+  </data>
+  <data name="RzDialog.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Dialoogvenster sluiten</value>
+  </data>
+  <data name="RzDialog.DefaultAriaLabel" xml:space="preserve">
+    <value>Dialoogvenster</value>
+  </data>
+  <data name="RzEmpty.DefaultAriaLabel" xml:space="preserve">
+    <value>Lege toestand</value>
+  </data>
+  <data name="RzBrowser.PreviewIFrameTitle" xml:space="preserve">
+    <value>Component voorbeeld</value>
+  </data>
+  <data name="DataTableSelectAllCheckbox.DefaultAriaLabel" xml:space="preserve">
+    <value>Selecteer regels</value>
+  </data>
+  <data name="DataTableRowSelectCheckbox.DefaultAriaLabel" xml:space="preserve">
+    <value>Selecteer regel</value>
+  </data>
+  <data name="RzToastProvider.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Notificatie wegklikken</value>
+  </data>
+  <data name="RzToastProvider.RegionAriaLabel" xml:space="preserve">
+    <value>Notificaties</value>
+  </data>
+  <data name="RzSheet.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Sheet sluiten</value>
+  </data>
+  <data name="RzSpinner.DefaultAriaLabel" xml:space="preserve">
+    <value>Laden</value>
+  </data>
+  <data name="RzCommand.DefaultAriaLabel" xml:space="preserve">
+    <value>Opdrachtenmenu</value>
+  </data>
+  <data name="RzCommandDialog.DefaultTitle" xml:space="preserve">
+    <value>Opdrachtpalet</value>
+  </data>
+  <data name="RzCommandDialog.DefaultDescription" xml:space="preserve">
+    <value>Zoek naar een opdracht om uit te voeren</value>
+  </data>
+  <data name="RzTabs.DefaultAriaLabel" xml:space="preserve">
+    <value>Tabbladen</value>
+  </data>
+  <data name="RzSwitch.DefaultAriaLabel" xml:space="preserve">
+    <value>Schakelaar</value>
+  </data>
+  <data name="RzNativeSelect.DefaultAriaLabel" xml:space="preserve">
+    <value>Selecteer optie</value>
+  </data>
+  <data name="RzCombobox.DefaultPlaceholder" xml:space="preserve">
+    <value>Selecteer optie</value>
+  </data>
+  <data name="RzCalendar.DefaultAriaLabel" xml:space="preserve">
+    <value>Kalender</value>
+  </data>
+  <data name="RzPagination.AriaLabel" xml:space="preserve">
+    <value>Paginatie</value>
+  </data>
+  <data name="PaginationPrevious.Label" xml:space="preserve">
+    <value>Vorige</value>
+  </data>
+  <data name="PaginationPrevious.AriaLabel" xml:space="preserve">
+    <value>Naar vorige pagina</value>
+  </data>
+  <data name="PaginationNext.Label" xml:space="preserve">
+    <value>Volgende</value>
+  </data>
+  <data name="PaginationNext.AriaLabel" xml:space="preserve">
+    <value>Naar volgende pagina</value>
+  </data>
+  <data name="PaginationEllipsis.MorePages" xml:space="preserve">
+    <value>Meer pagina's</value>
+  </data>
+  <data name="RzEventViewer.DefaultViewerTitle" xml:space="preserve">
+    <value>Gebeurtenislogboek</value>
+  </data>
+  <data name="RzEventViewer.ClearButtonText" xml:space="preserve">
+    <value>Wissen</value>
+  </data>
+  <data name="RzEventViewer.CopyButtonText" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="RzEventViewer.PauseButtonText" xml:space="preserve">
+    <value>Pauzeren</value>
+  </data>
+  <data name="RzEventViewer.ResumeButtonText" xml:space="preserve">
+    <value>Hervatten</value>
+  </data>
+  <data name="RzEventViewer.CopyButtonTitleCopy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="RzEventViewer.CopyButtonTitleCopied" xml:space="preserve">
+    <value>Gekopieerd</value>
+  </data>
+  <data name="RzEventViewer.ListeningStatusText" xml:space="preserve">
+    <value>Luisteren</value>
+  </data>
+  <data name="RzEventViewer.PausedStatusText" xml:space="preserve">
+    <value>Gepauzeerd</value>
+  </data>
+  <data name="RzEventViewer.ExpandEntryDetailsText" xml:space="preserve">
+    <value>Gebeurtenis uitklappen</value>
+  </data>
+  <data name="RzEventViewer.CollapseEntryDetailsText" xml:space="preserve">
+    <value>Gebeurtenis inklappen</value>
+  </data>
+  <data name="RzColorPicker.DefaultPlaceholder" xml:space="preserve">
+    <value>Selecteer een kleur</value>
+  </data>
+  <data name="RzColorPicker.A11y.Open" xml:space="preserve">
+    <value>Kleurenkiezer openen</value>
+  </data>
+  <data name="RzColorPicker.A11y.Close" xml:space="preserve">
+    <value>Kleurenkiezer sluiten</value>
+  </data>
+  <data name="RzColorPicker.A11y.Clear" xml:space="preserve">
+    <value>Geselecteerde kleur wissen</value>
+  </data>
+  <data name="RzColorPicker.A11y.Marker" xml:space="preserve">
+    <value>Verzadiging: {s}. Helderheid: {v}.</value>
+  </data>
+  <data name="RzColorPicker.A11y.HueSlider" xml:space="preserve">
+    <value>Schuifregelaar voor tint</value>
+  </data>
+  <data name="RzColorPicker.A11y.AlphaSlider" xml:space="preserve">
+    <value>Schuifregelaar voor transparantie</value>
+  </data>
+  <data name="RzColorPicker.A11y.Format" xml:space="preserve">
+    <value>Kleurformaat</value>
+  </data>
+  <data name="RzColorPicker.A11y.Swatch" xml:space="preserve">
+    <value>Kleurselectie {i}: {swatch}</value>
+  </data>
+  <data name="RzColorPicker.A11y.Input" xml:space="preserve">
+    <value>Kleurwaardeveld</value>
+  </data>
+  <data name="RzColorPicker.A11y.Instruction" xml:space="preserve">
+    <value>Verzadigings- en helderheidskiezer. Gebruik de pijltoetsen om een selectie te maken.</value>
+  </data>
+  <data name="RzFileInput.ButtonText" xml:space="preserve">
+    <value>Selecteer bestanden</value>
+  </data>
+  <data name="RzFileInput.DefaultAriaLabel" xml:space="preserve">
+    <value>Bestandsinput</value>
+  </data>
+  <data name="RzFileInput.Description" xml:space="preserve">
+    <value>Kies bestanden met bestandendialoogvenster of sleep de bestanden naar de dropzone</value>
+  </data>
+  <data name="RzFileInput.DropzoneText" xml:space="preserve">
+    <value>Sleep de bestanden hiernaartoe of klik hier om te uploaden</value>
+  </data>
+  <data name="RzFileInput.ListLabel" xml:space="preserve">
+    <value>Geselecteerde bestanden</value>
+  </data>
+  <data name="RzFileInput.RemoveLabel" xml:space="preserve">
+    <value>Bestand verwijderen</value>
+  </data>
+  <data name="RzFileInput.RemoveLabelTemplate" xml:space="preserve">
+    <value>Verwijder {0}</value>
+  </data>
+  <data name="RzFileInput.PreviewAltTemplate" xml:space="preserve">
+    <value>Voorbeeld van {0}</value>
+  </data>
+  <data name="RzFileInput.SelectedCountTemplate" xml:space="preserve">
+    <value>{0} bestand(en) geselecteerd</value>
+  </data>
+  <data name="RzFileInput.RemovedTemplate" xml:space="preserve">
+    <value>Verwijderd {0}</value>
+  </data>
+  <data name="RzFileInput.ClearedText" xml:space="preserve">
+    <value>Geen bestanden geselecteerd</value>
+  </data>
+  <data name="RzInputOTP.DefaultAriaLabel" xml:space="preserve">
+    <value>One-time verificatiecode</value>
+  </data>
+  <data name="RzColorSwatch.A11y.NoColor" xml:space="preserve">
+    <value>Geen kleur geselecteerd</value>
+  </data>
+  <data name="RzColorSwatch.A11y.ColorValue" xml:space="preserve">
+    <value>Kleurselectie: {0}</value>
+  </data>
+  <data name="RzColorPickerTrigger.DefaultAriaLabel" xml:space="preserve">
+    <value>Open kleurenkiezer</value>
+  </data>
+  <data name="RzChart.DefaultAriaLabel" xml:space="preserve">
+    <value>Grafiek</value>
+  </data>
+  <data name="RzSlider.DefaultAriaLabel" xml:space="preserve">
+    <value>Schuifbalk</value>
+  </data>
+  <data name="RzSlider.MinimumThumbAriaLabel" xml:space="preserve">
+    <value>Minimale waarde</value>
+  </data>
+  <data name="RzSlider.MaximumThumbAriaLabel" xml:space="preserve">
+    <value>Maximale waarde</value>
+  </data>
+  <data name="RzClipboard.DefaultAriaLabel" xml:space="preserve">
+    <value>Kopiëren naar klembord</value>
+  </data>
+  <data name="RzBackToTop.DefaultAriaLabel" xml:space="preserve">
+    <value>Terug naar top</value>
+  </data>
+</root>
