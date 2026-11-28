@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Localization;
 using Rizzy;
 using Rizzy.Htmx;
 using RizzyUI;
+using RizzyUI.Docs;
 using RizzyUI.Docs.Components;
 using System.Globalization;
-using RizzyUI.Docs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +64,8 @@ var supportedCultures = new[]
     new CultureInfo("de"),
     new CultureInfo("es"),
     new CultureInfo("fr"),
-    new CultureInfo("pt") // Portuguese (Portugal)
+    new CultureInfo("pt"), // Portuguese (Portugal)
+    new CultureInfo("nl")
 };
 
 // Configure request localization options
